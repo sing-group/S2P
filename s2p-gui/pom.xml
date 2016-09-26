@@ -1,0 +1,50 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>es.uvigo.ei.sing</groupId>
+		<artifactId>s2p</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+	<artifactId>s2p-gui</artifactId>
+	<packaging>jar</packaging>
+	<name>S2P GUI</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>es.uvigo.ei.sing</groupId>
+			<artifactId>s2p-core</artifactId>
+		</dependency>		
+		<dependency>
+			<groupId>org.swinglabs</groupId>
+			<artifactId>swingx</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.googlecode.charts4j</groupId>
+			<artifactId>charts4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>es.uvigo.ei.sing</groupId>
+			<artifactId>venn-diagram-assistant</artifactId>
+		</dependency>
+		<dependency>
+				<groupId>es.uvigo.ei.sing.hlfernandez</groupId>
+				<artifactId>GC4S</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>es.uvigo.ei.sing</groupId>
+			<artifactId>s2p-core</artifactId>
+			<version>${project.version}</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>

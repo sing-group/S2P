@@ -1,0 +1,9 @@
+# Eclipse
+**/.settings
+**/.project
+**/.classpath
+
+# Maven
+target
+s2p-*/target
+**/pom.xml.versionsBackup

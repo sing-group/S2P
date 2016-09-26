@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>es.uvigo.ei.sing</groupId>
+	<artifactId>s2p</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<name>S2P</name>
+	<description>Spot to protein analysis tool.</description>
+	<inceptionYear>2016</inceptionYear>
+	<!--<url>http://sing.ei.uvigo.es/s2p</url>-->
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>s2p-core</module>
+		<module>s2p-gui</module>
+		<module>s2p-aibench</module>
+	</modules>
+
+	<licenses>
+		<license>
+			<name>GNU GENERAL PUBLIC LICENSE, Version 3</name>
+			<url>http://www.gnu.org/licenses/gpl.html</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<name>Miguel Reboiro-Jato</name>
+			<organization>SING Group - Universidade de Vigo</organization>
+			<organizationUrl>http://sing.ei.uvigo.es/</organizationUrl>
+			<email>mrjato@uvigo.es</email>
+		</developer>
+		<developer>
+			<name>Hugo López-Fernández</name>
+			<organization>SING Group - Universidade de Vigo</organization>
+			<organizationUrl>http://sing.ei.uvigo.es/</organizationUrl>
+			<email>hlfernandez@uvigo.es</email>
+		</developer>
+		<developer>
+			<name>Daniel Glez-Peña</name>
+			<organization>SING Group - Universidade de Vigo</organization>
+			<organizationUrl>http://sing.ei.uvigo.es/</organizationUrl>
+			<email>dgpena@uvigo.es</email>
+		</developer>
+	</developers>
+
+	<contributors>	
+		<contributor>
+			<name>José Luis Capelo Martínez</name>
+			<organization>Bioscope Group - Universidade Nova de Lisboa</organization>
+			<organizationUrl>http://www.bioscopegroup.org/</organizationUrl>
+			<email>jlcm@fct.unl.pt</email>
+			<roles>
+				<role>Researcher</role>
+			</roles>
+		</contributor>
+		<contributor>
+			<name>José Eduardo Araújo</name>
+			<organization>Bioscope Group - Universidade Nova de Lisboa</organization>
+			<organizationUrl>http://www.bioscopegroup.org/</organizationUrl>
+			<email>jeduardoaraujo@bioscopegroup.org</email>
+			<roles>
+				<role>Researcher</role>
+			</roles>
+		</contributor>		
+		<contributor>
+			<name>Florentino Fdez-Riverola</name>
+			<organization>SING Group - Universidade de Vigo</organization>
+			<organizationUrl>http://sing.ei.uvigo.es/</organizationUrl>
+			<email>riverola@uvigo.es</email>
+			<roles>
+				<role>Researcher</role>
+			</roles>
+		</contributor>
+	</contributors>
+	
+	<properties>
+		<!-- General -->
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		
+
+		<!-- License configuration -->
+		<license.licenseName>gpl_v3</license.licenseName>
+		<license.copyrightOwners>José Luis Capelo Martínez, José Eduardo Araújo, Florentino Fdez-Riverola, Miguel
+			Reboiro-Jato, Hugo López-Fdez, and Daniel Glez-Peña</license.copyrightOwners>
+		<license.organizationName>Bioscope Group (Universidade Nova de Lisboa) and SING
+			Group (Universidade de Vigo)</license.organizationName>
+		<license.addJavaLicenseAfterPackage>false</license.addJavaLicenseAfterPackage>
+		
+		<!-- Plugins dependencies -->
+		<license-maven-plugin.version>1.8</license-maven-plugin.version>
+		<maven-resources-plugin.version>2.7</maven-resources-plugin.version>
+		<maven-dependency-plugin.version>2.1</maven-dependency-plugin.version>
+		<maven-antrun-plugin.version>1.7</maven-antrun-plugin.version>
+		<maven-assembly-plugin.version>2.2</maven-assembly-plugin.version>
+		<maven-jar-plugin.version>2.6</maven-jar-plugin.version>	
+		<download-maven-plugin.version>1.2.1</download-maven-plugin.version>
+		
+		<!-- General dependencies -->
+		<jsoup.version>1.8.3</jsoup.version>
+		<aibench.version>2.5.6-SNAPSHOT</aibench.version>
+		<swingx.version>1.6.1</swingx.version>
+		<charts4j.version>1.3</charts4j.version>
+		<jvenndiagram.version>1.0.0</jvenndiagram.version>
+		<gc4s.version>0.1</gc4s.version>
+
+		<!-- Testing dependencies -->
+		<junit.version>4.8.2</junit.version>
+		
+		<!-- AIBench configuration -->		
+		<aibench.lib.artifactIds>javatar,aibench-aibench,jhall,log4j</aibench.lib.artifactIds>
+		<aibench.plugins.artifactIds>aibench-core,aibench-workbench</aibench.plugins.artifactIds>
+
+		<!-- Java resources for assemblies -->
+		<jir.windows.64b>${project.build.directory}/java-installer-resources/windows/64b/jre1.8.0_74</jir.windows.64b>
+		
+		<should.skip.distributable>true</should.skip.distributable>
+		<should.skip.download>true</should.skip.download>
+	</properties>
+	
+	<repositories>
+		<repository>
+			<id>sing-repository</id>
+			<name>SING repository</name>
+			<url>http://sing.ei.uvigo.es/maven2</url>
+		</repository>
+	</repositories>
+	
+	<dependencyManagement>
+		<dependencies>
+			<!-- Modules -->
+			<dependency>
+				<groupId>es.uvigo.ei.sing</groupId>
+				<artifactId>s2p-core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>es.uvigo.ei.sing</groupId>
+				<artifactId>s2p-gui</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>es.uvigo.ei.sing</groupId>
+				<artifactId>s2p-aibench</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<!-- General -->
+			<dependency>
+			    <groupId>org.jsoup</groupId>
+			    <artifactId>jsoup</artifactId>
+			    <version>${jsoup.version}</version>
+			</dependency>			
+			<dependency>
+				<groupId>org.swinglabs</groupId>
+				<artifactId>swingx</artifactId>
+				<version>${swingx.version}</version>
+			</dependency>		
+			<dependency>
+				<groupId>com.googlecode.charts4j</groupId>
+				<artifactId>charts4j</artifactId>
+				<version>${charts4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>es.uvigo.ei.sing</groupId>
+				<artifactId>venn-diagram-assistant</artifactId>
+				<version>${jvenndiagram.version}</version>
+			</dependency>			
+			<dependency>
+				<groupId>es.uvigo.ei.sing.hlfernandez</groupId>
+				<artifactId>GC4S</artifactId>
+				<version>${gc4s.version}</version>
+			</dependency>			
+			<dependency>
+				<groupId>es.uvigo.ei.sing</groupId>
+				<artifactId>aibench-aibench</artifactId>
+				<version>${aibench.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>es.uvigo.ei.sing</groupId>
+				<artifactId>aibench-shell</artifactId>
+				<version>${aibench.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>es.uvigo.ei.sing</groupId>
+				<artifactId>aibench-core</artifactId>
+				<version>${aibench.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>*</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>es.uvigo.ei.sing</groupId>
+				<artifactId>aibench-workbench</artifactId>
+				<version>${aibench.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>*</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<!-- Testing -->
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>${maven-resources-plugin.version}</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>${maven-dependency-plugin.version}</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>${maven-assembly-plugin.version}</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>${maven-antrun-plugin.version}</version>
+			</plugin>
+			<plugin>
+				<groupId>com.googlecode.maven-download-plugin</groupId>
+				<artifactId>download-maven-plugin</artifactId>
+				<version>${download-maven-plugin.version}</version>
+			</plugin>			
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+				<version>${license-maven-plugin.version}</version>
+				<configuration>
+					<excludes>
+						<exclude>*.lai</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<!-- Allows using test classes in other projects -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>${maven-jar-plugin.version}</version>
+			</plugin>
+		</plugins>
+	</build>
+</project>

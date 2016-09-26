@@ -1,0 +1,125 @@
+<plugin start="true">
+	<uid>my-aibench-application</uid>
+	<name>my-aibench-application</name>
+	<version>1.0-SNAPSHOT</version>
+	
+	<lifecycleclass>es.uvigo.ei.sing.s2p.aibench.Lifecycle</lifecycleclass>
+
+	<extensions>
+		<extension uid="aibench.core" name="aibench.core.operation-definition" class="es.uvigo.ei.sing.s2p.aibench.operations.LoadSameSpotsAnalysis">
+			<operation-description name="Load SameSpots analysis" uid= "operations.loadsamespotsanalysis" shortcut="1"/>
+		</extension>
+		
+		<extension uid="aibench.core" name="aibench.core.operation-definition" class="es.uvigo.ei.sing.s2p.aibench.operations.LoadSpotsData">
+			<operation-description name="Load spots data" uid= "operations.loadspotsdata" shortcut="2"/>
+		</extension>
+		
+		<extension uid="aibench.core" name="aibench.core.operation-definition" class="es.uvigo.ei.sing.s2p.aibench.operations.CreateVennDiagramDesign">
+			<operation-description name="Design venn diagram" uid= "operations.createvenndiagramdesign" shortcut="3"/>
+		</extension>
+
+		<extension uid="aibench.core" name="aibench.core.operation-definition" class="es.uvigo.ei.sing.s2p.aibench.operations.LoadVennDiagramDesign">
+			<operation-description name="Load venn diagram design" uid="operations.loadvenndiagramdesign" shortcut="4"/>
+		</extension>
+
+	<!-- ========================= EXAMPLES ======================================= -->
+		
+		<!-- CORE EXTENSION SAMPLES: Operations, Datatypes... -->
+
+		<!-- "Transformers". A transformer definition tells AIBench that you have a method to convert a instance from one class to an instance of another class -->
+		<!-- 
+		<extension uid="aibench.core" name="aibench.core.transformer-definition">
+			<transformer-description 
+				sourceType="java.lang.String" 
+				destinyType="es.uvigo.ei.sing.aibench.shell.DummyDataType" 
+				transformerClass="es.uvigo.ei.sing.aibench.shell.Transformer"
+				methodName="transform"
+				/>
+	    </extension>
+	    -->
+
+		<!-- WORKBENCH EXTENSION SAMPLES (GUI related) -->
+		
+		<!-- Workbench extensions (GUI related) -->
+		
+		<!-- "Datatype Viewers". Map a class (datatype) to a viewer (JComponent). Remember: This JComponent must have a constructor taking the datatype instance -->
+
+		<extension uid="aibench.workbench" name="aibench.workbench.view" >
+			<view 
+				name="SameSpots analysis viewer" 
+				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.SameSpotsAnalysisDatatype" 
+				class="es.uvigo.ei.sing.s2p.aibench.views.SameSpotsAnalysisView" 
+				help="es.uvigo.ei.sing.s2p.aibench.datatypes.SameSpotsAnalysisDatatype"
+			/>
+			<view 
+				name="Spots data viewer" 
+				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.SpotsDataDatatype" 
+				class="es.uvigo.ei.sing.s2p.aibench.views.SpotsDataDatatypeView" 
+				help="es.uvigo.ei.sing.s2p.aibench.datatypes.SpotsDataDatatype"
+			/>		
+			<view 
+				name="Venn diagram designer" 
+				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.VennDiagramDesignDatatype" 
+				class="es.uvigo.ei.sing.s2p.aibench.views.VennDiagramDesigner" 
+				help="es.uvigo.ei.sing.s2p.aibench.datatypes.VennDiagramDesignDatatype"
+			/>		
+		</extension>	
+
+		<!-- "Custom icons" -->
+		<extension uid="aibench.workbench" name="aibench.workbench.view" >
+			<icon-operation operation="operations.loadsamespotsanalysis" icon="icons/progenesis.png"/>
+			<big-icon-operation	operation="operations.loadsamespotsanalysis" icon="icons/progenesis.png"/>
+			
+			<icon-operation operation="operations.loadspotsdata" icon="icons/loadspotsdata.png"/>
+			<big-icon-operation	operation="operations.loadspotsdata" icon="icons/loadspotsdata.png"/>
+			
+			<icon-operation operation="operations.createvenndiagramdesign" icon="icons/createvenn.png"/>
+			<big-icon-operation	operation="operations.createvenndiagramdesign" icon="icons/createvenn.png"/>
+			
+			<icon-operation operation="operations.loadvenndiagramdesign" icon="icons/loadvenn.png"/>
+			<big-icon-operation	operation="operations.loadvenndiagramdesign" icon="icons/loadvenn.png"/>
+			
+			<icon-datatype datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.VennDiagramDesignDatatype" icon="icons/venndatatype.png"/> 
+			<icon-datatype datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.SpotsDataDatatype" icon="icons/dataset.png"/> 
+			<icon-datatype datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.SameSpotsAnalysisDatatype" icon="icons/samespotsdatatype.png"/> 
+		</extension>
+		
+		<!-- "Custom input dialogs". If you don't like the default generated input dialog for some operation, put your own here -->
+		<!--
+		<extension uid="aibench.workbench" name="aibench.workbench.view" >
+			<gui-operation  operation="org.myorg.myoperationid" class="org.myorg.MyComponent"/>
+		</extension>
+		-->
+		
+		<!-- "Custom operation visibility". By default, all operations are displayed everywhere (main menu, popup menu and dialogs). But if you want to change this behaviour, use this option.
+		The current available options are (you can put more than one, separated with spaces)
+		  MENU - the operation can be accessed from the main menu
+		  POPUP - the operation can be accessed from the popup menu showed in the trees
+		  DIALOG - the operation can be accessed from dialogs
+		  TOOLBAR - the operation can be accessed from the toolbar
+		  NONE - the operation is hidden in the GUI  
+		-->
+		<!--
+		<extension uid="aibench.workbench" name="aibench.workbench.view" >
+			<operation-visibility operation="stringeditor.createroot" visibility="MENU POPUP"/>
+		</extension>
+		-->
+		
+		<!-- "Custom components". Components displayed in the main window. You can choose where to place it
+			using the slotid tag, so please see the /conf/template.xml file to know which slots are available
+			The component is any JComponent -->
+		<!--
+		<extension uid="aibench.workbench" name="aibench.workbench.view" >
+			<component slotid="bottom" componentid="aibench.shell.shellWindow" name="AIBench Shell" class="es.uvigo.ei.sing.aibench.shell.ShellComponent"/>
+		</extension>
+		-->
+		
+		<!-- "Welcome screen" . You can set any JComponent as welcome screen and it will be added at start -->
+		<!--
+		<extension uid="aibench.workbench" name="aibench.workbench.view" >
+			<welcomescreen class="es.uvigo.ei.sing.s2p.aibench.Welcome" title="Welcome"/>
+		</extension>
+		-->
+	</extensions>
+
+</plugin>

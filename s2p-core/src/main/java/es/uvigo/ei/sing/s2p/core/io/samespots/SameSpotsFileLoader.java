@@ -1,0 +1,77 @@
+package es.uvigo.ei.sing.s2p.core.io.samespots;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import es.uvigo.ei.sing.s2p.core.entities.Pair;
+import es.uvigo.ei.sing.s2p.core.entities.SameSpotsThrehold;
+import es.uvigo.ei.sing.s2p.core.entities.Sample;
+
+public class SameSpotsFileLoader {
+
+	private static final int INDEX_SPOT 	= 0;
+	private static final int INDEX_P 		= 1;
+	private static final int INDEX_FOLD 	= 2;
+	private static final int INDEX_SAMPLE_1 = 12;
+	private static final int INDEX_SAMPLE_2 = 13;
+	
+	public static final SameSpotsThrehold DEFAULT_THRESHOLD = new SameSpotsThrehold();
+	
+	public static Pair<Sample, Sample> load(File file,
+		SameSpotsThrehold threshold
+	) throws IOException {
+		Document doc = Jsoup.parse(file, "UTF-8");
+		Element table = doc.select("div.spotTable").get(0).select("table").get(0);
+		return parseSamples(table, threshold);
+	}
+
+	private static Pair<Sample, Sample> parseSamples(Element table,
+		SameSpotsThrehold threshold
+	) {
+		Pair<String, String> sampleNames = extractSampleNames(table.select("thead").first());
+		Pair<Map<String, Double>, Map<String, Double>> sampleValues = extractSampleValues(table.select("tbody").first(), threshold);
+		return new Pair<Sample, Sample>(
+			new Sample(sampleNames.getFirst(), sampleValues.getFirst()), 
+			new Sample(sampleNames.getSecond(), sampleValues.getSecond())
+		);
+	}
+
+	private static Pair<String, String> extractSampleNames(Element head) {
+		Elements ths = head.select("tr").get(1).select("th");
+		return new Pair<String, String>(ths.get(0).html(), ths.get(1).html());
+	}
+	
+	private static Pair<Map<String, Double>, Map<String, Double>> extractSampleValues(
+		Element first, SameSpotsThrehold threshold
+	) {
+		Map<String, Double> sample1 = new HashMap<String, Double>();
+		Map<String, Double> sample2 = new HashMap<String, Double>();
+		first.select("tr").forEach(row -> {
+			Elements tds = row.select("td");
+			
+			String spot = tds.get(INDEX_SPOT).html();
+			double p 	= asDouble(tds.get(INDEX_P));
+			double fold = asDouble(tds.get(INDEX_FOLD));
+			double s1 	= asDouble((tds.get(INDEX_SAMPLE_1)));
+			double s2 	= asDouble((tds.get(INDEX_SAMPLE_2)));
+			
+			if(p <= threshold.getP() && fold >= threshold.getFold()) {
+				sample1.put(spot, s1);
+				sample2.put(spot, s2);
+			}
+			
+		});
+		return new Pair<Map<String, Double>, Map<String, Double>>(sample1, sample2);
+	}
+	
+	private static double asDouble(Element s) {
+		return Double.parseDouble(s.html().replaceAll(",", "."));
+	}
+}
