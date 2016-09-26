@@ -1,16 +1,15 @@
 package es.uvigo.ei.sing.s2p.core.io;
 
-import static org.junit.Assert.*;
 import static es.uvigo.ei.sing.s2p.core.resources.TestResources.MASCOT_PROJECT;
 import static es.uvigo.ei.sing.s2p.core.resources.TestResources.MASCOT_PROJECT_FULL;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.junit.Test;
 
 import es.uvigo.ei.sing.s2p.core.entities.MascotEntry;
-import es.uvigo.ei.sing.s2p.core.io.MascotProjectLoader;
+import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 
 public class MascotProjectLoaderTest {
 	
@@ -19,7 +18,7 @@ public class MascotProjectLoaderTest {
 
 	@Test
 	public void mascotProjectLoaderTest() throws IOException {
-		List<MascotEntry> entries = MascotProjectLoader.load(MASCOT_PROJECT);
+		MascotIdentifications entries = MascotProjectLoader.load(MASCOT_PROJECT);
 		
 		assertEquals(1, entries.size());
 		assertEquals(entries.get(0), FIRST);
@@ -27,7 +26,7 @@ public class MascotProjectLoaderTest {
 	
 	@Test
 	public void mascotProjectLoaderTest2() throws IOException {
-		List<MascotEntry> entries =  
+		MascotIdentifications entries =  
 			MascotProjectLoader.load(MASCOT_PROJECT_FULL);
 		
 		assertEquals(1473, entries.size());

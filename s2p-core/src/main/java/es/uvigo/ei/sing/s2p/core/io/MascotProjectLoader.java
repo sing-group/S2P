@@ -3,8 +3,6 @@ package es.uvigo.ei.sing.s2p.core.io;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import org.jsoup.Jsoup;
@@ -13,6 +11,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import es.uvigo.ei.sing.s2p.core.entities.MascotEntry;
+import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 
 public class MascotProjectLoader {
 	
@@ -25,8 +24,8 @@ public class MascotProjectLoader {
 	private static final int INDEX_MS_COVERAGE 	= 7;
 	private static final int INDEX_ACCESSION 	= 13;
 	
-	public static List<MascotEntry> load(File file) throws IOException {
-		List<MascotEntry> toret = new LinkedList<MascotEntry>();
+	public static MascotIdentifications load(File file) throws IOException {
+		MascotIdentifications toret = new MascotIdentifications();
 		Map<Integer, String> lastColumnValues = new HashMap<Integer, String>();
 		
 		Document doc = Jsoup.parse(file, "UTF-8");
@@ -39,7 +38,7 @@ public class MascotProjectLoader {
 	}
 
 	private static MascotEntry createMascotEntry(Elements tds,
-		List<MascotEntry> toret, Map<Integer, String> lastColumnValues
+		MascotIdentifications toret, Map<Integer, String> lastColumnValues
 	) {
 		return new MascotEntry(
 			columnValue(INDEX_TITLE, tds, lastColumnValues),
