@@ -15,8 +15,7 @@ import es.uvigo.ei.sing.s2p.core.io.MascotProjectLoader;
 public class MascotProjectLoaderTest {
 	
 	private static final MascotEntry FIRST = new MascotEntry(
-		"Uncharacterized protein KIAA1688 OS=Homo sapiens GN=KIAA1688 PE=1 SV=2", 
-		"B2", 52, 52, 8, "K1688_HUMAN");
+		"Uncharacterized protein KIAA1688", "B2", 52, 52, 8, "K1688_HUMAN");
 
 	@Test
 	public void mascotProjectLoaderTest() throws IOException {

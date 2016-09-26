@@ -16,6 +16,8 @@ import es.uvigo.ei.sing.s2p.core.entities.MascotEntry;
 
 public class MascotProjectLoader {
 	
+	private static final String TITLE_DELIMITER = " OS";
+	
 	private static final int INDEX_TITLE 		= 0;
 	private static final int INDEX_POS_ON_SCOUT = 4;
 	private static final int INDEX_MASCOT_SCORE = 5;
@@ -53,9 +55,15 @@ public class MascotProjectLoader {
 		Map<Integer, String> lastColumnValues
 	) {
 		String text = tds.get(column).html();
+		
 		if(text.equals("&nbsp;")) {
 			text = lastColumnValues.get(column);
 		}
+		
+		if(column == INDEX_TITLE && text.contains(TITLE_DELIMITER)) {
+			text = text.substring(0, text.indexOf(TITLE_DELIMITER));
+		}
+		
 		lastColumnValues.put(column, text);
 		return text;
 	}
