@@ -11,6 +11,7 @@ import java.util.List;
 import org.junit.Test;
 
 import es.uvigo.ei.sing.s2p.core.entities.Pair;
+import es.uvigo.ei.sing.s2p.core.entities.SameSpotsThrehold;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
 
 public class SameSpotsLoaderTest {
@@ -90,6 +91,17 @@ public class SameSpotsLoaderTest {
 		
 		assertEquals(FIRST_SAMPLE, 	samples.getFirst());
 		assertEquals(SECOND_SAMPLE, samples.getSecond());
+	}
+	
+	@Test
+	public void sameSpotsFileLoaderTest2() throws IOException {
+		Pair<Sample, Sample> samples = SameSpotsFileLoader.load(
+			SAMESPOTS_FILE,
+			new SameSpotsThrehold(0.01, 2.5)
+		);
+		
+		assertEquals(2, samples.getFirst().getSpotValues().size());
+		assertEquals(2, samples.getSecond().getSpotValues().size());
 	}
 
 	@Test
