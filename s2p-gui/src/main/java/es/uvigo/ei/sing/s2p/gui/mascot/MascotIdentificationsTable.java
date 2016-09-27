@@ -20,5 +20,7 @@ public class MascotIdentificationsTable extends CSVTable {
 	private void initComponent() {
 		this.setAutoCreateRowSorter(true);
 		this.setColumnControlVisible(true);
+		this.getRowSorter().toggleSortOrder(3);
+		this.getRowSorter().toggleSortOrder(3); 
 	}
 }

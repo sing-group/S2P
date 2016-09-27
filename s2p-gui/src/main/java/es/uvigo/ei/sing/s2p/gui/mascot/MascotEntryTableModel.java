@@ -43,6 +43,11 @@ public class MascotEntryTableModel extends AbstractTableModel {
 	public int getColumnCount() {
 		return MASCOT_ENTRY_FIELDS.size();
 	}
+	
+	@Override
+	public java.lang.Class<?> getColumnClass(int columnIndex) {
+		return getValueAt(0, columnIndex).getClass();
+	};
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {

@@ -13,6 +13,7 @@ public class MascotEntryTable extends CSVTable {
 	}
 
 	private void initComponent() {
+		this.setAutoCreateRowSorter(true);
 		this.setColumnControlVisible(true);
 	}
 }
