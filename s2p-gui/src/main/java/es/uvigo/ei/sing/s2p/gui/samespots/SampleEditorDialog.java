@@ -22,14 +22,16 @@ public class SampleEditorDialog extends AbstractInputJDialog {
 	private static final long serialVersionUID = 1L;
 	private List<Sample> samples;
 	private List<String> conditions;
+	private Map<Sample, String> sampleConditions;
 	private JPanel inputComponentsPane;
 
 	protected SampleEditorDialog(JFrame parent, List<Sample> samples,
-		List<String> conditions
+		List<String> conditions, Map<Sample, String> sampleConditions
 	) {
 		super(parent);
 		this.samples = samples;
 		this.conditions = conditions;
+		this.sampleConditions = sampleConditions;
 		this.initInputComponentsPane();
 	}
 
@@ -73,6 +75,12 @@ public class SampleEditorDialog extends AbstractInputJDialog {
 				new DefaultComboBoxModel<String>(
 					conditions.toArray(new String[conditions.size()]))
 				);
+			
+			String sampleCondition = sampleConditions.get(this.sample);
+			if(sampleCondition != null) {
+				this.conditionCombo.setSelectedItem(sampleCondition);
+			}
+			
 			this.sampleName = new JTextField(sample.getName(), 50);
 			this.sampleName.getDocument().addDocumentListener(new DocumentListener() {
 				@Override

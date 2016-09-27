@@ -131,10 +131,10 @@ public class SameSpotsDatasetViewer extends JPanel {
 	
 	private void editSamples() {
 		SampleEditorDialog editor = new SampleEditorDialog(null,
-			this.samples, this.conditionLabels);
+			this.samples, this.conditionLabels, this.sampleConditions);
 		editor.setVisible(true);
 		if (!editor.isCanceled()) {
-			sampleConditions = editor.getSampleConditions();
+			this.sampleConditions = editor.getSampleConditions();
 			updateSampleNames(editor.getSampleNames());
 		}
 	}
