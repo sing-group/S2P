@@ -277,8 +277,18 @@ public class ConditionComparisonTable extends JPanel {
 	}
 	
 	private static String getLabelText(int min, int max, int samples) {
-		return 	"Show spots present in at least " + min +  
-				" and at maximum " + max + " (of " + samples + ") samples:";
+		StringBuilder sb = new StringBuilder();
+		sb
+			.append("Show spots present in at least ")
+			.append(min)
+			.append(" (")
+			.append(String.format("%.2f%n", 100 * (double) min / (double) samples))
+			.append("%) and at maximum ")
+			.append(max)
+			.append(" (of ")
+			.append(samples)
+			.append(") samples:");
+		return sb.toString();
 	}
 	
 	private static Set<String> getSpots(List<Condition> conditions) {
