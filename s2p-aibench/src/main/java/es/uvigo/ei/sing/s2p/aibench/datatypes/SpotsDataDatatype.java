@@ -10,7 +10,9 @@ import es.uvigo.ei.sing.s2p.core.entities.SpotsData;
 @Datatype(
 	structure = Structure.COMPLEX, 
 	namingMethod = "getName", 
-	renameable = true 
+	renameable = true,
+	clipboardClassName = "Spots Data (*.CSV)",
+	autoOpen = true
 )
 public class SpotsDataDatatype extends SpotsData {
 

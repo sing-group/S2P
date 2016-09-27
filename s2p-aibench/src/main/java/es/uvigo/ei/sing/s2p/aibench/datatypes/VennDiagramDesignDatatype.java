@@ -11,7 +11,9 @@ import es.uvigo.ei.sing.vda.core.entities.NamedRSet;
 @Datatype(
 	structure = Structure.SIMPLE, 
 	namingMethod = "getName", 
-	renameable = true 
+	renameable = true,
+	clipboardClassName = "Venn Diagram design",
+	autoOpen = true
 )
 public class VennDiagramDesignDatatype extends VennDiagramDesign {
 	private static final long serialVersionUID = 1L;

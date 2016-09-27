@@ -10,7 +10,9 @@ import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 @Datatype(
 	structure = Structure.COMPLEX, 
 	namingMethod = "getName", 
-	renameable = true 
+	renameable = true,
+	clipboardClassName = "Mascot Identifications",
+	autoOpen = true
 )
 public class MascotIdentificationsDatatype extends MascotIdentifications {
 	private static final long serialVersionUID = 1L;

@@ -12,7 +12,9 @@ import es.uvigo.ei.sing.s2p.core.entities.Sample;
 @Datatype(
 	structure = Structure.COMPLEX, 
 	namingMethod = "getName", 
-	renameable = true 
+	renameable = true ,
+	clipboardClassName = "SameSpot analysis",
+	autoOpen = true
 )
 public class SameSpotsAnalysisDatatype {
 
