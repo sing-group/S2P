@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.swing.JLabel;
@@ -20,6 +21,7 @@ import javax.swing.table.TableCellRenderer;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 
+import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
 import es.uvigo.ei.sing.s2p.gui.table.CSVTable;
 import es.uvigo.ei.sing.s2p.gui.table.TestRowFilter;
@@ -27,13 +29,19 @@ import es.uvigo.ei.sing.s2p.gui.table.Tester;
 
 public class SamplesComparisonTable extends JPanel {
 	private static final long serialVersionUID = 1L;
+
 	private static final int FONT_SIZE = 14;
+	
+	private boolean showProteinIdentifications = false;
+	
 	private List<Sample> samples;
 	private JXTable table;
 	private SamplesComparisonTableModel tableModel;
 	private ProteinPresenceTester proteinPresenceTester;
 	private Map<Sample, Color> sampleColors;
 	private Map<Sample, String> sampleLabels;
+	private Optional<Map<String, MascotIdentifications>> mascotIdentifications = 
+		Optional.empty();
 
 	public SamplesComparisonTable(List<Sample> samples) {
 		this(samples, new HashMap<>(), new HashMap<>());
@@ -109,7 +117,8 @@ public class SamplesComparisonTable extends JPanel {
 				);
 			
 			c.setFont(c.getFont().deriveFont(Font.PLAIN, FONT_SIZE));
-			
+
+				
 			if(columnModel > 0) {
 				if(c instanceof JLabel) {
 					JLabel label = (JLabel) c;
@@ -126,10 +135,46 @@ public class SamplesComparisonTable extends JPanel {
 					}
 				}
 			} else {
-				((JLabel) c).setToolTipText(value.toString());
+				((JLabel) c).setText(spotValue(value.toString()));
+				((JLabel) c).setToolTipText(spotTooltip(value.toString()));
 			}
 			
 			return c;
+		}
+
+		private String spotValue(String spot) {
+			if(!showProteinIdentifications) {
+				return spot;
+			} else {
+				if(mascotIdentifications.isPresent()) {
+					MascotIdentifications spotIdentifications = 
+						mascotIdentifications.get().get(spot);
+					if(spotIdentifications != null) {
+						return spotIdentifications.get(0).getTitle();
+					}
+				}
+				return spot;
+			}
+		}
+
+		private String spotTooltip(String value) {
+			if(mascotIdentifications.isPresent()) {
+				MascotIdentifications spotIdentifications = 
+					mascotIdentifications.get().get(value);
+				if(spotIdentifications != null) {
+					StringBuilder tooltip = new StringBuilder();
+					tooltip
+						.append(spotIdentifications.get(0).getTitle())
+						.append(" (MS=")
+						.append(spotIdentifications.get(0).getMascotScore())
+						.append(")");
+					if(spotIdentifications.size() > 1) {
+						tooltip.append(" [...]");
+					}
+					return tooltip.toString();
+				}
+			}
+			return value;
 		}
 	}
 	
@@ -172,6 +217,18 @@ public class SamplesComparisonTable extends JPanel {
 	public void setVisibleProteins(Set<String> visibleProteins) {
 		this.proteinPresenceTester.setVisibleProteins(visibleProteins);
 		table.setRowFilter(new TestRowFilter<>(proteinPresenceTester, 0));
+	}
+	
+	public void setShowProteinIdentifications(boolean show) {
+		this.showProteinIdentifications = show;
+		this.updateUI();
+	}
+	
+	public void setMascotIdentifications(
+		Map<String, MascotIdentifications> mascotIdentifications
+	) {
+		this.mascotIdentifications = Optional.ofNullable(mascotIdentifications);
+		fireTableStructureChanged();
 	}
 
 	public void fireTableStructureChanged() {

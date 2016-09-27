@@ -2,6 +2,7 @@ package es.uvigo.ei.sing.s2p.gui.spots;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 
 import javax.swing.JPanel;
 
@@ -17,8 +18,9 @@ import es.uvigo.ei.sing.s2p.gui.spots.condition.ConditionComparisonTable;
 
 public class SpotsDataViewer extends JPanel implements ProteinDataComparisonListener {
 	private static final long serialVersionUID = 1L;
+	
 	private ExtendedJTabbedPane tabbedPane;
-	private SpotsData data;
+	protected SpotsData data;
 
 	public SpotsDataViewer(SpotsData data) {
 		this.data = data;
@@ -33,17 +35,18 @@ public class SpotsDataViewer extends JPanel implements ProteinDataComparisonList
 		this.tabbedPane.setHideTabBarWhenSingleTab(true);
 		this.add(this.tabbedPane, BorderLayout.CENTER);
 		
-		ConditionComparisonTable conditionsComparisonTable = 
-			new ConditionComparisonTable(this.data.getConditions());
-		this.tabbedPane.addTab("Table view", conditionsComparisonTable);
+		this.tabbedPane.addTab("Table view", getConditionsComparisonTable());
 		
 		ConditionVsConditionComparisonView proteinComparisonView = 
 			new ConditionVsConditionComparisonView(this.data);
 		proteinComparisonView.addTableListener(this);
 		this.tabbedPane.addTab("Comparison view", proteinComparisonView);
-		
 	}
 	
+	protected Component getConditionsComparisonTable() {
+		return new ConditionComparisonTable(this.data.getConditions());
+	}
+
 	@Override
 	public void onSampleSelection(ProteinDataComparisonEvent event) {
 		Sample[] samples = (Sample[]) event.getSource();
