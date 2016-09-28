@@ -30,7 +30,7 @@ public class LoadMascotIdentificationsDialog extends AbstractInputJDialog {
 	private JFileChooserPanel maldiPlateFile;
 	
 	private MascotIdentifications mascotEntries;
-	private Map<String, String> maldi;
+	protected Map<String, String> maldi;
 
 	public LoadMascotIdentificationsDialog(JFrame parent) {
 		super(parent);
@@ -53,11 +53,18 @@ public class LoadMascotIdentificationsDialog extends AbstractInputJDialog {
 		return this.inputComponentsPane;
 	}
 
-	private InputParameter[] getInputParameters() {
+	protected InputParameter[] getInputParameters() {
 		List<InputParameter> parameters = new LinkedList<InputParameter>();
 		parameters.add(getMascotFileInput());
-		parameters.add(getMascotThresholdInput());
-		parameters.add(getMaldiPlateFileInput());
+		
+		InputParameter mascotThresholdInput = getMascotThresholdInput();
+		this.mascotScoreThreshold = (JIntegerTextField) mascotThresholdInput.getInput();
+		parameters.add(mascotThresholdInput);
+		
+		InputParameter maldiPlateFileInput = getMaldiPlateFileInput();
+		this.maldiPlateFile = (JFileChooserPanel) maldiPlateFileInput.getInput();
+		maldiPlateFile.addFileChooserListener(this::onMaldiFileSelection);
+		parameters.add(maldiPlateFileInput);
 		return parameters.toArray(new InputParameter[parameters.size()]);
 	}
 
@@ -72,22 +79,21 @@ public class LoadMascotIdentificationsDialog extends AbstractInputJDialog {
 		);
 	}
 	
-	private InputParameter getMascotThresholdInput() {
-		this.mascotScoreThreshold = new JIntegerTextField(0);
+	protected static InputParameter getMascotThresholdInput() {
+		JIntegerTextField mascotScoreThreshold = new JIntegerTextField(0);
 		return new InputParameter(
 			"Minimum Mascot Score", 
-			this.mascotScoreThreshold, 
+			mascotScoreThreshold, 
 			"The minimum Mascot Score."
 		);
 	}
 	
-	private InputParameter getMaldiPlateFileInput() {
-		this.maldiPlateFile = new JFileChooserPanel(JFileChooserPanel.Mode.OPEN);
-		this.maldiPlateFile.getComponentLabelFile().setVisible(false);
-		this.maldiPlateFile.addFileChooserListener(this::onMaldiFileSelection);
+	protected static InputParameter getMaldiPlateFileInput() {
+		JFileChooserPanel maldiPlateFile = new JFileChooserPanel(JFileChooserPanel.Mode.OPEN);
+		maldiPlateFile.getComponentLabelFile().setVisible(false);
 		return new InputParameter(
 			"Maldi plate", 
-			this.maldiPlateFile, 
+			maldiPlateFile, 
 			"A .CSV File containing the Maldi plate"
 		);
 	}
@@ -98,14 +104,14 @@ public class LoadMascotIdentificationsDialog extends AbstractInputJDialog {
 			this.mascotEntries = MascotProjectLoader.load(
 				selectedFile, this.mascotScoreThreshold.getValue()
 			);
-		} catch (IOException e1) {
+		} catch (Exception ex) {
 			this.mascotEntries = null;
 			showMessage("Can't load Mascot identifications from " + selectedFile);
 		}
 		this.checkOkButton();
 	}
 	
-	private void showMessage(String message) {
+	protected void showMessage(String message) {
 		JOptionPane.showMessageDialog(this, message, "Input error",
 			JOptionPane.ERROR_MESSAGE);
 	}
@@ -121,7 +127,7 @@ public class LoadMascotIdentificationsDialog extends AbstractInputJDialog {
 		this.checkOkButton();
 	}
 	
-	private void checkOkButton() {
+	protected void checkOkButton() {
 		boolean enabled = 
 			this.mascotEntries != null && this.maldi != null;
 		
@@ -135,6 +141,10 @@ public class LoadMascotIdentificationsDialog extends AbstractInputJDialog {
 	}
 
 	public Map<String, MascotIdentifications> getMascotIdentifications() {
-		return SpotMascotEntryPositionJoiner.join(maldi, mascotEntries);
+		return SpotMascotEntryPositionJoiner.join(maldi, getMascotEntries());
+	}
+
+	protected MascotIdentifications getMascotEntries() {
+		return this.mascotEntries;
 	}
 }
