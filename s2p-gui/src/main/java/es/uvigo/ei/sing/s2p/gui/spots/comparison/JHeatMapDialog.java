@@ -1,31 +1,29 @@
-package es.uvigo.ei.sing.s2p.gui.mascot;
+package es.uvigo.ei.sing.s2p.gui.spots.comparison;
 
 import java.awt.BorderLayout;
-import java.util.Map;
-import java.util.Set;
+import java.awt.Component;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
 import es.uvigo.ei.sing.hlfernandez.dialog.AbstractInputJDialog;
-import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
+import es.uvigo.ei.sing.hlfernandez.visualization.JHeatMap;
+import es.uvigo.ei.sing.hlfernandez.visualization.JHeatMapModel;
+import es.uvigo.ei.sing.hlfernandez.visualization.JHeatMapPanel;
 
-public class MascotIdentificationsDialog extends AbstractInputJDialog {
+public class JHeatMapDialog extends AbstractInputJDialog {
 	private static final long serialVersionUID = 1L;
 	
-	private MascotIdentificationsTable table;
 	private JPanel inputComponents;
+
+	private JHeatMapModel model;
 	
-	public MascotIdentificationsDialog(JFrame parent, Set<String> spots,
-			Map<String, MascotIdentifications> spotIdentifications
-		) {
+	public JHeatMapDialog(JFrame parent, JHeatMapModel model) {
 		super(parent);
 		
-		this.table = new MascotIdentificationsTable(spots, spotIdentifications);
+		this.model = model;
 		this.configureDialog();
 	}
-	
 
 	private void configureDialog() {
 		this.setResizable(true);
@@ -34,14 +32,18 @@ public class MascotIdentificationsDialog extends AbstractInputJDialog {
 		this.okButton.setEnabled(true);
 		this.setModal(false);
 		
-		this.inputComponents.add(new JScrollPane(this.table), BorderLayout.CENTER);
+		this.inputComponents.add(getJHeatMapPanel(), BorderLayout.CENTER);
 		
 		this.pack();
 	}
 
+	private Component getJHeatMapPanel() {
+		return new JHeatMapPanel(new JHeatMap(model));
+	}
+
 	@Override
 	protected String getDialogTitle() {
-		return "Mascot identifications";
+		return "HeatMap view";
 	}
 
 	@Override

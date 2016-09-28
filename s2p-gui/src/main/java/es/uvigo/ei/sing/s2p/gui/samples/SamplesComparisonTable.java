@@ -4,12 +4,16 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.IntUnaryOperator;
+import java.util.stream.Collectors;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,6 +25,7 @@ import javax.swing.table.TableCellRenderer;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 
+import es.uvigo.ei.sing.hlfernandez.visualization.JHeatMapModel;
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
 import es.uvigo.ei.sing.s2p.gui.table.CSVTable;
@@ -244,5 +249,52 @@ public class SamplesComparisonTable extends JPanel {
 
 	public void fireTableStructureChanged() {
 		this.tableModel.fireTableStructureChanged();
+	}
+	
+	public JHeatMapModel getVisibleData() {
+		this.table.selectAll();
+		int[] visibleColumns = this.table.getSelectedColumns();
+		int[] visibleRows = this.table.getSelectedRows();
+		this.table.clearSelection();
+
+		List<Integer> visibileModelColumns = getVisibleModelIndexes(
+			visibleColumns, this.table::convertColumnIndexToModel);
+		List<Integer> visibileModelRows = getVisibleModelIndexes(
+			visibleRows, this.table::convertRowIndexToModel);
+		visibileModelColumns.remove(new Integer(0));
+		
+		double[][] toret = new double[visibileModelRows.size()][visibileModelColumns.size()];
+		int currentRow = 0;
+		for(int row : visibileModelRows) {
+			int currentColumn = 0;
+			for(int col : visibileModelColumns) {
+				toret[currentRow][currentColumn++] = (double) this.tableModel.getValueAt(row, col);
+			}
+			currentRow++;
+		}
+		
+		List<String> rowNames = new LinkedList<String>();
+		visibileModelRows.forEach(r -> rowNames.add(this.tableModel.getValueAt(r, 0).toString()));
+		List<String> colNames = visibileModelColumns.stream().map(this.tableModel::getColumnName).collect(Collectors.toList());
+		
+		if(showProteinIdentifications) {
+			List<String> identifications = new LinkedList<String>();
+			rowNames.forEach(spot -> {
+				MascotIdentifications spotIdentifications = this.mascotIdentifications.get().get(spot);
+				if(spotIdentifications  != null) {
+					identifications.add(spotIdentifications.getFirst().getTitle());
+				} else {
+					identifications.add(spot);
+				}
+			});
+			rowNames.clear();
+			rowNames.addAll(identifications);
+		}
+		
+		return new JHeatMapModel(toret, rowNames.toArray(new String[rowNames.size()]), colNames.toArray(new String[colNames.size()]));
+	}
+
+	private List<Integer> getVisibleModelIndexes(int[] visibleColumns, IntUnaryOperator mapper) {
+		return Arrays.stream(visibleColumns).map(mapper).boxed().collect(Collectors.toList());
 	}
 }

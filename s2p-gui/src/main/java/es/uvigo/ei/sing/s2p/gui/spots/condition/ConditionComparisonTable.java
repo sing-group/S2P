@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -41,6 +42,7 @@ import es.uvigo.ei.sing.s2p.gui.UISettings;
 import es.uvigo.ei.sing.s2p.gui.mascot.LoadMascotIdentificationsDialog;
 import es.uvigo.ei.sing.s2p.gui.mascot.MascotIdentificationsDialog;
 import es.uvigo.ei.sing.s2p.gui.samples.SamplesComparisonTable;
+import es.uvigo.ei.sing.s2p.gui.spots.comparison.JHeatMapDialog;
 import es.uvigo.ei.sing.s2p.gui.util.ColorUtils;
 
 public class ConditionComparisonTable extends JPanel {
@@ -144,6 +146,8 @@ public class ConditionComparisonTable extends JPanel {
 			this.toolbar.setOpaque(false);
 			this.toolbar.setBorder(createEmptyBorder(5, 0, 5, 0));
 			
+			this.toolbar.add(new JButton(getViewAsHeatmapAction()));
+			this.toolbar.add(Box.createHorizontalStrut(10));
 			this.toolbar.add(new JButton(getAddMascotIdentificationsAction()));
 			this.toolbar.add(getVisualizationModeToggleButton());
 			this.toolbar.add(getShowProteinIdentificationsButton());
@@ -151,11 +155,26 @@ public class ConditionComparisonTable extends JPanel {
 		return this.toolbar;
 	}
 
+	private Action getViewAsHeatmapAction() {
+		return new AbstractAction("View as heatmap") {
+			private static final long serialVersionUID = 1L;
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				viewAsHeatmap();
+			}
+		};
+	}
+
+	private void viewAsHeatmap() {
+		JHeatMapDialog dialog = new JHeatMapDialog(null, this.samplesTable.getVisibleData());
+		dialog.setVisible(true);
+	}
 
 	private Action getAddMascotIdentificationsAction() {
 		return new AbstractAction("Add Mascot identifications") {
 			private static final long serialVersionUID = 1L;
-
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				addMascotIdentifications();
