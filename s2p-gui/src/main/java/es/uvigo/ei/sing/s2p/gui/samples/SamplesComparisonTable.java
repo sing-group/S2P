@@ -72,7 +72,8 @@ public class SamplesComparisonTable extends JPanel {
 	private void initTable() {
 		this.tableModel = new SamplesComparisonTableModel(this.samples);
 		this.table = new CSVTable(this.tableModel);
-		final SamplesComparisonTableCellRenderer renderer = new SamplesComparisonTableCellRenderer();
+		final SamplesComparisonTableCellRenderer renderer = 
+			new SamplesComparisonTableCellRenderer();
 		this.table.setDefaultRenderer(Double.class, renderer);
 		this.table.setDefaultRenderer(Object.class, renderer);
 		this.table.getTableHeader().setDefaultRenderer(
@@ -159,18 +160,20 @@ public class SamplesComparisonTable extends JPanel {
 		}
 
 		private String spotValue(String spot) {
-			if(!showProteinIdentifications) {
-				return spot;
-			} else {
+			StringBuilder spotValue = new StringBuilder(spot);
+			if(showProteinIdentifications) {
 				if(mascotIdentifications.isPresent()) {
 					MascotIdentifications spotIdentifications = 
 						mascotIdentifications.get().get(spot);
 					if(spotIdentifications != null) {
-						return spotIdentifications.get(0).getTitle();
+						spotValue
+							.append(" (")
+							.append(spotIdentifications.get(0).getTitle())
+							.append(")");
 					}
 				}
-				return spot;
 			}
+			return spotValue.toString();
 		}
 
 		private String spotTooltip(String value) {
