@@ -18,10 +18,12 @@ public class MascotIdentificationsDatatype extends MascotIdentifications {
 	private static final long serialVersionUID = 1L;
 	
 	private File file;
+	private int minimumMS;
 
-	public MascotIdentificationsDatatype(MascotIdentifications data, File f) {
+	public MascotIdentificationsDatatype(MascotIdentifications data, File f, int minimumMS) {
 		this.addAll(data);
 		this.file = f;
+		this.minimumMS = minimumMS;
 	}
 
 	public String getName() {
@@ -36,5 +38,10 @@ public class MascotIdentificationsDatatype extends MascotIdentifications {
 	@Property(name = "Total identifications")
 	public int getIdentifications() {
 		return this.size();
+	}
+	
+	@Property(name = "Minimum Mascot Score")
+	public int getMinimumMascotScore() {
+		return minimumMS;
 	}
 }

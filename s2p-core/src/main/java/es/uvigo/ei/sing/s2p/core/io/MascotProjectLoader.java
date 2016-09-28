@@ -24,7 +24,12 @@ public class MascotProjectLoader {
 	private static final int INDEX_MS_COVERAGE 	= 7;
 	private static final int INDEX_ACCESSION 	= 13;
 	
+	
 	public static MascotIdentifications load(File file) throws IOException {
+		return load(file, Integer.MIN_VALUE);
+	}
+	
+	public static MascotIdentifications load(File file, int minScore) throws IOException {
 		MascotIdentifications toret = new MascotIdentifications();
 		Map<Integer, String> lastColumnValues = new HashMap<Integer, String>();
 		
@@ -32,7 +37,10 @@ public class MascotProjectLoader {
 		Elements trs = doc.select("tr");
 		for (Element tr : trs.subList(2, trs.size())) {
 			Elements tds = tr.select("td");
-			toret.add(createMascotEntry(tds, toret, lastColumnValues));
+			MascotEntry entry = createMascotEntry(tds, toret, lastColumnValues);
+			if(entry.getMascotScore() > minScore) {
+				toret.add(entry);
+			}
 		}
 		return toret;
 	}

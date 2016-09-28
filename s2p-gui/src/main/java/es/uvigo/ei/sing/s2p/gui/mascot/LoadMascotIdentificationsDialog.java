@@ -15,6 +15,7 @@ import es.uvigo.ei.sing.hlfernandez.dialog.AbstractInputJDialog;
 import es.uvigo.ei.sing.hlfernandez.filechooser.JFileChooserPanel;
 import es.uvigo.ei.sing.hlfernandez.input.InputParameter;
 import es.uvigo.ei.sing.hlfernandez.input.InputParametersPanel;
+import es.uvigo.ei.sing.hlfernandez.text.JIntegerTextField;
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.io.MaldiPlateLoader;
 import es.uvigo.ei.sing.s2p.core.io.MascotProjectLoader;
@@ -25,7 +26,9 @@ public class LoadMascotIdentificationsDialog extends AbstractInputJDialog {
 	
 	private JPanel inputComponentsPane;
 	private JFileChooserPanel mascotFile;
+	private JIntegerTextField mascotScoreThreshold;
 	private JFileChooserPanel maldiPlateFile;
+	
 	private MascotIdentifications mascotEntries;
 	private Map<String, String> maldi;
 
@@ -53,12 +56,14 @@ public class LoadMascotIdentificationsDialog extends AbstractInputJDialog {
 	private InputParameter[] getInputParameters() {
 		List<InputParameter> parameters = new LinkedList<InputParameter>();
 		parameters.add(getMascotFileInput());
+		parameters.add(getMascotThresholdInput());
 		parameters.add(getMaldiPlateFileInput());
 		return parameters.toArray(new InputParameter[parameters.size()]);
 	}
 
 	private InputParameter getMascotFileInput() {
 		this.mascotFile = new JFileChooserPanel(JFileChooserPanel.Mode.OPEN);
+		this.mascotFile.getComponentLabelFile().setVisible(false);
 		this.mascotFile.addFileChooserListener(this::onMascotFileSelection);
 		return new InputParameter(
 			"Mascot identifications", 
@@ -67,8 +72,18 @@ public class LoadMascotIdentificationsDialog extends AbstractInputJDialog {
 		);
 	}
 	
+	private InputParameter getMascotThresholdInput() {
+		this.mascotScoreThreshold = new JIntegerTextField(0);
+		return new InputParameter(
+			"Minimum Mascot Score", 
+			this.mascotScoreThreshold, 
+			"The minimum Mascot Score."
+		);
+	}
+	
 	private InputParameter getMaldiPlateFileInput() {
 		this.maldiPlateFile = new JFileChooserPanel(JFileChooserPanel.Mode.OPEN);
+		this.maldiPlateFile.getComponentLabelFile().setVisible(false);
 		this.maldiPlateFile.addFileChooserListener(this::onMaldiFileSelection);
 		return new InputParameter(
 			"Maldi plate", 
@@ -80,7 +95,9 @@ public class LoadMascotIdentificationsDialog extends AbstractInputJDialog {
 	private void onMascotFileSelection(ChangeEvent e) {
 		File selectedFile = this.mascotFile.getSelectedFile();
 		try {
-			this.mascotEntries = MascotProjectLoader.load(selectedFile);
+			this.mascotEntries = MascotProjectLoader.load(
+				selectedFile, this.mascotScoreThreshold.getValue()
+			);
 		} catch (IOException e1) {
 			this.mascotEntries = null;
 			showMessage("Can't load Mascot identifications from " + selectedFile);

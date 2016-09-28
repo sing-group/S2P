@@ -16,6 +16,7 @@ import es.uvigo.ei.sing.s2p.aibench.datatypes.MascotIdentificationsDatatype;
 )
 public class LoadMascotIdentifications {
 	private File htmlFile;
+	private int minimumMS;
 
 	@Port(
 		direction = Direction.INPUT, 
@@ -26,12 +27,24 @@ public class LoadMascotIdentifications {
 	public void setHtmlFile(File htmlFile) {
 		this.htmlFile = htmlFile;
 	}
+	
+	@Port(
+		direction = Direction.INPUT, 
+		name = "Minimum Mascot Score", 
+		description = "Entries within a lower Mascot Score are not loaded.",
+		order = 2,
+		defaultValue = "0"
+	)
+	public void setMinimumMascotScore(int minimumMS) {
+		this.minimumMS = minimumMS;
+	}
 
 	@Port(
 		direction = Direction.OUTPUT, 
-		order = 2
+		order = 3
 	)
 	public MascotIdentificationsDatatype loadData() throws IOException {
-		return new MascotIdentificationsDatatype(load(htmlFile), htmlFile);
+		return new MascotIdentificationsDatatype(
+					load(htmlFile, minimumMS), htmlFile, minimumMS);
 	}
 }

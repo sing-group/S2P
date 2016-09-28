@@ -32,4 +32,12 @@ public class MascotProjectLoaderTest {
 		assertEquals(1473, entries.size());
 		assertEquals(entries.get(0), FIRST);
 	}
+	
+	@Test
+	public void mascotProjectLoaderTest3() throws IOException {
+		MascotIdentifications entries =  
+			MascotProjectLoader.load(MASCOT_PROJECT_FULL, 500);
+		
+		assertEquals(2, entries.size());
+	}
 }

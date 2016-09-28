@@ -135,8 +135,19 @@ public class SamplesComparisonTable extends JPanel {
 					}
 				}
 			} else {
-				((JLabel) c).setText(spotValue(value.toString()));
-				((JLabel) c).setToolTipText(spotTooltip(value.toString()));
+				String spot = value.toString();
+				JLabel spotLabel = (JLabel) c;
+				spotLabel.setText(spotValue(spot));
+				spotLabel.setToolTipText(spotTooltip(spot));
+				if (mascotIdentifications.isPresent()) {
+					if (mascotIdentifications.get().get(spot) != null) {
+						if (!showProteinIdentifications) {
+							spotLabel.setFont(c.getFont().deriveFont(Font.BOLD));
+						}
+					} else {
+						spotLabel.setForeground(Color.RED);
+					}
+				}
 			}
 			
 			return c;
