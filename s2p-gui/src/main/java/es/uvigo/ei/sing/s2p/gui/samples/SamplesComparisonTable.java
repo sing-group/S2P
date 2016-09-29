@@ -254,38 +254,77 @@ public class SamplesComparisonTable extends JPanel {
 		this.tableModel.fireTableStructureChanged();
 	}
 	
-	public JHeatMapModel getVisibleData() {
+	public JHeatMapModel getHeatMapModel() {
 		this.table.selectAll();
 		int[] visibleColumns = this.table.getSelectedColumns();
 		int[] visibleRows = this.table.getSelectedRows();
 		this.table.clearSelection();
 
-		List<Integer> visibileModelColumns = getVisibleModelIndexes(
+		return createHeatMapModel(visibleRows, visibleColumns);
+	}
+
+	private JHeatMapModel createHeatMapModel(int[] visibleRows,
+		int[] visibleColumns
+	) {
+		List<Integer> visibleModelColumns = getVisibleModelIndexes(
 			visibleColumns, this.table::convertColumnIndexToModel);
-		List<Integer> visibileModelRows = getVisibleModelIndexes(
+		List<Integer> visibleModelRows = getVisibleModelIndexes(
 			visibleRows, this.table::convertRowIndexToModel);
-		visibileModelColumns.remove(new Integer(0));
+		visibleModelColumns.remove(new Integer(0));
+			
+		double[][] data = getMatrixData(visibleModelRows, visibleModelColumns);
 		
-		double[][] toret = new double[visibileModelRows.size()][visibileModelColumns.size()];
+		String[] colNames = getColNames(visibleModelColumns);
+		String[] rowNames = getRowNames(visibleModelRows);
+			
+		return new JHeatMapModel(data, rowNames, colNames);
+	}
+
+	private List<Integer> getVisibleModelIndexes(int[] visibleColumns,
+		IntUnaryOperator mapper
+	) {
+		return 	Arrays.stream(visibleColumns).map(mapper).boxed()
+				.collect(Collectors.toList());
+	}
+	
+	private double[][] getMatrixData(List<Integer> visibleRows,
+		List<Integer> visibleColumns
+	) {
+		double[][] data = new double[visibleRows.size()][visibleColumns.size()];
 		int currentRow = 0;
-		for(int row : visibileModelRows) {
+		for (int row : visibleRows) {
 			int currentColumn = 0;
-			for(int col : visibileModelColumns) {
-				toret[currentRow][currentColumn++] = (double) this.tableModel.getValueAt(row, col);
+			for (int col : visibleColumns) {
+				data[currentRow][currentColumn++] = (double) 
+					this.tableModel.getValueAt(row, col);
 			}
 			currentRow++;
 		}
+		return data;
+	}
+	
+	private String[] getColNames(List<Integer> visibleModelColumns) {
+		List<String> colNames = visibleModelColumns.stream()
+				.map(this.tableModel::getColumnName).collect(Collectors.toList());
 		
+		return colNames.toArray(new String[colNames.size()]);
+	}
+	
+	private String[] getRowNames(List<Integer> visibleModelRows) {
 		List<String> rowNames = new LinkedList<String>();
-		visibileModelRows.forEach(r -> rowNames.add(this.tableModel.getValueAt(r, 0).toString()));
-		List<String> colNames = visibileModelColumns.stream().map(this.tableModel::getColumnName).collect(Collectors.toList());
 		
-		if(showProteinIdentifications) {
+		visibleModelRows.forEach(r -> {
+			rowNames.add(this.tableModel.getValueAt(r, 0).toString());
+		});
+		
+		if (showProteinIdentifications) {
 			List<String> identifications = new LinkedList<String>();
 			rowNames.forEach(spot -> {
-				MascotIdentifications spotIdentifications = this.mascotIdentifications.get().get(spot);
-				if(spotIdentifications  != null) {
-					identifications.add(spotIdentifications.getFirst().getTitle());
+				MascotIdentifications spotIdentifications = 
+					this.mascotIdentifications.get().get(spot);
+				if (spotIdentifications != null) {
+					identifications.add(
+						spotIdentifications.getFirst().getTitle());
 				} else {
 					identifications.add(spot);
 				}
@@ -293,11 +332,6 @@ public class SamplesComparisonTable extends JPanel {
 			rowNames.clear();
 			rowNames.addAll(identifications);
 		}
-		
-		return new JHeatMapModel(toret, rowNames.toArray(new String[rowNames.size()]), colNames.toArray(new String[colNames.size()]));
-	}
-
-	private List<Integer> getVisibleModelIndexes(int[] visibleColumns, IntUnaryOperator mapper) {
-		return Arrays.stream(visibleColumns).map(mapper).boxed().collect(Collectors.toList());
+		return rowNames.toArray(new String[rowNames.size()]);
 	}
 }

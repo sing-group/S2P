@@ -167,7 +167,7 @@ public class ConditionComparisonTable extends JPanel {
 	}
 
 	private void viewAsHeatmap() {
-		JHeatMapDialog dialog = new JHeatMapDialog(null, this.samplesTable.getVisibleData());
+		JHeatMapDialog dialog = new JHeatMapDialog(null, this.samplesTable.getHeatMapModel());
 		dialog.setVisible(true);
 	}
 
