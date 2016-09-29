@@ -4,8 +4,13 @@ import static es.uvigo.ei.sing.s2p.core.resources.ResourceLoader.loadResource;
 
 import java.io.File;
 
+import es.uvigo.ei.sing.s2p.core.io.csv.CsvFormat;
+
 public class TestResources {
 
+	public static final CsvFormat CSV_FORMAT = 
+		new CsvFormat(",", ',', false, "\n");
+	
 	public static final File TEST_SPOT_DATA = 
 		loadResource("/test/spotsdata.csv");
 	

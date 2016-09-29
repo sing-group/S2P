@@ -1,5 +1,6 @@
 package es.uvigo.ei.sing.s2p.core.io;
 
+import static es.uvigo.ei.sing.s2p.core.resources.TestResources.CSV_FORMAT;
 import static es.uvigo.ei.sing.s2p.core.resources.TestResources.TEST_SPOT_DATA;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -13,7 +14,7 @@ import org.junit.Test;
 import es.uvigo.ei.sing.s2p.core.entities.SpotsData;
 
 public class SpotsDataLoaderTest {
-
+	
 	private List<String> expectedSpots = Arrays.asList(
 		new String[]{"P1", "P2", "P3"});
 	
@@ -31,7 +32,7 @@ public class SpotsDataLoaderTest {
 	
 	@Test
 	public void spotsDataLoaderTest() throws IOException {
-		SpotsData data = SpotsDataLoader.load(TEST_SPOT_DATA);
+		SpotsData data = SpotsDataLoader.load(TEST_SPOT_DATA, CSV_FORMAT);
 		
 		assertEquals(expectedSpots, data.getSpots());
 		assertEquals(expectedSampleNames, data.getSampleNames());

@@ -99,11 +99,9 @@
 		</extension>
 		
 		<!-- "Custom input dialogs". If you don't like the default generated input dialog for some operation, put your own here -->
-		<!--
 		<extension uid="aibench.workbench" name="aibench.workbench.view" >
-			<gui-operation  operation="org.myorg.myoperationid" class="org.myorg.MyComponent"/>
+			<gui-operation operation="operations.loadspotsdata" class="es.uvigo.ei.sing.s2p.aibench.operations.dialogs.LoadSpotsDataDialog"/>
 		</extension>
-		-->
 		
 		<!-- "Custom operation visibility". By default, all operations are displayed everywhere (main menu, popup menu and dialogs). But if you want to change this behaviour, use this option.
 		The current available options are (you can put more than one, separated with spaces)
