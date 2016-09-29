@@ -41,6 +41,7 @@ import es.uvigo.ei.sing.s2p.core.entities.SpotsCount;
 import es.uvigo.ei.sing.s2p.gui.UISettings;
 import es.uvigo.ei.sing.s2p.gui.mascot.LoadMascotIdentificationsDialog;
 import es.uvigo.ei.sing.s2p.gui.mascot.MascotIdentificationsDialog;
+import es.uvigo.ei.sing.s2p.gui.mascot.MascotIdentificationsSummaryDialog;
 import es.uvigo.ei.sing.s2p.gui.samples.SamplesComparisonTable;
 import es.uvigo.ei.sing.s2p.gui.spots.comparison.JHeatMapDialog;
 import es.uvigo.ei.sing.s2p.gui.util.ColorUtils;
@@ -66,10 +67,9 @@ public class ConditionComparisonTable extends JPanel {
 		Optional.empty();
 
 	private JToggleButton toggleVisualizationMode;
-
 	private JButton showProteinIdentificationsBtn;
+	private JButton showProteinIdentificationsSummaryBtn;
 
-	
 	public ConditionComparisonTable(List<Condition> conditions) {
 		this.conditions = conditions;
 		this.allSpots = getSpots(this.conditions);
@@ -151,6 +151,7 @@ public class ConditionComparisonTable extends JPanel {
 			this.toolbar.add(new JButton(getAddMascotIdentificationsAction()));
 			this.toolbar.add(getVisualizationModeToggleButton());
 			this.toolbar.add(getShowProteinIdentificationsButton());
+			this.toolbar.add(getShowProteinIdentificationsSummaryButton());
 		}
 		return this.toolbar;
 	}
@@ -193,6 +194,7 @@ public class ConditionComparisonTable extends JPanel {
 				this.mascotIdentifications.get());
 			this.toggleVisualizationMode.setEnabled(true);
 			this.showProteinIdentificationsBtn.setEnabled(true);
+			this.showProteinIdentificationsSummaryBtn.setEnabled(true);
 		}
 	}
 
@@ -251,6 +253,28 @@ public class ConditionComparisonTable extends JPanel {
 	private void showProteinIdentifications() {
 		MascotIdentificationsDialog dialog = new MascotIdentificationsDialog(
 			null, getVisibleSpots(), mascotIdentifications.get());
+		dialog.setVisible(true);
+	}
+
+	private JButton getShowProteinIdentificationsSummaryButton() {
+		if(this.showProteinIdentificationsSummaryBtn == null) {
+			this.showProteinIdentificationsSummaryBtn = new JButton(
+					new AbstractAction("View summary") {
+						private static final long serialVersionUID = 1L;
+						
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							showProteinIdentificationsSummary();
+						}
+					});
+		}
+		this.showProteinIdentificationsSummaryBtn.setEnabled(false);
+		return this.showProteinIdentificationsSummaryBtn;
+	}
+	
+	private void showProteinIdentificationsSummary() {
+		MascotIdentificationsSummaryDialog dialog = new MascotIdentificationsSummaryDialog(
+			null, this.allSpots, this.mascotIdentifications.get());
 		dialog.setVisible(true);
 	}
 
