@@ -2,6 +2,7 @@ package es.uvigo.ei.sing.s2p.gui.samespots;
 
 import static es.uvigo.ei.sing.hlfernandez.input.csv.CsvFormat.FileFormat.CUSTOM;
 import static es.uvigo.ei.sing.s2p.gui.UISettings.BG_COLOR;
+import static es.uvigo.ei.sing.s2p.gui.util.CsvUtils.csvFormat;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -22,7 +23,6 @@ import javax.swing.JPanel;
 
 import es.uvigo.ei.sing.hlfernandez.dialog.ExportCsvDialog;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
-import es.uvigo.ei.sing.s2p.core.io.csv.CsvFormat;
 import es.uvigo.ei.sing.s2p.core.io.samespots.SameSpotsCsvWriter;
 import es.uvigo.ei.sing.s2p.gui.samples.SamplesComparisonTable;
 
@@ -167,16 +167,5 @@ public class SameSpotsDatasetViewer extends JPanel {
 				);
 			}
 		}
-	}
-
-	private CsvFormat csvFormat(
-		es.uvigo.ei.sing.hlfernandez.input.csv.CsvFormat source
-	) {
-		return new CsvFormat(
-			source.getColumnSeparator(),
-			source.getDecimalSeparator(), 
-			source.isQuoteHeaders(),
-			source.getLineBreak()
-		);
 	}
 }

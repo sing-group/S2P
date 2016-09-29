@@ -1,10 +1,12 @@
 package es.uvigo.ei.sing.s2p.core.io.csv;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
-public class CsvFormat {
+public class CsvFormat implements Serializable {
+	private static final long serialVersionUID = 1L;
 	
 	private String lineBreak;
 	private String columnSeparator;
