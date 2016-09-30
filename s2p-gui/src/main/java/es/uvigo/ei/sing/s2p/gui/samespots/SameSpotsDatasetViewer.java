@@ -1,12 +1,14 @@
 package es.uvigo.ei.sing.s2p.gui.samespots;
 
 import static es.uvigo.ei.sing.hlfernandez.input.csv.CsvFormat.FileFormat.CUSTOM;
+import static es.uvigo.ei.sing.s2p.core.io.samespots.SameSpotsCsvWriter.write;
 import static es.uvigo.ei.sing.s2p.gui.UISettings.BG_COLOR;
 import static es.uvigo.ei.sing.s2p.gui.util.CsvUtils.csvFormat;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
+import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
@@ -23,7 +25,7 @@ import javax.swing.JPanel;
 
 import es.uvigo.ei.sing.hlfernandez.dialog.ExportCsvDialog;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
-import es.uvigo.ei.sing.s2p.core.io.samespots.SameSpotsCsvWriter;
+import es.uvigo.ei.sing.s2p.core.io.csv.CsvFormat;
 import es.uvigo.ei.sing.s2p.gui.samples.SamplesComparisonTable;
 
 public class SameSpotsDatasetViewer extends JPanel {
@@ -153,11 +155,9 @@ public class SameSpotsDatasetViewer extends JPanel {
 		exportCsv.setVisible(true);
 		if (!exportCsv.isCanceled()) {
 			try {
-				SameSpotsCsvWriter.write(
+				exportToCsv(
 					exportCsv.getSelectedFile(), 
-					samples,
-					csvFormat(exportCsv.getSelectedCsvFormat()),
-					sampleConditions
+					csvFormat(exportCsv.getSelectedCsvFormat())
 				);
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(null,
@@ -167,5 +167,11 @@ public class SameSpotsDatasetViewer extends JPanel {
 				);
 			}
 		}
+	}
+
+	protected void exportToCsv(File file, CsvFormat csvFormat)
+		throws IOException 
+	{
+			write(file, samples, csvFormat, sampleConditions);
 	}
 }
