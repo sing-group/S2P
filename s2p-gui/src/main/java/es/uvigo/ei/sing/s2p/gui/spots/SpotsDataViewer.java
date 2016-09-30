@@ -14,9 +14,10 @@ import es.uvigo.ei.sing.s2p.gui.event.ProteinDataComparisonListener;
 import es.uvigo.ei.sing.s2p.gui.samples.SampleComparisonView;
 import es.uvigo.ei.sing.s2p.gui.spots.comparison.ConditionVsConditionComparisonView;
 import es.uvigo.ei.sing.s2p.gui.spots.condition.ConditionComparisonTable;
+import es.uvigo.ei.sing.s2p.gui.spots.summary.ConditionsSummaryTable;
 
-
-public class SpotsDataViewer extends JPanel implements ProteinDataComparisonListener {
+public class SpotsDataViewer extends JPanel implements
+		ProteinDataComparisonListener {
 	private static final long serialVersionUID = 1L;
 	
 	private ExtendedJTabbedPane tabbedPane;
@@ -36,6 +37,7 @@ public class SpotsDataViewer extends JPanel implements ProteinDataComparisonList
 		this.add(this.tabbedPane, BorderLayout.CENTER);
 		
 		this.tabbedPane.addTab("Table view", getConditionsComparisonTable());
+		this.tabbedPane.addTab("Conditions summary", getConditionsSummaryTable());
 		
 		ConditionVsConditionComparisonView proteinComparisonView = 
 			new ConditionVsConditionComparisonView(this.data);
@@ -46,11 +48,18 @@ public class SpotsDataViewer extends JPanel implements ProteinDataComparisonList
 	protected Component getConditionsComparisonTable() {
 		return new ConditionComparisonTable(this.data.getConditions());
 	}
+	
+	private Component getConditionsSummaryTable() {
+		return new ConditionsSummaryTable(this.data);
+	}
 
 	@Override
 	public void onSampleSelection(ProteinDataComparisonEvent event) {
 		Sample[] samples = (Sample[]) event.getSource();
-		this.tabbedPane.addTab(getSampleComparisonTabTitle(samples[0], samples[1]), new SampleComparisonView(samples[0], samples[1]), true);
+		this.tabbedPane.addTab(
+			getSampleComparisonTabTitle(samples[0], samples[1]), 
+			new SampleComparisonView(samples[0], samples[1]), true
+		);
 		this.tabbedPane.setSelectedIndex(this.tabbedPane.getComponentCount()-2);
 	}
 
