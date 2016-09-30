@@ -12,6 +12,8 @@ public class SpotsData {
 	private List<String> sampleLabels;
 	private double[][] data;
 	
+	private List<Condition> conditions;
+	
 	public SpotsData(List<String> spos, List<String> sampleNames,
 		List<String> sampleLabels, double[][] data
 	) {
@@ -38,27 +40,30 @@ public class SpotsData {
 	}
 	
 	public List<Condition> getConditions() {
-		Map<String, List<Sample>> labelSamples = new HashMap<String, List<Sample>>();
-		for(int column = 0; column < getSampleNames().size(); column ++) {
-			Map<String, Double> sampleSpotsValues = new HashMap<String, Double>();
-			
-			for(int row = 0; row < getSpots().size(); row++) {
-				double value = getData()[row][column];
-				if(!Double.isNaN(value)) {
-					sampleSpotsValues.put(getSpots().get(row), value);
+		if(this.conditions == null) {
+			Map<String, List<Sample>> labelSamples = new HashMap<String, List<Sample>>();
+			for(int column = 0; column < getSampleNames().size(); column ++) {
+				Map<String, Double> sampleSpotsValues = new HashMap<String, Double>();
+				
+				for(int row = 0; row < getSpots().size(); row++) {
+					double value = getData()[row][column];
+					if(!Double.isNaN(value)) {
+						sampleSpotsValues.put(getSpots().get(row), value);
+					}
 				}
+				
+				labelSamples.putIfAbsent(getSampleLabels().get(column), new LinkedList<Sample>());
+				labelSamples.get(getSampleLabels().get(column)).add(
+					new Sample(getSampleNames().get(column), sampleSpotsValues)
+				);
 			}
-			
-			labelSamples.putIfAbsent(getSampleLabels().get(column), new LinkedList<Sample>());
-			labelSamples.get(getSampleLabels().get(column)).add(
-				new Sample(getSampleNames().get(column), sampleSpotsValues)
-			);
-		}
 		
-		List<Condition> conditions = new LinkedList<Condition>();
-		for(String condition : labelSamples.keySet()) {
-			conditions.add(new Condition(condition, labelSamples.get(condition)));
+			this.conditions = new LinkedList<Condition>();
+			for(String condition : labelSamples.keySet()) {
+				this.conditions.add(
+					new Condition(condition, labelSamples.get(condition)));
+			}
 		}
-		return conditions;
+		return this.conditions;
 	}
 }

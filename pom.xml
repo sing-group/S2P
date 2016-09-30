@@ -108,6 +108,7 @@
 		<charts4j.version>1.3</charts4j.version>
 		<jvenndiagram.version>1.0.0</jvenndiagram.version>
 		<gc4s.version>0.1</gc4s.version>
+		<commons.math.version>3.6.1</commons.math.version>
 
 		<!-- Testing dependencies -->
 		<junit.version>4.8.2</junit.version>
@@ -175,7 +176,12 @@
 				<groupId>es.uvigo.ei.sing.hlfernandez</groupId>
 				<artifactId>GC4S</artifactId>
 				<version>${gc4s.version}</version>
-			</dependency>			
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-math3</artifactId>
+				<version>${commons.math.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>es.uvigo.ei.sing</groupId>
 				<artifactId>aibench-aibench</artifactId>
