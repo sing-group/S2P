@@ -1,9 +1,12 @@
 package es.uvigo.ei.sing.s2p.core.io;
 
+import static java.lang.Integer.valueOf;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -22,14 +25,25 @@ public class MascotProjectLoader {
 	private static final int INDEX_MASCOT_SCORE = 5;
 	private static final int INDEX_DIFFERENCE 	= 6;
 	private static final int INDEX_MS_COVERAGE 	= 7;
+	private static final int INDEX_PROTEIN_MW 	= 8;
+	private static final int INDEX_METHOD	 	= 10;
+	private static final int INDEX_PI_VALUE 	= 11;
 	private static final int INDEX_ACCESSION 	= 13;
 	
 	
 	public static MascotIdentifications load(File file) throws IOException {
-		return load(file, Integer.MIN_VALUE);
+		return load(file, false);
+	}
+
+	public static MascotIdentifications load(File file, boolean removeDuplicates)
+		throws IOException 
+	{
+		return load(file, Integer.MIN_VALUE, removeDuplicates);
 	}
 	
-	public static MascotIdentifications load(File file, int minScore) throws IOException {
+	public static MascotIdentifications load(File file, int minScore,
+		boolean removeDuplicates) throws IOException 
+	{
 		MascotIdentifications toret = new MascotIdentifications();
 		Map<Integer, String> lastColumnValues = new HashMap<Integer, String>();
 		
@@ -42,7 +56,15 @@ public class MascotProjectLoader {
 				toret.add(entry);
 			}
 		}
-		return toret;
+		
+		return removeDuplicates ? removeDuplicates(toret) : toret;
+	}
+
+	private static MascotIdentifications removeDuplicates(
+			MascotIdentifications toret) {
+		return 	new MascotIdentifications(
+					toret.stream().distinct().collect(Collectors.toList())
+				);
 	}
 
 	private static MascotEntry createMascotEntry(Elements tds,
@@ -51,9 +73,12 @@ public class MascotProjectLoader {
 		return new MascotEntry(
 			columnValue(INDEX_TITLE, tds, lastColumnValues),
 			columnValue(INDEX_POS_ON_SCOUT, tds, lastColumnValues),
-			Integer.valueOf(columnValue(INDEX_MASCOT_SCORE, tds, lastColumnValues)),
-			Integer.valueOf(columnValue(INDEX_DIFFERENCE, tds, lastColumnValues)),
-			Integer.valueOf(columnValue(INDEX_MS_COVERAGE, tds, lastColumnValues)),
+			valueOf(columnValue(INDEX_MASCOT_SCORE, tds, lastColumnValues)),
+			valueOf(columnValue(INDEX_DIFFERENCE, tds, lastColumnValues)),
+			valueOf(columnValue(INDEX_MS_COVERAGE, tds, lastColumnValues)),
+			Double.valueOf(columnValue(INDEX_PROTEIN_MW, tds, lastColumnValues)),
+			columnValue(INDEX_METHOD, tds, lastColumnValues),
+			Double.valueOf(columnValue(INDEX_PI_VALUE, tds, lastColumnValues)),
 			columnValue(INDEX_ACCESSION, tds, lastColumnValues)
 		);
 	}

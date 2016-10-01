@@ -17,6 +17,7 @@ import es.uvigo.ei.sing.s2p.aibench.datatypes.MascotIdentificationsDatatype;
 public class LoadMascotIdentifications {
 	private File htmlFile;
 	private int minimumMS;
+	private boolean removeDuplicates;
 
 	@Port(
 		direction = Direction.INPUT, 
@@ -38,13 +39,25 @@ public class LoadMascotIdentifications {
 	public void setMinimumMascotScore(int minimumMS) {
 		this.minimumMS = minimumMS;
 	}
-
+	
+	@Port(
+		direction = Direction.INPUT, 
+		name = "Remove duplicates", 
+		description = "Check this option to remove duplicated entries.",
+		order = 3,
+		defaultValue = "true"
+	)
+	public void setRemoveDuplicates(boolean removeDuplicates) {
+		this.removeDuplicates = removeDuplicates;
+	}
+	
 	@Port(
 		direction = Direction.OUTPUT, 
-		order = 3
+		order = 4
 	)
 	public MascotIdentificationsDatatype loadData() throws IOException {
 		return new MascotIdentificationsDatatype(
-					load(htmlFile, minimumMS), htmlFile, minimumMS);
+					load(htmlFile, minimumMS, removeDuplicates), 
+				htmlFile, minimumMS);
 	}
 }

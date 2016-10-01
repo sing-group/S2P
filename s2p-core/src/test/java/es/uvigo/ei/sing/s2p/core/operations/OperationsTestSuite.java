@@ -6,7 +6,8 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-	SpotMascotEntryPositionJoinerTest.class
+	SpotMascotEntryPositionJoinerTest.class,
+	ConditionsSummarizerTest.class
 })
 public class OperationsTestSuite {
 

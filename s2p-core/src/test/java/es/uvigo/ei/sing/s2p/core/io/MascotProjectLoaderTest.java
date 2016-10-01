@@ -14,7 +14,9 @@ import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 public class MascotProjectLoaderTest {
 	
 	private static final MascotEntry FIRST = new MascotEntry(
-		"Uncharacterized protein KIAA1688", "B2", 52, 52, 8, "K1688_HUMAN");
+		"Uncharacterized protein KIAA1688", "B2", 52, 52, 8, 
+		122236.00d, "50ppm_BladderCancer", 7.80d, "K1688_HUMAN"
+	);
 
 	@Test
 	public void mascotProjectLoaderTest() throws IOException {
@@ -36,8 +38,16 @@ public class MascotProjectLoaderTest {
 	@Test
 	public void mascotProjectLoaderTest3() throws IOException {
 		MascotIdentifications entries =  
-			MascotProjectLoader.load(MASCOT_PROJECT_FULL, 500);
+			MascotProjectLoader.load(MASCOT_PROJECT_FULL, 500, false);
 		
 		assertEquals(2, entries.size());
+	}
+	
+	@Test
+	public void mascotProjectLoaderTest4() throws IOException {
+		MascotIdentifications entries =  
+			MascotProjectLoader.load(MASCOT_PROJECT_FULL, 500, true);
+		
+		assertEquals(1, entries.size());
 	}
 }

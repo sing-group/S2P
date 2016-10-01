@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -27,6 +28,7 @@ public class LoadMascotIdentificationsDialog extends AbstractInputJDialog {
 	private JPanel inputComponentsPane;
 	private JFileChooserPanel mascotFile;
 	private JIntegerTextField mascotScoreThreshold;
+	private JCheckBox mascotRemoveDuplicates; 
 	private JFileChooserPanel maldiPlateFile;
 	
 	private MascotIdentifications mascotEntries;
@@ -61,10 +63,15 @@ public class LoadMascotIdentificationsDialog extends AbstractInputJDialog {
 		this.mascotScoreThreshold = (JIntegerTextField) mascotThresholdInput.getInput();
 		parameters.add(mascotThresholdInput);
 		
+		InputParameter mascotRemoveDuplicates = getMascotRemoveDuplicatesInput();
+		this.mascotRemoveDuplicates = (JCheckBox) mascotRemoveDuplicates.getInput();
+		parameters.add(mascotRemoveDuplicates);
+		
 		InputParameter maldiPlateFileInput = getMaldiPlateFileInput();
 		this.maldiPlateFile = (JFileChooserPanel) maldiPlateFileInput.getInput();
 		maldiPlateFile.addFileChooserListener(this::onMaldiFileSelection);
 		parameters.add(maldiPlateFileInput);
+		
 		return parameters.toArray(new InputParameter[parameters.size()]);
 	}
 
@@ -76,6 +83,15 @@ public class LoadMascotIdentificationsDialog extends AbstractInputJDialog {
 			"Mascot identifications", 
 			this.mascotFile, 
 			"A .HTM File containing the Mascot identifications"
+		);
+	}
+	
+	protected static InputParameter getMascotRemoveDuplicatesInput() {
+		JCheckBox mascotRemoveDuplicates = new JCheckBox();
+		return new InputParameter(
+			"Remove duplicates",
+			mascotRemoveDuplicates,
+			"Check this option to remove duplicated entries"
 		);
 	}
 	
@@ -100,9 +116,11 @@ public class LoadMascotIdentificationsDialog extends AbstractInputJDialog {
 	
 	private void onMascotFileSelection(ChangeEvent e) {
 		File selectedFile = this.mascotFile.getSelectedFile();
+		int mascotThreshold = this.mascotScoreThreshold.getValue();
+		boolean removeDuplicates = this.mascotRemoveDuplicates.isSelected();
 		try {
 			this.mascotEntries = MascotProjectLoader.load(
-				selectedFile, this.mascotScoreThreshold.getValue()
+				selectedFile, mascotThreshold, removeDuplicates
 			);
 		} catch (Exception ex) {
 			this.mascotEntries = null;
