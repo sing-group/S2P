@@ -20,7 +20,10 @@ public class MascotEntryTableModel extends AbstractTableModel {
 		MASCOT_ENTRY_FIELDS.put(2, "Score");
 		MASCOT_ENTRY_FIELDS.put(3, "Difference");
 		MASCOT_ENTRY_FIELDS.put(4, "MS Coverage");
-		MASCOT_ENTRY_FIELDS.put(5, "Accession");
+		MASCOT_ENTRY_FIELDS.put(5, "Protein MW");
+		MASCOT_ENTRY_FIELDS.put(6, "Method");
+		MASCOT_ENTRY_FIELDS.put(7, "pI-Value");
+		MASCOT_ENTRY_FIELDS.put(8, "Accession");
 	}
 	
 	private MascotIdentifications entries;
@@ -59,7 +62,10 @@ public class MascotEntryTableModel extends AbstractTableModel {
 			case 2: return entry.getMascotScore();
 			case 3: return entry.getDifference();
 			case 4: return entry.getMsCoverage();
-			case 5: return entry.getAccession();
+			case 5: return entry.getProteinMW();
+			case 6: return entry.getMethod();
+			case 7: return entry.getpIValue();
+			case 8: return entry.getAccession();
 		}
 		throw new RuntimeException("Invalid state");
 	}

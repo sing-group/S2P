@@ -1,11 +1,11 @@
 package es.uvigo.ei.sing.s2p.gui.mascot;
 
 import static es.uvigo.ei.sing.s2p.gui.UISettings.BG_COLOR;
+import static javax.swing.BorderFactory.createEmptyBorder;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
 
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -34,7 +34,7 @@ public class MascotIdentificationsViewer extends JPanel {
 		if (this.entriesTable == null) {
 			this.entriesTable = new MascotEntryTable(this.entries);
 			this.entriesTable.setOpaque(false);
-			this.entriesTable.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+			this.entriesTable.setBorder(createEmptyBorder(10, 10, 10, 10));
 		}
 		return this.entriesTable;
 	}

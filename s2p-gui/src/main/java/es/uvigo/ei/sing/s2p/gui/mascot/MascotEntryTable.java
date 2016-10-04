@@ -1,9 +1,11 @@
 package es.uvigo.ei.sing.s2p.gui.mascot;
 
-import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
-import es.uvigo.ei.sing.s2p.gui.table.CSVTable;
+import org.jdesktop.swingx.decorator.HighlighterFactory;
 
-public class MascotEntryTable extends CSVTable {
+import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
+import es.uvigo.ei.sing.s2p.gui.table.ExtendedCsvTable;
+
+public class MascotEntryTable extends ExtendedCsvTable {
 	private static final long serialVersionUID = 1L;
 
 	public MascotEntryTable(MascotIdentifications entries) {
@@ -15,5 +17,7 @@ public class MascotEntryTable extends CSVTable {
 	private void initComponent() {
 		this.setAutoCreateRowSorter(true);
 		this.setColumnControlVisible(true);
+		this.addHighlighter(HighlighterFactory.createAlternateStriping());
+		this.addExportToCsvAction();
 	}
 }

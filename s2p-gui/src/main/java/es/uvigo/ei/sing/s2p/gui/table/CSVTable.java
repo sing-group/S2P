@@ -1,12 +1,18 @@
 package es.uvigo.ei.sing.s2p.gui.table;
 
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.IntStream.of;
+import static java.util.stream.IntStream.range;
+
 import java.awt.Component;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
+import java.util.stream.Collectors;
 
 import javax.swing.JLabel;
 import javax.swing.JTable;
@@ -21,10 +27,10 @@ import org.jdesktop.swingx.JXTable;
 
 import es.uvigo.ei.sing.s2p.gui.table.CSVTransferHandler.Converter;
 
-
 /**
  * 
  * @author Miguel Reboiro-Jato
+ * @author Hugo López-Fernández
  *
  */
 public class CSVTable extends JXTable {
@@ -180,5 +186,52 @@ public class CSVTable extends JXTable {
 		
 		this.setDefaultRenderer(Float.class, renderer);
 		this.setDefaultRenderer(Double.class, renderer);
+	}
+	
+	public List<Integer> getVisibleRows() {
+		if (this.getRowSelectionAllowed()) {
+			this.selectAll();
+			int[] toret = this.getSelectedRows();
+			this.clearSelection();
+			
+			return of(toret).boxed().map(this::convertRowIndexToModel).collect(toList());
+		} else {
+			return range(0, this.getRowCount()).boxed().collect(toList());
+		}
+	}
+
+	public List<Integer> getVisibleColumns() {
+		if (this.getColumnSelectionAllowed()) {
+			this.selectAll();
+			int[] toret = this.getSelectedColumns();
+			this.clearSelection();
+			
+			return of(toret).boxed().map(this::convertColumnIndexToModel)
+					.collect(toList());
+		} else {
+			return range(0, this.getColumnCount()).boxed().collect(toList());
+		}
+	}
+	
+	public Object[][] getData(List<Integer> rows, List<Integer> columns) {
+		Object[][] toret = new Object[rows.size()][columns.size()];
+		
+		int dataRow = 0;
+		for (int row : rows) {
+			
+			int dataColumn = 0;
+			for (int column : columns) {
+				toret[dataRow][dataColumn++] = this.getModel().getValueAt(row, column);
+			}
+			
+			dataRow++;
+		}
+		
+		return toret;
+	}
+	
+	public List<String> getTableHeader(List<Integer> columns) {
+		return 	columns.stream().map(this.getModel()::getColumnName)
+				.collect(Collectors.toList());
 	}
 }
