@@ -12,7 +12,7 @@ import es.uvigo.ei.aibench.core.CoreUtils;
 import es.uvigo.ei.aibench.core.ParamSpec;
 import es.uvigo.ei.aibench.core.operation.annotation.Port;
 import es.uvigo.ei.aibench.workbench.inputgui.AbstractParamProvider;
-import es.uvigo.ei.sing.s2p.core.io.csv.CsvFormat;
+import es.uvigo.ei.sing.commons.csv.entities.CsvFormat;
 import es.uvigo.ei.sing.s2p.gui.util.CsvPanel;
 
 class CsvParamProvider extends AbstractParamProvider {

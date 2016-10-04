@@ -110,6 +110,7 @@
 		<gc4s.version>0.1</gc4s.version>
 		<commons.math.version>3.6.1</commons.math.version>
 		<jfreechart.version>1.0.19</jfreechart.version>
+		<sing.commons.csv.version>0.1.0</sing.commons.csv.version>
 
 		<!-- Testing dependencies -->
 		<junit.version>4.8.2</junit.version>
@@ -187,6 +188,11 @@
 				<groupId>org.jfree</groupId>
 				<artifactId>jfreechart</artifactId>
 				<version>${jfreechart.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>es.uvigo.ei.sing</groupId>
+				<artifactId>commons-csv</artifactId>
+				<version>${sing.commons.csv.version}</version>			
 			</dependency>
 			<dependency>
 				<groupId>es.uvigo.ei.sing</groupId>

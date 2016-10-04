@@ -1,22 +1,23 @@
 package es.uvigo.ei.sing.s2p.core.io.samespots;
 
+import static es.uvigo.ei.sing.commons.csv.entities.CsvData.CsvDataBuilder.newCsvDataBuilder;
 import static es.uvigo.ei.sing.s2p.core.entities.Util.getProteins;
+import static java.util.stream.Collectors.toList;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import es.uvigo.ei.sing.commons.csv.entities.CsvData;
+import es.uvigo.ei.sing.commons.csv.entities.CsvEntry;
+import es.uvigo.ei.sing.commons.csv.entities.CsvFormat;
+import es.uvigo.ei.sing.commons.csv.io.CsvWriter;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
-import es.uvigo.ei.sing.s2p.core.io.csv.CsvFormat;
 
 public class SameSpotsCsvWriter {
 
@@ -26,55 +27,59 @@ public class SameSpotsCsvWriter {
 		write(tempFile, samples, csvFormat, new HashMap<>());
 	}
 	
-	public static void write(File tempFile, List<Sample> samples,
+	public static void write(File file, List<Sample> samples,
 		CsvFormat csvFormat, Map<Sample,String> samplesConditions
 	) throws IOException {
-		Collector<CharSequence, ?, String> columnJoining = 
-			Collectors.joining(csvFormat.getColumnSeparator());
 		
-		StringBuilder sb = new StringBuilder();
+		CsvWriter csvWriter = CsvWriter.of(csvFormat);
+		
+		CsvData data = createData(samples, csvFormat, samplesConditions);
+		
+		csvWriter.write(data, file);
+	}
+
+	private static CsvData createData(List<Sample> samples,
+		CsvFormat csvFormat, Map<Sample, String> samplesConditions
+	) {
+		List<CsvEntry> entries = new ArrayList<>();
 		
 		if(!samplesConditions.isEmpty()) {
-			sb
-				.append(csvFormat.getColumnSeparator())
-				.append(sampleConditions(samples, samplesConditions, columnJoining))
-				.append(csvFormat.getLineBreak());
+			entries.add(sampleConditions(samples, samplesConditions));
 		}
 		
-		sb
-			.append(csvFormat.getColumnSeparator())
-			.append(sampleNames(samples, columnJoining))
-			.append(csvFormat.getLineBreak());
+		entries.add(sampleNames(samples));
 		
 		getProteins(samples).stream().sorted().forEach(p -> {
-			sb
-				.append(proteinValues(p, samples, columnJoining, csvFormat))
-				.append(csvFormat.getLineBreak());
+			entries.add(proteinValues(p, samples, csvFormat));
 		});
-		
-		try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-			new FileOutputStream(tempFile), "UTF-8"))
-		) {
-			writer.write(sb.toString());
-		}
+
+		CsvData data = createData(entries, csvFormat);
+		return data;
 	}
 
-	private static String sampleNames(List<Sample> samples,
-		Collector<CharSequence, ?, String> columnJoining
-	) {
-		return samples.stream().map(Sample::getName).collect(columnJoining);
+	private static CsvData createData(List<CsvEntry> entries, CsvFormat format) {
+		return newCsvDataBuilder(format).withEntries(entries).build();
 	}
 
-	private static String sampleConditions(List<Sample> samples,
-		Map<Sample, String> sampleConditions,
-		Collector<CharSequence, ?, String> columnJoining
-	) {
-		return samples.stream().map(sampleConditions::get)
-				.collect(columnJoining);
+	private static CsvEntry sampleNames(List<Sample> samples) {
+		CsvEntry toret = csvEntry(samples.stream().map(Sample::getName));
+		toret.add(0, "");
+		return toret;
 	}
 	
-	private static String proteinValues(String spot, List<Sample> samples,
-		Collector<CharSequence, ?, String> columnJoining,
+	public static CsvEntry csvEntry(Stream<String> stream) {
+		return new CsvEntry(stream.collect(toList()));
+	}
+
+	private static CsvEntry sampleConditions(List<Sample> samples,
+		Map<Sample, String> sampleConditions
+	) {
+		CsvEntry toret = csvEntry(samples.stream().map(sampleConditions::get));
+		toret.add(0, "");
+		return toret;
+	}
+	
+	private static CsvEntry proteinValues(String spot, List<Sample> samples,
 		CsvFormat csvFormat
 	) {
 		List<String> proteinValues = new LinkedList<String>();
@@ -87,6 +92,6 @@ public class SameSpotsCsvWriter {
 				proteinValues.add(csvFormat.getDecimalFormatter().format(value));
 			}
 		}
-		return proteinValues.stream().collect(columnJoining);
+		return csvEntry(proteinValues.stream());
 	}
 }

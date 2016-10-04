@@ -12,8 +12,8 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import es.uvigo.ei.sing.commons.csv.entities.CsvFormat;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
-import es.uvigo.ei.sing.s2p.core.io.csv.CsvFormat;
 
 public class SameSpotsWriterTest {
 	

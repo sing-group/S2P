@@ -8,8 +8,8 @@ import java.io.IOException;
 import es.uvigo.ei.aibench.core.operation.annotation.Direction;
 import es.uvigo.ei.aibench.core.operation.annotation.Operation;
 import es.uvigo.ei.aibench.core.operation.annotation.Port;
+import es.uvigo.ei.sing.commons.csv.entities.CsvFormat;
 import es.uvigo.ei.sing.s2p.aibench.datatypes.SpotsDataDatatype;
-import es.uvigo.ei.sing.s2p.core.io.csv.CsvFormat;
 
 @Operation(
 	name = "Load spots data", 

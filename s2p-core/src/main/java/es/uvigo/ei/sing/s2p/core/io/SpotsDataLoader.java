@@ -1,76 +1,59 @@
 package es.uvigo.ei.sing.s2p.core.io;
 
+import static es.uvigo.ei.sing.commons.csv.io.CsvReader.CsvReaderBuilder.newCsvReaderBuilder;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.text.DecimalFormat;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import es.uvigo.ei.sing.commons.csv.entities.CsvData;
+import es.uvigo.ei.sing.commons.csv.entities.CsvEntry;
+import es.uvigo.ei.sing.commons.csv.entities.CsvFormat;
 import es.uvigo.ei.sing.s2p.core.entities.SpotsData;
-import es.uvigo.ei.sing.s2p.core.io.csv.CsvFormat;
 
 public class SpotsDataLoader {
 
 	public static SpotsData load(File file, CsvFormat csvFormat) throws IOException {
-		List<String> lines = Files.readAllLines(file.toPath());
-		String sampleLabels = lines.get(0);
-		String sampleNamesStr = lines.get(1);
-		List<String> data = lines.subList(2, lines.size());
-		
-		List<String> sampleNames = parseSampleNames(sampleNamesStr, csvFormat);
-		
+		CsvData data = 	newCsvReaderBuilder().withFormat(csvFormat).build()
+						.read(file);
+
+		List<String> sampleLabels = parseSampleLabels(data.remove(0));
+		List<String> sampleNames = parseSampleNames(data.remove(0));
+
 		return new SpotsData(
-			parseSpots(data, csvFormat),
+			parseSpots(data),
 			sampleNames,
-			parseSampleLabels(sampleLabels, csvFormat),
+			sampleLabels,
 			parseData(data, sampleNames.size(), csvFormat)
 		);
 	}
 
-	private static List<String> parseSampleLabels(String sampleLabels,
-		CsvFormat csvFormat
-	) {
-		List<String> sampleLabelsList = Arrays.asList(sampleLabels.split(csvFormat.getColumnSeparator()));
-		
-		return sampleLabelsList.subList(1, sampleLabelsList.size());
+	private static List<String> parseSampleLabels(CsvEntry sampleLabels) {
+		return sampleLabels.subList(1, sampleLabels.size());
 	}
 
-	private static List<String> parseSampleNames(String sampleNames,
-		CsvFormat csvFormat
-	) {
-		String col = csvFormat.getColumnSeparator();
-		
-		List<String> sampleNamesList = Arrays.asList(sampleNames.split(col));
-		
-		return sampleNamesList.subList(1, sampleNamesList.size());
+	private static List<String> parseSampleNames(CsvEntry sampleNames) {
+		return sampleNames.subList(1, sampleNames.size());
 	}
-
 	
-	private static List<String> parseSpots(List<String> data,
-		CsvFormat csvFormat
-	) {
-		String col = csvFormat.getColumnSeparator();
-		
+	private static List<String> parseSpots(List<CsvEntry> data) {
 		List<String> spots = new LinkedList<String>();
-		data.forEach(l -> spots.add(Arrays.asList(l.split(col)).get(0)));
-		
+		data.forEach(row -> spots.add(row.get(0)));
+
 		return spots;
 	}
-	
-	private static double[][] parseData(List<String> data, int columns,
+
+	private static double[][] parseData(List<CsvEntry> data, int columns,
 		CsvFormat csvFormat
 	) {
-		String col = csvFormat.getColumnSeparator();
 		DecimalFormat decimalFormatter = csvFormat.getDecimalFormatter();
-		
+
 		double[][] matrixData = new double[data.size()][columns];
-		data.forEach(l -> {
-			List<String> rowValues = Arrays.asList(l.concat(" ").split(col));
-			int rowIndex = data.indexOf(l);
-			for(int i = 1; i < rowValues.size(); i++) {
-				String currentValue = rowValues.get(i).trim();
+		data.forEach(row -> {
+			int rowIndex = data.indexOf(row);
+			for(int i = 1; i < row.size(); i++) {
+				String currentValue = row.get(i).trim();
 				if(currentValue.equals("")) {
 					matrixData[rowIndex][i-1] = Double.NaN;
 				} else {

@@ -6,10 +6,10 @@ import java.io.IOException;
 import javax.swing.JOptionPane;
 
 import es.uvigo.ei.aibench.core.Core;
+import es.uvigo.ei.sing.commons.csv.entities.CsvFormat;
 import es.uvigo.ei.sing.s2p.aibench.datatypes.SameSpotsAnalysisDatatype;
 import es.uvigo.ei.sing.s2p.aibench.datatypes.SpotsDataDatatype;
 import es.uvigo.ei.sing.s2p.aibench.operations.LoadSpotsData;
-import es.uvigo.ei.sing.s2p.core.io.csv.CsvFormat;
 import es.uvigo.ei.sing.s2p.gui.samespots.SameSpotsDatasetViewer;
 
 public class SameSpotsAnalysisView extends SameSpotsDatasetViewer {

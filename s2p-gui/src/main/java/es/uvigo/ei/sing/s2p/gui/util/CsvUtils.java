@@ -1,6 +1,6 @@
 package es.uvigo.ei.sing.s2p.gui.util;
 
-import es.uvigo.ei.sing.s2p.core.io.csv.CsvFormat;
+import es.uvigo.ei.sing.commons.csv.entities.CsvFormat;
 
 public class CsvUtils {
 

@@ -4,7 +4,7 @@ import static es.uvigo.ei.sing.s2p.core.resources.ResourceLoader.loadResource;
 
 import java.io.File;
 
-import es.uvigo.ei.sing.s2p.core.io.csv.CsvFormat;
+import es.uvigo.ei.sing.commons.csv.entities.CsvFormat;
 
 public class TestResources {
 
