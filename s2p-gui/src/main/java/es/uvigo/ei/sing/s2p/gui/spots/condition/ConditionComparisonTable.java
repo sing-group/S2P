@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.util.Collection;
@@ -31,6 +32,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
+import javax.swing.SwingUtilities;
 
 import es.uvigo.ei.sing.hlfernandez.input.RangeInputPanel;
 import es.uvigo.ei.sing.s2p.core.entities.Condition;
@@ -168,8 +170,14 @@ public class ConditionComparisonTable extends JPanel {
 	}
 
 	private void viewAsHeatmap() {
-		JHeatMapDialog dialog = new JHeatMapDialog(null, this.samplesTable.getHeatMapModel());
+		JHeatMapDialog dialog = new JHeatMapDialog(
+			getRoot(), this.samplesTable.getHeatMapModel()
+		);
 		dialog.setVisible(true);
+	}
+
+	private Window getRoot() {
+		return SwingUtilities.getWindowAncestor(this);
 	}
 
 	private Action getAddMascotIdentificationsAction() {

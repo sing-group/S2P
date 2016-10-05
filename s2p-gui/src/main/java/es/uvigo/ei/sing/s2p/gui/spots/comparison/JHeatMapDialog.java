@@ -2,8 +2,8 @@ package es.uvigo.ei.sing.s2p.gui.spots.comparison;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Window;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import es.uvigo.ei.sing.hlfernandez.dialog.AbstractInputJDialog;
@@ -18,7 +18,7 @@ public class JHeatMapDialog extends AbstractInputJDialog {
 
 	private JHeatMapModel model;
 	
-	public JHeatMapDialog(JFrame parent, JHeatMapModel model) {
+	public JHeatMapDialog(Window parent, JHeatMapModel model) {
 		super(parent);
 		
 		this.model = model;
