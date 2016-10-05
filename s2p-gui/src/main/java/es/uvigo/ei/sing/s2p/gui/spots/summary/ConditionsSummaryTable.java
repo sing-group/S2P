@@ -29,7 +29,7 @@ import es.uvigo.ei.sing.s2p.core.entities.SpotsData;
 import es.uvigo.ei.sing.s2p.gui.UISettings;
 import es.uvigo.ei.sing.s2p.gui.charts.spots.ChartSpotSummary;
 import es.uvigo.ei.sing.s2p.gui.charts.spots.SpotsSummaryChartDialog;
-import es.uvigo.ei.sing.s2p.gui.table.CSVTable;
+import es.uvigo.ei.sing.s2p.gui.table.ExtendedCsvTable;
 import es.uvigo.ei.sing.s2p.gui.util.ColorUtils;
 
 public class ConditionsSummaryTable extends JPanel {
@@ -38,7 +38,7 @@ public class ConditionsSummaryTable extends JPanel {
 	private static final int FONT_SIZE = 14;
 	
 	private SpotsData data;
-	private CSVTable table;
+	private ExtendedCsvTable table;
 	private Map<Condition, Color> conditionsColors;
 	private ConditionsSummaryTableModel tableModel;
 
@@ -74,7 +74,7 @@ public class ConditionsSummaryTable extends JPanel {
 	private Component getTable() {
 		if (this.table == null) {
 			tableModel = new ConditionsSummaryTableModel(data);
-			this.table = new CSVTable(tableModel);
+			this.table = new ExtendedCsvTable(tableModel);
 			ConditionsSummaryTableCellRenderer renderer = 
 				new ConditionsSummaryTableCellRenderer();
 			this.table.setDefaultRenderer(String.class, renderer);
@@ -83,6 +83,7 @@ public class ConditionsSummaryTable extends JPanel {
 				new ConditionsSummaryTableHeaderCellRenderer(
 					this.table.getTableHeader().getDefaultRenderer())
 			);
+			this.table.addExportToCsvAction();
 			
 			this.table.addMouseListener(new MouseAdapter() {
 				@Override
