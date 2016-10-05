@@ -1,5 +1,6 @@
 package es.uvigo.ei.sing.s2p.gui.mascot;
 
+import java.awt.Window;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -7,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.JCheckBox;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
@@ -34,7 +34,7 @@ public class LoadMascotIdentificationsDialog extends AbstractInputJDialog {
 	private MascotIdentifications mascotEntries;
 	protected Map<String, String> maldi;
 
-	public LoadMascotIdentificationsDialog(JFrame parent) {
+	public LoadMascotIdentificationsDialog(Window parent) {
 		super(parent);
 	}
 
@@ -115,6 +115,11 @@ public class LoadMascotIdentificationsDialog extends AbstractInputJDialog {
 	}
 	
 	private void onMascotFileSelection(ChangeEvent e) {
+		this.loadMascotIdentifications();
+		this.checkOkButton();
+	}
+	
+	private void loadMascotIdentifications() {
 		File selectedFile = this.mascotFile.getSelectedFile();
 		int mascotThreshold = this.mascotScoreThreshold.getValue();
 		boolean removeDuplicates = this.mascotRemoveDuplicates.isSelected();
@@ -126,9 +131,8 @@ public class LoadMascotIdentificationsDialog extends AbstractInputJDialog {
 			this.mascotEntries = null;
 			showMessage("Can't load Mascot identifications from " + selectedFile);
 		}
-		this.checkOkButton();
 	}
-	
+
 	protected void showMessage(String message) {
 		JOptionPane.showMessageDialog(this, message, "Input error",
 			JOptionPane.ERROR_MESSAGE);
@@ -163,6 +167,7 @@ public class LoadMascotIdentificationsDialog extends AbstractInputJDialog {
 	}
 
 	protected MascotIdentifications getMascotEntries() {
+		this.loadMascotIdentifications();
 		return this.mascotEntries;
 	}
 }

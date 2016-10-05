@@ -1,16 +1,53 @@
 package es.uvigo.ei.sing.s2p.gui.spots;
 
+import static es.uvigo.ei.sing.hlfernandez.ui.UIUtils.setOpaqueRecursive;
+import static es.uvigo.ei.sing.s2p.gui.UISettings.FONT_SIZE;
+import static es.uvigo.ei.sing.s2p.gui.util.ColorUtils.getSoftColor;
+import static javax.swing.BorderFactory.createEmptyBorder;
+import static javax.swing.Box.createHorizontalStrut;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JToggleButton;
+import javax.swing.SwingUtilities;
 
+import es.uvigo.ei.sing.hlfernandez.input.RangeInputPanel;
+import es.uvigo.ei.sing.s2p.core.entities.Condition;
+import es.uvigo.ei.sing.s2p.core.entities.MascotEntry;
+import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
+import es.uvigo.ei.sing.s2p.core.entities.SpotsCount;
 import es.uvigo.ei.sing.s2p.core.entities.SpotsData;
+import es.uvigo.ei.sing.s2p.gui.UISettings;
 import es.uvigo.ei.sing.s2p.gui.components.ExtendedJTabbedPane;
 import es.uvigo.ei.sing.s2p.gui.event.ProteinDataComparisonEvent;
 import es.uvigo.ei.sing.s2p.gui.event.ProteinDataComparisonListener;
+import es.uvigo.ei.sing.s2p.gui.mascot.LoadMascotIdentificationsDialog;
+import es.uvigo.ei.sing.s2p.gui.mascot.MascotIdentificationsDialog;
+import es.uvigo.ei.sing.s2p.gui.mascot.MascotIdentificationsSummaryDialog;
 import es.uvigo.ei.sing.s2p.gui.samples.SampleComparisonView;
 import es.uvigo.ei.sing.s2p.gui.spots.comparison.ConditionVsConditionComparisonView;
 import es.uvigo.ei.sing.s2p.gui.spots.condition.ConditionComparisonTable;
@@ -19,38 +56,362 @@ import es.uvigo.ei.sing.s2p.gui.spots.summary.ConditionsSummaryTable;
 public class SpotsDataViewer extends JPanel implements
 		ProteinDataComparisonListener {
 	private static final long serialVersionUID = 1L;
-	
+
+	private static final ImageIcon VERSUS = new ImageIcon(
+		SpotsDataViewer.class.getResource("icons/versus.png"));
+	private static final ImageIcon TABLE = new ImageIcon(
+		SpotsDataViewer.class.getResource("icons/table.png"));
+	private static final ImageIcon CONDITION = new ImageIcon(
+		SpotsDataViewer.class.getResource("icons/condition.png"));
+
 	private ExtendedJTabbedPane tabbedPane;
+	private JPanel northPanel;
+	private JPanel toolbar;
+
+	private JToggleButton toggleVisualizationMode;
+	private JButton showProteinIdentificationsBtn;
+	private JButton showProteinIdentificationsSummaryBtn;
+
 	protected SpotsData data;
+	private Set<String> allSpots;
+	private Map<Condition, SpotsCount> conditionsCount;
+	private Map<Condition, Range> conditionsThreshold;
+	private Map<Condition, Color> conditionsColors;
+	private Map<Sample, Color> samplesColors;
+	private Map<Sample, String> samplesLabels;
+
+	protected Optional<Map<String, MascotIdentifications>> mascotIdentifications = 
+		Optional.empty();
+
+	private ConditionComparisonTable conditionComparisonsTable;
+	private ConditionsSummaryTable conditionsSummaryTable;
 
 	public SpotsDataViewer(SpotsData data) {
 		this.data = data;
+		
+		this.initData();
 		this.initComponent();
+	}
+
+	private void initData() {
+		this.allSpots = getSpots(getConditions());
+		
+		this.conditionsCount = new HashMap<Condition, SpotsCount>();
+		this.conditionsThreshold = new HashMap<Condition, Range>();
+		this.conditionsColors = new HashMap<Condition, Color>();
+		this.samplesColors = new HashMap<Sample, Color>();
+		this.samplesLabels = new HashMap<Sample, String>();
+
+		getConditions().forEach(c -> {
+			this.conditionsCount.put(c, new SpotsCount(c, allSpots));
+			this.conditionsThreshold.put(c, new Range(0, c.getSamples().size()));
+			Color conditionColor = getSoftColor(getConditions().indexOf(c));
+			this.conditionsColors.put(c, conditionColor);
+			
+			c.getSamples().forEach(s -> {
+				samplesColors.put(s, conditionColor);
+				samplesLabels.put(s, c.getName());
+			});
+		});
+	}
+
+	private List<Condition> getConditions() {
+		return this.data.getConditions();
 	}
 
 	private void initComponent() {
 		this.setLayout(new BorderLayout());
 		this.setBackground(Color.WHITE);
 
+		this.add(getNorthPanel(), BorderLayout.NORTH);
+		this.add(getTabbedPane(), BorderLayout.CENTER);
+	}
+	
+	private JPanel getNorthPanel() {
+		if(this.northPanel == null) {
+			this.northPanel = new JPanel(new BorderLayout());
+			this.northPanel.setBorder(createEmptyBorder(2, 10, 2, 10));
+			this.northPanel.setBackground(Color.WHITE);
+			
+			this.northPanel.add(getToolbar(), BorderLayout.NORTH);
+			this.northPanel.add(getConditionFilteringPanel(), BorderLayout.CENTER);
+		}
+		return this.northPanel;
+	}
+	
+	private JPanel getToolbar() {
+		if(this.toolbar == null) {
+			this.toolbar = new JPanel();
+			this.toolbar.setLayout(new BoxLayout(this.toolbar, BoxLayout.X_AXIS));
+			this.toolbar.setOpaque(false);
+			this.toolbar.setBorder(createEmptyBorder(5, 0, 5, 0));
+			
+			this.toolbar.add(createHorizontalStrut(10));
+			this.toolbar.add(new JButton(getAddMascotIdentificationsAction()));
+			this.toolbar.add(getVisualizationModeToggleButton());
+			this.toolbar.add(getShowProteinIdentificationsButton());
+			this.toolbar.add(getShowProteinIdentificationsSummaryButton());
+		}
+		return this.toolbar;
+	}
+	
+	private Action getAddMascotIdentificationsAction() {
+		return new AbstractAction("Add Mascot identifications") {
+			private static final long serialVersionUID = 1L;
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				addMascotIdentifications();
+			}
+		};
+	}
+	
+	protected void addMascotIdentifications() {
+		LoadMascotIdentificationsDialog dialog = getMascotIdentificationsDialog();
+		dialog.setVisible(true);
+		if(!dialog.isCanceled()) {
+			this.mascotIdentifications = 
+				Optional.of(dialog.getMascotIdentifications());
+			sortMascotIdentifications();
+			this.conditionComparisonsTable.setMascotIdentifications(
+				this.mascotIdentifications.get());
+			this.toggleVisualizationMode.setEnabled(true);
+			this.showProteinIdentificationsBtn.setEnabled(true);
+			this.showProteinIdentificationsSummaryBtn.setEnabled(true);
+		}
+	}
+
+	protected LoadMascotIdentificationsDialog getMascotIdentificationsDialog() {
+		return new LoadMascotIdentificationsDialog(getDialogParent());
+	}
+
+	private void sortMascotIdentifications() {
+		this.mascotIdentifications.get().values().forEach(list -> {
+			Collections.sort(list, new Comparator<MascotEntry>() {
+
+				@Override
+				public int compare(MascotEntry o1, MascotEntry o2) {
+					return o2.getMascotScore() - o1.getMascotScore();
+				}
+			});
+		});
+	}
+	
+	private JToggleButton getVisualizationModeToggleButton() {
+		if(this.toggleVisualizationMode == null) {
+			toggleVisualizationMode = new JToggleButton(
+				"Show protein identifications", false);
+			toggleVisualizationMode.setToolTipText(
+				"Select this option to show protein identifications instead "
+				+ "of spot numbers in the table");
+			toggleVisualizationMode.setEnabled(false);
+			toggleVisualizationMode
+				.addItemListener(this::toggleVisualizationMode);
+		}
+		return toggleVisualizationMode;
+	}
+	
+	private void toggleVisualizationMode(ItemEvent e) {
+		this.conditionComparisonsTable.setShowProteinIdentifications(
+			toggleVisualizationMode.isSelected()
+		);
+	}
+	
+	private JButton getShowProteinIdentificationsButton() {
+		if(this.showProteinIdentificationsBtn == null) {
+			this.showProteinIdentificationsBtn = new JButton(
+				new AbstractAction("View detail") {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					showProteinIdentifications();
+				}
+			});
+		}
+		this.showProteinIdentificationsBtn.setEnabled(false);
+		return this.showProteinIdentificationsBtn;
+	}
+
+	private void showProteinIdentifications() {
+		MascotIdentificationsDialog dialog = new MascotIdentificationsDialog(
+			getDialogParent(), getVisibleSpots(), mascotIdentifications.get());
+		dialog.setVisible(true);
+	}
+
+	private Window getDialogParent() {
+		return SwingUtilities.getWindowAncestor(this);
+	}
+
+	private JButton getShowProteinIdentificationsSummaryButton() {
+		if(this.showProteinIdentificationsSummaryBtn == null) {
+			this.showProteinIdentificationsSummaryBtn = new JButton(
+					new AbstractAction("View summary") {
+						private static final long serialVersionUID = 1L;
+						
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							showProteinIdentificationsSummary();
+						}
+					});
+		}
+		this.showProteinIdentificationsSummaryBtn.setEnabled(false);
+		return this.showProteinIdentificationsSummaryBtn;
+	}
+	
+	private void showProteinIdentificationsSummary() {
+		MascotIdentificationsSummaryDialog dialog = new MascotIdentificationsSummaryDialog(
+			getDialogParent(), this.allSpots, this.mascotIdentifications.get());
+		dialog.setVisible(true);
+	}
+
+	private JPanel getConditionFilteringPanel() {
+		JPanel toret = new JPanel();
+		toret.setLayout(new GridLayout(0, 2));
+		
+		getConditions().forEach(c -> {
+			if (c.getSamples().size() > 1) {
+				toret.add(createConditionFilteringPanel(c));
+			}
+		});
+		
+		return toret;
+	}
+
+	private Component createConditionFilteringPanel(Condition condition) {
+		JPanel panel = new JPanel(new BorderLayout());
+		panel.setBorder(BorderFactory.createTitledBorder(condition.getName()));
+		panel.setBackground(Color.WHITE);
+		
+		RangeInputPanel rangeInput = new RangeInputPanel(0, 
+			condition.getSamples().size(), "Minimum number of samples",
+			"Maximum number of samples"
+		);
+		setOpaqueRecursive(rangeInput, false);
+		rangeInput.setBorder(createEmptyBorder(2, 0, 2, 0));
+		
+		rangeInput.setBackground(UISettings.BG_COLOR);
+		
+		int numSamples = condition.getSamples().size();
+		JLabel label = new JLabel(getLabelText(0, numSamples, numSamples));
+		label.setFont(label.getFont().deriveFont(Font.BOLD, FONT_SIZE));
+		
+		rangeInput.addChangeListener(e -> {
+			conditionFilterChanged(condition, rangeInput.getMinValue(),
+				rangeInput.getMaxValue(), label);
+		});
+		
+		panel.add(label, BorderLayout.NORTH);
+		panel.add(rangeInput, BorderLayout.CENTER);
+		return panel;
+	}
+	
+	private static String getLabelText(int min, int max, int samples) {
+		StringBuilder sb = new StringBuilder();
+		sb
+			.append("Show spots present in at least ")
+			.append(min)
+			.append(" (")
+			.append(String.format("%.2f%n", 100 * (double) min / (double) samples))
+			.append("%) and at maximum ")
+			.append(max)
+			.append(" (of ")
+			.append(samples)
+			.append(") samples:");
+		return sb.toString();
+	}
+	
+	private static Set<String> getSpots(List<Condition> conditions) {
+		Set<String> all = new HashSet<String>();
+		conditions.forEach(c -> {
+			all.addAll(c.getSpots());
+		});
+		return all;
+	}
+
+	private void conditionFilterChanged(Condition condition, int min, int max, 
+		JLabel label
+	) {
+		label.setText(getLabelText(min,  max, condition.getSamples().size()));
+		this.conditionsThreshold.put(condition, new Range(min, max));
+		
+		Set<String> visibleSpots = getVisibleSpots();
+		this.conditionComparisonsTable.setVisibleProteins(visibleSpots);
+		this.conditionsSummaryTable.setVisibleSpots(visibleSpots);
+	}
+	
+	protected Set<String> getVisibleSpots() {
+		Set<String> visibleSpots = new HashSet<String>(allSpots);
+
+		getConditions().forEach(c -> {
+			Set<String> proteins = conditionsCount.get(c).getSpots(
+				conditionsThreshold.get(c).getMin(), 
+				conditionsThreshold.get(c).getMax()
+			);
+			visibleSpots.retainAll(proteins);
+		});
+		
+		return visibleSpots;
+	}
+
+	static class Range {
+		
+		private int max;
+		private int min;
+
+		public Range(int min, int max) {
+			this.min = min;
+			this.max = max;
+		}
+		
+		public int getMax() {
+			return max;
+		}
+		
+		public int getMin() {
+			return min;
+		}
+	}
+
+	private Component getTabbedPane() {
 		this.tabbedPane = new ExtendedJTabbedPane();
 		this.tabbedPane.setHideTabBarWhenSingleTab(true);
-		this.add(this.tabbedPane, BorderLayout.CENTER);
+		this.addTabs();
 		
-		this.tabbedPane.addTab("Table view", getConditionsComparisonTable());
-		this.tabbedPane.addTab("Conditions summary", getConditionsSummaryTable());
+		return this.tabbedPane;
+	}
+
+	private void addTabs() {
+		 this.tabbedPane.addTab("", getConditionsComparisonTable());
+		this.tabbedPane.setTabComponentAt(0, label("Table view", TABLE));
+		
+		this.tabbedPane.addTab("", getConditionsSummaryTable());
+		this.tabbedPane.setTabComponentAt(1, label("Conditions summary", CONDITION));
 		
 		ConditionVsConditionComparisonView proteinComparisonView = 
 			new ConditionVsConditionComparisonView(this.data);
 		proteinComparisonView.addTableListener(this);
-		this.tabbedPane.addTab("Comparison view", proteinComparisonView);
+		this.tabbedPane.addTab("", proteinComparisonView);
+		this.tabbedPane.setTabComponentAt(2, label("Comparison view", VERSUS));
 	}
-	
-	protected Component getConditionsComparisonTable() {
-		return new ConditionComparisonTable(this.data.getConditions());
+
+	private static Component label(String string, ImageIcon table2) {
+		JLabel toret = new JLabel(string);
+		toret.setIcon(table2);
+		toret.setIconTextGap(5);
+		return toret;
+	}
+
+	private Component getConditionsComparisonTable() {
+		this.conditionComparisonsTable = new ConditionComparisonTable(
+			getConditions(), this.samplesColors, this.samplesLabels
+		); 
+		return this.conditionComparisonsTable;
 	}
 	
 	private Component getConditionsSummaryTable() {
-		return new ConditionsSummaryTable(this.data);
+		this.conditionsSummaryTable = new ConditionsSummaryTable(this.data);
+		return this.conditionsSummaryTable;
 	}
 
 	@Override

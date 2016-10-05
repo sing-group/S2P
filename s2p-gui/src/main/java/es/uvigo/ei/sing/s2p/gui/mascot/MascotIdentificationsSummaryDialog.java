@@ -5,10 +5,10 @@ import static javax.swing.BorderFactory.createEmptyBorder;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Window;
 import java.util.Map;
 import java.util.Set;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 
@@ -26,7 +26,7 @@ public class MascotIdentificationsSummaryDialog extends AbstractInputJDialog {
 
 	private CSVTable table;
 	
-	public MascotIdentificationsSummaryDialog(JFrame parent, Set<String> spots,
+	public MascotIdentificationsSummaryDialog(Window parent, Set<String> spots,
 			Map<String, MascotIdentifications> spotIdentifications
 		) {
 		super(parent);

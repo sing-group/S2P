@@ -1,9 +1,10 @@
 package es.uvigo.ei.sing.s2p.aibench.views;
 
-import java.awt.Component;
+import static javax.swing.SwingUtilities.getWindowAncestor;
 
 import es.uvigo.ei.sing.s2p.aibench.datatypes.SpotsDataDatatype;
-import es.uvigo.ei.sing.s2p.aibench.views.spots.AIBenchConditionComparisonTable;
+import es.uvigo.ei.sing.s2p.aibench.views.spots.AIBenchLoadMascotIdentificationsDialog;
+import es.uvigo.ei.sing.s2p.gui.mascot.LoadMascotIdentificationsDialog;
 import es.uvigo.ei.sing.s2p.gui.spots.SpotsDataViewer;
 
 public class SpotsDataDatatypeView extends SpotsDataViewer {
@@ -14,7 +15,7 @@ public class SpotsDataDatatypeView extends SpotsDataViewer {
 	}
 	
 	@Override
-	protected Component getConditionsComparisonTable() {
-		return new AIBenchConditionComparisonTable(this.data.getConditions());
+	protected LoadMascotIdentificationsDialog getMascotIdentificationsDialog() {
+		return new AIBenchLoadMascotIdentificationsDialog(getWindowAncestor(this));
 	}
 }

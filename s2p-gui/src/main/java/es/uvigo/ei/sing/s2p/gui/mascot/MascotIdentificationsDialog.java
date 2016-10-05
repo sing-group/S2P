@@ -1,10 +1,10 @@
 package es.uvigo.ei.sing.s2p.gui.mascot;
 
 import java.awt.BorderLayout;
+import java.awt.Window;
 import java.util.Map;
 import java.util.Set;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -17,7 +17,7 @@ public class MascotIdentificationsDialog extends AbstractInputJDialog {
 	private MascotIdentificationsTable table;
 	private JPanel inputComponents;
 	
-	public MascotIdentificationsDialog(JFrame parent, Set<String> spots,
+	public MascotIdentificationsDialog(Window parent, Set<String> spots,
 			Map<String, MascotIdentifications> spotIdentifications
 		) {
 		super(parent);

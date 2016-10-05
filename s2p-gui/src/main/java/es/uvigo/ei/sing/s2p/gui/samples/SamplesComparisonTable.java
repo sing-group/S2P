@@ -15,6 +15,7 @@ import java.util.Set;
 import java.util.function.IntUnaryOperator;
 import java.util.stream.Collectors;
 
+import javax.swing.Action;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -22,15 +23,14 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
-import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 
 import es.uvigo.ei.sing.hlfernandez.visualization.JHeatMapModel;
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
-import es.uvigo.ei.sing.s2p.gui.table.CSVTable;
+import es.uvigo.ei.sing.s2p.gui.table.ExtendedCsvTable;
+import es.uvigo.ei.sing.s2p.gui.table.SpotPresenceTester;
 import es.uvigo.ei.sing.s2p.gui.table.TestRowFilter;
-import es.uvigo.ei.sing.s2p.gui.table.Tester;
 
 public class SamplesComparisonTable extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -40,9 +40,9 @@ public class SamplesComparisonTable extends JPanel {
 	private boolean showProteinIdentifications = false;
 	
 	private List<Sample> samples;
-	private JXTable table;
+	private ExtendedCsvTable table;
 	private SamplesComparisonTableModel tableModel;
-	private ProteinPresenceTester proteinPresenceTester;
+	private SpotPresenceTester spotPresenceTester;
 	private Map<Sample, Color> sampleColors;
 	private Map<Sample, String> sampleLabels;
 	private Optional<Map<String, MascotIdentifications>> mascotIdentifications = 
@@ -71,7 +71,7 @@ public class SamplesComparisonTable extends JPanel {
 
 	private void initTable() {
 		this.tableModel = new SamplesComparisonTableModel(this.samples);
-		this.table = new CSVTable(this.tableModel);
+		this.table = new ExtendedCsvTable(this.tableModel);
 		final SamplesComparisonTableCellRenderer renderer = 
 			new SamplesComparisonTableCellRenderer();
 		this.table.setDefaultRenderer(Double.class, renderer);
@@ -80,8 +80,8 @@ public class SamplesComparisonTable extends JPanel {
 			new SamplesComparisonTableHeaderCellRenderer(
 				this.table.getTableHeader().getDefaultRenderer()));
 		this.table.setColumnControlVisible(true);	
-		proteinPresenceTester = new ProteinPresenceTester(getProteins(this.samples));
-		table.setRowFilter(new TestRowFilter<>(proteinPresenceTester, 0));
+		spotPresenceTester = new SpotPresenceTester(getProteins(this.samples));
+		table.setRowFilter(new TestRowFilter<>(spotPresenceTester, 0));
 	}
 	
 	private static Set<String> getProteins(List<Sample> samples) {
@@ -92,24 +92,6 @@ public class SamplesComparisonTable extends JPanel {
 		return all;
 	}
 
-	private class ProteinPresenceTester implements Tester {
-
-		private Set<String> visibleProteins;
-
-		public ProteinPresenceTester(Set<String> visibleProteins) {
-			this.visibleProteins = visibleProteins; 
-		}
-		
-		@Override
-		public boolean test(Object value) {
-			return visibleProteins.contains(value);
-		}
-		
-		public void setVisibleProteins(Set<String> visibleProteins) {
-			this.visibleProteins = visibleProteins;
-		}
-	}
-	
 	private class SamplesComparisonTableCellRenderer extends DefaultTableRenderer {
 		private static final long serialVersionUID = 1L;
 
@@ -233,9 +215,9 @@ public class SamplesComparisonTable extends JPanel {
 		}
 	}
 
-	public void setVisibleProteins(Set<String> visibleProteins) {
-		this.proteinPresenceTester.setVisibleProteins(visibleProteins);
-		table.setRowFilter(new TestRowFilter<>(proteinPresenceTester, 0));
+	public void setVisibleSpots(Set<String> visibleSpots) {
+		this.spotPresenceTester.setVisibleSpots(visibleSpots);
+		table.setRowFilter(new TestRowFilter<>(spotPresenceTester, 0));
 	}
 	
 	public void setShowProteinIdentifications(boolean show) {
@@ -333,5 +315,9 @@ public class SamplesComparisonTable extends JPanel {
 			rowNames.addAll(identifications);
 		}
 		return rowNames.toArray(new String[rowNames.size()]);
+	}
+	
+	public void addTableAction(Action a) {
+		this.table.addAction(a);
 	}
 }

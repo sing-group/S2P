@@ -10,10 +10,12 @@ import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -30,6 +32,8 @@ import es.uvigo.ei.sing.s2p.gui.UISettings;
 import es.uvigo.ei.sing.s2p.gui.charts.spots.ChartSpotSummary;
 import es.uvigo.ei.sing.s2p.gui.charts.spots.SpotsSummaryChartDialog;
 import es.uvigo.ei.sing.s2p.gui.table.ExtendedCsvTable;
+import es.uvigo.ei.sing.s2p.gui.table.SpotPresenceTester;
+import es.uvigo.ei.sing.s2p.gui.table.TestRowFilter;
 import es.uvigo.ei.sing.s2p.gui.util.ColorUtils;
 
 public class ConditionsSummaryTable extends JPanel {
@@ -38,9 +42,11 @@ public class ConditionsSummaryTable extends JPanel {
 	private static final int FONT_SIZE = 14;
 	
 	private SpotsData data;
-	private ExtendedCsvTable table;
 	private Map<Condition, Color> conditionsColors;
+	
+	private ExtendedCsvTable table;
 	private ConditionsSummaryTableModel tableModel;
+	private SpotPresenceTester spotPresenceTester;
 
 	public ConditionsSummaryTable(SpotsData data) {
 		this.data = data;
@@ -96,10 +102,16 @@ public class ConditionsSummaryTable extends JPanel {
 					}
 				}
 			});
+			spotPresenceTester = new SpotPresenceTester(getSpots());
+			table.setRowFilter(new TestRowFilter<>(spotPresenceTester, 0));
 		}
 		return this.table;
 	}
 	
+	private Set<String> getSpots() {
+		return new HashSet<>(data.getSpots());
+	}
+
 	private void viewSpotAtRow(int row) {
 		String spot = this.tableModel.getSpotAt(row);
 		List<ChartSpotSummary> summaries = new LinkedList<ChartSpotSummary>();
@@ -173,5 +185,10 @@ public class ConditionsSummaryTable extends JPanel {
 			
 			return c;
 		}
+	}
+
+	public void setVisibleSpots(Set<String> visibleSpots) {
+		spotPresenceTester = new SpotPresenceTester(visibleSpots);
+		table.setRowFilter(new TestRowFilter<>(spotPresenceTester, 0));
 	}
 }

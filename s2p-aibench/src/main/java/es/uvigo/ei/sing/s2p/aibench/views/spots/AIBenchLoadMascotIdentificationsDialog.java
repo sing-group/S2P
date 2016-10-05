@@ -2,6 +2,7 @@ package es.uvigo.ei.sing.s2p.aibench.views.spots;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Window;
 import java.awt.event.ItemEvent;
 import java.beans.PropertyChangeEvent;
 import java.io.File;
@@ -11,7 +12,6 @@ import java.util.stream.Collectors;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
@@ -40,7 +40,7 @@ public class AIBenchLoadMascotIdentificationsDialog extends
 	private JFileChooserPanel maldiPlateFile;
 	private JCheckBox mascotRemoveDuplicates;
 	
-	public AIBenchLoadMascotIdentificationsDialog(JFrame parent) {
+	public AIBenchLoadMascotIdentificationsDialog(Window parent) {
 		super(parent);
 	}
 
