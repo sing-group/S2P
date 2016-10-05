@@ -20,7 +20,7 @@ public class MascotIdentificationsSummaryTableModel extends AbstractTableModel {
 	static {
 		TABLE_FIELDS.put(0, "Analyzed spots");
 		TABLE_FIELDS.put(1, "Identified spots");
-		TABLE_FIELDS.put(2, "Unique proteins identified");
+		TABLE_FIELDS.put(2, "Different proteins identified");
 	}
 	private static Map<Integer, String> tableValues = new HashMap<>();
 	
@@ -37,7 +37,6 @@ public class MascotIdentificationsSummaryTableModel extends AbstractTableModel {
 
 	private void initData() {
 		tableValues.put(0, String.valueOf(spots.size()));
-		System.err.println("\nSpot identifications map\n" + spotIdentifications.keySet());
 		tableValues.put(1, identifiedSpotsCount());
 		tableValues.put(2, uniqueProteinsCount());
 	}
