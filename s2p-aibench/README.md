@@ -1,6 +1,6 @@
 S2P
 =========
-This project contains the main GUI components of the S2P project.
+This project contains the AIBench application of the S2P project.
 
 Team
 ----
