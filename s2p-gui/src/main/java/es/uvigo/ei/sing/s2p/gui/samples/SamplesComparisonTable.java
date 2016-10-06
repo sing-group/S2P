@@ -1,5 +1,7 @@
 package es.uvigo.ei.sing.s2p.gui.samples;
 
+import static es.uvigo.ei.sing.s2p.gui.spots.SpotUtils.spotTooltip;
+import static es.uvigo.ei.sing.s2p.gui.spots.SpotUtils.spotValue;
 import static es.uvigo.ei.sing.s2p.gui.UISettings.FONT_SIZE_HEADER;
 import static es.uvigo.ei.sing.s2p.gui.UISettings.FONT_SIZE;
 import java.awt.BorderLayout;
@@ -37,14 +39,15 @@ import es.uvigo.ei.sing.s2p.gui.table.TestRowFilter;
 public class SamplesComparisonTable extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
-	private boolean showProteinIdentifications = false;
-	
-	private List<Sample> samples;
 	private ExtendedCsvTable table;
 	private SamplesComparisonTableModel tableModel;
-	private SpotPresenceTester spotPresenceTester;
+
+	private List<Sample> samples;
 	private Map<Sample, Color> sampleColors;
 	private Map<Sample, String> sampleLabels;
+	private SpotPresenceTester spotPresenceTester;
+	
+	private boolean showProteinIdentifications = false;
 	private Optional<Map<String, MascotIdentifications>> mascotIdentifications = 
 		Optional.empty();
 
@@ -125,8 +128,9 @@ public class SamplesComparisonTable extends JPanel {
 			} else {
 				String spot = value.toString();
 				JLabel spotLabel = (JLabel) c;
-				spotLabel.setText(spotValue(spot));
-				spotLabel.setToolTipText(spotTooltip(spot));
+				spotLabel.setText(spotValue(spot, showProteinIdentifications, mascotIdentifications));
+				spotLabel.setToolTipText(spotTooltip(spot, mascotIdentifications));
+				
 				if (mascotIdentifications.isPresent()) {
 					if (mascotIdentifications.get().get(spot) != null) {
 						if (!showProteinIdentifications) {
@@ -139,43 +143,6 @@ public class SamplesComparisonTable extends JPanel {
 			}
 			
 			return c;
-		}
-
-		private String spotValue(String spot) {
-			StringBuilder spotValue = new StringBuilder(spot);
-			if(showProteinIdentifications) {
-				if(mascotIdentifications.isPresent()) {
-					MascotIdentifications spotIdentifications = 
-						mascotIdentifications.get().get(spot);
-					if(spotIdentifications != null) {
-						spotValue
-							.append(" (")
-							.append(spotIdentifications.get(0).getTitle())
-							.append(")");
-					}
-				}
-			}
-			return spotValue.toString();
-		}
-
-		private String spotTooltip(String value) {
-			if(mascotIdentifications.isPresent()) {
-				MascotIdentifications spotIdentifications = 
-					mascotIdentifications.get().get(value);
-				if(spotIdentifications != null) {
-					StringBuilder tooltip = new StringBuilder();
-					tooltip
-						.append(spotIdentifications.get(0).getTitle())
-						.append(" (MS=")
-						.append(spotIdentifications.get(0).getMascotScore())
-						.append(")");
-					if(spotIdentifications.size() > 1) {
-						tooltip.append(" [...]");
-					}
-					return tooltip.toString();
-				}
-			}
-			return value;
 		}
 	}
 	

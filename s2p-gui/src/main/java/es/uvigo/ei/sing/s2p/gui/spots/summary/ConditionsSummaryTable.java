@@ -2,6 +2,8 @@ package es.uvigo.ei.sing.s2p.gui.spots.summary;
 
 import static es.uvigo.ei.sing.s2p.gui.UISettings.FONT_SIZE;
 import static es.uvigo.ei.sing.s2p.gui.UISettings.FONT_SIZE_HEADER;
+import static es.uvigo.ei.sing.s2p.gui.spots.SpotUtils.spotTooltip;
+import static es.uvigo.ei.sing.s2p.gui.spots.SpotUtils.spotValue;
 import static javax.swing.BorderFactory.createEmptyBorder;
 
 import java.awt.BorderLayout;
@@ -31,6 +33,7 @@ import javax.swing.table.TableCellRenderer;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 
 import es.uvigo.ei.sing.s2p.core.entities.Condition;
+import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.entities.SpotsData;
 import es.uvigo.ei.sing.s2p.gui.UISettings;
 import es.uvigo.ei.sing.s2p.gui.charts.spots.ChartSpotSummary;
@@ -43,12 +46,16 @@ import es.uvigo.ei.sing.s2p.gui.util.ColorUtils;
 public class ConditionsSummaryTable extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
+	private ExtendedCsvTable table;
+	private ConditionsSummaryTableModel tableModel;
+
 	private SpotsData data;
 	private Map<Condition, Color> conditionsColors;
 	
-	private ExtendedCsvTable table;
-	private ConditionsSummaryTableModel tableModel;
 	private SpotPresenceTester spotPresenceTester;
+	private boolean showProteinIdentifications = false;
+	private Optional<Map<String, MascotIdentifications>> mascotIdentifications =
+		Optional.empty();
 
 	public ConditionsSummaryTable(SpotsData data) {
 		this.data = data;
@@ -153,8 +160,25 @@ public class ConditionsSummaryTable extends JPanel {
 			if(condition.isPresent()) {
 				c.setBackground(conditionsColors.get(condition.get()));
 			}
-			
+
 			c.setFont(c.getFont().deriveFont(Font.PLAIN, FONT_SIZE));
+
+			if(columnModel == 0) {
+				String spot = value.toString();
+				JLabel spotLabel = (JLabel) c;
+				spotLabel.setText(spotValue(spot, showProteinIdentifications, mascotIdentifications));
+				spotLabel.setToolTipText(spotTooltip(spot, mascotIdentifications));
+
+				if (mascotIdentifications.isPresent()) {
+					if (mascotIdentifications.get().get(spot) != null) {
+						if (!showProteinIdentifications) {
+							spotLabel.setFont(c.getFont().deriveFont(Font.BOLD));
+						}
+					} else {
+						spotLabel.setForeground(Color.RED);
+					}
+				}
+			}
 			
 			return c;
 		}
@@ -198,5 +222,21 @@ public class ConditionsSummaryTable extends JPanel {
 	public void setVisibleSpots(Set<String> visibleSpots) {
 		spotPresenceTester = new SpotPresenceTester(visibleSpots);
 		table.setRowFilter(new TestRowFilter<>(spotPresenceTester, 0));
+	}
+
+	public void setMascotIdentifications(
+		Map<String, MascotIdentifications> mascotIdentifications
+	) {
+		this.mascotIdentifications = Optional.ofNullable(mascotIdentifications);
+		fireTableStructureChanged();
+	}
+
+	public void fireTableStructureChanged() {
+		this.tableModel.fireTableStructureChanged();
+	}
+
+	public void setShowProteinIdentifications(boolean show) {
+		this.showProteinIdentifications = show;
+		this.updateUI();
 	}
 }

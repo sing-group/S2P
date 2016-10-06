@@ -109,7 +109,9 @@ public class ConditionComparisonTable extends JPanel {
 		return SwingUtilities.getWindowAncestor(this);
 	}
 
-	public void setMascotIdentifications(Map<String, MascotIdentifications> mascotIdentifications) {
+	public void setMascotIdentifications(
+		Map<String, MascotIdentifications> mascotIdentifications
+	) {
 		this.samplesTable.setMascotIdentifications(mascotIdentifications);
 	}
 

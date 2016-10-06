@@ -1,6 +1,7 @@
 package es.uvigo.ei.sing.s2p.gui.spots;
 
 import static es.uvigo.ei.sing.hlfernandez.ui.UIUtils.setOpaqueRecursive;
+import static es.uvigo.ei.sing.hlfernandez.utilities.builder.JButtonBuilder.newJButtonBuilder;
 import static es.uvigo.ei.sing.s2p.gui.UISettings.FONT_SIZE;
 import static es.uvigo.ei.sing.s2p.gui.util.ColorUtils.getSoftColor;
 import static javax.swing.BorderFactory.createEmptyBorder;
@@ -35,6 +36,7 @@ import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
 
 import es.uvigo.ei.sing.hlfernandez.input.RangeInputPanel;
+import es.uvigo.ei.sing.hlfernandez.utilities.ExtendedAbstractAction;
 import es.uvigo.ei.sing.s2p.core.entities.Condition;
 import es.uvigo.ei.sing.s2p.core.entities.MascotEntry;
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
@@ -71,6 +73,7 @@ public class SpotsDataViewer extends JPanel implements
 	private JToggleButton toggleVisualizationMode;
 	private JButton showProteinIdentificationsBtn;
 	private JButton showProteinIdentificationsSummaryBtn;
+	private JButton clearIdentificationsBtn;
 
 	protected SpotsData data;
 	private Set<String> allSpots;
@@ -85,6 +88,7 @@ public class SpotsDataViewer extends JPanel implements
 
 	private ConditionComparisonTable conditionComparisonsTable;
 	private ConditionsSummaryTable conditionsSummaryTable;
+
 
 	public SpotsDataViewer(SpotsData data) {
 		this.data = data;
@@ -147,38 +151,72 @@ public class SpotsDataViewer extends JPanel implements
 			this.toolbar.setBorder(createEmptyBorder(5, 0, 5, 0));
 			
 			this.toolbar.add(createHorizontalStrut(10));
-			this.toolbar.add(new JButton(getAddMascotIdentificationsAction()));
+			this.toolbar.add(getAddMascotIdentificationsButton());
+			this.toolbar.add(getClearMascotIdentificationsButton());
+			this.toolbar.add(createHorizontalStrut(5));
 			this.toolbar.add(getVisualizationModeToggleButton());
 			this.toolbar.add(getShowProteinIdentificationsButton());
 			this.toolbar.add(getShowProteinIdentificationsSummaryButton());
 		}
 		return this.toolbar;
 	}
-	
-	private Action getAddMascotIdentificationsAction() {
-		return new AbstractAction("Add Mascot identifications") {
-			private static final long serialVersionUID = 1L;
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				addMascotIdentifications();
-			}
-		};
+
+	private JButton getAddMascotIdentificationsButton() {
+		return 	newJButtonBuilder()
+				.thatDoes(getAddMascotIdentificationsAction()).build();
 	}
+
+	private JButton getClearMascotIdentificationsButton() {
+		this.clearIdentificationsBtn = newJButtonBuilder()
+			.thatDoes(getClearMascotIdentificationsAction()).disabled().build();
+		return this.clearIdentificationsBtn;
+	}
+
+	private Action getClearMascotIdentificationsAction() {
+		return new ExtendedAbstractAction(
+			"Clear identifications", this::clearMascotIdentifications);
+	}
+	
+	private void clearMascotIdentifications() {
+		this.mascotIdentifications = Optional.empty();
+		this.setMascotIdentifications(Collections.emptyMap());
+		this.enableIdentificationButtons(false);
+	}
+
+	private Action getAddMascotIdentificationsAction() {
+		return new ExtendedAbstractAction(
+			"Add identifications",
+			this::addMascotIdentifications
+		);
+	}
+	
 	
 	protected void addMascotIdentifications() {
 		LoadMascotIdentificationsDialog dialog = getMascotIdentificationsDialog();
 		dialog.setVisible(true);
 		if(!dialog.isCanceled()) {
-			this.mascotIdentifications = 
-				Optional.of(dialog.getMascotIdentifications());
-			sortMascotIdentifications();
-			this.conditionComparisonsTable.setMascotIdentifications(
-				this.mascotIdentifications.get());
-			this.toggleVisualizationMode.setEnabled(true);
-			this.showProteinIdentificationsBtn.setEnabled(true);
-			this.showProteinIdentificationsSummaryBtn.setEnabled(true);
+			this.setMascotIdentifications(dialog.getMascotIdentifications());
 		}
+	}
+
+	private void setMascotIdentifications(
+			Map<String, MascotIdentifications> identifications) {
+		this.mascotIdentifications = Optional.of(identifications);
+		sortMascotIdentifications();
+			
+		this.conditionComparisonsTable.setMascotIdentifications(
+			this.mascotIdentifications.get());
+		this.conditionsSummaryTable.setMascotIdentifications(
+			this.mascotIdentifications.get());
+			
+		this.enableIdentificationButtons(true);
+	}
+
+	private void enableIdentificationButtons(boolean enabled) {
+		this.toggleVisualizationMode.setEnabled(enabled);
+		this.showProteinIdentificationsBtn.setEnabled(enabled);
+		this.showProteinIdentificationsSummaryBtn.setEnabled(enabled);
+		this.clearIdentificationsBtn.setEnabled(enabled);
 	}
 
 	protected LoadMascotIdentificationsDialog getMascotIdentificationsDialog() {
@@ -212,9 +250,9 @@ public class SpotsDataViewer extends JPanel implements
 	}
 	
 	private void toggleVisualizationMode(ItemEvent e) {
-		this.conditionComparisonsTable.setShowProteinIdentifications(
-			toggleVisualizationMode.isSelected()
-		);
+		boolean show = toggleVisualizationMode.isSelected();
+		this.conditionComparisonsTable.setShowProteinIdentifications(show);
+		this.conditionsSummaryTable.setShowProteinIdentifications(show);
 	}
 	
 	private JButton getShowProteinIdentificationsButton() {
