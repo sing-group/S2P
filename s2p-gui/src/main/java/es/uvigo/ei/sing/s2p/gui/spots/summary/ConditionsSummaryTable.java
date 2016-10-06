@@ -1,5 +1,7 @@
 package es.uvigo.ei.sing.s2p.gui.spots.summary;
 
+import static es.uvigo.ei.sing.s2p.gui.UISettings.FONT_SIZE;
+import static es.uvigo.ei.sing.s2p.gui.UISettings.FONT_SIZE_HEADER;
 import static javax.swing.BorderFactory.createEmptyBorder;
 
 import java.awt.BorderLayout;
@@ -7,6 +9,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Point;
+import java.awt.Window;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
@@ -21,6 +24,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
@@ -38,8 +42,6 @@ import es.uvigo.ei.sing.s2p.gui.util.ColorUtils;
 
 public class ConditionsSummaryTable extends JPanel {
 	private static final long serialVersionUID = 1L;
-	
-	private static final int FONT_SIZE = 14;
 	
 	private SpotsData data;
 	private Map<Condition, Color> conditionsColors;
@@ -124,8 +126,12 @@ public class ConditionsSummaryTable extends JPanel {
 			);
 		});
 		SpotsSummaryChartDialog dialog = 
-			new SpotsSummaryChartDialog(null, summaries);
+			new SpotsSummaryChartDialog(getDialogParent(), summaries);
 		dialog.setVisible(true);
+	}
+
+	private Window getDialogParent() {
+		return SwingUtilities.getWindowAncestor(this);
 	}
 
 	private class ConditionsSummaryTableCellRenderer 
@@ -146,7 +152,9 @@ public class ConditionsSummaryTable extends JPanel {
 			Optional<Condition> condition = tableModel.getConditionAt(columnModel);
 			if(condition.isPresent()) {
 				c.setBackground(conditionsColors.get(condition.get()));
-			} 
+			}
+			
+			c.setFont(c.getFont().deriveFont(Font.PLAIN, FONT_SIZE));
 			
 			return c;
 		}
@@ -175,7 +183,7 @@ public class ConditionsSummaryTable extends JPanel {
 			Optional<Condition> condition = tableModel.getConditionAt(columnModel);
 
 			if (c instanceof JLabel) {
-				c.setFont(c.getFont().deriveFont(Font.BOLD, FONT_SIZE));
+				c.setFont(c.getFont().deriveFont(Font.BOLD, FONT_SIZE_HEADER));
 				if(condition.isPresent()) {
 					((JLabel) c).setToolTipText(condition.get().getName());
 				} else {

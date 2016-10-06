@@ -1,5 +1,7 @@
 package es.uvigo.ei.sing.s2p.gui.samples;
 
+import static es.uvigo.ei.sing.s2p.gui.UISettings.FONT_SIZE_HEADER;
+import static es.uvigo.ei.sing.s2p.gui.UISettings.FONT_SIZE;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -34,8 +36,6 @@ import es.uvigo.ei.sing.s2p.gui.table.TestRowFilter;
 
 public class SamplesComparisonTable extends JPanel {
 	private static final long serialVersionUID = 1L;
-
-	private static final int FONT_SIZE = 14;
 	
 	private boolean showProteinIdentifications = false;
 	
@@ -197,10 +197,8 @@ public class SamplesComparisonTable extends JPanel {
 			final Component c = defaultRenderer.getTableCellRendererComponent(
 				table, value, isSelected, hasFocus, row, column);
 			
-			c.setFont(c.getFont().deriveFont(Font.PLAIN, FONT_SIZE));
-			
 			if (c instanceof JLabel) {
-				c.setFont(c.getFont().deriveFont(Font.BOLD, FONT_SIZE));
+				c.setFont(c.getFont().deriveFont(Font.BOLD, FONT_SIZE_HEADER));
 			}
 			
 			final int columnModel = table.convertColumnIndexToModel(column);

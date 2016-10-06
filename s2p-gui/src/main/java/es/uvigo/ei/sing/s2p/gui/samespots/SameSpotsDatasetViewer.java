@@ -7,6 +7,7 @@ import static es.uvigo.ei.sing.s2p.gui.util.CsvUtils.csvFormat;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
@@ -22,6 +23,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import es.uvigo.ei.sing.commons.csv.entities.CsvFormat;
 import es.uvigo.ei.sing.hlfernandez.dialog.ExportCsvDialog;
@@ -122,7 +124,8 @@ public class SameSpotsDatasetViewer extends JPanel {
 	}
 	
 	private void editConditions() {
-		ConditionLabelInputDialog inputDialog = new ConditionLabelInputDialog(null, 
+		ConditionLabelInputDialog inputDialog = new ConditionLabelInputDialog(
+			getDialogParent(), 
 			this.conditionLabels);
 		inputDialog.setVisible(true);
 		if (!inputDialog.isCanceled()) {
@@ -131,9 +134,17 @@ public class SameSpotsDatasetViewer extends JPanel {
 		}
 	}
 	
+	private Window getDialogParent() {
+		return SwingUtilities.getWindowAncestor(this);
+	}
+
 	private void editSamples() {
-		SampleEditorDialog editor = new SampleEditorDialog(null,
-			this.samples, this.conditionLabels, this.sampleConditions);
+		SampleEditorDialog editor = new SampleEditorDialog(
+			getDialogParent(),
+			this.samples, 
+			this.conditionLabels, 
+			this.sampleConditions
+		);
 		editor.setVisible(true);
 		if (!editor.isCanceled()) {
 			this.sampleConditions = editor.getSampleConditions();

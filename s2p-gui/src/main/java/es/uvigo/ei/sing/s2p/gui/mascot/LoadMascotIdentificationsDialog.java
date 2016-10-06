@@ -12,7 +12,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 
-import es.uvigo.ei.sing.hlfernandez.dialog.AbstractInputJDialog;
 import es.uvigo.ei.sing.hlfernandez.filechooser.JFileChooserPanel;
 import es.uvigo.ei.sing.hlfernandez.input.InputParameter;
 import es.uvigo.ei.sing.hlfernandez.input.InputParametersPanel;
@@ -21,8 +20,10 @@ import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.io.MaldiPlateLoader;
 import es.uvigo.ei.sing.s2p.core.io.MascotProjectLoader;
 import es.uvigo.ei.sing.s2p.core.operations.SpotMascotEntryPositionJoiner;
+import es.uvigo.ei.sing.s2p.gui.components.dialog.AbstractFileInputJDialog;
+import es.uvigo.ei.sing.s2p.gui.util.CommonFileChooser;
 
-public class LoadMascotIdentificationsDialog extends AbstractInputJDialog {
+public class LoadMascotIdentificationsDialog extends AbstractFileInputJDialog {
 	private static final long serialVersionUID = 1L;
 	
 	private JPanel inputComponentsPane;
@@ -76,7 +77,10 @@ public class LoadMascotIdentificationsDialog extends AbstractInputJDialog {
 	}
 
 	private InputParameter getMascotFileInput() {
-		this.mascotFile = new JFileChooserPanel(JFileChooserPanel.Mode.OPEN);
+		this.mascotFile = new JFileChooserPanel(
+			JFileChooserPanel.Mode.OPEN, 
+			CommonFileChooser.getInstance().getFilechooser()
+		);
 		this.mascotFile.getComponentLabelFile().setVisible(false);
 		this.mascotFile.addFileChooserListener(this::onMascotFileSelection);
 		return new InputParameter(
@@ -105,7 +109,10 @@ public class LoadMascotIdentificationsDialog extends AbstractInputJDialog {
 	}
 	
 	protected static InputParameter getMaldiPlateFileInput() {
-		JFileChooserPanel maldiPlateFile = new JFileChooserPanel(JFileChooserPanel.Mode.OPEN);
+		JFileChooserPanel maldiPlateFile = new JFileChooserPanel(
+			JFileChooserPanel.Mode.OPEN, 
+			CommonFileChooser.getInstance().getFilechooser()
+		);
 		maldiPlateFile.getComponentLabelFile().setVisible(false);
 		return new InputParameter(
 			"Maldi plate", 

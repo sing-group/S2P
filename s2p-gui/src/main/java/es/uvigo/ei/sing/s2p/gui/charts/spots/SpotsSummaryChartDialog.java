@@ -2,9 +2,9 @@ package es.uvigo.ei.sing.s2p.gui.charts.spots;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Window;
 import java.util.List;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import es.uvigo.ei.sing.hlfernandez.dialog.AbstractInputJDialog;
@@ -16,7 +16,7 @@ public class SpotsSummaryChartDialog extends AbstractInputJDialog {
 
 	private List<ChartSpotSummary> summaries;
 
-	public SpotsSummaryChartDialog(JFrame parent,
+	public SpotsSummaryChartDialog(Window parent, 
 		List<ChartSpotSummary> summaries
 	) {
 		super(parent);

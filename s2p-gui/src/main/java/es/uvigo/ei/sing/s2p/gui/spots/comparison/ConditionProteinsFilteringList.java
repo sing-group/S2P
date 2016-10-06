@@ -1,5 +1,7 @@
 package es.uvigo.ei.sing.s2p.gui.spots.comparison;
 
+import static es.uvigo.ei.sing.s2p.gui.UISettings.FONT_SIZE;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -20,8 +22,6 @@ import es.uvigo.ei.sing.s2p.core.entities.SpotsCount;
 
 public class ConditionProteinsFilteringList extends JPanel {
 	private static final long serialVersionUID = 1L;
-	
-	private static final int FONT_SIZE = 13;
 	
 	private Condition condition;
 	private JLabel label;

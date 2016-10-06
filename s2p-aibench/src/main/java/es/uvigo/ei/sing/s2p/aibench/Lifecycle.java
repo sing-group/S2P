@@ -1,5 +1,7 @@
 package es.uvigo.ei.sing.s2p.aibench;
 
+import static es.uvigo.ei.aibench.workbench.inputgui.Common.SINGLE_FILE_CHOOSER;
+
 import java.awt.Color;
 import java.util.Locale;
 
@@ -12,6 +14,7 @@ import javax.swing.SwingUtilities;
 
 import es.uvigo.ei.aibench.workbench.MainWindow;
 import es.uvigo.ei.aibench.workbench.Workbench;
+import es.uvigo.ei.sing.s2p.gui.util.CommonFileChooser;
 
 public class Lifecycle extends org.platonos.pluginengine.PluginLifecycle {
 	
@@ -35,6 +38,8 @@ public class Lifecycle extends org.platonos.pluginengine.PluginLifecycle {
 			toolBar.setOpaque(true);
 			toolBar.setBackground(Color.WHITE);
 			toolBar.setFloatable(false);
+
+			CommonFileChooser.getInstance().setFilechooser(SINGLE_FILE_CHOOSER);
 		});
 	}
 	

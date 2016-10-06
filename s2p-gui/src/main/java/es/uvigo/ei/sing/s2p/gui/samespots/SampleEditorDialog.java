@@ -2,6 +2,7 @@ package es.uvigo.ei.sing.s2p.gui.samespots;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.Window;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +10,6 @@ import java.util.stream.Stream;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
@@ -20,15 +20,17 @@ import es.uvigo.ei.sing.s2p.core.entities.Sample;
 
 public class SampleEditorDialog extends AbstractInputJDialog {
 	private static final long serialVersionUID = 1L;
+	
 	private List<Sample> samples;
 	private List<String> conditions;
 	private Map<Sample, String> sampleConditions;
 	private JPanel inputComponentsPane;
 
-	protected SampleEditorDialog(JFrame parent, List<Sample> samples,
+	protected SampleEditorDialog(Window parent, List<Sample> samples,
 		List<String> conditions, Map<Sample, String> sampleConditions
 	) {
 		super(parent);
+		
 		this.samples = samples;
 		this.conditions = conditions;
 		this.sampleConditions = sampleConditions;

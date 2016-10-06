@@ -1,10 +1,10 @@
 package es.uvigo.ei.sing.s2p.gui.samespots;
 
 import java.awt.GridLayout;
+import java.awt.Window;
 import java.util.List;
 
 import javax.swing.BorderFactory;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.event.ListDataEvent;
 
@@ -17,8 +17,9 @@ public class ConditionLabelInputDialog extends AbstractInputJDialog {
 	private JInputList inputList;
 	private List<String> conditionLabels;
 
-	protected ConditionLabelInputDialog(JFrame parent, List<String> conditionLabels) {
+	protected ConditionLabelInputDialog(Window parent, List<String> conditionLabels) {
 		super(parent);
+		
 		this.conditionLabels = conditionLabels;
 		this.initComponent();
 	}
