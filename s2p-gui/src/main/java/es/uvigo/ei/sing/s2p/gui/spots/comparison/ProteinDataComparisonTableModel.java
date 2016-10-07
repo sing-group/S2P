@@ -36,17 +36,7 @@ public class ProteinDataComparisonTableModel extends AbstractTableModel {
 		} else {
 			Sample row = this.condition1.getSamples().get(rowIndex - 1);
 			Sample column = this.condition2.getSamples().get(columnIndex - 1);
-//			Set<String> intersection = new HashSet<>(row.getProteins());
-			
-//			intersection.retainAll(column.getProteins());
-			
-//			StringBuilder sb = new StringBuilder();
-//			sb
-//				.append(row.getProteins().size() - intersection.size())
-//				.append(":")
-//				.append(intersection.size())
-//				.append(":")
-//				.append(column.getProteins().size() - intersection.size());
+
 			return new ProteinDataComparisonTableCell(row, column);
 		}
 	}

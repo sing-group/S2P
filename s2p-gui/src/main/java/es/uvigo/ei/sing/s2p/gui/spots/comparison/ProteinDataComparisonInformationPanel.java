@@ -28,6 +28,7 @@ public class ProteinDataComparisonInformationPanel extends JPanel {
 	) {
 		this.condition1 = condition1;
 		this.condition2 = condition2;
+		
 		this.initComponent();
 		this.updateComponents();
 	}

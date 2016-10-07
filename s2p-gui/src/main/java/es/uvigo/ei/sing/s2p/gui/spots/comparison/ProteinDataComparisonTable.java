@@ -34,10 +34,6 @@ public class ProteinDataComparisonTable extends JPanel {
 	private List<Condition> conditions;
 	private JXTable table;
 	private ProteinDataComparisonTableModel tableModel;
-	private JPanel southPane;
-
-	private ProteinDataComparisonInformationPanel comparisonInformationPanel;
-	private ProteinDataComparisonFilteringPanel comparisonFilteringPanel;
 
 	public ProteinDataComparisonTable(List<Condition> conditions) {
 		this.conditions = conditions;
@@ -49,7 +45,6 @@ public class ProteinDataComparisonTable extends JPanel {
 		
 		this.setLayout(new BorderLayout());
 		this.add(new JScrollPane(table), BorderLayout.CENTER);
-		this.add(getSouthPanel(), BorderLayout.SOUTH);
 	}
 
 	private void initTable() {
@@ -144,29 +139,9 @@ public class ProteinDataComparisonTable extends JPanel {
 			&& table.getSelectedRowCount() == 1;
 	}
 
-	private Component getSouthPanel() {
-		if(this.southPane == null) {
-			this.southPane = new JPanel(new BorderLayout());
-			this.southPane.add(getProteinDataInformationPanel(), BorderLayout.WEST);
-			this.southPane.add(getProteinDataFilteringPanel(), BorderLayout.CENTER);
-		}
-		return this.southPane;
-	}
-
-	private Component getProteinDataFilteringPanel() {
-		this.comparisonFilteringPanel = new ProteinDataComparisonFilteringPanel(this.conditions.get(0), this.conditions.get(1));
-		return this.comparisonFilteringPanel;
-	}
-
-	private Component getProteinDataInformationPanel() {
-		this.comparisonInformationPanel = new ProteinDataComparisonInformationPanel(this.conditions.get(0), this.conditions.get(1));
-		return this.comparisonInformationPanel;
-	}
 
 	public void setComparison(int condition1, int condition2) {
 		this.tableModel.setComparison(this.conditions.get(condition1), this.conditions.get(condition2));
-		this.comparisonInformationPanel.setComparison(this.conditions.get(condition1), this.conditions.get(condition2));
-		this.comparisonFilteringPanel.setComparison(this.conditions.get(condition1), this.conditions.get(condition2));
 	}
 	
 	private class ComparisonTableCellRenderer extends DefaultTableRenderer {

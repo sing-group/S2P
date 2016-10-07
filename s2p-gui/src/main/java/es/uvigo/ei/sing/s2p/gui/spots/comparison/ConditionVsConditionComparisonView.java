@@ -1,5 +1,7 @@
 package es.uvigo.ei.sing.s2p.gui.spots.comparison;
 
+import static java.util.stream.Collectors.toList;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -9,7 +11,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -34,6 +35,9 @@ public class ConditionVsConditionComparisonView extends JPanel
 	private JComboBox<Object> condition1Cmb;
 	private JComboBox<Object> condition2Cmb;
 	private ProteinDataComparisonTable comparisonTable;
+	private JPanel southPane;
+	private ProteinDataComparisonInformationPanel comparisonInformationPanel;
+	private ProteinDataComparisonFilteringPanel comparisonFilteringPanel;
 
 	private JButton viewButton;
 	private Sample[] sampleSelection;
@@ -47,6 +51,7 @@ public class ConditionVsConditionComparisonView extends JPanel
 		this.setLayout(new BorderLayout());
 		this.add(getNorthPane(), BorderLayout.NORTH);
 		this.add(getCenterPane(), BorderLayout.CENTER);
+		this.add(getSouthPanel(), BorderLayout.SOUTH);
 	}
 
 	private JPanel getNorthPane() {
@@ -97,7 +102,12 @@ public class ConditionVsConditionComparisonView extends JPanel
 	}
 	
 	private void onViewButtonClick() {
-		fireSampleSelectionEvent(new ProteinDataComparisonEvent(this.sampleSelection, ProteinDataComparisonEvent.Type.SAMPLE_SELECTION));
+		fireSampleSelectionEvent(
+			new ProteinDataComparisonEvent(
+				this.sampleSelection, 
+				ProteinDataComparisonEvent.Type.SAMPLE_SELECTION
+			)
+		);
 	}
 	
 	private void fireSampleSelectionEvent(
@@ -108,12 +118,21 @@ public class ConditionVsConditionComparisonView extends JPanel
 
 	private void selectionChanged(ItemEvent e) {
 		if (e.getStateChange() == ItemEvent.SELECTED) {
-			comparisonTable.setComparison(this.condition1Cmb.getSelectedIndex(), this.condition2Cmb.getSelectedIndex());
+			int condition1 = this.condition1Cmb.getSelectedIndex();
+			int condition2 = this.condition2Cmb.getSelectedIndex();
+			
+			this.comparisonTable.setComparison(condition1, condition2);
+			this.comparisonInformationPanel.setComparison(getCondition(condition1), getCondition(condition2));
+			this.comparisonFilteringPanel.setComparison(getCondition(condition1), getCondition(condition2));
 		}
 	}
 	
+	private Condition getCondition(int conditionIndex) {
+		return this.conditions.get(conditionIndex);
+	}
+	
 	public List<String> getConditionsNames() {
-		return conditions.stream().map(Condition::getName).collect(Collectors.toList());
+		return conditions.stream().map(Condition::getName).collect(toList());
 	}
 	
 	private JPanel getCenterPane() {
@@ -124,6 +143,25 @@ public class ConditionVsConditionComparisonView extends JPanel
 			this.centerPane.add(comparisonTable);
 		}
 		return this.centerPane;
+	}
+	
+	private Component getSouthPanel() {
+		if(this.southPane == null) {
+			this.southPane = new JPanel(new BorderLayout());
+			this.southPane.add(getProteinDataInformationPanel(), BorderLayout.WEST);
+			this.southPane.add(getProteinDataFilteringPanel(), BorderLayout.CENTER);
+		}
+		return this.southPane;
+	}
+
+	private Component getProteinDataFilteringPanel() {
+		this.comparisonFilteringPanel = new ProteinDataComparisonFilteringPanel(this.conditions.get(0), this.conditions.get(1));
+		return this.comparisonFilteringPanel;
+	}
+
+	private Component getProteinDataInformationPanel() {
+		this.comparisonInformationPanel = new ProteinDataComparisonInformationPanel(this.conditions.get(0), this.conditions.get(1));
+		return this.comparisonInformationPanel;
 	}
 
 	@Override

@@ -88,7 +88,7 @@ public class SpotsDataViewer extends JPanel implements
 
 	private ConditionComparisonTable conditionComparisonsTable;
 	private ConditionsSummaryTable conditionsSummaryTable;
-
+	private ConditionVsConditionComparisonView proteinComparisonView;
 
 	public SpotsDataViewer(SpotsData data) {
 		this.data = data;
@@ -205,9 +205,9 @@ public class SpotsDataViewer extends JPanel implements
 		sortMascotIdentifications();
 			
 		this.conditionComparisonsTable.setMascotIdentifications(
-			this.mascotIdentifications.get());
+			identifications);
 		this.conditionsSummaryTable.setMascotIdentifications(
-			this.mascotIdentifications.get());
+			identifications);
 			
 		this.enableIdentificationButtons(true);
 	}
@@ -420,19 +420,29 @@ public class SpotsDataViewer extends JPanel implements
 	}
 
 	private void addTabs() {
-		 this.tabbedPane.addTab("", getConditionsComparisonTable());
+		this.addFullComparisonTable();
+		this.addConditionsSummaryTable();
+		this.addConditionComparisonView();
+	}
+
+	private void addFullComparisonTable() {
+		this.tabbedPane.addTab("", getConditionsComparisonTable());
 		this.tabbedPane.setTabComponentAt(0, label("Table view", TABLE));
-		
+	}
+
+	private void addConditionsSummaryTable() {
 		this.tabbedPane.addTab("", getConditionsSummaryTable());
 		this.tabbedPane.setTabComponentAt(1, label("Conditions summary", CONDITION));
-		
-		ConditionVsConditionComparisonView proteinComparisonView = 
+	}
+
+	private void addConditionComparisonView() {
+		this.proteinComparisonView = 
 			new ConditionVsConditionComparisonView(this.data);
-		proteinComparisonView.addTableListener(this);
+		this.proteinComparisonView.addTableListener(this);
 		this.tabbedPane.addTab("", proteinComparisonView);
 		this.tabbedPane.setTabComponentAt(2, label("Comparison view", VERSUS));
 	}
-
+	
 	private static Component label(String string, ImageIcon table2) {
 		JLabel toret = new JLabel(string);
 		toret.setIcon(table2);
