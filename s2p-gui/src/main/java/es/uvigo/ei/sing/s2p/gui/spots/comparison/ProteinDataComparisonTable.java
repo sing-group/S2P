@@ -1,5 +1,6 @@
 package es.uvigo.ei.sing.s2p.gui.spots.comparison;
 
+import static es.uvigo.ei.sing.s2p.gui.UISettings.BG_COLOR;
 import static es.uvigo.ei.sing.s2p.gui.UISettings.FONT_SIZE;
 
 import java.awt.BorderLayout;
@@ -8,6 +9,7 @@ import java.awt.Component;
 import java.awt.Font;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -23,6 +25,7 @@ import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 
 import es.uvigo.ei.sing.s2p.core.entities.Condition;
+import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
 import es.uvigo.ei.sing.s2p.gui.event.ProteinDataComparisonEvent;
 import es.uvigo.ei.sing.s2p.gui.event.ProteinDataComparisonListener;
@@ -139,9 +142,8 @@ public class ProteinDataComparisonTable extends JPanel {
 			&& table.getSelectedRowCount() == 1;
 	}
 
-
-	public void setComparison(int condition1, int condition2) {
-		this.tableModel.setComparison(this.conditions.get(condition1), this.conditions.get(condition2));
+	public void setComparison(Condition condition1, Condition condition2) {
+		this.tableModel.setComparison(condition1, condition2);
 	}
 	
 	private class ComparisonTableCellRenderer extends DefaultTableRenderer {
@@ -161,7 +163,7 @@ public class ProteinDataComparisonTable extends JPanel {
 			Font font = c.getFont().deriveFont(Font.PLAIN, FONT_SIZE);
 			Color background = c.getBackground();
 			if(rowModel == 0 && columnModel == 0) {
-				background = Color.WHITE;
+				background = BG_COLOR;
 			} else if (rowModel == 0 || columnModel == 0) {
 				background = Color.LIGHT_GRAY;
 				font = font.deriveFont(Font.BOLD);
@@ -214,5 +216,15 @@ public class ProteinDataComparisonTable extends JPanel {
 	 */
 	public ProteinDataComparisonListener[] getTableListeners() {
 		return this.listenerList.getListeners(ProteinDataComparisonListener.class);
+	}
+
+	public void setMascotIdentifications(
+		Map<String, MascotIdentifications> identifications
+	) {
+		this.tableModel.setMascotIdentifications(identifications);
+	}
+
+	public void setShowProteinIdentifications(boolean show) {
+		this.tableModel.setShowProteinIdentifications(show);
 	}
 }

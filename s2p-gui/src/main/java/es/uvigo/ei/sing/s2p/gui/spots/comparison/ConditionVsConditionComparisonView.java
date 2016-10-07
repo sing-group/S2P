@@ -1,9 +1,9 @@
 package es.uvigo.ei.sing.s2p.gui.spots.comparison;
 
+import static es.uvigo.ei.sing.s2p.gui.UISettings.BG_COLOR;
 import static java.util.stream.Collectors.toList;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ItemEvent;
@@ -11,13 +11,16 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
 import es.uvigo.ei.sing.s2p.core.entities.Condition;
+import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
 import es.uvigo.ei.sing.s2p.core.entities.SpotsData;
 import es.uvigo.ei.sing.s2p.gui.event.ProteinDataComparisonEvent;
@@ -37,7 +40,6 @@ public class ConditionVsConditionComparisonView extends JPanel
 	private ProteinDataComparisonTable comparisonTable;
 	private JPanel southPane;
 	private ProteinDataComparisonInformationPanel comparisonInformationPanel;
-	private ProteinDataComparisonFilteringPanel comparisonFilteringPanel;
 
 	private JButton viewButton;
 	private Sample[] sampleSelection;
@@ -49,6 +51,8 @@ public class ConditionVsConditionComparisonView extends JPanel
 
 	private void init() {
 		this.setLayout(new BorderLayout());
+		this.setBackground(BG_COLOR);
+		
 		this.add(getNorthPane(), BorderLayout.NORTH);
 		this.add(getCenterPane(), BorderLayout.CENTER);
 		this.add(getSouthPanel(), BorderLayout.SOUTH);
@@ -57,7 +61,7 @@ public class ConditionVsConditionComparisonView extends JPanel
 	private JPanel getNorthPane() {
 		if(this.northPane == null) {
 			this.northPane = new JPanel(new FlowLayout());
-			this.northPane.setBackground(Color.WHITE);
+			this.northPane.setBackground(BG_COLOR);
 			
 			condition1Cmb = new JComboBox<>(getConditionsNames().toArray());
 			condition2Cmb = new JComboBox<>(getConditionsNames().toArray());
@@ -65,6 +69,7 @@ public class ConditionVsConditionComparisonView extends JPanel
 			condition2Cmb.setSelectedIndex(getConditionsNames().size() - 1);
 			condition1Cmb.addItemListener(this::selectionChanged);
 			condition2Cmb.addItemListener(this::selectionChanged);
+			
 			this.northPane.add(condition1Cmb);
 			this.northPane.add(condition2Cmb);
 			this.northPane.add(Box.createHorizontalGlue());
@@ -118,12 +123,11 @@ public class ConditionVsConditionComparisonView extends JPanel
 
 	private void selectionChanged(ItemEvent e) {
 		if (e.getStateChange() == ItemEvent.SELECTED) {
-			int condition1 = this.condition1Cmb.getSelectedIndex();
-			int condition2 = this.condition2Cmb.getSelectedIndex();
+			Condition condition1 = getCondition1();
+			Condition condition2 = getCondition2();
 			
-			this.comparisonTable.setComparison(condition1, condition2);
-			this.comparisonInformationPanel.setComparison(getCondition(condition1), getCondition(condition2));
-			this.comparisonFilteringPanel.setComparison(getCondition(condition1), getCondition(condition2));
+			this.comparisonTable.setComparison(condition1 , condition2);
+			this.comparisonInformationPanel.setComparison(condition1, condition2);
 		}
 	}
 	
@@ -147,21 +151,30 @@ public class ConditionVsConditionComparisonView extends JPanel
 	
 	private Component getSouthPanel() {
 		if(this.southPane == null) {
-			this.southPane = new JPanel(new BorderLayout());
-			this.southPane.add(getProteinDataInformationPanel(), BorderLayout.WEST);
-			this.southPane.add(getProteinDataFilteringPanel(), BorderLayout.CENTER);
+			this.southPane = new JPanel();
+			this.southPane.setBackground(BG_COLOR);
+			
+			Box box = new Box(BoxLayout.Y_AXIS);
+			box.add(Box.createHorizontalGlue());
+			box.add(getProteinDataInformationPanel());
+			box.add(Box.createHorizontalGlue());
+			this.southPane.add(box);
 		}
 		return this.southPane;
 	}
 
-	private Component getProteinDataFilteringPanel() {
-		this.comparisonFilteringPanel = new ProteinDataComparisonFilteringPanel(this.conditions.get(0), this.conditions.get(1));
-		return this.comparisonFilteringPanel;
+	private Component getProteinDataInformationPanel() {
+		this.comparisonInformationPanel = 
+			new ProteinDataComparisonInformationPanel(getCondition1(), getCondition2());
+		return this.comparisonInformationPanel;
 	}
 
-	private Component getProteinDataInformationPanel() {
-		this.comparisonInformationPanel = new ProteinDataComparisonInformationPanel(this.conditions.get(0), this.conditions.get(1));
-		return this.comparisonInformationPanel;
+	private Condition getCondition1() {
+		return getCondition(this.condition1Cmb.getSelectedIndex());
+	}
+	
+	private Condition getCondition2() {
+		return getCondition(this.condition2Cmb.getSelectedIndex());
 	}
 
 	@Override
@@ -210,5 +223,17 @@ public class ConditionVsConditionComparisonView extends JPanel
 	 */
 	public ProteinDataComparisonListener[] getTableListeners() {
 		return this.listenerList.getListeners(ProteinDataComparisonListener.class);
+	}
+
+	public void setMascotIdentifications(
+			Map<String, MascotIdentifications> identifications
+	) {
+		this.comparisonInformationPanel.setMascotIdentifications(identifications);
+		this.comparisonTable.setMascotIdentifications(identifications);
+	}
+
+	public void setShowProteinIdentifications(boolean show) {
+		this.comparisonInformationPanel.setShowProteinIdentifications(show);
+		this.comparisonTable.setShowProteinIdentifications(show);
 	}
 }

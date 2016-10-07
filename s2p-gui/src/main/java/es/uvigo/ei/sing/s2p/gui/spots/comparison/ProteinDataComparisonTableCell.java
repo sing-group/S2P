@@ -1,28 +1,27 @@
 package es.uvigo.ei.sing.s2p.gui.spots.comparison;
 
-import es.uvigo.ei.sing.s2p.core.entities.Sample;
-import es.uvigo.ei.sing.s2p.core.operations.SpotSetsComparator;
+import es.uvigo.ei.sing.s2p.core.operations.StringSetComparison;
 
 public class ProteinDataComparisonTableCell {
 
-	private SpotSetsComparator comparison;
-	private Sample column;
-	private Sample row;
+	private String set1;
+	private String set2;
+	private StringSetComparison comparison;
 
-	public ProteinDataComparisonTableCell(Sample row, Sample column) {
-		this.row = row;
-		this.column = column;
-		this.comparison = new SpotSetsComparator(row.getSpots(), column.getSpots());
+	public ProteinDataComparisonTableCell(String set1, String set2, StringSetComparison comparison) {
+		this.set1 = set1;
+		this.set2 = set2;
+		this.comparison = comparison;
 	}
 	
 	public String getCellValue() {
 		StringBuilder sb = new StringBuilder();
 		sb
-			.append(comparison.getSet1Unique())
+			.append(comparison.getSet1UniqueSize())
 			.append(":")
-			.append(comparison.getIntersection())
+			.append(comparison.getIntersectionSize())
 			.append(":")
-			.append(comparison.getSet2Unique());
+			.append(comparison.getSet2UniqueSize());
 		return sb.toString();
 	}
 	
@@ -31,19 +30,20 @@ public class ProteinDataComparisonTableCell {
 		sb
 			.append("<html><ul>")
 			.append("<li>Unique ")
-			.append(row.getName())
+			.append(set1)
 			.append(" spots: ")
-			.append(comparison.getSet1Unique())
+			.append(comparison.getSet1UniqueSize())
 			.append("</li></li>")
 			.append("<li>Common ")
 			.append(" spots: ")
-			.append(comparison.getIntersection())
+			.append(comparison.getIntersectionSize())
 			.append("</li></li>")
 			.append("<li>Unique ")
-			.append(column.getName())
+			.append(set2)
 			.append(" spots: ")
-			.append(comparison.getSet2Unique())
+			.append(comparison.getSet2UniqueSize())
 			.append("</li></ul></html>");
+		
 		return sb.toString();
 	}
 }

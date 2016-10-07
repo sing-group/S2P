@@ -3,8 +3,8 @@ package es.uvigo.ei.sing.s2p.gui.components;
 import static com.googlecode.charts4j.Color.BLUE;
 import static com.googlecode.charts4j.Color.RED;
 import static com.googlecode.charts4j.Color.WHITE;
+import static es.uvigo.ei.sing.s2p.gui.UISettings.BG_COLOR;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.net.URL;
 
@@ -37,7 +37,7 @@ public class VennDiagram extends JPanel {
 	}
 
 	private void initComponent() {
-		this.setBackground(Color.WHITE);
+		this.setBackground(BG_COLOR);
 		this.add(getVennDiagram());
 	}
 

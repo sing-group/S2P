@@ -2,6 +2,7 @@ package es.uvigo.ei.sing.s2p.gui.spots;
 
 import static es.uvigo.ei.sing.hlfernandez.ui.UIUtils.setOpaqueRecursive;
 import static es.uvigo.ei.sing.hlfernandez.utilities.builder.JButtonBuilder.newJButtonBuilder;
+import static es.uvigo.ei.sing.s2p.gui.UISettings.BG_COLOR;
 import static es.uvigo.ei.sing.s2p.gui.UISettings.FONT_SIZE;
 import static es.uvigo.ei.sing.s2p.gui.util.ColorUtils.getSoftColor;
 import static javax.swing.BorderFactory.createEmptyBorder;
@@ -13,7 +14,6 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Window;
-import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.util.Collections;
 import java.util.Comparator;
@@ -24,7 +24,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -125,7 +124,7 @@ public class SpotsDataViewer extends JPanel implements
 
 	private void initComponent() {
 		this.setLayout(new BorderLayout());
-		this.setBackground(Color.WHITE);
+		this.setBackground(BG_COLOR);
 
 		this.add(getNorthPanel(), BorderLayout.NORTH);
 		this.add(getTabbedPane(), BorderLayout.CENTER);
@@ -135,7 +134,7 @@ public class SpotsDataViewer extends JPanel implements
 		if(this.northPanel == null) {
 			this.northPanel = new JPanel(new BorderLayout());
 			this.northPanel.setBorder(createEmptyBorder(2, 10, 2, 10));
-			this.northPanel.setBackground(Color.WHITE);
+			this.northPanel.setBackground(BG_COLOR);
 			
 			this.northPanel.add(getToolbar(), BorderLayout.NORTH);
 			this.northPanel.add(getConditionFilteringPanel(), BorderLayout.CENTER);
@@ -208,6 +207,8 @@ public class SpotsDataViewer extends JPanel implements
 			identifications);
 		this.conditionsSummaryTable.setMascotIdentifications(
 			identifications);
+		this.proteinComparisonView.setMascotIdentifications(
+			identifications);
 			
 		this.enableIdentificationButtons(true);
 	}
@@ -238,7 +239,7 @@ public class SpotsDataViewer extends JPanel implements
 	private JToggleButton getVisualizationModeToggleButton() {
 		if(this.toggleVisualizationMode == null) {
 			toggleVisualizationMode = new JToggleButton(
-				"Show protein identifications", false);
+				"Show identifications", false);
 			toggleVisualizationMode.setToolTipText(
 				"Select this option to show protein identifications instead "
 				+ "of spot numbers in the table");
@@ -253,19 +254,16 @@ public class SpotsDataViewer extends JPanel implements
 		boolean show = toggleVisualizationMode.isSelected();
 		this.conditionComparisonsTable.setShowProteinIdentifications(show);
 		this.conditionsSummaryTable.setShowProteinIdentifications(show);
+		this.proteinComparisonView.setShowProteinIdentifications(show);
 	}
 	
 	private JButton getShowProteinIdentificationsButton() {
 		if(this.showProteinIdentificationsBtn == null) {
 			this.showProteinIdentificationsBtn = new JButton(
-				new AbstractAction("View detail") {
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					showProteinIdentifications();
-				}
-			});
+				new ExtendedAbstractAction(
+					"View detail", this::showProteinIdentifications
+				)
+			);
 		}
 		this.showProteinIdentificationsBtn.setEnabled(false);
 		return this.showProteinIdentificationsBtn;
@@ -284,14 +282,9 @@ public class SpotsDataViewer extends JPanel implements
 	private JButton getShowProteinIdentificationsSummaryButton() {
 		if(this.showProteinIdentificationsSummaryBtn == null) {
 			this.showProteinIdentificationsSummaryBtn = new JButton(
-					new AbstractAction("View summary") {
-						private static final long serialVersionUID = 1L;
-						
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							showProteinIdentificationsSummary();
-						}
-					});
+				new ExtendedAbstractAction(
+					"View summary", this::showProteinIdentificationsSummary)
+				);
 		}
 		this.showProteinIdentificationsSummaryBtn.setEnabled(false);
 		return this.showProteinIdentificationsSummaryBtn;
@@ -319,7 +312,7 @@ public class SpotsDataViewer extends JPanel implements
 	private Component createConditionFilteringPanel(Condition condition) {
 		JPanel panel = new JPanel(new BorderLayout());
 		panel.setBorder(BorderFactory.createTitledBorder(condition.getName()));
-		panel.setBackground(Color.WHITE);
+		panel.setBackground(BG_COLOR);
 		
 		RangeInputPanel rangeInput = new RangeInputPanel(0, 
 			condition.getSamples().size(), "Minimum number of samples",

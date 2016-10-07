@@ -1,5 +1,7 @@
 package es.uvigo.ei.sing.s2p.gui.charts.spots;
 
+import static es.uvigo.ei.sing.s2p.gui.UISettings.BG_COLOR;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.util.HashMap;
@@ -64,7 +66,7 @@ public class SpotsSummaryChart extends JPanel {
 		
 		CategoryPlot pl = (CategoryPlot) boxAndWhiskerChart.getPlot();
 		pl.setRangeGridlinePaint(Color.GRAY);
-		pl.setBackgroundPaint(Color.WHITE);
+		pl.setBackgroundPaint(BG_COLOR);
 		
 		BoxAndWhiskerRenderer renderer = 
 			(BoxAndWhiskerRenderer) pl.getRenderer();
