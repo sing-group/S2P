@@ -90,7 +90,10 @@ public class ProteinDataComparisonInformationPanel extends JPanel {
 	
 	private VennDiagram getVennDiagram() {
 		if (this.vennDiagram == null) {
-			this.vennDiagram = new VennDiagram(this.condition1.getName(), this.condition2.getName(), 0d, 0d, 0d);
+			this.vennDiagram = new VennDiagram(
+				this.condition1.getName(), this.condition2.getName(), 
+				0d, 0d, 0d
+			);
 		}
 		return this.vennDiagram;
 	}

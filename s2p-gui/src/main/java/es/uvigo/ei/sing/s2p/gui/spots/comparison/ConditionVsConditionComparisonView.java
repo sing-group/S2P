@@ -7,8 +7,8 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ItemEvent;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +18,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 
 import es.uvigo.ei.sing.s2p.core.entities.Condition;
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
@@ -53,9 +54,23 @@ public class ConditionVsConditionComparisonView extends JPanel
 		this.setLayout(new BorderLayout());
 		this.setBackground(BG_COLOR);
 		
-		this.add(getNorthPane(), BorderLayout.NORTH);
-		this.add(getCenterPane(), BorderLayout.CENTER);
-		this.add(getSouthPanel(), BorderLayout.SOUTH);
+		this.add(getSplitPane(), BorderLayout.CENTER);
+	}
+
+	private JSplitPane getSplitPane() {
+		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+		splitPane.setTopComponent(getTopComponent());
+		splitPane.setBottomComponent(getBottomComponent());
+		splitPane.setDividerLocation(250);
+		splitPane.setOneTouchExpandable(true);
+		return splitPane;
+	}
+
+	private Component getTopComponent() {
+		JPanel topComponent = new JPanel(new BorderLayout());
+		topComponent.add(getNorthPane(), BorderLayout.NORTH);
+		topComponent.add(getCenterPane(), BorderLayout.CENTER);
+		return topComponent;
 	}
 
 	private JPanel getNorthPane() {
@@ -82,20 +97,8 @@ public class ConditionVsConditionComparisonView extends JPanel
 		if (this.viewButton == null) {
 			this.viewButton = new JButton("Compare samples");
 			this.viewButton.setEnabled(false);
-			this.viewButton.addMouseListener(new MouseListener() {
-				
-				@Override
-				public void mouseReleased(MouseEvent e) {}
-				
-				@Override
-				public void mousePressed(MouseEvent e) {}
-				
-				@Override
-				public void mouseExited(MouseEvent e) {}
-				
-				@Override
-				public void mouseEntered(MouseEvent e) {}
-				
+			this.viewButton.addMouseListener(new MouseAdapter() {
+
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					onViewButtonClick();
@@ -149,7 +152,7 @@ public class ConditionVsConditionComparisonView extends JPanel
 		return this.centerPane;
 	}
 	
-	private Component getSouthPanel() {
+	private Component getBottomComponent() {
 		if(this.southPane == null) {
 			this.southPane = new JPanel();
 			this.southPane.setBackground(BG_COLOR);

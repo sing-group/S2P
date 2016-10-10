@@ -50,7 +50,7 @@ public class VennDiagram extends JPanel {
 	) {
 		final com.googlecode.charts4j.VennDiagram chart = 
 			GCharts.newVennDiagram(area1, area2, 0, areaintersection, 0, 0, 0);
-		chart.setSize(500, 300);
+		chart.setSize(400, 300);
 		chart.setCircleLegends(label1, label2, "");
 		chart.setCircleColors(BLUE, RED, WHITE);
 		chart.setBackgroundFill(Fills.newSolidFill(WHITE));
