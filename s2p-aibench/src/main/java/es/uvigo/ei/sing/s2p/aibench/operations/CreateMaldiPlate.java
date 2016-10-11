@@ -13,9 +13,9 @@ import es.uvigo.ei.sing.s2p.aibench.datatypes.MaldiPlateDatatype;
 )
 public class CreateMaldiPlate {
 	
-	
 	private int numRows;
 	private int numColumns;
+	private boolean addCalibrants;
 
 	@Port(
 		direction = Direction.INPUT, 
@@ -33,17 +33,32 @@ public class CreateMaldiPlate {
 		name = "Columns", 
 		defaultValue = "24",
 		description = "Number of columns.",
-		order = 1
+		order = 2
 	)
 	public void setNumColumns(int numColumns) {
 		this.numColumns = numColumns;
 	}
-	
+
 	@Port(
-		direction = Direction.OUTPUT, 
+		direction = Direction.INPUT,
+		name = "Calibrants",
+		defaultValue = "true",
+		description = "Add calibrants.",
 		order = 3
 	)
+	public void setAddCalibrants(boolean addCalibrants) {
+		this.addCalibrants = addCalibrants;
+	}
+
+	@Port(
+		direction = Direction.OUTPUT,
+		order = 4
+	)
 	public MaldiPlateDatatype createPlate() throws IOException {
-		return new MaldiPlateDatatype(this.numRows, this.numColumns);
+		MaldiPlateDatatype plate = new MaldiPlateDatatype(this.numRows, this.numColumns);
+		if(addCalibrants) {
+			plate.addCalibrants();
+		}
+		return plate;
 	}
 }

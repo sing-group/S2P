@@ -5,23 +5,22 @@ import java.awt.Component;
 import java.awt.Window;
 import java.awt.event.ItemEvent;
 import java.beans.PropertyChangeEvent;
-import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.event.ChangeEvent;
 
 import es.uvigo.ei.aibench.core.Core;
 import es.uvigo.ei.aibench.core.clipboard.ClipboardItem;
-import es.uvigo.ei.sing.hlfernandez.filechooser.JFileChooserPanel;
 import es.uvigo.ei.sing.hlfernandez.input.InputParameter;
 import es.uvigo.ei.sing.hlfernandez.input.InputParametersPanel;
 import es.uvigo.ei.sing.hlfernandez.text.JIntegerTextField;
+import es.uvigo.ei.sing.s2p.aibench.datatypes.MaldiPlateDatatype;
 import es.uvigo.ei.sing.s2p.aibench.datatypes.MascotIdentificationsDatatype;
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 import es.uvigo.ei.sing.s2p.gui.mascot.LoadMascotIdentificationsDialog;
@@ -35,9 +34,9 @@ public class AIBenchLoadMascotIdentificationsDialog extends
 	private JTabbedPane source;
 
 	private JComboBox<Object> mascotCombo;
+	private JComboBox<Object> plateCombo;
 	private InputParameter[] sourceInputParameters;
 	private JIntegerTextField mascotScoreThreshold;
-	private JFileChooserPanel maldiPlateFile;
 	private JCheckBox mascotRemoveDuplicates;
 	
 	public AIBenchLoadMascotIdentificationsDialog(Window parent) {
@@ -65,8 +64,6 @@ public class AIBenchLoadMascotIdentificationsDialog extends
 			.addPropertyChangeListener("value",	this::mascotThresholdChanged);
 		((JCheckBox) this.sourceInputParameters[2].getInput())
 			.addItemListener(this::onMascotRemoveDuplicates);
-		((JFileChooserPanel) this.sourceInputParameters[3].getInput())
-			.addFileChooserListener(this::onMaldiFileSelection);
 	}
 
 	private Component getSourceClipboardPanel() {
@@ -78,7 +75,7 @@ public class AIBenchLoadMascotIdentificationsDialog extends
 		parameters.add(getMascotFileInput());
 		parameters.add(getMascotThresholdInputComponent());
 		parameters.add(getMascotRemoveDuplicatesComponent());
-		parameters.add(getMaldiPlateFileInputComponent());
+		parameters.add(getMaldiPlateInputComponent());
 		return parameters.toArray(new InputParameter[parameters.size()]);
 	}
 
@@ -115,33 +112,19 @@ public class AIBenchLoadMascotIdentificationsDialog extends
 		}
 	}
 	
-	private InputParameter getMaldiPlateFileInputComponent() {
-		InputParameter inputMaldiPlate = super.getMaldiPlateFileInput();
-		this.maldiPlateFile = (JFileChooserPanel) inputMaldiPlate.getInput();
-		this.maldiPlateFile.addFileChooserListener(this::onMaldiFileSelection);
-		return inputMaldiPlate;
+	private InputParameter getMaldiPlateInputComponent() {
+		this.plateCombo = new JComboBox<>(getLoadedMaldiPlateObjects());
+		this.plateCombo.addItemListener(e -> {this.checkOkButton();});
+		return new InputParameter(
+			"Maldi plate",
+			this.plateCombo,
+			"A .CSV File containing the Maldi plate"
+		);
 	}
 	
-	private void onMaldiFileSelection(ChangeEvent e) {
-		JFileChooserPanel source = (JFileChooserPanel) e.getSource();
-		File selectedFile = source.getSelectedFile();
-		if (source == this.maldiPlateFile) {
-			JFileChooserPanel sourceMaldiPlateFile = 
-				((JFileChooserPanel) this.sourceInputParameters[3].getInput());
-			if (	sourceMaldiPlateFile.getSelectedFile() == null || 
-					!sourceMaldiPlateFile.getSelectedFile().equals(selectedFile)
-			) {
-				sourceMaldiPlateFile.setSelectedFile(selectedFile);
-			}
-		} else {
-			File currentSelectedFile = this.maldiPlateFile.getSelectedFile();
-			if(	currentSelectedFile == null || 
-				!currentSelectedFile.equals(source.getSelectedFile())
-			) {
-				this.maldiPlateFile.setSelectedFile(selectedFile);
-			}
-		}
-		this.checkOkButton();
+	private Object[] getLoadedMaldiPlateObjects() {
+		return 	Core.getInstance().getClipboard()
+				.getItemsByClass(MaldiPlateDatatype.class).toArray();
 	}
 	
 	@Override
@@ -149,7 +132,7 @@ public class AIBenchLoadMascotIdentificationsDialog extends
 		if(isShowingFileSelectionTab()) {
 			super.checkOkButton();
 		} else {
-			boolean enabled = 	this.maldi != null && 
+			boolean enabled = 	this.plateCombo.getSelectedIndex() 	!= -1 &&
 								this.mascotCombo.getSelectedIndex() != -1;
 			this.okButton.setEnabled(enabled);
 		}
@@ -162,6 +145,7 @@ public class AIBenchLoadMascotIdentificationsDialog extends
 
 	private InputParameter getMascotFileInput() {
 		this.mascotCombo = new JComboBox<>(getLoadedMascotIdentifications());
+		this.mascotCombo.addItemListener(e -> {this.checkOkButton();});
 		return new InputParameter(
 			"Mascot identifications", 
 			this.mascotCombo, 
@@ -189,10 +173,30 @@ public class AIBenchLoadMascotIdentificationsDialog extends
 		return toret;
 	}
 
-
 	private MascotIdentificationsDatatype getSelectedItem() {
 		return 	(MascotIdentificationsDatatype) 
 				((ClipboardItem) 
 				this.mascotCombo.getSelectedItem()).getUserData();
+	}
+
+	@Override
+	protected Map<String, String> getMaldiPlate() {
+		if(isShowingFileSelectionTab()) {
+			return super.getMaldiPlate();
+		}
+
+		return getSelectedMaldiPlate().asMap();
+	}
+
+	private MaldiPlateDatatype getSelectedMaldiPlate() {
+		return 	(MaldiPlateDatatype)
+				((ClipboardItem)
+				this.plateCombo.getSelectedItem()).getUserData();
+	}
+
+	@Override
+	public void setVisible(boolean b) {
+		this.checkOkButton();
+		super.setVisible(b);
 	}
 }

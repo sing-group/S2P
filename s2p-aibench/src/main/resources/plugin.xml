@@ -7,27 +7,35 @@
 
 	<extensions>
 		<extension uid="aibench.core" name="aibench.core.operation-definition" class="es.uvigo.ei.sing.s2p.aibench.operations.LoadSameSpotsAnalysis">
-			<operation-description name="Load SameSpots analysis" uid= "operations.loadsamespotsanalysis" shortcut="1"/>
+			<operation-description name="Load SameSpots analysis" uid="operations.loadsamespotsanalysis" shortcut="1"/>
 		</extension>
 		
 		<extension uid="aibench.core" name="aibench.core.operation-definition" class="es.uvigo.ei.sing.s2p.aibench.operations.LoadSpotsData">
-			<operation-description name="Load spots data" uid= "operations.loadspotsdata" shortcut="2"/>
+			<operation-description name="Load spots data" uid="operations.loadspotsdata" shortcut="2"/>
 		</extension>
 		
 		<extension uid="aibench.core" name="aibench.core.operation-definition" class="es.uvigo.ei.sing.s2p.aibench.operations.LoadMascotIdentifications">
-			<operation-description name="Load Mascot identifications" uid= "operations.loadmascotidentifications" shortcut="3"/>
+			<operation-description name="Load Mascot identifications" uid="operations.loadmascotidentifications" shortcut="3"/>
+		</extension>
+		
+		<extension uid="aibench.core" name="aibench.core.operation-definition" class="es.uvigo.ei.sing.s2p.aibench.operations.ImportMaldiPlate">
+			<operation-description name="Import plate" uid="operations.importmaldiplate" shortcut="4"/>
 		</extension>
 		
 		<extension uid="aibench.core" name="aibench.core.operation-definition" class="es.uvigo.ei.sing.s2p.aibench.operations.CreateMaldiPlate">
-			<operation-description name="Create Maldi plate" uid= "operations.createmaldiplate" shortcut="4"/>
+			<operation-description name="Create plate" uid="operations.createmaldiplate" shortcut="5"/>
+		</extension>
+		
+		<extension uid="aibench.core" name="aibench.core.operation-definition" class="es.uvigo.ei.sing.s2p.aibench.operations.LoadMaldiPlate">
+			<operation-description name="Load plate" uid="operations.loadmaldiplate" shortcut="6"/>
 		</extension>
 		
 		<extension uid="aibench.core" name="aibench.core.operation-definition" class="es.uvigo.ei.sing.s2p.aibench.operations.CreateVennDiagramDesign">
-			<operation-description name="Design venn diagram" uid= "operations.createvenndiagramdesign" shortcut="5"/>
+			<operation-description name="Design venn diagram" uid="operations.createvenndiagramdesign" shortcut="7"/>
 		</extension>
 
 		<extension uid="aibench.core" name="aibench.core.operation-definition" class="es.uvigo.ei.sing.s2p.aibench.operations.LoadVennDiagramDesign">
-			<operation-description name="Load venn diagram design" uid="operations.loadvenndiagramdesign" shortcut="6"/>
+			<operation-description name="Load venn diagram design" uid="operations.loadvenndiagramdesign" shortcut="8"/>
 		</extension>
 
 	<!-- ========================= EXAMPLES ======================================= -->
@@ -96,9 +104,15 @@
 			<icon-operation operation="operations.loadmascotidentifications" icon="icons/loadmascotidentifications.png"/>
 			<big-icon-operation	operation="operations.loadmascotidentifications" icon="icons/loadmascotidentifications.png"/>
 			
+			<icon-operation operation="operations.importmaldiplate" icon="icons/importmaldiplate.png"/>
+			<big-icon-operation	operation="operations.importmaldiplate" icon="icons/importmaldiplate.png"/>
+			
 			<icon-operation operation="operations.createmaldiplate" icon="icons/createmaldiplate.png"/>
 			<big-icon-operation	operation="operations.createmaldiplate" icon="icons/createmaldiplate.png"/>
-			
+
+			<icon-operation operation="operations.loadmaldiplate" icon="icons/loadmaldiplate.png"/>
+			<big-icon-operation	operation="operations.loadmaldiplate" icon="icons/loadmaldiplate.png"/>
+
 			<icon-operation operation="operations.createvenndiagramdesign" icon="icons/createvenn.png"/>
 			<big-icon-operation	operation="operations.createvenndiagramdesign" icon="icons/createvenn.png"/>
 			
@@ -115,6 +129,7 @@
 		<!-- "Custom input dialogs". If you don't like the default generated input dialog for some operation, put your own here -->
 		<extension uid="aibench.workbench" name="aibench.workbench.view" >
 			<gui-operation operation="operations.loadspotsdata" class="es.uvigo.ei.sing.s2p.aibench.operations.dialogs.LoadSpotsDataDialog"/>
+			<gui-operation operation="operations.importmaldiplate" class="es.uvigo.ei.sing.s2p.aibench.operations.dialogs.ImportMaldiPlateDialog"/>
 		</extension>
 		
 		<!-- "Custom operation visibility". By default, all operations are displayed everywhere (main menu, popup menu and dialogs). But if you want to change this behaviour, use this option.

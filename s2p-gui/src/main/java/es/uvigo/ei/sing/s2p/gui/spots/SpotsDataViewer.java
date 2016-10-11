@@ -3,9 +3,9 @@ package es.uvigo.ei.sing.s2p.gui.spots;
 import static es.uvigo.ei.sing.hlfernandez.ui.UIUtils.setOpaqueRecursive;
 import static es.uvigo.ei.sing.hlfernandez.utilities.builder.JButtonBuilder.newJButtonBuilder;
 import static es.uvigo.ei.sing.s2p.gui.UISettings.BG_COLOR;
-import static es.uvigo.ei.sing.s2p.gui.UISettings.FONT_SIZE;
 import static es.uvigo.ei.sing.s2p.gui.util.ColorUtils.getSoftColor;
 import static javax.swing.BorderFactory.createEmptyBorder;
+import static javax.swing.BorderFactory.createTitledBorder;
 import static javax.swing.Box.createHorizontalStrut;
 
 import java.awt.BorderLayout;
@@ -16,7 +16,6 @@ import java.awt.GridLayout;
 import java.awt.Window;
 import java.awt.event.ItemEvent;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -25,7 +24,6 @@ import java.util.Optional;
 import java.util.Set;
 
 import javax.swing.Action;
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -37,7 +35,6 @@ import javax.swing.SwingUtilities;
 import es.uvigo.ei.sing.hlfernandez.input.RangeInputPanel;
 import es.uvigo.ei.sing.hlfernandez.utilities.ExtendedAbstractAction;
 import es.uvigo.ei.sing.s2p.core.entities.Condition;
-import es.uvigo.ei.sing.s2p.core.entities.MascotEntry;
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
 import es.uvigo.ei.sing.s2p.core.entities.SpotsCount;
@@ -188,8 +185,7 @@ public class SpotsDataViewer extends JPanel implements
 			this::addMascotIdentifications
 		);
 	}
-	
-	
+
 	protected void addMascotIdentifications() {
 		LoadMascotIdentificationsDialog dialog = getMascotIdentificationsDialog();
 		dialog.setVisible(true);
@@ -226,13 +222,10 @@ public class SpotsDataViewer extends JPanel implements
 
 	private void sortMascotIdentifications() {
 		this.mascotIdentifications.get().values().forEach(list -> {
-			Collections.sort(list, new Comparator<MascotEntry>() {
-
-				@Override
-				public int compare(MascotEntry o1, MascotEntry o2) {
+			Collections.sort(list, (o1, o2) -> {
 					return o2.getMascotScore() - o1.getMascotScore();
 				}
-			});
+			);
 		});
 	}
 	
@@ -311,7 +304,7 @@ public class SpotsDataViewer extends JPanel implements
 
 	private Component createConditionFilteringPanel(Condition condition) {
 		JPanel panel = new JPanel(new BorderLayout());
-		panel.setBorder(BorderFactory.createTitledBorder(condition.getName()));
+		panel.setBorder(createTitledBorder(condition.getName()));
 		panel.setBackground(BG_COLOR);
 		
 		RangeInputPanel rangeInput = new RangeInputPanel(0, 
@@ -325,7 +318,7 @@ public class SpotsDataViewer extends JPanel implements
 		
 		int numSamples = condition.getSamples().size();
 		JLabel label = new JLabel(getLabelText(0, numSamples, numSamples));
-		label.setFont(label.getFont().deriveFont(Font.BOLD, FONT_SIZE));
+		label.setFont(label.getFont().deriveFont(Font.BOLD));
 		
 		rangeInput.addChangeListener(e -> {
 			conditionFilterChanged(condition, rangeInput.getMinValue(),

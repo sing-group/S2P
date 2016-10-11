@@ -25,6 +25,10 @@
 		<dependency>
 			<groupId>es.uvigo.ei.sing</groupId>
 			<artifactId>commons-csv</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>itextpdf</artifactId>
 		</dependency>		
 		<dependency>
 			<groupId>junit</groupId>

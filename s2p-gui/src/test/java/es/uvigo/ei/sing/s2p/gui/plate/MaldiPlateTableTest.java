@@ -13,6 +13,7 @@ public class MaldiPlateTableTest {
 	
 	public static void main(String[] args) throws IOException {
 		setNimbusLookAndFeel();
-		showComponent(new MaldiPlateTable(new MaldiPlate(10,10)), JFrame.MAXIMIZED_BOTH);
+		showComponent(
+			new MaldiPlateTable(new MaldiPlate(16 ,24)), JFrame.MAXIMIZED_BOTH);
 	}
 }

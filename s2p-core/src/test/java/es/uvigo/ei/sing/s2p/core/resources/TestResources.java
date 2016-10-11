@@ -17,6 +17,9 @@ public class TestResources {
 	public static final File MALDI_PLATE_FILE = 
 		loadResource("/test/maldiplate.csv");
 	
+	public static final CsvFormat MALDI_PLATE_FORMAT =
+		new CsvFormat(",", '.', false, "\n");
+
 	public static final File MASCOT_PROJECT = 
 		loadResource("/test/MascotProject.BTR.HTM");
 	

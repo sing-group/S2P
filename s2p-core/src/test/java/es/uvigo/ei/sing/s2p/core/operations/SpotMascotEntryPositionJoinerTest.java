@@ -1,5 +1,6 @@
 package es.uvigo.ei.sing.s2p.core.operations;
 
+import static es.uvigo.ei.sing.s2p.core.resources.TestResources.MALDI_PLATE_FORMAT;
 import static es.uvigo.ei.sing.s2p.core.resources.TestResources.MALDI_PLATE_FILE;
 import static es.uvigo.ei.sing.s2p.core.resources.TestResources.MASCOT_PROJECT;
 import static junit.framework.Assert.assertEquals;
@@ -18,7 +19,8 @@ public class SpotMascotEntryPositionJoinerTest {
 	@Test
 	public void spotMascotEntryPositionJoinerTest() throws IOException {
 		MascotIdentifications entries = MascotProjectLoader.load(MASCOT_PROJECT);
-		Map<String, String> posToSpot = MaldiPlateLoader.load(MALDI_PLATE_FILE);
+		Map<String, String> posToSpot = MaldiPlateLoader
+			.importCsv(MALDI_PLATE_FILE, MALDI_PLATE_FORMAT).asMap();
 		
 		Map<String, MascotIdentifications> join = 
 			SpotMascotEntryPositionJoiner.join(posToSpot, entries);

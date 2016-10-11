@@ -117,7 +117,7 @@ public class LoadMascotIdentificationsDialog extends AbstractFileInputJDialog {
 		return new InputParameter(
 			"Maldi plate", 
 			maldiPlateFile, 
-			"A .CSV File containing the Maldi plate"
+			"A .mpl file containing the Maldi plate."
 		);
 	}
 	
@@ -148,8 +148,8 @@ public class LoadMascotIdentificationsDialog extends AbstractFileInputJDialog {
 	private void onMaldiFileSelection(ChangeEvent e) {
 		File selectedFile = this.maldiPlateFile.getSelectedFile();
 		try {
-			this.maldi = MaldiPlateLoader.load(selectedFile);
-		} catch (IOException e1) {
+			this.maldi = MaldiPlateLoader.readFile(selectedFile).asMap();
+		} catch (IOException | ClassNotFoundException e1) {
 			this.maldi = null;
 			showMessage("Can't load the maldi plate from " + selectedFile);
 		}
@@ -170,7 +170,11 @@ public class LoadMascotIdentificationsDialog extends AbstractFileInputJDialog {
 	}
 
 	public Map<String, MascotIdentifications> getMascotIdentifications() {
-		return SpotMascotEntryPositionJoiner.join(maldi, getMascotEntries());
+		return SpotMascotEntryPositionJoiner.join(getMaldiPlate(), getMascotEntries());
+	}
+
+	protected Map<String, String> getMaldiPlate() {
+		return this.maldi;
 	}
 
 	protected MascotIdentifications getMascotEntries() {
