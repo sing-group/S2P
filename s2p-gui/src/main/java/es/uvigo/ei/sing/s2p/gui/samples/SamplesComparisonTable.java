@@ -4,21 +4,19 @@ import static es.uvigo.ei.sing.s2p.gui.UISettings.FONT_SIZE;
 import static es.uvigo.ei.sing.s2p.gui.UISettings.FONT_SIZE_HEADER;
 import static es.uvigo.ei.sing.s2p.gui.spots.SpotUtils.spotTooltip;
 import static es.uvigo.ei.sing.s2p.gui.spots.SpotUtils.spotValue;
+import static es.uvigo.ei.sing.s2p.gui.spots.heatmap.HeatMapModelBuilder.createHeatMapModelBuilder;
+import static java.util.Optional.ofNullable;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.IntUnaryOperator;
-import java.util.stream.Collectors;
 
 import javax.swing.Action;
 import javax.swing.JLabel;
@@ -130,7 +128,9 @@ public class SamplesComparisonTable extends JPanel {
 			} else {
 				String spot = value.toString();
 				JLabel spotLabel = (JLabel) c;
-				spotLabel.setText(spotValue(spot, showProteinIdentifications, mascotIdentifications));
+				spotLabel.setText(spotValue(
+					spot, showProteinIdentifications, mascotIdentifications
+				));
 				spotLabel.setToolTipText(spotTooltip(spot, mascotIdentifications));
 				
 				if (mascotIdentifications.isPresent()) {
@@ -174,7 +174,9 @@ public class SamplesComparisonTable extends JPanel {
 			
 			if (columnModel > 0) {
 				if(c instanceof JLabel) {
-					((JLabel) c).setToolTipText(sampleLabels.get(samples.get(columnModel - 1)));
+					((JLabel) c).setToolTipText(
+						sampleLabels.get(samples.get(columnModel - 1))
+					);
 				}
 			}
 			
@@ -195,7 +197,7 @@ public class SamplesComparisonTable extends JPanel {
 	public void setMascotIdentifications(
 		Map<String, MascotIdentifications> mascotIdentifications
 	) {
-		this.mascotIdentifications = Optional.ofNullable(mascotIdentifications);
+		this.mascotIdentifications = ofNullable(mascotIdentifications);
 		fireTableStructureChanged();
 	}
 
@@ -204,86 +206,11 @@ public class SamplesComparisonTable extends JPanel {
 	}
 	
 	public JHeatMapModel getHeatMapModel(SpotRenderer spotRenderer) {
-		this.table.selectAll();
-		int[] visibleColumns = this.table.getSelectedColumns();
-		int[] visibleRows = this.table.getSelectedRows();
-		this.table.clearSelection();
-
-		return createHeatMapModel(visibleRows, visibleColumns, spotRenderer);
+		return 	createHeatMapModelBuilder(this.table, spotRenderer)
+				.withMascotIdentifications(this.mascotIdentifications)
+				.build();
 	}
 
-	private JHeatMapModel createHeatMapModel(int[] visibleRows,
-		int[] visibleColumns, SpotRenderer spotRenderer
-	) {
-		List<Integer> visibleModelColumns = getVisibleModelIndexes(
-			visibleColumns, this.table::convertColumnIndexToModel);
-		List<Integer> visibleModelRows = getVisibleModelIndexes(
-			visibleRows, this.table::convertRowIndexToModel);
-		visibleModelColumns.remove(new Integer(0));
-			
-		double[][] data = getMatrixData(visibleModelRows, visibleModelColumns);
-		
-		String[] colNames = getColNames(visibleModelColumns);
-		String[] rowNames = getHeatmapRowNames(visibleModelRows, spotRenderer);
-			
-		return new JHeatMapModel(data, rowNames, colNames);
-	}
-
-	private List<Integer> getVisibleModelIndexes(int[] visibleColumns,
-		IntUnaryOperator mapper
-	) {
-		return 	Arrays.stream(visibleColumns).map(mapper).boxed()
-				.collect(Collectors.toList());
-	}
-	
-	private double[][] getMatrixData(List<Integer> visibleRows,
-		List<Integer> visibleColumns
-	) {
-		double[][] data = new double[visibleRows.size()][visibleColumns.size()];
-		int currentRow = 0;
-		for (int row : visibleRows) {
-			int currentColumn = 0;
-			for (int col : visibleColumns) {
-				data[currentRow][currentColumn++] = (double) 
-					this.tableModel.getValueAt(row, col);
-			}
-			currentRow++;
-		}
-		return data;
-	}
-	
-	private String[] getColNames(List<Integer> visibleModelColumns) {
-		List<String> colNames = visibleModelColumns.stream()
-				.map(this.tableModel::getColumnName).collect(Collectors.toList());
-		
-		return colNames.toArray(new String[colNames.size()]);
-	}
-	
-	private String[] getHeatmapRowNames(List<Integer> visibleModelRows,
-		SpotRenderer spotRenderer
-	) {
-		List<String> spots = new LinkedList<String>();
-		
-		visibleModelRows.forEach(r -> {
-			spots.add(this.tableModel.getValueAt(r, 0).toString());
-		});
-		
-		List<String> rowNames = new LinkedList<String>();
-		spots.forEach(spot -> {
-			MascotIdentifications identifications =
-				this.mascotIdentifications.isPresent() ?
-					this.mascotIdentifications.get()
-					.getOrDefault(spot, new MascotIdentifications()) :
-					new MascotIdentifications();
-
-			rowNames.add(
-				spotRenderer.getSpotValue(spot, identifications)
-			);
-		});
-
-		return rowNames.toArray(new String[rowNames.size()]);
-	}
-	
 	public void addTableAction(Action a) {
 		this.table.addAction(a);
 	}
