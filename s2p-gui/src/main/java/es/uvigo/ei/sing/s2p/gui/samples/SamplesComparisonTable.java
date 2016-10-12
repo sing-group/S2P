@@ -1,9 +1,10 @@
 package es.uvigo.ei.sing.s2p.gui.samples;
 
+import static es.uvigo.ei.sing.s2p.gui.UISettings.FONT_SIZE;
+import static es.uvigo.ei.sing.s2p.gui.UISettings.FONT_SIZE_HEADER;
 import static es.uvigo.ei.sing.s2p.gui.spots.SpotUtils.spotTooltip;
 import static es.uvigo.ei.sing.s2p.gui.spots.SpotUtils.spotValue;
-import static es.uvigo.ei.sing.s2p.gui.UISettings.FONT_SIZE_HEADER;
-import static es.uvigo.ei.sing.s2p.gui.UISettings.FONT_SIZE;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -32,6 +33,7 @@ import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import es.uvigo.ei.sing.hlfernandez.visualization.JHeatMapModel;
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
+import es.uvigo.ei.sing.s2p.gui.spots.heatmap.SpotRenderer;
 import es.uvigo.ei.sing.s2p.gui.table.ExtendedCsvTable;
 import es.uvigo.ei.sing.s2p.gui.table.SpotPresenceTester;
 import es.uvigo.ei.sing.s2p.gui.table.TestRowFilter;
@@ -201,17 +203,17 @@ public class SamplesComparisonTable extends JPanel {
 		this.tableModel.fireTableStructureChanged();
 	}
 	
-	public JHeatMapModel getHeatMapModel() {
+	public JHeatMapModel getHeatMapModel(SpotRenderer spotRenderer) {
 		this.table.selectAll();
 		int[] visibleColumns = this.table.getSelectedColumns();
 		int[] visibleRows = this.table.getSelectedRows();
 		this.table.clearSelection();
 
-		return createHeatMapModel(visibleRows, visibleColumns);
+		return createHeatMapModel(visibleRows, visibleColumns, spotRenderer);
 	}
 
 	private JHeatMapModel createHeatMapModel(int[] visibleRows,
-		int[] visibleColumns
+		int[] visibleColumns, SpotRenderer spotRenderer
 	) {
 		List<Integer> visibleModelColumns = getVisibleModelIndexes(
 			visibleColumns, this.table::convertColumnIndexToModel);
@@ -222,7 +224,7 @@ public class SamplesComparisonTable extends JPanel {
 		double[][] data = getMatrixData(visibleModelRows, visibleModelColumns);
 		
 		String[] colNames = getColNames(visibleModelColumns);
-		String[] rowNames = getRowNames(visibleModelRows);
+		String[] rowNames = getHeatmapRowNames(visibleModelRows, spotRenderer);
 			
 		return new JHeatMapModel(data, rowNames, colNames);
 	}
@@ -257,28 +259,28 @@ public class SamplesComparisonTable extends JPanel {
 		return colNames.toArray(new String[colNames.size()]);
 	}
 	
-	private String[] getRowNames(List<Integer> visibleModelRows) {
-		List<String> rowNames = new LinkedList<String>();
+	private String[] getHeatmapRowNames(List<Integer> visibleModelRows,
+		SpotRenderer spotRenderer
+	) {
+		List<String> spots = new LinkedList<String>();
 		
 		visibleModelRows.forEach(r -> {
-			rowNames.add(this.tableModel.getValueAt(r, 0).toString());
+			spots.add(this.tableModel.getValueAt(r, 0).toString());
 		});
 		
-		if (showProteinIdentifications) {
-			List<String> identifications = new LinkedList<String>();
-			rowNames.forEach(spot -> {
-				MascotIdentifications spotIdentifications = 
-					this.mascotIdentifications.get().get(spot);
-				if (spotIdentifications != null) {
-					identifications.add(
-						spotIdentifications.getFirst().getTitle());
-				} else {
-					identifications.add(spot);
-				}
-			});
-			rowNames.clear();
-			rowNames.addAll(identifications);
-		}
+		List<String> rowNames = new LinkedList<String>();
+		spots.forEach(spot -> {
+			MascotIdentifications identifications =
+				this.mascotIdentifications.isPresent() ?
+					this.mascotIdentifications.get()
+					.getOrDefault(spot, new MascotIdentifications()) :
+					new MascotIdentifications();
+
+			rowNames.add(
+				spotRenderer.getSpotValue(spot, identifications)
+			);
+		});
+
 		return rowNames.toArray(new String[rowNames.size()]);
 	}
 	
