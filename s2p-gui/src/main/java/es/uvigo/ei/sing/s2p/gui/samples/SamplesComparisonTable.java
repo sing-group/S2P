@@ -214,4 +214,10 @@ public class SamplesComparisonTable extends JPanel {
 	public void addTableAction(Action a) {
 		this.table.addAction(a);
 	}
+
+	public void setColumnsVisibility(List<Integer> columnIndices,
+		boolean visible
+	) {
+		this.table.setColumnsVisibility(columnIndices, visible);
+	}
 }

@@ -16,6 +16,7 @@ import javax.swing.table.TableModel;
 
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.table.ColumnControlButton;
+import org.jdesktop.swingx.table.TableColumnExt;
 
 import es.uvigo.ei.sing.commons.csv.entities.CsvFormat;
 import es.uvigo.ei.sing.commons.csv.io.CsvWriter;
@@ -106,5 +107,18 @@ public class ExtendedCsvTable extends CSVTable {
 		
 		CsvWriter csvWriter = CsvWriter.of(csvFormat);
 		csvWriter.write(data, headerData, file);
+	}
+
+	public TableColumnExt getTableColumnExt(int modelIndex) {
+		return (TableColumnExt) this.getColumns(true).get(modelIndex);
+	}
+
+	public void setColumnsVisibility(List<Integer> columnIndices,
+			boolean visible) {
+		columnIndices.stream()
+		.map(this::getTableColumnExt)
+		.forEach(column -> {
+			column.setVisible(visible);
+		});
 	}
 }

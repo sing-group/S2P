@@ -3,6 +3,7 @@ package es.uvigo.ei.sing.s2p.gui.spots.condition;
 import static es.uvigo.ei.sing.s2p.gui.UISettings.BG_COLOR;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
+import static java.util.stream.Collectors.toList;
 import static javax.swing.BorderFactory.createEmptyBorder;
 
 import java.awt.BorderLayout;
@@ -10,6 +11,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +23,8 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+
+import org.jdesktop.swingx.action.AbstractActionExt;
 
 import es.uvigo.ei.sing.s2p.core.entities.Condition;
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
@@ -61,15 +65,56 @@ public class ConditionComparisonTable extends JPanel {
 	}
 
 	private Component getSamplesTable() {
-		samplesTable = new SamplesComparisonTable(getSamples(),
-				getSampleColors(), getSampleLabels());
+		this.samplesTable = new SamplesComparisonTable(
+			getSamples(), getSampleColors(), getSampleLabels());
 
-		samplesTable.setBorder(createEmptyBorder(1, 5, 1, 5));
-		samplesTable.setBackground(BG_COLOR);
+		this.samplesTable.setBorder(createEmptyBorder(1, 5, 1, 5));
+		this.samplesTable.setBackground(BG_COLOR);
 
-		samplesTable.addTableAction(getViewAsHeatmapAction());
+		this.samplesTable.addTableAction(getViewAsHeatmapAction());
+
+		this.createHideConditionsActions();
 
 		return this.samplesTable;
+	}
+
+	private void createHideConditionsActions() {
+		this.conditions.forEach(c -> {
+			samplesTable.addTableAction(getHideConditionAction(c));
+		});
+	}
+
+	private Action getHideConditionAction(Condition c) {
+		return new ConditionControlAction(c);
+	}
+
+	public class ConditionControlAction extends AbstractActionExt {
+		private static final long serialVersionUID = 1L;
+		private Condition condition;
+
+		public ConditionControlAction(Condition c) {
+			super("Condition: " + c.getName());
+			this.condition = c;
+			this.setSelected(true);
+			setStateAction();
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+		}
+
+		@Override
+		public void itemStateChanged(final ItemEvent e) {
+			setConditionVisibility(condition,
+				e.getStateChange() == ItemEvent.SELECTED);
+		}
+	}
+
+	private void setConditionVisibility(Condition c, boolean visible) {
+		List<Integer> columnIndices = c.getSamples().stream()
+			.map(getSamples()::indexOf).map(i -> (i + 1)).collect(toList());
+
+		this.samplesTable.setColumnsVisibility(columnIndices, visible);
 	}
 
 	private List<Sample> getSamples() {

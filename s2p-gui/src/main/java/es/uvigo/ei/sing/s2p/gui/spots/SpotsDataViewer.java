@@ -39,7 +39,6 @@ import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
 import es.uvigo.ei.sing.s2p.core.entities.SpotsCount;
 import es.uvigo.ei.sing.s2p.core.entities.SpotsData;
-import es.uvigo.ei.sing.s2p.gui.UISettings;
 import es.uvigo.ei.sing.s2p.gui.components.ExtendedJTabbedPane;
 import es.uvigo.ei.sing.s2p.gui.event.ProteinDataComparisonEvent;
 import es.uvigo.ei.sing.s2p.gui.event.ProteinDataComparisonListener;
@@ -284,8 +283,11 @@ public class SpotsDataViewer extends JPanel implements
 	}
 	
 	private void showProteinIdentificationsSummary() {
-		MascotIdentificationsSummaryDialog dialog = new MascotIdentificationsSummaryDialog(
-			getDialogParent(), this.allSpots, this.mascotIdentifications.get());
+		MascotIdentificationsSummaryDialog dialog =
+			new MascotIdentificationsSummaryDialog(
+				getDialogParent(), this.allSpots,
+				this.mascotIdentifications.get()
+			);
 		dialog.setVisible(true);
 	}
 
@@ -314,7 +316,7 @@ public class SpotsDataViewer extends JPanel implements
 		setOpaqueRecursive(rangeInput, false);
 		rangeInput.setBorder(createEmptyBorder(2, 0, 2, 0));
 		
-		rangeInput.setBackground(UISettings.BG_COLOR);
+		rangeInput.setBackground(BG_COLOR);
 		
 		int numSamples = condition.getSamples().size();
 		JLabel label = new JLabel(getLabelText(0, numSamples, numSamples));
