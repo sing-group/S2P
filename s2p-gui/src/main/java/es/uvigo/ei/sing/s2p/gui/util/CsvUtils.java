@@ -10,7 +10,7 @@ public class CsvUtils {
 		return new CsvFormat(
 			source.getColumnSeparator(),
 			source.getDecimalSeparator(), 
-			source.isQuoteHeaders(),
+			source.isQuoteFields(),
 			source.getLineBreak()
 		);
 	}
