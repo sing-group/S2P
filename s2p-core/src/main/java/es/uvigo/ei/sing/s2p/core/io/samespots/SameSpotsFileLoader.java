@@ -35,8 +35,12 @@ public class SameSpotsFileLoader {
 	private static Pair<Sample, Sample> parseSamples(Element table,
 		SameSpotsThrehold threshold
 	) {
-		Pair<String, String> sampleNames = extractSampleNames(table.select("thead").first());
-		Pair<Map<String, Double>, Map<String, Double>> sampleValues = extractSampleValues(table.select("tbody").first(), threshold);
+		Pair<String, String> sampleNames = 
+			extractSampleNames(table.select("thead").first());
+		
+		Pair<Map<String, Double>, Map<String, Double>> 
+			sampleValues = extractSampleValues(table.select("tbody").first(), threshold);
+		
 		return new Pair<Sample, Sample>(
 			new Sample(sampleNames.getFirst(), sampleValues.getFirst()), 
 			new Sample(sampleNames.getSecond(), sampleValues.getSecond())

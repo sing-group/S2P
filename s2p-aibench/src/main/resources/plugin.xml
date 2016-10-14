@@ -9,33 +9,37 @@
 		<extension uid="aibench.core" name="aibench.core.operation-definition" class="es.uvigo.ei.sing.s2p.aibench.operations.LoadSameSpotsAnalysis">
 			<operation-description name="Load SameSpots analysis" uid="operations.loadsamespotsanalysis" shortcut="1"/>
 		</extension>
-		
+	
+		<extension uid="aibench.core" name="aibench.core.operation-definition" class="es.uvigo.ei.sing.s2p.aibench.operations.LoadSameSpotsCsvFiles">
+			<operation-description name="Load SameSpots *.CSV" uid="operations.loadsamespotscsvfiles" shortcut="2"/>
+		</extension>
+	
 		<extension uid="aibench.core" name="aibench.core.operation-definition" class="es.uvigo.ei.sing.s2p.aibench.operations.LoadSpotsData">
-			<operation-description name="Load spots data" uid="operations.loadspotsdata" shortcut="2"/>
+			<operation-description name="Load spots data" uid="operations.loadspotsdata" shortcut="3"/>
 		</extension>
 		
 		<extension uid="aibench.core" name="aibench.core.operation-definition" class="es.uvigo.ei.sing.s2p.aibench.operations.LoadMascotIdentifications">
-			<operation-description name="Load Mascot identifications" uid="operations.loadmascotidentifications" shortcut="3"/>
+			<operation-description name="Load Mascot identifications" uid="operations.loadmascotidentifications" shortcut="4"/>
 		</extension>
 		
 		<extension uid="aibench.core" name="aibench.core.operation-definition" class="es.uvigo.ei.sing.s2p.aibench.operations.ImportMaldiPlate">
-			<operation-description name="Import plate" uid="operations.importmaldiplate" shortcut="4"/>
+			<operation-description name="Import plate" uid="operations.importmaldiplate" shortcut="5"/>
 		</extension>
 		
 		<extension uid="aibench.core" name="aibench.core.operation-definition" class="es.uvigo.ei.sing.s2p.aibench.operations.CreateMaldiPlate">
-			<operation-description name="Create plate" uid="operations.createmaldiplate" shortcut="5"/>
+			<operation-description name="Create plate" uid="operations.createmaldiplate" shortcut="6"/>
 		</extension>
 		
 		<extension uid="aibench.core" name="aibench.core.operation-definition" class="es.uvigo.ei.sing.s2p.aibench.operations.LoadMaldiPlate">
-			<operation-description name="Load plate" uid="operations.loadmaldiplate" shortcut="6"/>
+			<operation-description name="Load plate" uid="operations.loadmaldiplate" shortcut="7"/>
 		</extension>
 		
 		<extension uid="aibench.core" name="aibench.core.operation-definition" class="es.uvigo.ei.sing.s2p.aibench.operations.CreateVennDiagramDesign">
-			<operation-description name="Design venn diagram" uid="operations.createvenndiagramdesign" shortcut="7"/>
+			<operation-description name="Design venn diagram" uid="operations.createvenndiagramdesign" shortcut="8"/>
 		</extension>
 
 		<extension uid="aibench.core" name="aibench.core.operation-definition" class="es.uvigo.ei.sing.s2p.aibench.operations.LoadVennDiagramDesign">
-			<operation-description name="Load venn diagram design" uid="operations.loadvenndiagramdesign" shortcut="8"/>
+			<operation-description name="Load venn diagram design" uid="operations.loadvenndiagramdesign" shortcut="9"/>
 		</extension>
 
 	<!-- ========================= EXAMPLES ======================================= -->
@@ -97,6 +101,9 @@
 		<extension uid="aibench.workbench" name="aibench.workbench.view" >
 			<icon-operation operation="operations.loadsamespotsanalysis" icon="icons/progenesis.png"/>
 			<big-icon-operation	operation="operations.loadsamespotsanalysis" icon="icons/progenesis.png"/>
+
+			<icon-operation operation="operations.loadsamespotscsvfiles" icon="icons/progenesis.png"/>
+			<big-icon-operation	operation="operations.loadsamespotscsvfiles" icon="icons/progenesis.png"/>
 			
 			<icon-operation operation="operations.loadspotsdata" icon="icons/loadspotsdata.png"/>
 			<big-icon-operation	operation="operations.loadspotsdata" icon="icons/loadspotsdata.png"/>
@@ -129,6 +136,7 @@
 		<!-- "Custom input dialogs". If you don't like the default generated input dialog for some operation, put your own here -->
 		<extension uid="aibench.workbench" name="aibench.workbench.view" >
 			<gui-operation operation="operations.loadspotsdata" class="es.uvigo.ei.sing.s2p.aibench.operations.dialogs.LoadSpotsDataDialog"/>
+			<gui-operation operation="operations.loadsamespotscsvfiles" class="es.uvigo.ei.sing.s2p.aibench.operations.dialogs.LoadSameSpotsCsvFilesDialog"/>
 			<gui-operation operation="operations.importmaldiplate" class="es.uvigo.ei.sing.s2p.aibench.operations.dialogs.ImportMaldiPlateDialog"/>
 		</extension>
 		

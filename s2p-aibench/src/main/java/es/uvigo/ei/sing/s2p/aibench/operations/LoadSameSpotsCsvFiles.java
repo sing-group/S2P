@@ -1,34 +1,36 @@
 package es.uvigo.ei.sing.s2p.aibench.operations;
 
-import static es.uvigo.ei.sing.s2p.core.io.samespots.SameSpotsDirectoryLoader.loadDirectory;
+import static es.uvigo.ei.sing.s2p.aibench.operations.dialogs.AbstractCsvInputDialog.CSV_FORMAT;
+import static es.uvigo.ei.sing.s2p.core.io.samespots.SameSpotsCsvDirectoryLoader.loadDirectory;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 import es.uvigo.ei.aibench.core.operation.annotation.Direction;
 import es.uvigo.ei.aibench.core.operation.annotation.Operation;
 import es.uvigo.ei.aibench.core.operation.annotation.Port;
+import es.uvigo.ei.sing.commons.csv.entities.CsvFormat;
 import es.uvigo.ei.sing.s2p.aibench.datatypes.SameSpotsAnalysisDatatype;
 import es.uvigo.ei.sing.s2p.core.entities.SameSpotsThrehold;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
 
 @Operation(
-	name = "Load SameSpots report", 
-	description = "Loads a Progenesis SameSpots report from the generated .HTML files."
+	name = "Load SameSpots CSV files", 
+	description = "Loads Progenesis SameSpots .CSV files."
 )
-public class LoadSameSpotsAnalysis {
-	private static final String DEFAULT_P = "0.05";
-	private static final String DEFAULT_FOLD = "1.5";
+public class LoadSameSpotsCsvFiles {
+	private static final String DEFAULT_P = "1";
+	private static final String DEFAULT_FOLD = "0";
 
 	private File directory;
 	private double pValue;
 	private double fold;
+	private CsvFormat csvFormat;
 
 	@Port(
 		direction = Direction.INPUT, 
-		name = "SameSpots report directory",
-		description = "Progenesis SameSpots report directory containing the .HTM files.",
+		name = "SameSpots data directory",
+		description = "Progenesis SameSpots directory containing the .CSV files.",
 		order = 1
 	)
 	public void setCsvFile(File directory) {
@@ -57,10 +59,21 @@ public class LoadSameSpotsAnalysis {
 		this.fold = fold;
 	}
 
-	@Port(direction = Direction.OUTPUT, order = 4)
-	public SameSpotsAnalysisDatatype loadData() throws IOException {
+	@Port(
+		direction = Direction.INPUT, 
+		name = CSV_FORMAT,
+		description = "The format of the CSV file..",
+		order = 4
+	)
+	public void setCsvFormat(CsvFormat csvFormat) {
+		this.csvFormat = csvFormat;
+	}	
+	
+	@Port(direction = Direction.OUTPUT, order = 5)
+	public SameSpotsAnalysisDatatype loadData() throws Exception {
 		SameSpotsThrehold threshold = new SameSpotsThrehold(pValue, fold);
-		List<Sample> samples = loadDirectory(directory, threshold);
+	
+		List<Sample> samples = loadDirectory(directory, threshold, csvFormat);
 
 		return new SameSpotsAnalysisDatatype(directory, threshold, samples);
 	}

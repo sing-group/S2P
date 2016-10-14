@@ -36,6 +36,7 @@ class CsvParamProvider extends AbstractParamProvider {
 	public ParamSpec getParamSpec() throws IllegalArgumentException {
 		List<CsvFormat> params = new LinkedList<>();
 		params.add(csvFormat(csvPanel.getCsvFormat()));
+
 		return CoreUtils.createParams(params)[0];
 	}
 
@@ -45,6 +46,6 @@ class CsvParamProvider extends AbstractParamProvider {
 
 	@Override
 	public boolean isValidValue() {
-		return csvPanel.isValid();
+		return this.csvPanel.isValidFormat();
 	}
 };

@@ -1,5 +1,6 @@
 package es.uvigo.ei.sing.s2p.aibench.operations;
 
+import static es.uvigo.ei.sing.s2p.aibench.operations.dialogs.AbstractCsvInputDialog.CSV_FORMAT;
 import java.io.File;
 import java.io.IOException;
 
@@ -33,7 +34,7 @@ public class ImportMaldiPlate {
 
 	@Port(
 		direction = Direction.INPUT, 
-		name = "CSV format", 
+		name = CSV_FORMAT,
 		description = "The format of the CSV file..",
 		order = 2
 	)

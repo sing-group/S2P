@@ -88,7 +88,7 @@ public class SameSpotsLoaderTest {
 			SAMESPOTS_FILE,
 			SameSpotsFileLoader.DEFAULT_THRESHOLD
 		);
-		
+
 		assertEquals(FIRST_SAMPLE, 	samples.getFirst());
 		assertEquals(SECOND_SAMPLE, samples.getSecond());
 	}
@@ -99,14 +99,14 @@ public class SameSpotsLoaderTest {
 			SAMESPOTS_FILE,
 			new SameSpotsThrehold(0.01, 2.5)
 		);
-		
+
 		assertEquals(2, samples.getFirst().getSpotValues().size());
 		assertEquals(2, samples.getSecond().getSpotValues().size());
 	}
 
 	@Test
 	public void sameSpotsDirectoryLoaderTest() throws IOException {
-		List<Sample> samples = SameSpotsDirectoryLoader.load(
+		List<Sample> samples = SameSpotsDirectoryLoader.loadDirectory(
 			SAMESPOTS_DIRECTORY, SameSpotsFileLoader.DEFAULT_THRESHOLD);
 		assertEquals(15, samples.size());
 	}
