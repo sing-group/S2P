@@ -16,7 +16,7 @@ import es.uvigo.ei.sing.s2p.core.io.samespots.SameSpotsFileLoader;
 public class SameSpotsDatasetViewerTest {
 	
 	public static void main(String[] args) throws IOException {
-		List<Sample> samples = SameSpotsDirectoryLoader.load(
+		List<Sample> samples = SameSpotsDirectoryLoader.loadDirectory(
 			SAMESPOTS_DIRECTORY, SameSpotsFileLoader.DEFAULT_THRESHOLD);
 		
 		setNimbusLookAndFeel();
