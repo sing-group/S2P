@@ -126,29 +126,10 @@ public class SameSpotsCsvFileLoader {
 				String spot = e.get(INDEX_SPOT);
 				double p 	= formater.parse(e.get(INDEX_P)).doubleValue();
 				double fold = formater.parse(e.get(INDEX_FOLD)).doubleValue();
-				
-				List<String> sample1Fields = e.subList(
-					sampleColumns.getFirst().getStart().intValue(), 
-					sampleColumns.getFirst().getEnd().intValue()
-				);
-				
-				DescriptiveStatistics sample1Values = new DescriptiveStatistics();
-				for (String s : sample1Fields) {
-					sample1Values.addValue(formater.parse(s).doubleValue());
-				}
-				
-				List<String> sample2Fields = e.subList(
-					sampleColumns.getSecond().getStart().intValue(), 
-					sampleColumns.getSecond().getEnd().intValue()
-					);
-				
-				DescriptiveStatistics sample2Values = new DescriptiveStatistics();
-				for (String s : sample2Fields) {
-					sample2Values.addValue(formater.parse(s).doubleValue());
-				}
-				
-				double s1 	= sample1Values.getMean();
-				double s2 	= sample2Values.getMean();
+				double s1 =
+					averageSampleValue(sampleColumns.getFirst(), formater, e);
+				double s2 =
+					averageSampleValue(sampleColumns.getSecond(), formater, e);
 				
 				if(p <= threshold.getP() && fold >= threshold.getFold()) {
 					sample1.put(spot, s1);
@@ -160,5 +141,21 @@ public class SameSpotsCsvFileLoader {
 		}
 		
 		return new Pair<>(sample1, sample2);
+	}
+
+	private static double averageSampleValue(Range sampleColumns,
+		DecimalFormat formater, CsvEntry e) throws ParseException 
+	{
+		List<String> sample1Fields = e.subList(
+			sampleColumns.getStart().intValue(),
+			sampleColumns.getEnd().intValue()
+		);
+
+		DescriptiveStatistics sample1Values = new DescriptiveStatistics();
+		for (String s : sample1Fields) {
+			sample1Values.addValue(formater.parse(s).doubleValue());
+		}
+
+		return sample1Values.getMean();
 	}
 }
