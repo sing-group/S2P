@@ -66,5 +66,4 @@ public class SpotRenderer {
 		
 		return sb.toString();
 	}
-	
 }

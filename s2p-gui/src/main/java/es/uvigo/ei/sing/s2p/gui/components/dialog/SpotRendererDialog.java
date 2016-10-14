@@ -1,6 +1,10 @@
 package es.uvigo.ei.sing.s2p.gui.components.dialog;
 
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
+
 import java.awt.Window;
+import java.util.Optional;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -92,5 +96,22 @@ public class SpotRendererDialog extends AbstractInputJDialog {
 		this.okButton.setEnabled(true);
 		this.pack();
 		super.setVisible(b);
+	}
+
+	public static Optional<SpotRenderer> getSpotRenderer(Window parent,
+		boolean showProteinIdentifications
+	) {
+		if (!showProteinIdentifications) {
+			return of(new SpotRenderer(IdentificationsMode.NONE, true));
+		}
+
+		SpotRendererDialog dialog = new SpotRendererDialog(parent);
+		dialog.setVisible(true);
+
+		if (!dialog.isCanceled()) {
+			return of(dialog.getSelectedSpotRenderer());
+		} else {
+			return empty();
+		}
 	}
 }

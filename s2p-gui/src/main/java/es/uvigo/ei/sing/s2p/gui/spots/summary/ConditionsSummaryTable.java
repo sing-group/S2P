@@ -34,6 +34,7 @@ import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 
 import es.uvigo.ei.sing.s2p.core.entities.Condition;
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
+import es.uvigo.ei.sing.s2p.core.entities.SpotSummary;
 import es.uvigo.ei.sing.s2p.core.entities.SpotsData;
 import es.uvigo.ei.sing.s2p.gui.UISettings;
 import es.uvigo.ei.sing.s2p.gui.charts.spots.ChartSpotSummary;
@@ -111,12 +112,13 @@ public class ConditionsSummaryTable extends JPanel {
 					}
 				}
 			});
+
 			spotPresenceTester = new SpotPresenceTester(getSpots());
 			table.setRowFilter(new TestRowFilter<>(spotPresenceTester, 0));
 		}
 		return this.table;
 	}
-	
+
 	private Set<String> getSpots() {
 		return new HashSet<>(data.getSpots());
 	}
@@ -238,5 +240,13 @@ public class ConditionsSummaryTable extends JPanel {
 	public void setShowProteinIdentifications(boolean show) {
 		this.showProteinIdentifications = show;
 		this.updateUI();
+	}
+
+	public SpotSummary getSpotSummary(String spot, Condition c) {
+		return this.tableModel.getSpotSummary(spot, c);
+	}
+
+	public void removeMascotIdentifications() {
+		this.mascotIdentifications = Optional.empty();
 	}
 }

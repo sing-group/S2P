@@ -1,9 +1,13 @@
 package es.uvigo.ei.sing.s2p.gui.spots;
 
+import static javax.swing.SwingUtilities.invokeLater;
 import static es.uvigo.ei.sing.hlfernandez.ui.UIUtils.setOpaqueRecursive;
 import static es.uvigo.ei.sing.hlfernandez.utilities.builder.JButtonBuilder.newJButtonBuilder;
+import static es.uvigo.ei.sing.s2p.core.operations.SpotSummaryOperations.findNotOverlapingSpots;
 import static es.uvigo.ei.sing.s2p.gui.UISettings.BG_COLOR;
 import static es.uvigo.ei.sing.s2p.gui.util.ColorUtils.getSoftColor;
+import static java.util.Collections.emptySet;
+import static java.util.stream.Collectors.toSet;
 import static javax.swing.BorderFactory.createEmptyBorder;
 import static javax.swing.BorderFactory.createTitledBorder;
 import static javax.swing.Box.createHorizontalStrut;
@@ -36,10 +40,12 @@ import es.uvigo.ei.sing.hlfernandez.input.RangeInputPanel;
 import es.uvigo.ei.sing.hlfernandez.utilities.ExtendedAbstractAction;
 import es.uvigo.ei.sing.s2p.core.entities.Condition;
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
+import es.uvigo.ei.sing.s2p.core.entities.Pair;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
 import es.uvigo.ei.sing.s2p.core.entities.SpotsCount;
 import es.uvigo.ei.sing.s2p.core.entities.SpotsData;
 import es.uvigo.ei.sing.s2p.gui.components.ExtendedJTabbedPane;
+import es.uvigo.ei.sing.s2p.gui.components.dialog.ConditionSelectionDialog;
 import es.uvigo.ei.sing.s2p.gui.event.ProteinDataComparisonEvent;
 import es.uvigo.ei.sing.s2p.gui.event.ProteinDataComparisonListener;
 import es.uvigo.ei.sing.s2p.gui.mascot.LoadMascotIdentificationsDialog;
@@ -66,7 +72,9 @@ public class SpotsDataViewer extends JPanel implements
 	private JPanel toolbar;
 
 	private JToggleButton toggleVisualizationMode;
+	private JToggleButton toggleFilterSpots;
 	private JButton showProteinIdentificationsBtn;
+	private JToggleButton togleFilterDiferentialSpots;
 	private JButton showProteinIdentificationsSummaryBtn;
 	private JButton clearIdentificationsBtn;
 
@@ -80,6 +88,7 @@ public class SpotsDataViewer extends JPanel implements
 
 	protected Optional<Map<String, MascotIdentifications>> mascotIdentifications = 
 		Optional.empty();
+	protected Optional<Set<String>> differentialSpots =	Optional.empty();
 
 	private ConditionComparisonTable conditionComparisonsTable;
 	private ConditionsSummaryTable conditionsSummaryTable;
@@ -150,6 +159,8 @@ public class SpotsDataViewer extends JPanel implements
 			this.toolbar.add(getClearMascotIdentificationsButton());
 			this.toolbar.add(createHorizontalStrut(5));
 			this.toolbar.add(getVisualizationModeToggleButton());
+			this.toolbar.add(getFilterSpotsToggleButton());
+			this.toolbar.add(getFilterDifferentialSpotsButton());
 			this.toolbar.add(getShowProteinIdentificationsButton());
 			this.toolbar.add(getShowProteinIdentificationsSummaryButton());
 		}
@@ -173,9 +184,18 @@ public class SpotsDataViewer extends JPanel implements
 	}
 	
 	private void clearMascotIdentifications() {
-		this.mascotIdentifications = Optional.empty();
-		this.setMascotIdentifications(Collections.emptyMap());
+		this.removeMascotIdentifications();
+		this.differentialSpots = Optional.empty();
+		this.togleFilterDiferentialSpots.setSelected(false);
 		this.enableIdentificationButtons(false);
+		this.updateVisibleSpots();
+	}
+
+	private void removeMascotIdentifications() {
+		this.mascotIdentifications = Optional.empty();
+		this.conditionComparisonsTable.removeMascotIdentifications();
+		this.conditionsSummaryTable.removeMascotIdentifications();
+		this.proteinComparisonView.removeMascotIdentifications();
 	}
 
 	private Action getAddMascotIdentificationsAction() {
@@ -194,7 +214,8 @@ public class SpotsDataViewer extends JPanel implements
 	}
 
 	private void setMascotIdentifications(
-			Map<String, MascotIdentifications> identifications) {
+		Map<String, MascotIdentifications> identifications
+	) {
 		this.mascotIdentifications = Optional.of(identifications);
 		sortMascotIdentifications();
 			
@@ -206,10 +227,13 @@ public class SpotsDataViewer extends JPanel implements
 			identifications);
 			
 		this.enableIdentificationButtons(true);
+		this.updateVisibleSpots();
 	}
 
 	private void enableIdentificationButtons(boolean enabled) {
 		this.toggleVisualizationMode.setEnabled(enabled);
+		this.toggleFilterSpots.setEnabled(enabled);
+		this.togleFilterDiferentialSpots.setEnabled(enabled);
 		this.showProteinIdentificationsBtn.setEnabled(enabled);
 		this.showProteinIdentificationsSummaryBtn.setEnabled(enabled);
 		this.clearIdentificationsBtn.setEnabled(enabled);
@@ -249,6 +273,72 @@ public class SpotsDataViewer extends JPanel implements
 		this.proteinComparisonView.setShowProteinIdentifications(show);
 	}
 	
+	private JToggleButton getFilterSpotsToggleButton() {
+		if(this.toggleFilterSpots == null) {
+			toggleFilterSpots = new JToggleButton(
+				"Identified spots", false);
+			toggleFilterSpots.setToolTipText(
+				"Select this option to show only spots with associated identifications.");
+			toggleFilterSpots.setEnabled(false);
+			toggleFilterSpots
+				.addItemListener(this::toggleFilterSpots);
+		}
+		return toggleFilterSpots;
+	}
+	
+	private void toggleFilterSpots(ItemEvent e) {
+		this.updateVisibleSpots();
+	}
+	
+	private JToggleButton getFilterDifferentialSpotsButton() {
+		if(this.togleFilterDiferentialSpots == null) {
+			this.togleFilterDiferentialSpots = new JToggleButton(
+				"View differential spots", false);
+			this.togleFilterDiferentialSpots.addItemListener(
+				this::toggleViewDifferentialSpots);
+			this.togleFilterDiferentialSpots.setEnabled(false);
+		}
+		return this.togleFilterDiferentialSpots;
+	}
+
+	private void toggleViewDifferentialSpots(ItemEvent e) {
+		if(e.getStateChange() == ItemEvent.SELECTED) {
+			invokeLater(this::setDifferentialSpotsFilter);
+		} else {
+			this.setDiferentialSpotsFilter(emptySet());
+		}
+	}
+
+	private void setDifferentialSpotsFilter() {
+		ConditionSelectionDialog dialog = 
+			new ConditionSelectionDialog(getDialogParent(), getConditions());
+		dialog.setVisible(true);
+		if(!dialog.isCanceled()) {
+			Pair<Condition, Condition> selection = dialog.getSelectedConditions();
+			this.setDiferentialSpotsFilter( 
+				findDifferentialSpots(selection.getFirst(), selection.getSecond())
+			);
+		} else {
+			this.togleFilterDiferentialSpots.setSelected(false);
+		}
+	}
+
+	private void setDiferentialSpotsFilter(Set<String> differentialSpots) {
+		this.differentialSpots = Optional.of(differentialSpots);
+		this.updateVisibleSpots();
+	}
+
+	private boolean isDifferentialSpotFilterEnabled() {
+		return 		this.mascotIdentifications.isPresent()
+				&&	this.togleFilterDiferentialSpots.isSelected()
+				&&	this.differentialSpots.isPresent();
+	}
+
+	private Set<String> findDifferentialSpots(Condition first, Condition second) {
+		return findNotOverlapingSpots(allSpots, first, second, 
+			this.conditionsSummaryTable::getSpotSummary);
+	}
+
 	private JButton getShowProteinIdentificationsButton() {
 		if(this.showProteinIdentificationsBtn == null) {
 			this.showProteinIdentificationsBtn = new JButton(
@@ -360,12 +450,17 @@ public class SpotsDataViewer extends JPanel implements
 	) {
 		label.setText(getLabelText(min,  max, condition.getSamples().size()));
 		this.conditionsThreshold.put(condition, new Range(min, max));
-		
+
+		this.updateVisibleSpots();
+	}
+	
+	private void updateVisibleSpots() {
 		Set<String> visibleSpots = getVisibleSpots();
+		
 		this.conditionComparisonsTable.setVisibleProteins(visibleSpots);
 		this.conditionsSummaryTable.setVisibleSpots(visibleSpots);
 	}
-	
+
 	protected Set<String> getVisibleSpots() {
 		Set<String> visibleSpots = new HashSet<String>(allSpots);
 
@@ -377,7 +472,30 @@ public class SpotsDataViewer extends JPanel implements
 			visibleSpots.retainAll(proteins);
 		});
 		
+		if (isShowOnlyIdentifiedSpots()) {
+			visibleSpots.retainAll(getIdentifiedspots());
+		}
+
+		if (isDifferentialSpotFilterEnabled()) {
+			visibleSpots.retainAll(this.differentialSpots.get());
+		}
+
 		return visibleSpots;
+	}
+
+	private Set<String> getIdentifiedspots() {
+		return 	allSpots.stream()
+				.filter(this::isIdentifiedSpot).collect(toSet());
+	}
+
+	private boolean isIdentifiedSpot(String spot) {
+		return 	this.mascotIdentifications.isPresent() && 
+				this.mascotIdentifications.get().containsKey(spot);
+	}
+
+	private boolean isShowOnlyIdentifiedSpots() {
+		return 	this.mascotIdentifications.isPresent() &&
+				toggleFilterSpots.isSelected();
 	}
 
 	static class Range {

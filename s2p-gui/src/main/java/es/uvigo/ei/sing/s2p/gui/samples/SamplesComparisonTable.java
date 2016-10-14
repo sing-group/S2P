@@ -220,4 +220,8 @@ public class SamplesComparisonTable extends JPanel {
 	) {
 		this.table.setColumnsVisibility(columnIndices, visible);
 	}
+
+	public void removeMascotIdentifications() {
+		this.mascotIdentifications = Optional.empty();
+	}
 }

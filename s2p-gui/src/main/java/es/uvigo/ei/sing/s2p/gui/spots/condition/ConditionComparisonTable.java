@@ -1,8 +1,7 @@
 package es.uvigo.ei.sing.s2p.gui.spots.condition;
 
 import static es.uvigo.ei.sing.s2p.gui.UISettings.BG_COLOR;
-import static java.util.Optional.empty;
-import static java.util.Optional.of;
+import static es.uvigo.ei.sing.s2p.gui.components.dialog.SpotRendererDialog.getSpotRenderer;
 import static java.util.stream.Collectors.toList;
 import static javax.swing.BorderFactory.createEmptyBorder;
 
@@ -19,21 +18,19 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import org.jdesktop.swingx.action.AbstractActionExt;
 
+import es.uvigo.ei.sing.hlfernandez.utilities.ExtendedAbstractAction;
 import es.uvigo.ei.sing.s2p.core.entities.Condition;
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
-import es.uvigo.ei.sing.s2p.gui.components.dialog.SpotRendererDialog;
 import es.uvigo.ei.sing.s2p.gui.samples.SamplesComparisonTable;
 import es.uvigo.ei.sing.s2p.gui.spots.comparison.JHeatMapDialog;
 import es.uvigo.ei.sing.s2p.gui.spots.heatmap.SpotRenderer;
-import es.uvigo.ei.sing.s2p.gui.spots.heatmap.SpotRenderer.IdentificationsMode;
 
 public class ConditionComparisonTable extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -135,37 +132,17 @@ public class ConditionComparisonTable extends JPanel {
 	}
 
 	private Action getViewAsHeatmapAction() {
-		return new AbstractAction("View as heatmap") {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				viewAsHeatmap();
-			}
-		};
+		return new ExtendedAbstractAction(
+			"View as heatmap", this::viewAsHeatmap);
 	}
 
 	private void viewAsHeatmap() {
-		Optional<SpotRenderer> renderer = getSpotRenderer();
+		Optional<SpotRenderer> renderer = 
+			getSpotRenderer(getRoot(), this.showProteinIdentifications);
 		if (renderer.isPresent()) {
 			JHeatMapDialog dialog = new JHeatMapDialog(getRoot(),
 				this.samplesTable.getHeatMapModel(renderer.get()));
 			dialog.setVisible(true);
-		}
-	}
-
-	private Optional<SpotRenderer> getSpotRenderer() {
-		if (!this.showProteinIdentifications) {
-			return of(new SpotRenderer(IdentificationsMode.NONE, true));
-		}
-
-		SpotRendererDialog dialog = new SpotRendererDialog(getRoot());
-		dialog.setVisible(true);
-
-		if (!dialog.isCanceled()) {
-			return of(dialog.getSelectedSpotRenderer());
-		} else {
-			return empty();
 		}
 	}
 
@@ -185,5 +162,9 @@ public class ConditionComparisonTable extends JPanel {
 
 	public void setVisibleProteins(Set<String> visibleSpots) {
 		this.samplesTable.setVisibleSpots(visibleSpots);
+	}
+
+	public void removeMascotIdentifications() {
+		this.samplesTable.removeMascotIdentifications();
 	}
 }

@@ -104,4 +104,8 @@ public class ProteinDataComparisonTableModel extends AbstractTableModel {
 		this.fireTableDataChanged();
 		this.fireTableStructureChanged();
 	}
+
+	public void removeMascotIdentifications() {
+		this.mascotIdentifications = Optional.empty();
+	}
 }

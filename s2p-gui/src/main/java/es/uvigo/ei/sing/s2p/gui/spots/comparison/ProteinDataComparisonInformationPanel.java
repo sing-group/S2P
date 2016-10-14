@@ -257,4 +257,8 @@ public class ProteinDataComparisonInformationPanel extends JPanel {
 		
 		this.updateComponents();
 	}
+
+	public void removeMascotIdentifications() {
+		this.mascotIdentifications = Optional.empty();
+	}
 }

@@ -227,4 +227,8 @@ public class ProteinDataComparisonTable extends JPanel {
 	public void setShowProteinIdentifications(boolean show) {
 		this.tableModel.setShowProteinIdentifications(show);
 	}
+
+	public void removeMascotIdentifications() {
+		this.tableModel.removeMascotIdentifications();
+	}
 }

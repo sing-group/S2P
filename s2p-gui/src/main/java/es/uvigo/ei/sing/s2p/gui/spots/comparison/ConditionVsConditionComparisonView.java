@@ -239,4 +239,9 @@ public class ConditionVsConditionComparisonView extends JPanel
 		this.comparisonInformationPanel.setShowProteinIdentifications(show);
 		this.comparisonTable.setShowProteinIdentifications(show);
 	}
+
+	public void removeMascotIdentifications() {
+		this.comparisonInformationPanel.removeMascotIdentifications();
+		this.comparisonTable.removeMascotIdentifications();
+	}
 }
