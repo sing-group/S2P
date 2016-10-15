@@ -1,9 +1,7 @@
 package es.uvigo.ei.sing.s2p.gui.spots;
 
-import static javax.swing.SwingUtilities.invokeLater;
 import static es.uvigo.ei.sing.hlfernandez.ui.UIUtils.setOpaqueRecursive;
 import static es.uvigo.ei.sing.hlfernandez.utilities.builder.JButtonBuilder.newJButtonBuilder;
-import static es.uvigo.ei.sing.s2p.core.operations.SpotSummaryOperations.findNotOverlapingSpots;
 import static es.uvigo.ei.sing.s2p.gui.UISettings.BG_COLOR;
 import static es.uvigo.ei.sing.s2p.gui.util.ColorUtils.getSoftColor;
 import static java.util.Collections.emptySet;
@@ -11,6 +9,7 @@ import static java.util.stream.Collectors.toSet;
 import static javax.swing.BorderFactory.createEmptyBorder;
 import static javax.swing.BorderFactory.createTitledBorder;
 import static javax.swing.Box.createHorizontalStrut;
+import static javax.swing.SwingUtilities.invokeLater;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -46,6 +45,8 @@ import es.uvigo.ei.sing.s2p.core.entities.Pair;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
 import es.uvigo.ei.sing.s2p.core.entities.SpotsCount;
 import es.uvigo.ei.sing.s2p.core.entities.SpotsData;
+import es.uvigo.ei.sing.s2p.core.operations.SpotSummaryOperations;
+import es.uvigo.ei.sing.s2p.core.operations.SpotSummaryOperations.DifferentialSpotFunction;
 import es.uvigo.ei.sing.s2p.gui.components.ExtendedJTabbedPane;
 import es.uvigo.ei.sing.s2p.gui.components.dialog.ConditionSelectionDialog;
 import es.uvigo.ei.sing.s2p.gui.event.ProteinDataComparisonEvent;
@@ -355,7 +356,8 @@ public class SpotsDataViewer extends JPanel implements
 		if(!dialog.isCanceled()) {
 			Pair<Condition, Condition> selection = dialog.getSelectedConditions();
 			this.setDiferentialSpotsFilter( 
-				findDifferentialSpots(selection.getFirst(), selection.getSecond())
+				findDifferentialSpots(selection.getFirst(), 
+					selection.getSecond(), dialog.getDiferentialSpotFunction())
 			);
 		} else {
 			this.togleFilterDiferentialSpots.setSelected(false);
@@ -373,9 +375,11 @@ public class SpotsDataViewer extends JPanel implements
 				&&	this.differentialSpots.isPresent();
 	}
 
-	private Set<String> findDifferentialSpots(Condition first, Condition second) {
-		return findNotOverlapingSpots(allSpots, first, second, 
-			this.conditionsSummaryTable::getSpotSummary);
+	private Set<String> findDifferentialSpots(Condition first, Condition second, 
+		DifferentialSpotFunction function
+	) {
+		return SpotSummaryOperations.findDifferentialSpots(allSpots, first, 
+			second, this.conditionsSummaryTable::getSpotSummary, function);
 	}
 
 	private JButton getShowProteinIdentificationsButton() {

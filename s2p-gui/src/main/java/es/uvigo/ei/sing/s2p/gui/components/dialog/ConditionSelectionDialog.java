@@ -13,6 +13,7 @@ import es.uvigo.ei.sing.hlfernandez.input.InputParameter;
 import es.uvigo.ei.sing.hlfernandez.input.InputParametersPanel;
 import es.uvigo.ei.sing.s2p.core.entities.Condition;
 import es.uvigo.ei.sing.s2p.core.entities.Pair;
+import es.uvigo.ei.sing.s2p.core.operations.SpotSummaryOperations.DifferentialSpotFunction;
 
 public class ConditionSelectionDialog extends AbstractFileInputJDialog {
 	private static final long serialVersionUID = 1L;
@@ -20,6 +21,7 @@ public class ConditionSelectionDialog extends AbstractFileInputJDialog {
 	private InputParametersPanel inputParametersPanel;
 	private InputParameter[] parameters;
 	private List<Condition> conditions;
+	private JComboBox<DifferentialSpotFunction> differentialSpotFunctionCmb;
 	private JComboBox<ComboBoxItem<Condition>> condition1Cmb;
 	private JComboBox<ComboBoxItem<Condition>> condition2Cmb;
 
@@ -63,9 +65,10 @@ public class ConditionSelectionDialog extends AbstractFileInputJDialog {
 	}
 
 	private InputParameter[] getParameters() {
-		this.parameters = new InputParameter[2];
+		this.parameters = new InputParameter[3];
 		parameters[0] = createCondition1Parameter();
 		parameters[1] = createCondition2Parameter();
+		parameters[2] = createFunctionParameter();
 		return parameters;
 	}
 
@@ -79,6 +82,12 @@ public class ConditionSelectionDialog extends AbstractFileInputJDialog {
 		condition2Cmb = new JComboBox<ComboBoxItem<Condition>>();
 		return new InputParameter("Condition 2", condition2Cmb,
 				"Condition to compare");
+	}
+
+	private InputParameter createFunctionParameter() {
+		differentialSpotFunctionCmb = new JComboBox<DifferentialSpotFunction>(DifferentialSpotFunction.values());
+		return new InputParameter("Function", differentialSpotFunctionCmb,
+				"Function to find differential spots");
 	}
 
 	@Override
@@ -100,5 +109,10 @@ public class ConditionSelectionDialog extends AbstractFileInputJDialog {
 	private Condition getCondition2() {
 		ComboBoxItem<?> item = (ComboBoxItem<?>) condition2Cmb.getSelectedItem();
 		return (Condition) item.getItem();
+	}
+
+	public DifferentialSpotFunction getDiferentialSpotFunction() {
+		return (DifferentialSpotFunction) 
+			this.differentialSpotFunctionCmb.getSelectedItem();
 	}
 }
