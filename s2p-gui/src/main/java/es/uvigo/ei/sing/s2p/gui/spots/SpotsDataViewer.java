@@ -37,7 +37,9 @@ import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
 
 import es.uvigo.ei.sing.hlfernandez.input.RangeInputPanel;
+import es.uvigo.ei.sing.hlfernandez.ui.icons.Icons;
 import es.uvigo.ei.sing.hlfernandez.utilities.ExtendedAbstractAction;
+import es.uvigo.ei.sing.hlfernandez.utilities.builder.JToggleButtonBuilder;
 import es.uvigo.ei.sing.s2p.core.entities.Condition;
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.entities.Pair;
@@ -66,6 +68,23 @@ public class SpotsDataViewer extends JPanel implements
 		SpotsDataViewer.class.getResource("icons/table.png"));
 	private static final ImageIcon CONDITION = new ImageIcon(
 		SpotsDataViewer.class.getResource("icons/condition.png"));
+
+	private static final String TOOLTIP_VISUALIZATION_UNSELECTED = 
+		"Select this option to show protein identifications along with spot "
+		+ "numbers in the table view.";
+	private static final String TOOLTIP_VISUALIZATION_SELECTED = 
+		"Select this option to hide protein identifications along with spot "
+			+ "numbers in the table view.";
+	private static final String TOOLTIP_IDENTIFIED_SPOTS_UNSELECTED = 
+		"Select this option to show only spots with associated Mascot "
+		+ "identifications.";
+	private static final String TOOLTIP_IDENTIFIED_SPOTS_SELECTED = 
+		"Select this option to disable this filter.";
+	private static final String TOOLTIP_DIFFERENTIAL_SPOTS_UNSELECTED = 
+		"Select this option to show only spots that are expressed differentially"
+		+ " in two conditions.";
+	private static final String TOOLTIP_DIFFERENTIAL_SPOTS_SELECTED = 
+		"Select this option to disable this filter.";
 
 	private ExtendedJTabbedPane tabbedPane;
 	private JPanel northPanel;
@@ -180,7 +199,10 @@ public class SpotsDataViewer extends JPanel implements
 
 	private Action getClearMascotIdentificationsAction() {
 		return new ExtendedAbstractAction(
-			"Clear identifications", this::clearMascotIdentifications);
+			"Clear identifications",
+			Icons.ICON_TRASH_16,
+			this::clearMascotIdentifications
+		);
 	}
 	
 	private void clearMascotIdentifications() {
@@ -200,7 +222,8 @@ public class SpotsDataViewer extends JPanel implements
 
 	private Action getAddMascotIdentificationsAction() {
 		return new ExtendedAbstractAction(
-			"Add identifications",
+			"Identifications",
+			Icons.ICON_ADD_16,
 			this::addMascotIdentifications
 		);
 	}
@@ -254,16 +277,20 @@ public class SpotsDataViewer extends JPanel implements
 	
 	private JToggleButton getVisualizationModeToggleButton() {
 		if(this.toggleVisualizationMode == null) {
-			toggleVisualizationMode = new JToggleButton(
-				"Show identifications", false);
-			toggleVisualizationMode.setToolTipText(
-				"Select this option to show protein identifications instead "
-				+ "of spot numbers in the table");
-			toggleVisualizationMode.setEnabled(false);
-			toggleVisualizationMode
-				.addItemListener(this::toggleVisualizationMode);
+			this.toggleVisualizationMode = JToggleButtonBuilder
+				.newJToggleButton()
+					.withLabel("Identifications")
+					.withSelectedIcon(Icons.ICON_EYE_16)
+					.withUnselectedIcon(Icons.ICON_EYE_HIDDEN_16)
+					.setSelected(false)
+					.setEnabled(false)
+					.withTooltip(selected -> selected ? 
+						TOOLTIP_VISUALIZATION_SELECTED : 
+						TOOLTIP_VISUALIZATION_UNSELECTED)
+					.thatDoes(this::toggleVisualizationMode)
+				.build();
 		}
-		return toggleVisualizationMode;
+		return this.toggleVisualizationMode;
 	}
 	
 	private void toggleVisualizationMode(ItemEvent e) {
@@ -275,15 +302,20 @@ public class SpotsDataViewer extends JPanel implements
 	
 	private JToggleButton getFilterSpotsToggleButton() {
 		if(this.toggleFilterSpots == null) {
-			toggleFilterSpots = new JToggleButton(
-				"Identified spots", false);
-			toggleFilterSpots.setToolTipText(
-				"Select this option to show only spots with associated identifications.");
-			toggleFilterSpots.setEnabled(false);
-			toggleFilterSpots
-				.addItemListener(this::toggleFilterSpots);
+			this.toggleFilterSpots = JToggleButtonBuilder
+				.newJToggleButton()
+					.withLabel("Identified spots")
+					.withSelectedIcon(Icons.ICON_EYE_16)
+					.withUnselectedIcon(Icons.ICON_EYE_HIDDEN_16)
+					.setSelected(false)
+					.setEnabled(false)
+					.withTooltip(selected -> selected ? 
+						TOOLTIP_IDENTIFIED_SPOTS_SELECTED : 
+						TOOLTIP_IDENTIFIED_SPOTS_UNSELECTED)
+					.thatDoes(this::toggleFilterSpots)
+				.build();
 		}
-		return toggleFilterSpots;
+		return this.toggleFilterSpots;
 	}
 	
 	private void toggleFilterSpots(ItemEvent e) {
@@ -292,11 +324,18 @@ public class SpotsDataViewer extends JPanel implements
 	
 	private JToggleButton getFilterDifferentialSpotsButton() {
 		if(this.togleFilterDiferentialSpots == null) {
-			this.togleFilterDiferentialSpots = new JToggleButton(
-				"View differential spots", false);
-			this.togleFilterDiferentialSpots.addItemListener(
-				this::toggleViewDifferentialSpots);
-			this.togleFilterDiferentialSpots.setEnabled(false);
+			this.togleFilterDiferentialSpots = JToggleButtonBuilder
+				.newJToggleButton()
+					.withLabel("Differential spots")
+					.withSelectedIcon(Icons.ICON_EYE_16)
+					.withUnselectedIcon(Icons.ICON_EYE_HIDDEN_16)
+					.setSelected(false)
+					.setEnabled(false)
+					.withTooltip(selected -> selected ? 
+						TOOLTIP_DIFFERENTIAL_SPOTS_SELECTED : 
+						TOOLTIP_DIFFERENTIAL_SPOTS_UNSELECTED)
+					.thatDoes(this::toggleViewDifferentialSpots)
+				.build();
 		}
 		return this.togleFilterDiferentialSpots;
 	}
@@ -343,7 +382,8 @@ public class SpotsDataViewer extends JPanel implements
 		if(this.showProteinIdentificationsBtn == null) {
 			this.showProteinIdentificationsBtn = new JButton(
 				new ExtendedAbstractAction(
-					"View detail", this::showProteinIdentifications
+					"Identifications detail", Icons.ICON_LOOKUP_16, 
+					this::showProteinIdentifications
 				)
 			);
 		}
@@ -365,7 +405,8 @@ public class SpotsDataViewer extends JPanel implements
 		if(this.showProteinIdentificationsSummaryBtn == null) {
 			this.showProteinIdentificationsSummaryBtn = new JButton(
 				new ExtendedAbstractAction(
-					"View summary", this::showProteinIdentificationsSummary)
+					"Summary", Icons.ICON_INFO_16, 
+					this::showProteinIdentificationsSummary)
 				);
 		}
 		this.showProteinIdentificationsSummaryBtn.setEnabled(false);
