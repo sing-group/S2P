@@ -5,6 +5,7 @@ import static es.uvigo.ei.sing.s2p.gui.UISettings.FONT_SIZE_HEADER;
 import static es.uvigo.ei.sing.s2p.gui.spots.SpotUtils.spotTooltip;
 import static es.uvigo.ei.sing.s2p.gui.spots.SpotUtils.spotValue;
 import static es.uvigo.ei.sing.s2p.gui.spots.heatmap.HeatMapModelBuilder.createHeatMapModelBuilder;
+import static java.util.Collections.emptyMap;
 import static java.util.Optional.ofNullable;
 
 import java.awt.BorderLayout;
@@ -205,10 +206,11 @@ public class SamplesComparisonTable extends JPanel {
 		this.tableModel.fireTableStructureChanged();
 	}
 	
-	public JHeatMapModel getHeatMapModel(SpotRenderer spotRenderer) {
+	public JHeatMapModel getHeatMapModel(SpotRenderer spotRenderer, boolean showSampleLabels) {
 		return 	createHeatMapModelBuilder(this.table, spotRenderer)
-				.withMascotIdentifications(this.mascotIdentifications)
-				.build();
+			.withMascotIdentifications(this.mascotIdentifications)
+			.withSampleLabels(showSampleLabels ? this.sampleLabels : emptyMap())
+		.build();
 	}
 
 	public void addTableAction(Action a) {

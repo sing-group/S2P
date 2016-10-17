@@ -1,10 +1,6 @@
-package es.uvigo.ei.sing.s2p.gui.components.dialog;
-
-import static java.util.Optional.empty;
-import static java.util.Optional.of;
+package es.uvigo.ei.sing.s2p.gui.spots.heatmap;
 
 import java.awt.Window;
-import java.util.Optional;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -14,17 +10,28 @@ import javax.swing.JPanel;
 import es.uvigo.ei.sing.hlfernandez.dialog.AbstractInputJDialog;
 import es.uvigo.ei.sing.hlfernandez.input.InputParameter;
 import es.uvigo.ei.sing.hlfernandez.input.InputParametersPanel;
-import es.uvigo.ei.sing.s2p.gui.spots.heatmap.SpotRenderer;
 import es.uvigo.ei.sing.s2p.gui.spots.heatmap.SpotRenderer.IdentificationsMode;
 
-public class SpotRendererDialog extends AbstractInputJDialog {
+public class JHeatMapConfigurationDialog extends AbstractInputJDialog {
 	private static final long serialVersionUID = 1L;
 
+	private InputParameter[] parameters;
+	private JCheckBox showSampleLabel;
 	private JCheckBox showSpotName;
 	private JComboBox<IdentificationsMode> identificationModeCmb;
+
+	private boolean spotCustomization;
 	
-	public SpotRendererDialog(Window parent) {
+	public JHeatMapConfigurationDialog(Window parent, boolean spotCustomization) {
 		super(parent);
+		
+		this.spotCustomization = spotCustomization;
+		this.configure();
+	}
+
+	private void configure() {
+		this.parameters[1].getInput().setEnabled(spotCustomization);
+		this.parameters[2].getInput().setEnabled(spotCustomization);
 	}
 
 	@Override
@@ -44,9 +51,10 @@ public class SpotRendererDialog extends AbstractInputJDialog {
 	}
 
 	private InputParameter[] getParameters() {
-		InputParameter[] parameters = new InputParameter[2];
-		parameters[0] = getShowSpotNameParameter();
-		parameters[1] = getShowIdentificationModeParameter();
+		parameters = new InputParameter[3];
+		parameters[0] = getShowSampleLabelsParameter();
+		parameters[1] = getShowSpotNameParameter();
+		parameters[2] = getShowIdentificationModeParameter();
 		return parameters;
 	}
 
@@ -78,7 +86,21 @@ public class SpotRendererDialog extends AbstractInputJDialog {
 		);
 		return identificationModeCmb;
 	}
-
+	
+	private InputParameter getShowSampleLabelsParameter() {
+		return new InputParameter(
+			"Show sample labels", 
+			getShowSampleLabelsComponent(), 
+			"Wether the sample labels must be shown or not."
+		);
+	}
+	
+	private JComponent getShowSampleLabelsComponent() {
+		showSampleLabel = new JCheckBox();
+		showSampleLabel.setSelected(false);
+		return showSampleLabel;
+	}
+	
 	public SpotRenderer getSelectedSpotRenderer() {
 		return new SpotRenderer(getIdentificationsMode(), isShowSpotName());
 	}
@@ -90,28 +112,15 @@ public class SpotRendererDialog extends AbstractInputJDialog {
 	private boolean isShowSpotName() {
 		return showSpotName.isSelected();
 	}
-	
+
+	public boolean isShowSampleLabels() {
+		return this.showSampleLabel.isSelected();
+	}
+
 	@Override
 	public void setVisible(boolean b) {
 		this.okButton.setEnabled(true);
 		this.pack();
 		super.setVisible(b);
-	}
-
-	public static Optional<SpotRenderer> getSpotRenderer(Window parent,
-		boolean showProteinIdentifications
-	) {
-		if (!showProteinIdentifications) {
-			return of(new SpotRenderer(IdentificationsMode.NONE, true));
-		}
-
-		SpotRendererDialog dialog = new SpotRendererDialog(parent);
-		dialog.setVisible(true);
-
-		if (!dialog.isCanceled()) {
-			return of(dialog.getSelectedSpotRenderer());
-		} else {
-			return empty();
-		}
 	}
 }

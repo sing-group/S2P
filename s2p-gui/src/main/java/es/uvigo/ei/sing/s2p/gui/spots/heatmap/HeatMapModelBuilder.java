@@ -8,9 +8,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.IntUnaryOperator;
+import java.util.stream.Collectors;
 
 import es.uvigo.ei.sing.hlfernandez.visualization.JHeatMapModel;
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
+import es.uvigo.ei.sing.s2p.core.entities.Sample;
 import es.uvigo.ei.sing.s2p.gui.table.ExtendedCsvTable;
 
 public class HeatMapModelBuilder {
@@ -20,6 +22,7 @@ public class HeatMapModelBuilder {
 	private int[] visibleColumns;
 	private SpotRenderer spotRenderer;
 	private Optional<Map<String, MascotIdentifications>> mascotIdentifications;
+	private Map<String, String> sampleLabels;
 
 	private HeatMapModelBuilder(ExtendedCsvTable table,
 		SpotRenderer spotRenderer
@@ -49,6 +52,11 @@ public class HeatMapModelBuilder {
 		this.mascotIdentifications = identifications;
 		return this;
 	}
+
+	public HeatMapModelBuilder withSampleLabels(Map<Sample, String> sampleLabels) {
+		this.sampleLabels = sampleLabels.keySet().stream().collect(Collectors.toMap(Sample::getName, s -> sampleLabels.get(s)));
+		return this;
+	}
 	
 	public JHeatMapModel build() {
 		return this.createHeatMapModel();
@@ -64,7 +72,7 @@ public class HeatMapModelBuilder {
 			
 		double[][] data = getMatrixData(visibleModelRows, visibleModelColumns);
 		
-		String[] colNames = getColNames(visibleModelColumns);
+		String[] colNames = getColNames(visibleModelColumns, sampleLabels);
 		String[] rowNames = getHeatmapRowNames(visibleModelRows, spotRenderer);
 			
 		return new JHeatMapModel(data, rowNames, colNames);
@@ -93,9 +101,19 @@ public class HeatMapModelBuilder {
 		return data;
 	}
 
-	private String[] getColNames(List<Integer> visibleModelColumns) {
+	private String[] getColNames(List<Integer> visibleModelColumns,
+		Map<String, String> sampleLabels
+	) {
 		List<String> colNames = visibleModelColumns.stream()
-				.map(this.table.getModel()::getColumnName).collect(toList());
+			.map(this.table.getModel()::getColumnName)
+			.map(sampleName -> {
+				if(sampleLabels.containsKey(sampleName)) {
+					return sampleName + " [" + sampleLabels.get(sampleName) + "]";
+				} else {
+					return sampleName;
+				}
+			})
+			.collect(toList());
 		
 		return colNames.toArray(new String[colNames.size()]);
 	}

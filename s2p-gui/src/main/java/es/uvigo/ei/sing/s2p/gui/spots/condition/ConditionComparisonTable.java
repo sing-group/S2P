@@ -1,7 +1,7 @@
 package es.uvigo.ei.sing.s2p.gui.spots.condition;
 
 import static es.uvigo.ei.sing.s2p.gui.UISettings.BG_COLOR;
-import static es.uvigo.ei.sing.s2p.gui.components.dialog.SpotRendererDialog.getSpotRenderer;
+import static es.uvigo.ei.sing.s2p.gui.spots.heatmap.SpotRenderer.IdentificationsMode.NONE;
 import static java.util.stream.Collectors.toList;
 import static javax.swing.BorderFactory.createEmptyBorder;
 
@@ -30,6 +30,7 @@ import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
 import es.uvigo.ei.sing.s2p.gui.samples.SamplesComparisonTable;
 import es.uvigo.ei.sing.s2p.gui.spots.comparison.JHeatMapDialog;
+import es.uvigo.ei.sing.s2p.gui.spots.heatmap.JHeatMapConfigurationDialog;
 import es.uvigo.ei.sing.s2p.gui.spots.heatmap.SpotRenderer;
 
 public class ConditionComparisonTable extends JPanel {
@@ -137,11 +138,21 @@ public class ConditionComparisonTable extends JPanel {
 	}
 
 	private void viewAsHeatmap() {
-		Optional<SpotRenderer> renderer = 
-			getSpotRenderer(getRoot(), this.showProteinIdentifications);
-		if (renderer.isPresent()) {
+		JHeatMapConfigurationDialog configurationDialog =
+			new JHeatMapConfigurationDialog(getRoot(), showProteinIdentifications);
+		configurationDialog.setVisible(true);
+
+		if (!configurationDialog.isCanceled()) {
+			SpotRenderer renderer = new SpotRenderer(NONE, true);
+
+			if (showProteinIdentifications) {
+				renderer = configurationDialog.getSelectedSpotRenderer();
+			}
+
 			JHeatMapDialog dialog = new JHeatMapDialog(getRoot(),
-				this.samplesTable.getHeatMapModel(renderer.get()));
+				this.samplesTable.getHeatMapModel(renderer, 
+					configurationDialog.isShowSampleLabels())
+			);
 			dialog.setVisible(true);
 		}
 	}
