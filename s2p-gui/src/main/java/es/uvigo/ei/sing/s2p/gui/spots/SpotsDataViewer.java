@@ -8,6 +8,7 @@ import static java.util.Collections.emptySet;
 import static java.util.stream.Collectors.toSet;
 import static javax.swing.BorderFactory.createEmptyBorder;
 import static javax.swing.BorderFactory.createTitledBorder;
+import static javax.swing.Box.createHorizontalGlue;
 import static javax.swing.Box.createHorizontalStrut;
 import static javax.swing.SwingUtilities.invokeLater;
 
@@ -36,6 +37,7 @@ import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
 
 import es.uvigo.ei.sing.hlfernandez.input.RangeInputPanel;
+import es.uvigo.ei.sing.hlfernandez.menu.HamburgerMenu;
 import es.uvigo.ei.sing.hlfernandez.ui.icons.Icons;
 import es.uvigo.ei.sing.hlfernandez.utilities.ExtendedAbstractAction;
 import es.uvigo.ei.sing.hlfernandez.utilities.builder.JToggleButtonBuilder;
@@ -86,16 +88,22 @@ public class SpotsDataViewer extends JPanel implements
 		+ " in two conditions.";
 	private static final String TOOLTIP_DIFFERENTIAL_SPOTS_SELECTED = 
 		"Select this option to disable this filter.";
+	private static final String TOOLTIP_CONDITION_FILTERS_UNSELECTED = 
+		"Select this option to show conditions' presence filters.";
+	private static final String TOOLTIP_CONDITION_FILTERS_SELECTED = 
+		"Select this option to hide conditions' presence filters.";
 
 	private ExtendedJTabbedPane tabbedPane;
 	private JPanel northPanel;
 	private JPanel toolbar;
+	private JPanel conditionFilteringPanel;
 
 	private JToggleButton toggleVisualizationMode;
 	private JToggleButton toggleFilterSpots;
-	private JButton showProteinIdentificationsBtn;
+	private JToggleButton toggleViewConditionFilters;
+	private Action showProteinIdentificationsAction;
 	private JToggleButton togleFilterDiferentialSpots;
-	private JButton showProteinIdentificationsSummaryBtn;
+	private Action showProteinIdentificationsSummaryAction;
 	private JButton clearIdentificationsBtn;
 
 	protected SpotsData data;
@@ -181,8 +189,9 @@ public class SpotsDataViewer extends JPanel implements
 			this.toolbar.add(getVisualizationModeToggleButton());
 			this.toolbar.add(getFilterSpotsToggleButton());
 			this.toolbar.add(getFilterDifferentialSpotsButton());
-			this.toolbar.add(getShowProteinIdentificationsButton());
-			this.toolbar.add(getShowProteinIdentificationsSummaryButton());
+			this.toolbar.add(getConditionFiltersVisibilityButton());
+			this.toolbar.add(createHorizontalGlue());
+			this.toolbar.add(getHamburgerMenu());
 		}
 		return this.toolbar;
 	}
@@ -255,12 +264,12 @@ public class SpotsDataViewer extends JPanel implements
 	}
 
 	private void enableIdentificationButtons(boolean enabled) {
+		this.clearIdentificationsBtn.setEnabled(enabled);
 		this.toggleVisualizationMode.setEnabled(enabled);
 		this.toggleFilterSpots.setEnabled(enabled);
 		this.togleFilterDiferentialSpots.setEnabled(enabled);
-		this.showProteinIdentificationsBtn.setEnabled(enabled);
-		this.showProteinIdentificationsSummaryBtn.setEnabled(enabled);
-		this.clearIdentificationsBtn.setEnabled(enabled);
+		this.showProteinIdentificationsAction.setEnabled(enabled);
+		this.showProteinIdentificationsSummaryAction.setEnabled(enabled);
 	}
 
 	protected LoadMascotIdentificationsDialog getMascotIdentificationsDialog() {
@@ -340,13 +349,36 @@ public class SpotsDataViewer extends JPanel implements
 		}
 		return this.togleFilterDiferentialSpots;
 	}
-
+	
 	private void toggleViewDifferentialSpots(ItemEvent e) {
 		if(e.getStateChange() == ItemEvent.SELECTED) {
 			invokeLater(this::setDifferentialSpotsFilter);
 		} else {
 			this.setDiferentialSpotsFilter(emptySet());
 		}
+	}
+
+	private JToggleButton getConditionFiltersVisibilityButton() {
+		if(this.toggleViewConditionFilters == null) {
+			this.toggleViewConditionFilters = JToggleButtonBuilder
+				.newJToggleButton()
+					.withLabel("Presence filters")
+					.withSelectedIcon(Icons.ICON_EYE_16)
+					.withUnselectedIcon(Icons.ICON_EYE_HIDDEN_16)
+					.setSelected(true)
+					.setEnabled(true)
+					.withTooltip(selected -> selected ? 
+						TOOLTIP_CONDITION_FILTERS_SELECTED : 
+						TOOLTIP_CONDITION_FILTERS_UNSELECTED)
+					.thatDoes(this::toggleViewConditionFilters)
+				.build();
+		}
+		return this.toggleViewConditionFilters;
+	}
+
+	private void toggleViewConditionFilters(ItemEvent e) {
+		boolean visible= e.getStateChange() == ItemEvent.SELECTED;
+		this.conditionFilteringPanel.setVisible(visible);
 	}
 
 	private void setDifferentialSpotsFilter() {
@@ -381,18 +413,24 @@ public class SpotsDataViewer extends JPanel implements
 		return SpotSummaryOperations.findDifferentialSpots(allSpots, first, 
 			second, this.conditionsSummaryTable::getSpotSummary, function);
 	}
+	
+	private JToggleButton getHamburgerMenu() {
+		HamburgerMenu menu = new HamburgerMenu(HamburgerMenu.Size.SIZE16);
+		menu.add(getShowProteinIdentificationsButton());
+		menu.add(getShowProteinIdentificationsSummaryButton());
+		return menu;
+	}
 
-	private JButton getShowProteinIdentificationsButton() {
-		if(this.showProteinIdentificationsBtn == null) {
-			this.showProteinIdentificationsBtn = new JButton(
+	private Action getShowProteinIdentificationsButton() {
+		if(this.showProteinIdentificationsAction == null) {
+			this.showProteinIdentificationsAction = 
 				new ExtendedAbstractAction(
 					"Identifications detail", Icons.ICON_LOOKUP_16, 
 					this::showProteinIdentifications
-				)
 			);
 		}
-		this.showProteinIdentificationsBtn.setEnabled(false);
-		return this.showProteinIdentificationsBtn;
+		this.showProteinIdentificationsAction.setEnabled(false);
+		return this.showProteinIdentificationsAction;
 	}
 
 	private void showProteinIdentifications() {
@@ -405,16 +443,16 @@ public class SpotsDataViewer extends JPanel implements
 		return SwingUtilities.getWindowAncestor(this);
 	}
 
-	private JButton getShowProteinIdentificationsSummaryButton() {
-		if(this.showProteinIdentificationsSummaryBtn == null) {
-			this.showProteinIdentificationsSummaryBtn = new JButton(
+	private Action getShowProteinIdentificationsSummaryButton() {
+		if(this.showProteinIdentificationsSummaryAction == null) {
+			this.showProteinIdentificationsSummaryAction =
 				new ExtendedAbstractAction(
 					"Summary", Icons.ICON_INFO_16, 
-					this::showProteinIdentificationsSummary)
+					this::showProteinIdentificationsSummary
 				);
 		}
-		this.showProteinIdentificationsSummaryBtn.setEnabled(false);
-		return this.showProteinIdentificationsSummaryBtn;
+		this.showProteinIdentificationsSummaryAction.setEnabled(false);
+		return this.showProteinIdentificationsSummaryAction;
 	}
 	
 	private void showProteinIdentificationsSummary() {
@@ -427,16 +465,16 @@ public class SpotsDataViewer extends JPanel implements
 	}
 
 	private JPanel getConditionFilteringPanel() {
-		JPanel toret = new JPanel();
-		toret.setLayout(new GridLayout(0, 2));
+		conditionFilteringPanel = new JPanel();
+		conditionFilteringPanel.setLayout(new GridLayout(0, 2));
 		
 		getConditions().forEach(c -> {
 			if (c.getSamples().size() > 1) {
-				toret.add(createConditionFilteringPanel(c));
+				conditionFilteringPanel.add(createConditionFilteringPanel(c));
 			}
 		});
 		
-		return toret;
+		return conditionFilteringPanel;
 	}
 
 	private Component createConditionFilteringPanel(Condition condition) {
