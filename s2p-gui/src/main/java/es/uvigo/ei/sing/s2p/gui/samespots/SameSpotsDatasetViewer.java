@@ -1,24 +1,27 @@
 package es.uvigo.ei.sing.s2p.gui.samespots;
 
 import static es.uvigo.ei.sing.hlfernandez.input.csv.CsvFormat.FileFormat.CUSTOM;
+import static es.uvigo.ei.sing.hlfernandez.ui.icons.Icons.ICON_EDIT_16;
+import static es.uvigo.ei.sing.hlfernandez.ui.icons.Icons.ICON_EXPORT_16;
+import static es.uvigo.ei.sing.hlfernandez.utilities.builder.JButtonBuilder.newJButtonBuilder;
 import static es.uvigo.ei.sing.s2p.core.io.samespots.SameSpotsCsvWriter.write;
 import static es.uvigo.ei.sing.s2p.gui.UISettings.BG_COLOR;
 import static es.uvigo.ei.sing.s2p.gui.util.CsvUtils.csvFormat;
+import static java.util.Collections.emptyList;
+import static javax.swing.BorderFactory.createEmptyBorder;
+import static javax.swing.Box.createHorizontalGlue;
+import static javax.swing.BoxLayout.X_AXIS;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Window;
-import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.AbstractAction;
-import javax.swing.BorderFactory;
-import javax.swing.Box;
+import javax.swing.Action;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -27,6 +30,7 @@ import javax.swing.SwingUtilities;
 
 import es.uvigo.ei.sing.commons.csv.entities.CsvFormat;
 import es.uvigo.ei.sing.hlfernandez.dialog.ExportCsvDialog;
+import es.uvigo.ei.sing.hlfernandez.utilities.ExtendedAbstractAction;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
 import es.uvigo.ei.sing.s2p.gui.samples.SamplesComparisonTable;
 
@@ -34,7 +38,7 @@ public class SameSpotsDatasetViewer extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	private List<Sample> samples;
-	private List<String> conditionLabels = Collections.emptyList();
+	private List<String> conditionLabels = emptyList();
 	
 	private SamplesComparisonTable samplesTable;
 	private JPanel northPanel;
@@ -59,12 +63,12 @@ public class SameSpotsDatasetViewer extends JPanel {
 	private Component getNorthPanel() {
 		if(this.northPanel == null) {
 			this.northPanel = new JPanel();
-			this.northPanel.setLayout(new BoxLayout(this.northPanel, BoxLayout.X_AXIS));
+			this.northPanel.setLayout(new BoxLayout(this.northPanel, X_AXIS));
 			this.northPanel.setOpaque(false);
-			this.northPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
+			this.northPanel.setBorder(createEmptyBorder(10, 10, 0, 10));
 			this.northPanel.add(getEditConditionsButton());
 			this.northPanel.add(getEditSamplesButton());
-			this.northPanel.add(Box.createHorizontalGlue());
+			this.northPanel.add(createHorizontalGlue());
 			this.northPanel.add(getExportToCsvButton());
 		}
 		return this.northPanel ;
@@ -72,53 +76,52 @@ public class SameSpotsDatasetViewer extends JPanel {
 
 	private JButton getEditConditionsButton() {
 		if(this.editConditionsBtn == null) {
-			this.editConditionsBtn = new JButton(
-				new AbstractAction("Edit conditions") {
-					private static final long serialVersionUID = 1L;
-		
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						editConditions();
-					}
-			});
+			this.editConditionsBtn = newJButtonBuilder()
+				.withTooltip("Edit experiment's conditions.")
+				.thatDoes(getEditConditionsAction())
+				.build();			
 		}
 		return this.editConditionsBtn;
 	}
 	
+	private Action getEditConditionsAction() {
+		return new ExtendedAbstractAction("Conditions", ICON_EDIT_16, 
+			this::editConditions);
+	}
+
 	private JButton getEditSamplesButton() {
 		if(this.editSamplesBtn == null) {
-			this.editSamplesBtn = new JButton(
-				new AbstractAction("Edit samples") {
-					private static final long serialVersionUID = 1L;
-					
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						editSamples();
-					}
-				});
-			this.editSamplesBtn.setEnabled(false);
+			this.editSamplesBtn = newJButtonBuilder()
+				.disabled()
+				.withTooltip("Edit experiment's samples.")
+				.thatDoes(getEditSamplesAction())
+				.build();
 		}
 		return this.editSamplesBtn;
 	}
 	
+	private Action getEditSamplesAction() {
+		return new ExtendedAbstractAction("Samples", ICON_EDIT_16, 
+			this::editSamples);
+	}
+
 	private JButton getExportToCsvButton() {
-		JButton toret = new JButton(
-				new AbstractAction("Export to CSV") {
-					private static final long serialVersionUID = 1L;
-					
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						exportToCsv();
-					}
-				});
-		return toret;
+		return newJButtonBuilder()
+			.withTooltip("Export into a .CSV file")
+			.thatDoes(getExportToCsvAction())
+			.build();
+	}
+
+	private Action getExportToCsvAction() {
+		return new ExtendedAbstractAction("Export to CSV", ICON_EXPORT_16, 
+			this::exportToCsv);
 	}
 
 	private Component getSamplesTable() {
 		if (this.samplesTable == null) {
 			this.samplesTable = new SamplesComparisonTable(this.samples);
 			this.samplesTable.setOpaque(false);
-			this.samplesTable.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+			this.samplesTable.setBorder(createEmptyBorder(10, 10, 10, 10));
 		}
 		return this.samplesTable;
 	}
@@ -126,7 +129,8 @@ public class SameSpotsDatasetViewer extends JPanel {
 	private void editConditions() {
 		ConditionLabelInputDialog inputDialog = new ConditionLabelInputDialog(
 			getDialogParent(), 
-			this.conditionLabels);
+			this.conditionLabels
+		);
 		inputDialog.setVisible(true);
 		if (!inputDialog.isCanceled()) {
 			this.conditionLabels = inputDialog.getConditionLabels();
@@ -183,6 +187,6 @@ public class SameSpotsDatasetViewer extends JPanel {
 	protected void exportToCsv(File file, CsvFormat csvFormat)
 		throws IOException 
 	{
-			write(file, samples, csvFormat, sampleConditions);
+		write(file, samples, csvFormat, sampleConditions);
 	}
 }
