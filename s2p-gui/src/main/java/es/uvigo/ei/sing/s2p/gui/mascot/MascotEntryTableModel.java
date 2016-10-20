@@ -49,7 +49,8 @@ public class MascotEntryTableModel extends AbstractTableModel {
 	
 	@Override
 	public java.lang.Class<?> getColumnClass(int columnIndex) {
-		return getValueAt(0, columnIndex).getClass();
+		return 	getRowCount() > 0 ?
+				getValueAt(0, columnIndex).getClass() : Object.class;
 	};
 
 	@Override

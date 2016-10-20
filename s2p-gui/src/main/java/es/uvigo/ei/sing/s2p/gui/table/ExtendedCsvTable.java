@@ -26,6 +26,7 @@ import es.uvigo.ei.sing.s2p.gui.util.CsvUtils;
 public class ExtendedCsvTable extends CSVTable {
 	private static final long serialVersionUID = 1L;
 	private CustomColumnControlButton columnControlButton;
+	private boolean showVisibilityActions = true;
 
 	public ExtendedCsvTable(TableModel dm) {
 		super(dm);
@@ -36,7 +37,7 @@ public class ExtendedCsvTable extends CSVTable {
     	this.columnControlButton = new CustomColumnControlButton(this);
     	setColumnControl(this.columnControlButton);
     }
-    
+
     public void addExportToCsvAction() {
     	this.addAction(new AbstractAction("Export to CSV") {
 			private static final long serialVersionUID = 1L;
@@ -47,6 +48,11 @@ public class ExtendedCsvTable extends CSVTable {
 			}
 		});
     }
+
+	public void setColumVisibilityActionsEnabled(boolean enabled) {
+		this.showVisibilityActions  = enabled;
+		this.columnControlButton.update();
+	}
 
 	/**
 	 * Adds {@code Action a} so that it will appear in the
@@ -68,6 +74,12 @@ public class ExtendedCsvTable extends CSVTable {
 
 		public CustomColumnControlButton(JXTable table) {
 			super(table);
+		}
+
+		protected void createVisibilityActions() {
+			if (showVisibilityActions == true) {
+				super.createVisibilityActions();
+			}
 		}
 	
 		public void update() {
