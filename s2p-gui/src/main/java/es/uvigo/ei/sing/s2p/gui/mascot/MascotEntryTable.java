@@ -1,8 +1,6 @@
 package es.uvigo.ei.sing.s2p.gui.mascot;
 
-import static java.util.stream.Collectors.toList;
-
-import java.util.List;
+import java.util.Collections;
 import java.util.stream.IntStream;
 
 import javax.swing.Action;
@@ -13,7 +11,6 @@ import org.jdesktop.swingx.decorator.HighlighterFactory;
 
 import es.uvigo.ei.sing.hlfernandez.event.PopupMenuAdapter;
 import es.uvigo.ei.sing.hlfernandez.utilities.ExtendedAbstractAction;
-import es.uvigo.ei.sing.s2p.core.entities.MascotEntry;
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 import es.uvigo.ei.sing.s2p.gui.table.ExtendedCsvTable;
 
@@ -67,16 +64,18 @@ public class MascotEntryTable extends ExtendedCsvTable {
 	}
 
 	private void removeSelectedRows() {
-		if(this.getSelectedRowCount() > 0) {
-			this.entries.removeAll(getSelectedMascotEntries());
+		if (this.getSelectedRowCount() > 0) {
+			this.removeSelectedMascotEntries();
 			((MascotEntryTableModel) this.getModel()).fireTableDataChanged();
 		}
 	}
 
-	private List<MascotEntry> getSelectedMascotEntries() {
-		return 	IntStream.of(this.getSelectedRows()).boxed()
-				.map(this::convertRowIndexToModel)
-				.map(entries::get)
-				.collect(toList());
+	private void removeSelectedMascotEntries() {
+		IntStream.of(this.getSelectedRows()).boxed()
+			.map(this::convertRowIndexToModel)
+			.sorted(Collections.reverseOrder(Integer::compareTo))
+			.forEach(i -> {
+				entries.remove((int) i);
+			});
 	}
 }
