@@ -4,12 +4,15 @@ import static es.uvigo.ei.sing.hlfernandez.ui.UIUtils.setOpaqueRecursive;
 import static es.uvigo.ei.sing.hlfernandez.utilities.builder.JButtonBuilder.newJButtonBuilder;
 import static es.uvigo.ei.sing.s2p.gui.UISettings.BG_COLOR;
 import static es.uvigo.ei.sing.s2p.gui.util.ColorUtils.getSoftColor;
+import static java.awt.BorderLayout.CENTER;
+import static java.awt.BorderLayout.NORTH;
 import static java.util.Collections.emptySet;
 import static java.util.stream.Collectors.toSet;
 import static javax.swing.BorderFactory.createEmptyBorder;
 import static javax.swing.BorderFactory.createTitledBorder;
 import static javax.swing.Box.createHorizontalGlue;
 import static javax.swing.Box.createHorizontalStrut;
+import static javax.swing.BoxLayout.X_AXIS;
 import static javax.swing.SwingUtilities.invokeLater;
 
 import java.awt.BorderLayout;
@@ -159,8 +162,8 @@ public class SpotsDataViewer extends JPanel implements
 		this.setLayout(new BorderLayout());
 		this.setBackground(BG_COLOR);
 
-		this.add(getNorthPanel(), BorderLayout.NORTH);
-		this.add(getTabbedPane(), BorderLayout.CENTER);
+		this.add(getNorthPanel(), NORTH);
+		this.add(getTabbedPane(), CENTER);
 	}
 	
 	private JPanel getNorthPanel() {
@@ -169,8 +172,8 @@ public class SpotsDataViewer extends JPanel implements
 			this.northPanel.setBorder(createEmptyBorder(2, 10, 2, 10));
 			this.northPanel.setBackground(BG_COLOR);
 			
-			this.northPanel.add(getToolbar(), BorderLayout.NORTH);
-			this.northPanel.add(getConditionFilteringPanel(), BorderLayout.CENTER);
+			this.northPanel.add(getToolbar(), NORTH);
+			this.northPanel.add(getConditionFilteringPanel(), CENTER);
 		}
 		return this.northPanel;
 	}
@@ -178,7 +181,7 @@ public class SpotsDataViewer extends JPanel implements
 	private JPanel getToolbar() {
 		if(this.toolbar == null) {
 			this.toolbar = new JPanel();
-			this.toolbar.setLayout(new BoxLayout(this.toolbar, BoxLayout.X_AXIS));
+			this.toolbar.setLayout(new BoxLayout(this.toolbar, X_AXIS));
 			this.toolbar.setOpaque(false);
 			this.toolbar.setBorder(createEmptyBorder(5, 0, 5, 0));
 			
@@ -388,8 +391,12 @@ public class SpotsDataViewer extends JPanel implements
 		if(!dialog.isCanceled()) {
 			Pair<Condition, Condition> selection = dialog.getSelectedConditions();
 			this.setDiferentialSpotsFilter( 
-				findDifferentialSpots(selection.getFirst(), 
-					selection.getSecond(), dialog.getDiferentialSpotFunction())
+				findDifferentialSpots(
+					selection.getFirst(),	selection.getSecond(), 
+					dialog.getDiferentialSpotFunction(), 
+					dialog.getSelectedPvalue(), 
+					dialog.isCorrectPvalue()
+				)
 			);
 		} else {
 			this.togleFilterDiferentialSpots.setSelected(false);
@@ -408,10 +415,10 @@ public class SpotsDataViewer extends JPanel implements
 	}
 
 	private Set<String> findDifferentialSpots(Condition first, Condition second, 
-		DifferentialSpotFunction function
+		DifferentialSpotFunction function, double pValue, boolean correctP
 	) {
 		return SpotSummaryOperations.findDifferentialSpots(allSpots, first, 
-			second, this.conditionsSummaryTable::getSpotSummary, function);
+			second, this.conditionsSummaryTable::getSpotSummary, function, pValue, correctP);
 	}
 	
 	private JToggleButton getHamburgerMenu() {
@@ -500,8 +507,8 @@ public class SpotsDataViewer extends JPanel implements
 				rangeInput.getMaxValue(), label);
 		});
 		
-		panel.add(label, BorderLayout.NORTH);
-		panel.add(rangeInput, BorderLayout.CENTER);
+		panel.add(label, NORTH);
+		panel.add(rangeInput, CENTER);
 		return panel;
 	}
 	

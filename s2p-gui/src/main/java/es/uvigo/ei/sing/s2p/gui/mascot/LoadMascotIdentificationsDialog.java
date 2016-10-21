@@ -1,6 +1,11 @@
 package es.uvigo.ei.sing.s2p.gui.mascot;
 
+import static es.uvigo.ei.sing.s2p.core.operations.SpotMascotEntryPositionJoiner.join;
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static javax.swing.JOptionPane.showMessageDialog;
+
 import java.awt.Window;
+import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -8,20 +13,20 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.JCheckBox;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 
+import es.uvigo.ei.sing.commons.csv.entities.CsvFormat;
 import es.uvigo.ei.sing.hlfernandez.filechooser.JFileChooserPanel;
 import es.uvigo.ei.sing.hlfernandez.input.InputParameter;
 import es.uvigo.ei.sing.hlfernandez.input.InputParametersPanel;
 import es.uvigo.ei.sing.hlfernandez.text.JIntegerTextField;
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.io.MaldiPlateLoader;
-import es.uvigo.ei.sing.s2p.core.io.MascotProjectLoader;
-import es.uvigo.ei.sing.s2p.core.operations.SpotMascotEntryPositionJoiner;
+import es.uvigo.ei.sing.s2p.core.io.MascotCsvLoader;
 import es.uvigo.ei.sing.s2p.gui.components.dialog.AbstractFileInputJDialog;
 import es.uvigo.ei.sing.s2p.gui.util.CommonFileChooser;
+import es.uvigo.ei.sing.s2p.gui.util.CsvPanel;
 
 public class LoadMascotIdentificationsDialog extends AbstractFileInputJDialog {
 	private static final long serialVersionUID = 1L;
@@ -29,11 +34,13 @@ public class LoadMascotIdentificationsDialog extends AbstractFileInputJDialog {
 	private JPanel inputComponentsPane;
 	private JFileChooserPanel mascotFile;
 	private JIntegerTextField mascotScoreThreshold;
+	private CsvPanel mascotFileFormat;
 	private JCheckBox mascotRemoveDuplicates; 
 	private JFileChooserPanel maldiPlateFile;
 	
-	private MascotIdentifications mascotEntries;
 	protected Map<String, String> maldi;
+
+	private MascotIdentifications mascotIdentifications;
 
 	public LoadMascotIdentificationsDialog(Window parent) {
 		super(parent);
@@ -59,6 +66,8 @@ public class LoadMascotIdentificationsDialog extends AbstractFileInputJDialog {
 	protected InputParameter[] getInputParameters() {
 		List<InputParameter> parameters = new LinkedList<InputParameter>();
 		parameters.add(getMascotFileInput());
+		
+		parameters.add(getMascotFileFormatInput());
 		
 		InputParameter mascotThresholdInput = getMascotThresholdInput();
 		this.mascotScoreThreshold = (JIntegerTextField) mascotThresholdInput.getInput();
@@ -86,7 +95,17 @@ public class LoadMascotIdentificationsDialog extends AbstractFileInputJDialog {
 		return new InputParameter(
 			"Mascot identifications", 
 			this.mascotFile, 
-			"A .HTM File containing the Mascot identifications"
+			"A .CSV file containing the Mascot identifications."
+		);
+	}
+	
+	private InputParameter getMascotFileFormatInput() {
+		this.mascotFileFormat = new CsvPanel();
+		this.mascotFileFormat.addCsvListener(this::onCsvFormatChanged);
+		return new InputParameter(
+			"CSV format", 
+			this.mascotFileFormat, 
+			"The format of the .CSV file."
 		);
 	}
 	
@@ -95,7 +114,7 @@ public class LoadMascotIdentificationsDialog extends AbstractFileInputJDialog {
 		return new InputParameter(
 			"Remove duplicates",
 			mascotRemoveDuplicates,
-			"Check this option to remove duplicated entries"
+			"Check this option to remove duplicated entries."
 		);
 	}
 	
@@ -122,27 +141,20 @@ public class LoadMascotIdentificationsDialog extends AbstractFileInputJDialog {
 	}
 	
 	private void onMascotFileSelection(ChangeEvent e) {
-		this.loadMascotIdentifications();
+		this.checkOkButton();
+	}
+	private void onCsvFormatChanged(ChangeEvent e) {
+		this.pack();
 		this.checkOkButton();
 	}
 	
-	private void loadMascotIdentifications() {
+	private MascotIdentifications loadMascotIdentifications() throws IOException {
 		File selectedFile = this.mascotFile.getSelectedFile();
 		int mascotThreshold = this.mascotScoreThreshold.getValue();
+		CsvFormat csvFormat = this.mascotFileFormat.getConvertedCsvFormat();
 		boolean removeDuplicates = this.mascotRemoveDuplicates.isSelected();
-		try {
-			this.mascotEntries = MascotProjectLoader.load(
-				selectedFile, mascotThreshold, removeDuplicates
-			);
-		} catch (Exception ex) {
-			this.mascotEntries = null;
-			showMessage("Can't load Mascot identifications from " + selectedFile);
-		}
-	}
-
-	protected void showMessage(String message) {
-		JOptionPane.showMessageDialog(this, message, "Input error",
-			JOptionPane.ERROR_MESSAGE);
+		return MascotCsvLoader.load(selectedFile, csvFormat,
+			mascotThreshold, removeDuplicates);
 	}
 
 	private void onMaldiFileSelection(ChangeEvent e) {
@@ -151,14 +163,18 @@ public class LoadMascotIdentificationsDialog extends AbstractFileInputJDialog {
 			this.maldi = MaldiPlateLoader.readFile(selectedFile).asMap();
 		} catch (IOException | ClassNotFoundException e1) {
 			this.maldi = null;
-			showMessage("Can't load the maldi plate from " + selectedFile);
+			showError("Can't load the maldi plate from " + selectedFile 
+				+ " (" + e1.toString() + ")");
 		}
 		this.checkOkButton();
 	}
 	
 	protected void checkOkButton() {
 		boolean enabled = 
-			this.mascotEntries != null && this.maldi != null;
+			this.mascotFileFormat.isValidFormat()		&&
+			this.mascotFile.getSelectedFile() != null 	&&
+			this.mascotFile.getSelectedFile().isFile() 	&&
+			this.maldi != null;
 		
 		this.okButton.setEnabled(enabled);
 	}
@@ -170,15 +186,36 @@ public class LoadMascotIdentificationsDialog extends AbstractFileInputJDialog {
 	}
 
 	public Map<String, MascotIdentifications> getMascotIdentifications() {
-		return SpotMascotEntryPositionJoiner.join(getMaldiPlate(), getMascotEntries());
+		return join(getMaldiPlate(), getMascotEntries());
 	}
 
 	protected Map<String, String> getMaldiPlate() {
 		return this.maldi;
 	}
 
-	protected MascotIdentifications getMascotEntries() {
-		this.loadMascotIdentifications();
-		return this.mascotEntries;
+	protected MascotIdentifications getMascotEntries()  {
+		return this.mascotIdentifications;
+	}
+	
+	protected JIntegerTextField getMascotScoreThresholdTextField() {
+		return mascotScoreThreshold;
+	}
+	
+	protected JCheckBox getMascotRemoveDuplicatesCheckbox() {
+		return mascotRemoveDuplicates;
+	}
+	
+	@Override
+	protected void onOkButtonEvent(ActionEvent event) {
+		try {
+			this.mascotIdentifications = loadMascotIdentifications();
+			super.onOkButtonEvent(event);
+		} catch (IOException e) {
+			showError("Can't load mascot identifications.");
+		}
+	}
+
+	private void showError(String message) {
+		showMessageDialog(this, message, "Error", ERROR_MESSAGE);
 	}
 }

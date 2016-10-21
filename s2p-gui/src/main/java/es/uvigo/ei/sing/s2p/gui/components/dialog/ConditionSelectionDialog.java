@@ -5,12 +5,14 @@ import static java.util.stream.Collectors.toList;
 import java.awt.Window;
 import java.util.List;
 
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
 import es.uvigo.ei.sing.hlfernandez.combobox.ComboBoxItem;
 import es.uvigo.ei.sing.hlfernandez.input.InputParameter;
 import es.uvigo.ei.sing.hlfernandez.input.InputParametersPanel;
+import es.uvigo.ei.sing.hlfernandez.text.DoubleTextField;
 import es.uvigo.ei.sing.s2p.core.entities.Condition;
 import es.uvigo.ei.sing.s2p.core.entities.Pair;
 import es.uvigo.ei.sing.s2p.core.operations.SpotSummaryOperations.DifferentialSpotFunction;
@@ -22,6 +24,8 @@ public class ConditionSelectionDialog extends AbstractFileInputJDialog {
 	private InputParameter[] parameters;
 	private List<Condition> conditions;
 	private JComboBox<DifferentialSpotFunction> differentialSpotFunctionCmb;
+	private DoubleTextField pValue;
+	private JCheckBox correctPvalue;
 	private JComboBox<ComboBoxItem<Condition>> condition1Cmb;
 	private JComboBox<ComboBoxItem<Condition>> condition2Cmb;
 
@@ -65,29 +69,47 @@ public class ConditionSelectionDialog extends AbstractFileInputJDialog {
 	}
 
 	private InputParameter[] getParameters() {
-		this.parameters = new InputParameter[3];
+		this.parameters = new InputParameter[5];
 		parameters[0] = createCondition1Parameter();
 		parameters[1] = createCondition2Parameter();
 		parameters[2] = createFunctionParameter();
+		parameters[3] = createPvalueParameter();
+		parameters[4] = createCorrectPvalueParameter();
 		return parameters;
 	}
 
 	private InputParameter createCondition1Parameter() {
 		condition1Cmb = new JComboBox<ComboBoxItem<Condition>>();
 		return new InputParameter("Condition 1", condition1Cmb,
-			"Condition to compare");
+			"First condition to compare.");
 	}
 	
 	private InputParameter createCondition2Parameter() {
 		condition2Cmb = new JComboBox<ComboBoxItem<Condition>>();
 		return new InputParameter("Condition 2", condition2Cmb,
-				"Condition to compare");
+			"Second condition to compare.");
 	}
 
 	private InputParameter createFunctionParameter() {
-		differentialSpotFunctionCmb = new JComboBox<DifferentialSpotFunction>(DifferentialSpotFunction.values());
+		differentialSpotFunctionCmb = new JComboBox<DifferentialSpotFunction>(
+			DifferentialSpotFunction.values());
 		return new InputParameter("Function", differentialSpotFunctionCmb,
-				"Function to find differential spots");
+			"Function to find differentially expressed spots.");
+	}
+	
+	private InputParameter createPvalueParameter() {
+		pValue = new DoubleTextField(0.05d);
+		return new InputParameter("p-value", pValue,
+			"Maximum p-value allowed.");
+	}
+
+	private InputParameter createCorrectPvalueParameter() {
+		correctPvalue = new JCheckBox();
+		correctPvalue.setSelected(true);
+		return new InputParameter("Correct p-value", correctPvalue,
+			"Wether p-values must be corrected to take care of"
+			+ "multiple comparisons. Corrections are done using"
+			+ "Benjamini-Hochberg FDR correction.");
 	}
 
 	@Override
@@ -95,6 +117,14 @@ public class ConditionSelectionDialog extends AbstractFileInputJDialog {
 		this.okButton.setEnabled(true);
 		this.pack();
 		super.setVisible(b);
+	}
+	
+	public double getSelectedPvalue() {
+		return pValue.getValue();
+	}
+	
+	public boolean isCorrectPvalue() {
+		return correctPvalue.isSelected();
 	}
 	
 	public Pair<Condition, Condition> getSelectedConditions() {
