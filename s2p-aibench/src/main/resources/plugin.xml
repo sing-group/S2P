@@ -12,7 +12,7 @@
 			class="es.uvigo.ei.sing.s2p.aibench.operations.LoadSameSpotsAnalysis"
 		>
 			<operation-description
-				name="Load SameSpots analysis" 
+				name="Import report" 
 				uid="operations.loadsamespotsanalysis" shortcut="1"
 			/>
 		</extension>
@@ -22,7 +22,7 @@
 			class="es.uvigo.ei.sing.s2p.aibench.operations.LoadSameSpotsCsvFiles"
 		>
 			<operation-description 
-				name="Load SameSpots *.CSV" 
+				name="Import *.CSV" 
 				uid="operations.loadsamespotscsvfiles" 
 				shortcut="2"
 			/>
@@ -33,7 +33,7 @@
 			class="es.uvigo.ei.sing.s2p.aibench.operations.LoadSpotsData"
 		>
 			<operation-description 
-				name="Load spots data" 
+				name="Load Spots" 
 				uid="operations.loadspotsdata" 
 				shortcut="3"
 			/>
@@ -41,12 +41,23 @@
 		
 		<extension 
 			uid="aibench.core" name="aibench.core.operation-definition" 
-			class="es.uvigo.ei.sing.s2p.aibench.operations.LoadMascotIdentifications"
+			class="es.uvigo.ei.sing.s2p.aibench.operations.ImportMascotIdentifications"
 		>
 			<operation-description 
-				name="Load Mascot identifications" 
-				uid="operations.loadmascotidentifications" 
+				name="Import identifications"
+				uid="operations.importmascotidentifications"
 				shortcut="4"
+			/>
+		</extension>
+		
+		<extension 
+			uid="aibench.core" name="aibench.core.operation-definition" 
+			class="es.uvigo.ei.sing.s2p.aibench.operations.LoadMascotCsvFile"
+		>
+			<operation-description 
+				name="Load identifications"
+				uid="operations.loadmascotidentifications"
+				shortcut="5"
 			/>
 		</extension>
 		
@@ -57,7 +68,7 @@
 			<operation-description 
 				name="Import plate" 
 				uid="operations.importmaldiplate" 
-				shortcut="5"
+				shortcut="6"
 			/>
 		</extension>
 		
@@ -66,9 +77,9 @@
 			class="es.uvigo.ei.sing.s2p.aibench.operations.CreateMaldiPlate"
 			>
 			<operation-description 
-				name="Create plate" 
+				name="New plate" 
 				uid="operations.createmaldiplate" 
-				shortcut="6"
+				shortcut="7"
 			/>
 		</extension>
 		
@@ -79,7 +90,7 @@
 			<operation-description 
 				name="Load plate" 
 				uid="operations.loadmaldiplate" 
-				shortcut="7"
+				shortcut="8"
 			/>
 		</extension>
 		
@@ -90,7 +101,7 @@
 			<operation-description 
 				name="Design venn diagram" 
 				uid="operations.createvenndiagramdesign" 
-				shortcut="8"
+				shortcut="9"
 			/>
 		</extension>
 
@@ -101,7 +112,7 @@
 			<operation-description 
 				name="Load venn diagram design" 
 				uid="operations.loadvenndiagramdesign" 
-				shortcut="9"
+				shortcut="10"
 			/>
 		</extension>
 
@@ -139,15 +150,19 @@
 		</extension>
 		
 		<extension uid="aibench.workbench" name="aibench.workbench.view">
-		    <gui-operation 
+		    <gui-operation
 		    	operation="operations.loadspotsdata" 
 		    	class="es.uvigo.ei.sing.s2p.aibench.operations.dialogs.LoadSpotsDataDialog"
 		    />
-		    <gui-operation 
+		    <gui-operation
+		    	operation="operations.loadmascotidentifications" 
+		    	class="es.uvigo.ei.sing.s2p.aibench.operations.dialogs.LoadMascotCsvFileDialog"
+		    />
+		    <gui-operation
 		    	operation="operations.loadsamespotscsvfiles" 
 		    	class="es.uvigo.ei.sing.s2p.aibench.operations.dialogs.LoadSameSpotsCsvFilesDialog"
 		    />
-		    <gui-operation 
+		    <gui-operation
 		    	operation="operations.importmaldiplate" 
 		    	class="es.uvigo.ei.sing.s2p.aibench.operations.dialogs.ImportMaldiPlateDialog"
 		    />
@@ -182,6 +197,15 @@
 			/>
 			
 			<icon-operation 
+				operation="operations.importmascotidentifications" 
+				icon="icons/importmascotidentifications.png"
+			/>
+			<big-icon-operation	
+				operation="operations.importmascotidentifications" 
+				icon="icons/importmascotidentifications.png"
+			/>
+
+			<icon-operation 
 				operation="operations.loadmascotidentifications" 
 				icon="icons/loadmascotidentifications.png"
 			/>
@@ -189,7 +213,7 @@
 				operation="operations.loadmascotidentifications" 
 				icon="icons/loadmascotidentifications.png"
 			/>
-			
+
 			<icon-operation 
 				operation="operations.importmaldiplate" 
 				icon="icons/importmaldiplate.png"

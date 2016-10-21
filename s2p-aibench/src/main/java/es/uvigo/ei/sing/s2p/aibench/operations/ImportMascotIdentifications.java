@@ -11,10 +11,10 @@ import es.uvigo.ei.aibench.core.operation.annotation.Port;
 import es.uvigo.ei.sing.s2p.aibench.datatypes.MascotIdentificationsDatatype;
 
 @Operation(
-	name = "Load Mascot identifications", 
-	description = "Loads Mascot identifications from a .HTM file."
+	name = "Import Mascot identifications", 
+	description = "Imports Mascot identifications from a .HTM file."
 )
-public class LoadMascotIdentifications {
+public class ImportMascotIdentifications {
 	private File htmlFile;
 	private int minimumMS;
 	private boolean removeDuplicates;

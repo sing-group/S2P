@@ -3,6 +3,7 @@ package es.uvigo.ei.sing.s2p.aibench.views.spots;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Window;
+import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.beans.PropertyChangeEvent;
 import java.util.LinkedList;
@@ -10,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -60,14 +63,19 @@ public class AIBenchLoadMascotIdentificationsDialog extends
 	}
 
 	private void initialiceSourceInputListeners() {
-		((JIntegerTextField) this.sourceInputParameters[1].getInput())
+		super.getMascotScoreThresholdTextField()
 			.addPropertyChangeListener("value",	this::mascotThresholdChanged);
-		((JCheckBox) this.sourceInputParameters[2].getInput())
+		super.getMascotRemoveDuplicatesCheckbox()
 			.addItemListener(this::onMascotRemoveDuplicates);
 	}
 
 	private Component getSourceClipboardPanel() {
-		return new InputParametersPanel(getInputParameters());
+		JPanel toret = new JPanel();
+		toret.setLayout(new BoxLayout(toret, BoxLayout.Y_AXIS));
+		toret.add(Box.createVerticalGlue());
+		toret.add(new InputParametersPanel(getInputParameters()));
+		toret.add(Box.createVerticalGlue());
+		return toret;
 	}
 
 	protected InputParameter[] getInputParameters() {
@@ -88,8 +96,7 @@ public class AIBenchLoadMascotIdentificationsDialog extends
 	}
 
 	private void mascotThresholdChanged(PropertyChangeEvent e) {
-		((JIntegerTextField) this.sourceInputParameters[1].getInput())
-			.setValue(e.getNewValue());
+		super.getMascotScoreThresholdTextField().setValue(e.getNewValue());
 		this.mascotScoreThreshold.setValue(e.getNewValue());
 	}
 	
@@ -105,8 +112,7 @@ public class AIBenchLoadMascotIdentificationsDialog extends
 		JCheckBox source = (JCheckBox) e.getSource();
 		boolean selected = source.isSelected();
 		if(source == this.mascotRemoveDuplicates) {
-			((JCheckBox) this.sourceInputParameters[2].getInput())
-				.setSelected(selected);
+			super.getMascotRemoveDuplicatesCheckbox().setSelected(selected);
 		} else {
 			this.mascotRemoveDuplicates.setSelected(selected);
 		}
@@ -198,5 +204,15 @@ public class AIBenchLoadMascotIdentificationsDialog extends
 	public void setVisible(boolean b) {
 		this.checkOkButton();
 		super.setVisible(b);
+	}
+	
+	@Override
+	protected void onOkButtonEvent(ActionEvent event) { 
+		if(isShowingFileSelectionTab()) {
+			super.onOkButtonEvent(event);
+		} else {
+			canceled = false;
+			dispose();
+		}
 	}
 }
