@@ -1,12 +1,12 @@
 package es.uvigo.ei.sing.s2p.core.io;
 
+import static es.uvigo.ei.sing.s2p.core.operations.MascotIdentificationsOperations.removeDuplicates;
 import static java.lang.Integer.valueOf;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -30,7 +30,6 @@ public class MascotProjectLoader {
 	private static final int INDEX_PI_VALUE 	= 11;
 	private static final int INDEX_ACCESSION 	= 13;
 	
-	
 	public static MascotIdentifications load(File file) throws IOException {
 		return load(file, false);
 	}
@@ -52,19 +51,13 @@ public class MascotProjectLoader {
 		for (Element tr : trs.subList(2, trs.size())) {
 			Elements tds = tr.select("td");
 			MascotEntry entry = createMascotEntry(tds, toret, lastColumnValues);
+
 			if(entry.getMascotScore() > minScore) {
 				toret.add(entry);
 			}
 		}
 		
 		return removeDuplicates ? removeDuplicates(toret) : toret;
-	}
-
-	private static MascotIdentifications removeDuplicates(
-			MascotIdentifications toret) {
-		return 	new MascotIdentifications(
-					toret.stream().distinct().collect(Collectors.toList())
-				);
 	}
 
 	private static MascotEntry createMascotEntry(Elements tds,

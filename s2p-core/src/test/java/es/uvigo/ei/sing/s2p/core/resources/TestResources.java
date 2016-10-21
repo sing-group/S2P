@@ -9,7 +9,7 @@ import es.uvigo.ei.sing.commons.csv.entities.CsvFormat;
 public class TestResources {
 
 	public static final CsvFormat CSV_FORMAT = 
-		new CsvFormat(",", ',', false, "\n");
+		new CsvFormat(",", '.', false, "\n");
 	
 	public static final CsvFormat SAMESPOTS_CSV_FORMAT =
 		new CsvFormat(";", ',', true, "\n");
@@ -25,7 +25,10 @@ public class TestResources {
 
 	public static final File MASCOT_PROJECT = 
 		loadResource("/test/MascotProject.BTR.HTM");
-	
+
+	public static final File MASCOT_CSV = 
+		loadResource("/test/MascotIdentifications.csv");
+
 	public static final File MASCOT_PROJECT_FULL =
 		loadResource("/real/2016.07.21_BladderCancerProject.BTR.HTM");
 	

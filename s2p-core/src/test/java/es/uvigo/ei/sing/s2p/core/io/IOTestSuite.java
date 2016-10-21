@@ -10,6 +10,7 @@ import es.uvigo.ei.sing.s2p.core.io.samespots.SameSpotsTestSuite;
 @SuiteClasses({
 	MaldiPlateLoaderTest.class,
 	MascotProjectLoaderTest.class,
+	MascotCsvLoaderTest.class,
 	SpotsDataLoaderTest.class,
 	SameSpotsTestSuite.class
 })

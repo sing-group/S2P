@@ -111,6 +111,7 @@
 		<commons.math.version>3.6.1</commons.math.version>
 		<jfreechart.version>1.0.19</jfreechart.version>
 		<sing.commons.csv.version>0.2.0</sing.commons.csv.version>
+		<sing.commons.math.version>0.1-SNAPSHOT</sing.commons.math.version>
 		<itextpdf.version>5.5.10</itextpdf.version>
 
 		<!-- Testing dependencies -->
@@ -194,6 +195,11 @@
 				<groupId>es.uvigo.ei.sing</groupId>
 				<artifactId>commons-csv</artifactId>
 				<version>${sing.commons.csv.version}</version>			
+			</dependency>
+			<dependency>
+				<groupId>es.uvigo.ei.sing</groupId>
+				<artifactId>math</artifactId>
+				<version>${sing.commons.math.version}</version>
 			</dependency>
 			<dependency>
 			    <groupId>com.itextpdf</groupId>

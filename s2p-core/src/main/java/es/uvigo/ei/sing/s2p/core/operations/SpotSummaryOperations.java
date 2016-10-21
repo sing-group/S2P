@@ -1,6 +1,10 @@
 package es.uvigo.ei.sing.s2p.core.operations;
 
+import static es.uvigo.ei.sing.math.statistical.StatisticsTestsUtils.correct;
+
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
@@ -8,23 +12,22 @@ import java.util.stream.Collectors;
 import org.apache.commons.math3.stat.inference.MannWhitneyUTest;
 import org.apache.commons.math3.stat.inference.TestUtils;
 
+import es.uvigo.ei.sing.math.statistical.corrections.FDRCorrection;
 import es.uvigo.ei.sing.s2p.core.entities.Condition;
 import es.uvigo.ei.sing.s2p.core.entities.SpotSummary;
 
 public class SpotSummaryOperations {
 	
 	public enum DifferentialSpotFunction {
-		TTEST1("t-test < 0.05", (s1, s2) -> tTest(s1, s2, 0.05)), 
-		TTEST2("t-test < 0.01", (s1, s2) -> tTest(s1, s2, 0.01)), 
-		UMANN1("U Mann-Whitney < 0.05", (s1, s2) -> mannUTest(s1, s2, 0.05)), 
-		UMANN2("U Mann-Whitney < 0.01", (s1, s2) -> mannUTest(s1, s2, 0.01)), 
+		TTEST("t-test", (s1, s2) -> tTest(s1, s2)), 
+		UMANN("U Mann-Whitney", (s1, s2) -> mannUTest(s1, s2)), 
 		OVERLAPPING("Not overlapping", (s1, s2) -> notOverlapping(s1, s2)); 
 		
 		private String description;
-		private BiFunction<SpotSummary, SpotSummary, Boolean> function;
+		private BiFunction<SpotSummary, SpotSummary, Double> function;
 
 		DifferentialSpotFunction(String description, BiFunction<SpotSummary, 
-			SpotSummary, Boolean> function
+			SpotSummary, Double> function
 		) {
 			this.description = description;
 			this.function = function;
@@ -35,7 +38,7 @@ public class SpotSummaryOperations {
 			return this.description;
 		}
 		
-		public BiFunction<SpotSummary, SpotSummary, Boolean> getFunction() {
+		public BiFunction<SpotSummary, SpotSummary, Double> getFunction() {
 			return function;
 		}
 	};
@@ -43,47 +46,62 @@ public class SpotSummaryOperations {
 	public static Set<String> findDifferentialSpots(Set<String> spots, 
 		Condition a, Condition b,
 		BiFunction<String, Condition, SpotSummary> spotSummarySupplier,
-		DifferentialSpotFunction function
+		DifferentialSpotFunction function, double p, boolean correctP
 	) {
 		return findDifferentialSpots(
-			spots, a, b, spotSummarySupplier, function.getFunction());
+			spots, a, b, spotSummarySupplier, function.getFunction(), p, correctP);
 	}
 	
 	private static Set<String> findDifferentialSpots(Set<String> spots, 
 		Condition a, Condition b,
 		BiFunction<String, Condition, SpotSummary> spotSummarySupplier,
-		BiFunction<SpotSummary, SpotSummary, Boolean> testFunction
+		BiFunction<SpotSummary, SpotSummary, Double> testFunction,
+		double p, boolean correctP
 	) {
-		return spots.stream().filter(spot -> {
-			SpotSummary s1 = spotSummarySupplier.apply(spot, a);
-			SpotSummary s2 = spotSummarySupplier.apply(spot, b);
-			return testFunction.apply(s1, s2);
-		}).collect(Collectors.toSet());
+		Map<String, Double> pValues = spots.stream().collect(Collectors.toMap(
+			spot -> spot, 
+			spot -> {
+				SpotSummary s1 = spotSummarySupplier.apply(spot, a);
+				SpotSummary s2 = spotSummarySupplier.apply(spot, b);
+				double pValue = testFunction.apply(s1, s2);
+				return pValue;	
+			}
+		));
+
+		if(correctP) {
+			try {
+				pValues = correct(new FDRCorrection(), pValues);
+			} catch (InterruptedException e) {
+			}
+		}
+
+		return 	pValues.entrySet().stream()
+				.filter((e) -> e.getValue() < p)
+				.map(Entry::getKey)
+				.collect(Collectors.toSet());
 	}
 	
-	private static boolean notOverlapping(SpotSummary s1, SpotSummary s2) {
+	private static double notOverlapping(SpotSummary s1, SpotSummary s2) {
 		double x1 = s1.getMean() - s1.getStdDev();
 		double y1 = s1.getMean() + s1.getStdDev();
 		double x2 = s2.getMean() - s2.getStdDev();
 		double y2 = s2.getMean() + s2.getStdDev();
 		
-		return y1 < x2 || y2 < x1;
+		return (y1 < x2 || y2 < x1) ? -1 : +1;
 	}
 	
-	private static boolean tTest(SpotSummary s1, SpotSummary s2, double p) {
-		double test = TestUtils.tTest(
+	private static double tTest(SpotSummary s1, SpotSummary s2) {
+		return TestUtils.tTest(
 			asPrimitiveArray(s1.getSpotValues()), 
 			asPrimitiveArray(s2.getSpotValues())
 		);
-		return test <= p;
 	}
 	
-	private static boolean mannUTest(SpotSummary s1, SpotSummary s2, double p) {
-		double test = new MannWhitneyUTest().mannWhitneyUTest(
+	private static double mannUTest(SpotSummary s1, SpotSummary s2) {
+		return new MannWhitneyUTest().mannWhitneyUTest(
 			asPrimitiveArray(s1.getSpotValues()), 
 			asPrimitiveArray(s2.getSpotValues())
 		);
-		return test <= p;
 	}
 	
 	public static double[] asPrimitiveArray(List<Double> list) {
