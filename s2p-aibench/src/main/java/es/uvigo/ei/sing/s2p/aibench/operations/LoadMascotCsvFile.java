@@ -73,6 +73,6 @@ public class LoadMascotCsvFile {
 	public MascotIdentificationsDatatype loadData() throws IOException {
 		return new MascotIdentificationsDatatype(
 				load(file, csvFormat, minimumMS, removeDuplicates), 
-			file, minimumMS);
+			file);
 	}
 }

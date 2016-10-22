@@ -57,7 +57,7 @@ public class ImportMascotIdentifications {
 	)
 	public MascotIdentificationsDatatype loadData() throws IOException {
 		return new MascotIdentificationsDatatype(
-					load(htmlFile, minimumMS, removeDuplicates), 
-				htmlFile, minimumMS);
+				load(htmlFile, minimumMS, removeDuplicates), 
+			htmlFile);
 	}
 }
