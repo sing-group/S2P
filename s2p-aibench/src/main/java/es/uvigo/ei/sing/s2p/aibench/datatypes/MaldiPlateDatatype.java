@@ -23,9 +23,14 @@ public class MaldiPlateDatatype extends MaldiPlate {
 		super(rows, cols);
 		this.name = "Plate " + (++INSTANCES);
 	}
-	
+
+	public MaldiPlateDatatype(MaldiPlate plate) {
+		super(plate);
+		this.name = "Plate " + (++INSTANCES);
+	}
+
 	public MaldiPlateDatatype(MaldiPlate plate, File f) {
-		super(plate.getRowNames(), plate.getColNames(), plate.getData(), plate.getInfo());
+		super(plate);
 		this.name = f.getName();
 	}
 

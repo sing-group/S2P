@@ -10,6 +10,16 @@ import org.junit.Test;
 
 public class MaldiPlateTest {
 
+	@Test (expected = IllegalArgumentException.class)
+	public void createPlateWithoutRowsTest() {
+		new MaldiPlate(0, 1);
+	}
+
+	@Test (expected = IllegalArgumentException.class)
+	public void createPlateWithoutColumnsTest() {
+		new MaldiPlate(1, 0);
+	}
+	
 	@Test
 	public void createEmptyPlateTest() {
 		List<String> expectedRowNames = asList("A", "B");

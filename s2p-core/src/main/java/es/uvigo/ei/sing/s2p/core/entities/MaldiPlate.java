@@ -1,5 +1,6 @@
 package es.uvigo.ei.sing.s2p.core.entities;
 
+import static es.uvigo.ei.sing.s2p.core.util.Checks.requireStrictPositive;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.IntStream.range;
 import static java.util.stream.IntStream.rangeClosed;
@@ -41,6 +42,11 @@ public class MaldiPlate implements Serializable {
 		}
 	}
 
+	public MaldiPlate(MaldiPlate plate) {
+		this(plate.getRowNames(), plate.getColNames(), plate.getData(),
+			plate.getInfo());
+	}
+
 	public MaldiPlate(List<String> rowNames, List<String> colNames,
 		String[][] data, MaldiPlateInformation info
 	) {
@@ -51,7 +57,10 @@ public class MaldiPlate implements Serializable {
 	}
 
 	public MaldiPlate(int rows, int cols) {
-		this.initData(rows, cols);
+		this.initData(
+			requireStrictPositive(rows, "Number of rows must be greater than 0"), 
+			requireStrictPositive(cols, "Number of columns must be greater than 0")
+		);
 	}
 
 	private void initData(int rows, int cols) {

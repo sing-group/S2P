@@ -12,8 +12,9 @@
 			class="es.uvigo.ei.sing.s2p.aibench.operations.LoadSameSpotsAnalysis"
 		>
 			<operation-description
-				name="Import report" 
-				uid="operations.loadsamespotsanalysis" shortcut="1"
+				name="Import report"
+				uid="operations.loadsamespotsanalysis"
+				path="2@Import/1@Samespots" 
 			/>
 		</extension>
 	
@@ -24,7 +25,7 @@
 			<operation-description 
 				name="Import *.CSV" 
 				uid="operations.loadsamespotscsvfiles" 
-				shortcut="2"
+				path="2@Import/1@Samespots"
 			/>
 		</extension>
 	
@@ -34,8 +35,9 @@
 		>
 			<operation-description 
 				name="Load Spots" 
-				uid="operations.loadspotsdata" 
-				shortcut="3"
+				uid="operations.loadspotsdata"
+				path="3@Load"
+				shortcut="1"
 			/>
 		</extension>
 		
@@ -44,9 +46,9 @@
 			class="es.uvigo.ei.sing.s2p.aibench.operations.ImportMascotIdentifications"
 		>
 			<operation-description 
-				name="Import identifications"
+				name="Import Mascot identifications"
 				uid="operations.importmascotidentifications"
-				shortcut="4"
+				path="2@Import"
 			/>
 		</extension>
 		
@@ -57,7 +59,8 @@
 			<operation-description 
 				name="Load identifications"
 				uid="operations.loadmascotidentifications"
-				shortcut="5"
+				path="3@Load"
+				shortcut="2"
 			/>
 		</extension>
 		
@@ -68,7 +71,7 @@
 			<operation-description 
 				name="Import plate" 
 				uid="operations.importmaldiplate" 
-				shortcut="6"
+				path="2@Import"
 			/>
 		</extension>
 		
@@ -79,7 +82,7 @@
 			<operation-description 
 				name="New plate" 
 				uid="operations.createmaldiplate" 
-				shortcut="7"
+				path="1@File"
 			/>
 		</extension>
 		
@@ -90,7 +93,8 @@
 			<operation-description 
 				name="Load plate" 
 				uid="operations.loadmaldiplate" 
-				shortcut="8"
+				path="3@Load"
+				shortcut="3"
 			/>
 		</extension>
 		
@@ -99,9 +103,9 @@
 			class="es.uvigo.ei.sing.s2p.aibench.operations.CreateVennDiagramDesign"
 		>
 			<operation-description 
-				name="Design venn diagram" 
+				name="New Venn Diagram design" 
 				uid="operations.createvenndiagramdesign" 
-				shortcut="9"
+				path="1@File"
 			/>
 		</extension>
 
@@ -110,9 +114,20 @@
 			class="es.uvigo.ei.sing.s2p.aibench.operations.LoadVennDiagramDesign"
 		>
 			<operation-description 
-				name="Load venn diagram design" 
+				name="Load Venn Diagram design" 
 				uid="operations.loadvenndiagramdesign" 
-				shortcut="10"
+				path="3@Load"
+			/>
+		</extension>
+
+		<extension 
+			uid="aibench.core" name="aibench.core.operation-definition" 
+			class="es.uvigo.ei.sing.s2p.aibench.operations.FillMaldiPlate"
+		>
+			<operation-description 
+				name="Fill Maldi plate" 
+				uid="operations.fillmaldiplate" 
+				path="4@Operations"
 			/>
 		</extension>
 
@@ -233,6 +248,15 @@
 			/>
 
 			<icon-operation 
+				operation="operations.fillmaldiplate" 
+				icon="icons/fillmaldiplate.png"
+			/>
+			<big-icon-operation
+				operation="operations.fillmaldiplate" 
+				icon="icons/fillmaldiplate.png"
+			/>
+
+			<icon-operation
 				operation="operations.loadmaldiplate" 
 				icon="icons/loadmaldiplate.png"
 			/>

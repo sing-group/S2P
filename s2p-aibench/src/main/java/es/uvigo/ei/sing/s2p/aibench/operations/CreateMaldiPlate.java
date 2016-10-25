@@ -20,7 +20,7 @@ public class CreateMaldiPlate {
 	@Port(
 		direction = Direction.INPUT, 
 		name = "Rows", 
-		defaultValue = "16",
+		defaultValue = "15",
 		description = "Number of rows.",
 		order = 1
 	)

@@ -14,10 +14,10 @@ public class SpotsData {
 	
 	private List<Condition> conditions;
 	
-	public SpotsData(List<String> spos, List<String> sampleNames,
+	public SpotsData(List<String> spots, List<String> sampleNames,
 		List<String> sampleLabels, double[][] data
 	) {
-		this.spots = spos;
+		this.spots = spots;
 		this.sampleNames = sampleNames;
 		this.sampleLabels = sampleLabels;
 		this.data = data;
