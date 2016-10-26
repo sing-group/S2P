@@ -1,5 +1,8 @@
 package es.uvigo.ei.sing.s2p.aibench.operations;
 
+import static es.uvigo.ei.sing.s2p.aibench.operations.dialogs.AbstractMaldiPlateCreationDialog.ROWS_POSITIONS;
+import static es.uvigo.ei.sing.s2p.aibench.operations.dialogs.AbstractMaldiPlateCreationDialog.COLUMNS_POSITIONS;
+
 import static es.uvigo.ei.sing.s2p.core.operations.MaldiPlateOperations.generateMaldiPlates;
 import static javax.swing.SwingUtilities.invokeLater;
 
@@ -12,6 +15,7 @@ import es.uvigo.ei.aibench.core.operation.annotation.Port;
 import es.uvigo.ei.sing.s2p.aibench.datatypes.MaldiPlateDatatype;
 import es.uvigo.ei.sing.s2p.aibench.datatypes.SpotsDataDatatype;
 import es.uvigo.ei.sing.s2p.core.entities.MaldiPlate;
+import es.uvigo.ei.sing.s2p.core.entities.MaldiPlate.Positions;
 
 @Operation(
 	name = "Fill Maldi plate", 
@@ -20,7 +24,9 @@ import es.uvigo.ei.sing.s2p.core.entities.MaldiPlate;
 public class FillMaldiPlate {
 	
 	private int numRows;
+	private Positions rowsPositions;
 	private int numColumns;
+	private Positions columnsPositions;
 	private boolean addCalibrants;
 	private SpotsDataDatatype spots;
 	private boolean random;
@@ -36,16 +42,36 @@ public class FillMaldiPlate {
 	public void setNumRows(int numRows) {
 		this.numRows = numRows;
 	}
+	
+	@Port(
+		direction = Direction.INPUT, 
+		name = ROWS_POSITIONS, 
+		description = "Type of rows.",
+		order = 2
+	)
+	public void setRowPositions(Positions rowsPositions) {
+		this.rowsPositions = rowsPositions;
+	}
 
 	@Port(
 		direction = Direction.INPUT, 
 		name = "Columns", 
 		defaultValue = "24",
 		description = "Number of columns.",
-		order = 2
+		order = 3
 	)
 	public void setNumColumns(int numColumns) {
 		this.numColumns = numColumns;
+	}
+
+	@Port(
+		direction = Direction.INPUT, 
+		name = COLUMNS_POSITIONS, 
+		description = "Type of rows.",
+		order = 4
+	)
+	public void setColumnsPositions(Positions columnsType) {
+		this.columnsPositions = columnsType;
 	}
 
 	@Port(
@@ -53,7 +79,7 @@ public class FillMaldiPlate {
 		name = "Calibrants",
 		defaultValue = "true",
 		description = "Add calibrants.",
-		order = 3
+		order = 5
 	)
 	public void setAddCalibrants(boolean addCalibrants) {
 		this.addCalibrants = addCalibrants;
@@ -63,7 +89,7 @@ public class FillMaldiPlate {
 		direction = Direction.INPUT,
 		name = "Spots data",
 		description = "spots data.",
-		order = 4
+		order = 6
 	)
 	public void setSpots(SpotsDataDatatype spots) {
 		this.spots = spots;
@@ -74,7 +100,7 @@ public class FillMaldiPlate {
 		name = "Replicates", 
 		defaultValue = "2",
 		description = "Number of spot replicates.",
-		order = 5
+		order = 7
 	)
 	public void setSpotReplicates(int numReplicates) {
 		this.numReplicates = numReplicates;
@@ -85,7 +111,7 @@ public class FillMaldiPlate {
 		name = "Random",
 		defaultValue = "false",
 		description = "Randomize spots.",
-		order = 6
+		order = 8
 	)
 	public void setRandomizeSpots(boolean random) {
 		this.random = random;
@@ -98,9 +124,10 @@ public class FillMaldiPlate {
 	}
 	
 	private Stream<MaldiPlate> createMaldiPlates() {
-		return 	generateMaldiPlates(spots.getSpots(), 
-			numReplicates, numRows, numColumns, addCalibrants, random)
-			.stream();
+		return 	generateMaldiPlates(
+					spots.getSpots(), numReplicates, numRows, numColumns, 
+					rowsPositions, columnsPositions, addCalibrants, random
+				).stream();
 	}
 
 	private void putItem(MaldiPlateDatatype item) {

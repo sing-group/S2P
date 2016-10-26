@@ -19,8 +19,10 @@ public class MaldiPlateDatatype extends MaldiPlate {
 	private static int INSTANCES = 0;
 	private String name;
 	
-	public MaldiPlateDatatype(int rows, int cols) {
-		super(rows, cols);
+	public MaldiPlateDatatype(int rows, int cols, Positions rowsPositions,
+		Positions columnsPositions
+	) {
+		super(rows, cols, rowsPositions, columnsPositions);
 		this.name = "Plate " + (++INSTANCES);
 	}
 

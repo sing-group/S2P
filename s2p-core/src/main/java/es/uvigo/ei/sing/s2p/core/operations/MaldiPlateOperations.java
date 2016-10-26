@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import es.uvigo.ei.sing.s2p.core.entities.MaldiPlate;
+import es.uvigo.ei.sing.s2p.core.entities.MaldiPlate.Positions;
 
 public class MaldiPlateOperations {
 
@@ -15,7 +16,8 @@ public class MaldiPlateOperations {
 		"Number of replicates must be greater than 0";
 
 	public static List<MaldiPlate> generateMaldiPlates(List<String> spotsList,
-		int replicates, int rows, int cols, boolean calibrants, boolean random
+		int replicates, int rows, int cols, Positions rowsPositions,
+		Positions columnsPositions, boolean calibrants, boolean random
 	) {
 		replicates = requireStrictPositive(replicates, REQ_REPLICATES);
 
@@ -28,7 +30,8 @@ public class MaldiPlateOperations {
 		
 		List<MaldiPlate> toret = new LinkedList<>();
 		for(int i = 0; i < requiredPlates; i++) {
-			MaldiPlate current = new MaldiPlate(rows, cols);
+			MaldiPlate current = 
+				new MaldiPlate(rows, cols, rowsPositions, columnsPositions);
 			if(calibrants) {
 				current.addCalibrants();
 			}
@@ -65,11 +68,13 @@ public class MaldiPlateOperations {
 	private static int computeRequiredPlates(int size, int rows, int cols,
 		boolean calibrants
 	) {
-		MaldiPlate plate = new MaldiPlate(rows, cols);
+		MaldiPlate plate = 
+			new MaldiPlate(rows, cols, Positions.LETTERS, Positions.NUMBERS);
 		if (calibrants) {
 			plate.addCalibrants();
 		}
 		int plateSize = countAvailablePositions(plate.getData());
+
 		return (int) ceil((double) size / (double) plateSize);
 	}
 

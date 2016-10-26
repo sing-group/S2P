@@ -181,6 +181,14 @@
 		    	operation="operations.importmaldiplate" 
 		    	class="es.uvigo.ei.sing.s2p.aibench.operations.dialogs.ImportMaldiPlateDialog"
 		    />
+		    <gui-operation
+				operation="operations.createmaldiplate" 
+				class="es.uvigo.ei.sing.s2p.aibench.operations.dialogs.CreateMaldiPlateDialog"
+		    />
+		    <gui-operation
+				operation="operations.fillmaldiplate" 
+				class="es.uvigo.ei.sing.s2p.aibench.operations.dialogs.FillMaldiPlateDialog"
+		    />
 		</extension>		
 
 		<extension uid="aibench.workbench" name="aibench.workbench.view">

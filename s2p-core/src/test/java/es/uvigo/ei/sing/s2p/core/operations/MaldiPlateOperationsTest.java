@@ -1,5 +1,6 @@
 package es.uvigo.ei.sing.s2p.core.operations;
 
+import static es.uvigo.ei.sing.s2p.core.entities.MaldiPlate.Positions.*;
 import static es.uvigo.ei.sing.s2p.core.TestUtils.assertMatrixEquals;
 import static es.uvigo.ei.sing.s2p.core.operations.MaldiPlateOperations.generateMaldiPlates;
 import static java.util.Collections.emptyList;
@@ -36,23 +37,25 @@ public class MaldiPlateOperationsTest {
 	
 	@Test
 	public void generateMaldiPlatesEmptySpotsList() {
-		List<MaldiPlate> plates = generateMaldiPlates(emptyList(), 1, 3, 3, false, false);
+		List<MaldiPlate> plates = generateMaldiPlates(
+			emptyList(), 1, 3, 3, LETTERS, NUMBERS, false, false);
 		assertEquals(0, plates.size());
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void generateMaldiPlatesWithoutRowsTest() {
-		generateMaldiPlates(SPOTS_9, 1, 0, 3, false, false);
+		generateMaldiPlates(SPOTS_9, 1, 0, 3, LETTERS, NUMBERS, false, false);
 	}
 
 	@Test (expected = IllegalArgumentException.class)
 	public void generateMaldiPlatesWithoutColumnsTest() {
-		generateMaldiPlates(SPOTS_9, 1, 3, 0, false, false);
+		generateMaldiPlates(SPOTS_9, 1, 3, 0, LETTERS, NUMBERS, false, false);
 	}
 	
 	@Test
 	public void generateMaldiPlatesTest1() {
-		List<MaldiPlate> plates = generateMaldiPlates(SPOTS_9, 1, 3, 3, false, false);
+		List<MaldiPlate> plates = 
+			generateMaldiPlates(SPOTS_9, 1, 3, 3, LETTERS, NUMBERS, false, false);
 		
 		assertEquals(1, plates.size());
 		assertMatrixEquals(SPOTS_9_MATRIX , plates.get(0).getData());
@@ -60,7 +63,8 @@ public class MaldiPlateOperationsTest {
 	
 	@Test
 	public void generateMaldiPlatesTest2() {
-		List<MaldiPlate> plates = generateMaldiPlates(SPOTS_18, 1, 3, 3, false, false);
+		List<MaldiPlate> plates = 
+			generateMaldiPlates(SPOTS_18, 1, 3, 3, LETTERS, NUMBERS, false, false);
 		
 		assertEquals(2, plates.size());
 		assertMatrixEquals(SPOTS_9_MATRIX , plates.get(0).getData());
@@ -69,7 +73,8 @@ public class MaldiPlateOperationsTest {
 	
 	@Test
 	public void generateMaldiPlatesWithCalibrantsTest1() {
-		List<MaldiPlate> plates = generateMaldiPlates(SPOTS_9, 1, 3, 3, true, false);
+		List<MaldiPlate> plates = 
+			generateMaldiPlates(SPOTS_9, 1, 3, 3, LETTERS, NUMBERS, true, false);
 		
 		assertEquals(2, plates.size());
 		assertMatrixEquals(SPOTS_9_MATRIX_CAL_1 , plates.get(0).getData());

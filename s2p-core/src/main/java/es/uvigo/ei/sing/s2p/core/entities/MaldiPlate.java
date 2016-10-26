@@ -22,6 +22,32 @@ import es.uvigo.ei.sing.s2p.core.io.MaldiPlateWriter;
 public class MaldiPlate implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	public static enum Positions {
+		LETTERS("A, B, C, ..."),
+		NUMBERS("1, 2, 3, ...");
+
+		private String description;
+
+		Positions(String description) {
+			this.description = description;
+		}
+
+		@Override
+		public String toString() {
+			return description;
+		}
+
+		public List<String> generatePositions(int length) {
+			if(this.equals(LETTERS)) {
+				return 	range(0, length).boxed()
+							.map(MaldiPlate::str).collect(toList());
+			} else {
+				return 	rangeClosed(1, length).boxed()
+							.map(String::valueOf).collect(toList());
+			}
+		}
+	};
+
 	private String[][] data;
 	private List<String> colNames;
 	private List<String> rowNames;
@@ -56,18 +82,22 @@ public class MaldiPlate implements Serializable {
 		this.info = info;
 	}
 
-	public MaldiPlate(int rows, int cols) {
+	public MaldiPlate(int rows, int cols, Positions rowsPositions,
+		Positions columnsPositions
+	) {
 		this.initData(
 			requireStrictPositive(rows, "Number of rows must be greater than 0"), 
-			requireStrictPositive(cols, "Number of columns must be greater than 0")
+			requireStrictPositive(cols, "Number of columns must be greater than 0"),
+			rowsPositions, columnsPositions
 		);
 	}
 
-	private void initData(int rows, int cols) {
-		this.rowNames = range(0, rows).boxed()
-						.map(MaldiPlate::str).collect(toList());
-		this.colNames = rangeClosed(1, cols).boxed()
-						.map(String::valueOf).collect(toList());
+	private void initData(int rows, int cols, Positions rowsPositions,
+		Positions columnsPositions
+	) {
+		this.rowNames = rowsPositions.generatePositions(rows);
+		this.colNames = columnsPositions.generatePositions(cols);
+
 		this.data = new String[rows][cols];
 	}
 

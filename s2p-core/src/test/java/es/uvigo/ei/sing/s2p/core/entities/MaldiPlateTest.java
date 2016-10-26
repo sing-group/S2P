@@ -8,16 +8,18 @@ import java.util.List;
 
 import org.junit.Test;
 
+import es.uvigo.ei.sing.s2p.core.entities.MaldiPlate.Positions;
+
 public class MaldiPlateTest {
 
 	@Test (expected = IllegalArgumentException.class)
 	public void createPlateWithoutRowsTest() {
-		new MaldiPlate(0, 1);
+		new MaldiPlate(0, 1, Positions.LETTERS, Positions.NUMBERS);
 	}
 
 	@Test (expected = IllegalArgumentException.class)
 	public void createPlateWithoutColumnsTest() {
-		new MaldiPlate(1, 0);
+		new MaldiPlate(1, 0, Positions.LETTERS, Positions.NUMBERS);
 	}
 	
 	@Test
@@ -25,7 +27,7 @@ public class MaldiPlateTest {
 		List<String> expectedRowNames = asList("A", "B");
 		List<String> expectedColNames = asList("1", "2");
 		
-		MaldiPlate plate = new MaldiPlate(2, 2);
+		MaldiPlate plate = new MaldiPlate(2, 2, Positions.LETTERS, Positions.NUMBERS);
 		
 		assertTrue(plate.asMap().isEmpty());
 		assertEquals(expectedRowNames, plate.getRowNames());
@@ -49,7 +51,7 @@ public class MaldiPlateTest {
 	
 	@Test
 	public void createEmptyPlateAndAddCalibrants() {
-		MaldiPlate plate = new MaldiPlate(3, 3);
+		MaldiPlate plate = new MaldiPlate(3, 3, Positions.LETTERS, Positions.NUMBERS);
 		assertTrue(plate.asMap().isEmpty());
 		
 		plate.addCalibrants();
