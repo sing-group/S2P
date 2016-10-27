@@ -14,7 +14,7 @@ log4j.appender.textArea.layout.ConversionPattern=[%d{HH:mm:ss}] [%c] %m%n
 # File Appender
 #
 log4j.appender.file=org.apache.log4j.FileAppender
-log4j.appender.file.File=AIBENCH.log
+log4j.appender.file.File=S2P.log
 log4j.appender.file.layout=org.apache.log4j.PatternLayout
 log4j.appender.file.layout.ConversionPattern=[%d{HH:mm:ss,SSS}] [%t] %-5p %c %x - %m%n
 log4j.appender.file.Append=false
