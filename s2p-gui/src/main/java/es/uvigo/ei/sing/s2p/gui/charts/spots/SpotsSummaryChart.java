@@ -24,9 +24,11 @@ public class SpotsSummaryChart extends JPanel {
    	final DefaultBoxAndWhiskerCategoryDataset dataset 
    		= new DefaultBoxAndWhiskerCategoryDataset();
 
+	private String spot;
 	private List<ChartSpotSummary> summaries;
 
-	public SpotsSummaryChart(List<ChartSpotSummary> summaries) {
+	public SpotsSummaryChart(String spot, List<ChartSpotSummary> summaries) {
+		this.spot = spot;
 		this.summaries = summaries;
 
 		this.initComponent();
@@ -36,7 +38,7 @@ public class SpotsSummaryChart extends JPanel {
 		this.setLayout(new BorderLayout());
 		this.add(
 			createChartPanel(createDataset(), 
-			"Spot comparison", "Condition", "Expression value", true, 10)
+			"Spot: " + spot, "Condition", "Expression value", true)
 		);
 	}
 	
@@ -57,8 +59,7 @@ public class SpotsSummaryChart extends JPanel {
 
 	public ChartPanel createChartPanel(
 		DefaultBoxAndWhiskerCategoryDataset dataset, String chartTitle,
-		String xAxisTitle, String yAxisTitle, boolean legend,
-		double maximumBarWidth
+		String xAxisTitle, String yAxisTitle, boolean legend
 	) {
 
 		JFreeChart boxAndWhiskerChart = ChartFactory.createBoxAndWhiskerChart(
@@ -74,9 +75,13 @@ public class SpotsSummaryChart extends JPanel {
 			renderer.setSeriesPaint(entry.getKey(), entry.getValue());
 		}
 
-		renderer.setMaximumBarWidth(maximumBarWidth);
+		renderer.setMaximumBarWidth(0.1);
 		renderer.setFillBox(true);
-
+		renderer.setMeanVisible(true);
+		renderer.setMedianVisible(true);
+		pl.setRangeGridlinesVisible(false);
+		pl.setOutlineVisible(false);
+		pl.getDomainAxis().setLabel("");
 		final ChartPanel chartPanel = new ChartPanel(boxAndWhiskerChart);
 
 		chartPanel.setPreferredSize(new java.awt.Dimension(450, 270));

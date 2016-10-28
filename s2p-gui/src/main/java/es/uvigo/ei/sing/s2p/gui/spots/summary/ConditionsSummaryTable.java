@@ -135,7 +135,7 @@ public class ConditionsSummaryTable extends JPanel {
 			);
 		});
 		SpotsSummaryChartDialog dialog = 
-			new SpotsSummaryChartDialog(getDialogParent(), summaries);
+			new SpotsSummaryChartDialog(getDialogParent(), spot, summaries);
 		dialog.setVisible(true);
 	}
 

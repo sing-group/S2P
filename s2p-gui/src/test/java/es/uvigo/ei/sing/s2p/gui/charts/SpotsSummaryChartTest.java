@@ -36,7 +36,7 @@ public class SpotsSummaryChartTest {
 				),
 			});
 
-		SpotsSummaryChart chart = new SpotsSummaryChart(summaries);
+		SpotsSummaryChart chart = new SpotsSummaryChart("test", summaries);
 
 		setNimbusLookAndFeel();
 		showComponent(chart, JFrame.MAXIMIZED_BOTH);

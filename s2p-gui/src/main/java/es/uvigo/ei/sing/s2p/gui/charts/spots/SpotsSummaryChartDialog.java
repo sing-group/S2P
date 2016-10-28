@@ -14,13 +14,15 @@ public class SpotsSummaryChartDialog extends AbstractInputJDialog {
 	
 	private JPanel inputComponents;
 
+	private String spot;
 	private List<ChartSpotSummary> summaries;
 
-	public SpotsSummaryChartDialog(Window parent, 
+	public SpotsSummaryChartDialog(Window parent, String spot,
 		List<ChartSpotSummary> summaries
 	) {
 		super(parent);
-		
+
+		this.spot = spot;
 		this.summaries = summaries;
 		this.configureDialog();
 	}
@@ -38,7 +40,7 @@ public class SpotsSummaryChartDialog extends AbstractInputJDialog {
 	}
 
 	private Component getChart() {
-		return new SpotsSummaryChart(summaries);
+		return new SpotsSummaryChart(spot, summaries);
 	}
 
 	@Override
