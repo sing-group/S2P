@@ -1,8 +1,9 @@
 package es.uvigo.ei.sing.s2p.aibench;
 
-import static java.lang.System.getProperty;
 import static es.uvigo.ei.aibench.workbench.inputgui.Common.SINGLE_FILE_CHOOSER;
 import static es.uvigo.ei.aibench.workbench.utilities.ClearClipboardAction.ICON_24;
+import static java.lang.System.getProperty;
+import static javax.swing.SwingUtilities.invokeLater;
 
 import java.awt.Color;
 import java.io.File;
@@ -16,7 +17,6 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JSeparator;
 import javax.swing.JToolBar;
-import javax.swing.SwingUtilities;
 
 import es.uvigo.ei.aibench.workbench.MainWindow;
 import es.uvigo.ei.aibench.workbench.Workbench;
@@ -30,13 +30,15 @@ public class Lifecycle extends org.platonos.pluginengine.PluginLifecycle {
 
 	@Override
 	public void start() {
-		SwingUtilities.invokeLater(() -> {
-			configureLocale();
-			configureMainWindow();
-			configureAIBenchToolbar();
-			configureAIBenchMenu();
-			configureFileChooser();
-		});
+		invokeLater(this::configureApplication);
+	}
+
+	private final void configureApplication() {
+		configureLocale();
+		configureMainWindow();
+		configureAIBenchToolbar();
+		configureAIBenchMenu();
+		configureFileChooser();
 	}
 
 	private static final void configureLocale() {
