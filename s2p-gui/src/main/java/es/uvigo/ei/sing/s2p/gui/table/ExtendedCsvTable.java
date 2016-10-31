@@ -3,6 +3,7 @@ package es.uvigo.ei.sing.s2p.gui.table;
 import static javax.swing.JOptionPane.showMessageDialog;
 import static org.jdesktop.swingx.table.ColumnControlButton.COLUMN_CONTROL_MARKER;
 
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.table.TableModel;
 
 import org.jdesktop.swingx.JXTable;
@@ -88,7 +90,7 @@ public class ExtendedCsvTable extends CSVTable {
 	}
 	
     protected void exportToCsv() {
-		ExportCsvDialog dialog = new ExportCsvDialog(null);
+		ExportCsvDialog dialog = new ExportCsvDialog(getDialogParent());
 		dialog.setVisible(true);
 		if(!dialog.isCanceled()) {
 			try {
@@ -103,7 +105,11 @@ public class ExtendedCsvTable extends CSVTable {
 			}
 		}
 	}
-    
+
+	private Window getDialogParent() {
+		return SwingUtilities.getWindowAncestor(this);
+	}
+
 	public void exportToFile(File file, CsvFormat csvFormat) throws IOException {
 		boolean header = 	this.getTableHeader() != null && 
 							this.getTableHeader().isVisible();

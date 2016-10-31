@@ -165,7 +165,7 @@ public class SameSpotsDatasetViewer extends JPanel {
 	}
 	
 	private void exportToCsv() {
-		ExportCsvDialog exportCsv = new ExportCsvDialog(null);
+		ExportCsvDialog exportCsv = new ExportCsvDialog(getDialogParent());
 		exportCsv.setSelectedCsvFileFormat(CUSTOM);
 		exportCsv.setVisible(true);
 		if (!exportCsv.isCanceled()) {

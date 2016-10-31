@@ -9,6 +9,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Window;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -19,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.TableModelEvent;
 
 import com.itextpdf.text.DocumentException;
@@ -145,7 +147,7 @@ public class MaldiPlateTable extends JPanel {
 	}
 
 	protected void exportToCsv() {
-		 ExportCsvDialog dialog = new ExportCsvDialog(null);
+		 ExportCsvDialog dialog = new ExportCsvDialog(getDialogParent());
 		 dialog.setVisible(true);
 		 if(!dialog.isCanceled()) {
 		 	try {
@@ -162,6 +164,10 @@ public class MaldiPlateTable extends JPanel {
 		 }
 	}
 	    
+	private Window getDialogParent() {
+		return SwingUtilities.getWindowAncestor(this);
+	}
+
 	public void exportToFile(File file, CsvFormat csvFormat) throws IOException {
 		List<String> headerData = table.getColumnNames();
 		
