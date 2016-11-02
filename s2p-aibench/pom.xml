@@ -178,10 +178,10 @@
 						</goals>
 						<configuration>
 							<skip>${should.skip.download}</skip>
-							<url>http://sing.ei.uvigo.es/maven2/resources/java-installer-resources-windows-1.8.0_74.zip</url>
+							<url>http://sing.ei.uvigo.es/maven2/resources/java-installer-resources-windows-1.8.0_111.zip</url>
 							<unpack>true</unpack>
 							<outputDirectory>${project.build.directory}/java-installer-resources</outputDirectory>
-							<md5>94e49b3beefa3f4cc1a2b195aa108c59</md5>
+							<md5>a8107f6b2bbd63e6bbde362dfdb15976</md5>
 						</configuration>
 					</execution>
 					<!--
@@ -193,10 +193,10 @@
 						</goals>
 						<configuration>
 							<skip>${should.skip.download}</skip>
-							<url>http://sing.ei.uvigo.es/maven2/resources/java-installer-resources-linux-1.8.0_74.zip</url>
+							<url>http://sing.ei.uvigo.es/maven2/resources/java-installer-resources-linux-1.8.0_111.zip</url>
 							<unpack>true</unpack>
 							<outputDirectory>${project.build.directory}/java-installer-resources</outputDirectory>
-							<md5>7ca41346fc426f24073db938e5959b66</md5>
+							<md5>0cdbd9f7813bba566b56db1380248d71</md5>
 						</configuration>
 					</execution>
 					-->

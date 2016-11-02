@@ -122,7 +122,7 @@
 		<aibench.plugins.artifactIds>aibench-core,aibench-workbench</aibench.plugins.artifactIds>
 
 		<!-- Java resources for assemblies -->
-		<jir.windows.64b>${project.build.directory}/java-installer-resources/windows/64b/jre1.8.0_74</jir.windows.64b>
+		<jir.windows.64b>${project.build.directory}/java-installer-resources/windows/64b/jre1.8.0_111</jir.windows.64b>
 		
 		<should.skip.distributable>true</should.skip.distributable>
 		<should.skip.download>true</should.skip.download>
