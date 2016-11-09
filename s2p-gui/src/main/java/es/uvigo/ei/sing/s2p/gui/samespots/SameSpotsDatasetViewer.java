@@ -3,11 +3,13 @@ package es.uvigo.ei.sing.s2p.gui.samespots;
 import static es.uvigo.ei.sing.hlfernandez.input.csv.CsvFormat.FileFormat.CUSTOM;
 import static es.uvigo.ei.sing.hlfernandez.ui.icons.Icons.ICON_EDIT_16;
 import static es.uvigo.ei.sing.hlfernandez.ui.icons.Icons.ICON_EXPORT_16;
+import static es.uvigo.ei.sing.hlfernandez.ui.icons.Icons.ICON_MERGE_16;
 import static es.uvigo.ei.sing.hlfernandez.utilities.builder.JButtonBuilder.newJButtonBuilder;
 import static es.uvigo.ei.sing.s2p.core.io.samespots.SameSpotsCsvWriter.write;
 import static es.uvigo.ei.sing.s2p.gui.UISettings.BG_COLOR;
 import static es.uvigo.ei.sing.s2p.gui.util.CsvUtils.csvFormat;
 import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.joining;
 import static javax.swing.BorderFactory.createEmptyBorder;
 import static javax.swing.Box.createHorizontalGlue;
 import static javax.swing.BoxLayout.X_AXIS;
@@ -42,8 +44,9 @@ public class SameSpotsDatasetViewer extends JPanel {
 	
 	private SamplesComparisonTable samplesTable;
 	private JPanel northPanel;
-	private JButton editSamplesBtn;
 	private JButton editConditionsBtn;
+	private JButton editSamplesBtn;
+	private JButton mergeSamplesBtn;
 
 	private Map<Sample, String> sampleConditions = new HashMap<Sample, String>();
 
@@ -68,6 +71,7 @@ public class SameSpotsDatasetViewer extends JPanel {
 			this.northPanel.setBorder(createEmptyBorder(10, 10, 0, 10));
 			this.northPanel.add(getEditConditionsButton());
 			this.northPanel.add(getEditSamplesButton());
+			this.northPanel.add(getMergeSamplesButton());
 			this.northPanel.add(createHorizontalGlue());
 			this.northPanel.add(getExportToCsvButton());
 		}
@@ -103,6 +107,21 @@ public class SameSpotsDatasetViewer extends JPanel {
 	private Action getEditSamplesAction() {
 		return new ExtendedAbstractAction("Samples", ICON_EDIT_16, 
 			this::editSamples);
+	}
+
+	private JButton getMergeSamplesButton() {
+		if(this.mergeSamplesBtn == null) {
+			this.mergeSamplesBtn = newJButtonBuilder()
+				.withTooltip("Merge experiment's samples.")
+				.thatDoes(getMergeSamplesAction())
+				.build();
+		}
+		return this.mergeSamplesBtn;
+	}
+
+	private Action getMergeSamplesAction() {
+		return new ExtendedAbstractAction("Merge", ICON_MERGE_16, 
+				this::mergeSamples);
 	}
 
 	private JButton getExportToCsvButton() {
@@ -163,7 +182,43 @@ public class SameSpotsDatasetViewer extends JPanel {
 		});
 		this.samplesTable.fireTableStructureChanged();
 	}
+
+	private void mergeSamples() {
+		SampleMergeDialog merger = new SampleMergeDialog(
+			getDialogParent(), this.samples);
+		merger.setVisible(true);
+		if(!merger.isCanceled()) {
+			mergeSamples(merger.getSelectedItems());
+		}
+	}
 	
+	private void mergeSamples(List<Sample> toMerge) {
+		if (toMerge.isEmpty()) {
+			return;
+		}
+
+		Sample mergedSample = mergedSample(toMerge);
+		int firstSampleIndex = this.samples.indexOf(toMerge.get(0));
+
+		this.samples.removeAll(toMerge);
+		this.samples.add(firstSampleIndex, mergedSample);
+		this.samplesTable.fireTableStructureChanged();
+	}
+
+	private String mergedSampleName(List<Sample> toMerge) {
+		return toMerge.stream().map(Sample::getName).collect(joining("+"));
+	}
+
+	public Sample mergedSample(List<Sample> toMerge) {
+		return new Sample(mergedSampleName(toMerge), mergedSpotValues(toMerge));
+	}
+
+	private Map<String, Double> mergedSpotValues(List<Sample> toMerge) {
+		Map<String, Double> spotValues = new HashMap<>();
+		toMerge.stream().map(Sample::getSpotValues).forEach(spotValues::putAll);
+		return spotValues;
+	}
+
 	private void exportToCsv() {
 		ExportCsvDialog exportCsv = new ExportCsvDialog(getDialogParent());
 		exportCsv.setSelectedCsvFileFormat(CUSTOM);
