@@ -246,6 +246,7 @@ public class SpotsDataViewer extends JPanel implements
 		dialog.setVisible(true);
 		if(!dialog.isCanceled()) {
 			this.setMascotIdentifications(dialog.getMascotIdentifications());
+			this.toggleVisualizationMode.doClick();
 		}
 	}
 
