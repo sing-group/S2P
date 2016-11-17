@@ -291,7 +291,7 @@
 				<filtering>true</filtering>
 				<includes>
 					<include>plugin.xml</include>
-					<!--<include>laimages.properties</include>-->
+					<include>s2p.properties</include>
 				</includes>
 			</resource>
 		</resources>

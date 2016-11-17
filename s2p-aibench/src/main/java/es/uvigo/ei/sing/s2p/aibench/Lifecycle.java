@@ -21,6 +21,7 @@ import javax.swing.JToolBar;
 import es.uvigo.ei.aibench.workbench.MainWindow;
 import es.uvigo.ei.aibench.workbench.Workbench;
 import es.uvigo.ei.aibench.workbench.utilities.ClearClipboardAction;
+import es.uvigo.ei.sing.s2p.aibench.gui.AboutFrame;
 import es.uvigo.ei.sing.s2p.gui.util.CommonFileChooser;
 
 public class Lifecycle extends org.platonos.pluginengine.PluginLifecycle {
@@ -63,6 +64,7 @@ public class Lifecycle extends org.platonos.pluginengine.PluginLifecycle {
 		toolBar.setFloatable(false);
 		toolBar.add(Box.createHorizontalGlue());
 		toolBar.add(new ClearClipboardAction(ICON_24));
+		AboutFrame.getInstance().addToJToolbar(toolBar);
 	}
 
 	private void configureAIBenchMenu() {
