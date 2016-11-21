@@ -31,6 +31,7 @@ import es.uvigo.ei.sing.hlfernandez.dialog.ExportCsvDialog;
 import es.uvigo.ei.sing.hlfernandez.table.RowHeaderExtendedJXTable;
 import es.uvigo.ei.sing.hlfernandez.utilities.ExtendedAbstractAction;
 import es.uvigo.ei.sing.s2p.core.entities.MaldiPlate;
+import es.uvigo.ei.sing.s2p.gui.UISettings;
 import es.uvigo.ei.sing.s2p.gui.util.CommonFileChooser;
 import es.uvigo.ei.sing.s2p.gui.util.CsvUtils;
 
@@ -83,6 +84,7 @@ public class MaldiPlateTable extends JPanel {
 		this.table.setHorizontalScrollEnabled(true);
 		this.table.putClientProperty("terminateEditOnFocusLost", true);
 		this.table.getModel().addTableModelListener(this::tableChanged);
+		this.table.setFont(this.table.getFont().deriveFont(UISettings.FONT_SIZE));
 
 		this.table.addAction(
 			new ExtendedAbstractAction("Export to CSV", this::exportToCsv)
