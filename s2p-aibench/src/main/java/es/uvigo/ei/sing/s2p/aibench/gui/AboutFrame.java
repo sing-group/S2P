@@ -38,7 +38,7 @@ import org.jdesktop.swingx.JXHyperlink;
 import org.jdesktop.swingx.action.AbstractActionExt;
 
 import es.uvigo.ei.aibench.workbench.Workbench;
-import es.uvigo.ei.sing.s2p.gui.util.s2pIcons;
+import es.uvigo.ei.sing.s2p.gui.util.S2pIcons;
 
 public class AboutFrame extends JDialog {
 	private static final long serialVersionUID = 1L;
@@ -47,7 +47,7 @@ public class AboutFrame extends JDialog {
 	private static final int LINE_HEIGHT = 16;
 	private static final int IMAGE_HEIGHT = 105;
 	
-	private final static ImageIcon IMAGE_ABOUT_SMALL = s2pIcons.ICON_ABOUT;
+	private final static ImageIcon IMAGE_ABOUT_SMALL = S2pIcons.ICON_ABOUT;
 	
 	private final static List<AboutFrame.ResearchGroup> GROUPS;
 	private final static ImageIcon IMAGE_SING =
