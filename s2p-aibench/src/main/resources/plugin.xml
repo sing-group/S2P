@@ -8,55 +8,55 @@
 
 	<extensions>
 		<extension
-			uid="aibench.core" name="aibench.core.operation-definition" 
+			uid="aibench.core" name="aibench.core.operation-definition"
 			class="es.uvigo.ei.sing.s2p.aibench.operations.LoadSameSpotsAnalysis"
 		>
 			<operation-description
 				name="Import report"
 				uid="operations.loadsamespotsanalysis"
-				path="2@Import/1@Samespots" 
+				path="2@Import/1@SameSpots"
 			/>
 		</extension>
 	
-		<extension 
-			uid="aibench.core" name="aibench.core.operation-definition" 
+		<extension
+			uid="aibench.core" name="aibench.core.operation-definition"
 			class="es.uvigo.ei.sing.s2p.aibench.operations.LoadSameSpotsCsvFiles"
 		>
-			<operation-description 
-				name="Import *.CSV" 
-				uid="operations.loadsamespotscsvfiles" 
-				path="2@Import/1@Samespots"
+			<operation-description
+				name="Import CSV"
+				uid="operations.loadsamespotscsvfiles"
+				path="2@Import/1@SameSpots"
 			/>
 		</extension>
 	
-		<extension 
-			uid="aibench.core" name="aibench.core.operation-definition" 
+		<extension
+			uid="aibench.core" name="aibench.core.operation-definition"
 			class="es.uvigo.ei.sing.s2p.aibench.operations.LoadSpotsData"
 		>
-			<operation-description 
-				name="Load Spots" 
+			<operation-description
+				name="Load spots"
 				uid="operations.loadspotsdata"
 				path="3@Load"
 				shortcut="1"
 			/>
 		</extension>
 		
-		<extension 
-			uid="aibench.core" name="aibench.core.operation-definition" 
+		<extension
+			uid="aibench.core" name="aibench.core.operation-definition"
 			class="es.uvigo.ei.sing.s2p.aibench.operations.ImportMascotIdentifications"
 		>
-			<operation-description 
+			<operation-description
 				name="Import Mascot identifications"
 				uid="operations.importmascotidentifications"
 				path="2@Import"
 			/>
 		</extension>
 		
-		<extension 
-			uid="aibench.core" name="aibench.core.operation-definition" 
+		<extension
+			uid="aibench.core" name="aibench.core.operation-definition"
 			class="es.uvigo.ei.sing.s2p.aibench.operations.LoadMascotCsvFile"
 		>
-			<operation-description 
+			<operation-description
 				name="Load identifications"
 				uid="operations.loadmascotidentifications"
 				path="3@Load"
@@ -64,253 +64,253 @@
 			/>
 		</extension>
 		
-		<extension 
-			uid="aibench.core" name="aibench.core.operation-definition" 
+		<extension
+			uid="aibench.core" name="aibench.core.operation-definition"
 			class="es.uvigo.ei.sing.s2p.aibench.operations.ImportMaldiPlate"
 		>
-			<operation-description 
-				name="Import plate" 
-				uid="operations.importmaldiplate" 
+			<operation-description
+				name="Import plate"
+				uid="operations.importmaldiplate"
 				path="2@Import"
 			/>
 		</extension>
 		
-		<extension 
-			uid="aibench.core" name="aibench.core.operation-definition" 
+		<extension
+			uid="aibench.core" name="aibench.core.operation-definition"
 			class="es.uvigo.ei.sing.s2p.aibench.operations.CreateMaldiPlate"
 			>
-			<operation-description 
-				name="New plate" 
-				uid="operations.createmaldiplate" 
+			<operation-description
+				name="New plate"
+				uid="operations.createmaldiplate"
 				path="1@File"
 			/>
 		</extension>
 		
-		<extension 
-			uid="aibench.core" name="aibench.core.operation-definition" 
+		<extension
+			uid="aibench.core" name="aibench.core.operation-definition"
 			class="es.uvigo.ei.sing.s2p.aibench.operations.LoadMaldiPlate"
 		>
-			<operation-description 
-				name="Load plate" 
-				uid="operations.loadmaldiplate" 
+			<operation-description
+				name="Load plate"
+				uid="operations.loadmaldiplate"
 				path="3@Load"
 				shortcut="3"
 			/>
 		</extension>
 		
-		<extension 
-			uid="aibench.core" name="aibench.core.operation-definition" 
+		<extension
+			uid="aibench.core" name="aibench.core.operation-definition"
 			class="es.uvigo.ei.sing.s2p.aibench.operations.CreateVennDiagramDesign"
 		>
-			<operation-description 
-				name="New Venn Diagram design" 
-				uid="operations.createvenndiagramdesign" 
+			<operation-description
+				name="New Venn Diagram design"
+				uid="operations.createvenndiagramdesign"
 				path="1@File"
 			/>
 		</extension>
 
-		<extension 
-			uid="aibench.core" name="aibench.core.operation-definition" 
+		<extension
+			uid="aibench.core" name="aibench.core.operation-definition"
 			class="es.uvigo.ei.sing.s2p.aibench.operations.LoadVennDiagramDesign"
 		>
-			<operation-description 
-				name="Load Venn Diagram design" 
-				uid="operations.loadvenndiagramdesign" 
+			<operation-description
+				name="Load Venn Diagram design"
+				uid="operations.loadvenndiagramdesign"
 				path="3@Load"
 			/>
 		</extension>
 
-		<extension 
-			uid="aibench.core" name="aibench.core.operation-definition" 
+		<extension
+			uid="aibench.core" name="aibench.core.operation-definition"
 			class="es.uvigo.ei.sing.s2p.aibench.operations.FillMaldiPlate"
 		>
-			<operation-description 
-				name="Fill Maldi plate" 
-				uid="operations.fillmaldiplate" 
+			<operation-description
+				name="Fill plate"
+				uid="operations.fillmaldiplate"
 				path="4@Operations"
 			/>
 		</extension>
 
 		<extension uid="aibench.workbench" name="aibench.workbench.view">
-			<view 
-				name="SameSpots analysis viewer" 
-				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.SameSpotsAnalysisDatatype" 
-				class="es.uvigo.ei.sing.s2p.aibench.views.SameSpotsAnalysisView" 
+			<view
+				name="SameSpots analysis viewer"
+				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.SameSpotsAnalysisDatatype"
+				class="es.uvigo.ei.sing.s2p.aibench.views.SameSpotsAnalysisView"
 				help="es.uvigo.ei.sing.s2p.aibench.datatypes.SameSpotsAnalysisDatatype"
 			/>
-			<view 
-				name="Spots data viewer" 
-				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.SpotsDataDatatype" 
-				class="es.uvigo.ei.sing.s2p.aibench.views.SpotsDataDatatypeView" 
+			<view
+				name="Spots data viewer"
+				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.SpotsDataDatatype"
+				class="es.uvigo.ei.sing.s2p.aibench.views.SpotsDataDatatypeView"
 				help="es.uvigo.ei.sing.s2p.aibench.datatypes.SpotsDataDatatype"
 			/>		
-			<view 
-				name="Mascot identifications viewer" 
-				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.MascotIdentificationsDatatype" 
-				class="es.uvigo.ei.sing.s2p.aibench.views.MascotIdentificationsDatatypeView" 
+			<view
+				name="Mascot identifications viewer"
+				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.MascotIdentificationsDatatype"
+				class="es.uvigo.ei.sing.s2p.aibench.views.MascotIdentificationsDatatypeView"
 				help="es.uvigo.ei.sing.s2p.aibench.datatypes.MascotIdentificationsDatatype"
 			/>
-			<view 
-				name="Maldi plate editor" 
-				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.MaldiPlateDatatype" 
-				class="es.uvigo.ei.sing.s2p.aibench.views.MaldiPlateDatatypeView" 
+			<view
+				name="Maldi plate editor"
+				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.MaldiPlateDatatype"
+				class="es.uvigo.ei.sing.s2p.aibench.views.MaldiPlateDatatypeView"
 				help="es.uvigo.ei.sing.s2p.aibench.datatypes.MaldiPlateDatatype"
 			/>
-			<view 
-				name="Venn diagram designer" 
-				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.VennDiagramDesignDatatype" 
-				class="es.uvigo.ei.sing.s2p.aibench.views.VennDiagramDesigner" 
+			<view
+				name="Venn diagram designer"
+				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.VennDiagramDesignDatatype"
+				class="es.uvigo.ei.sing.s2p.aibench.views.VennDiagramDesigner"
 				help="es.uvigo.ei.sing.s2p.aibench.datatypes.VennDiagramDesignDatatype"
 			/>		
 		</extension>
 		
 		<extension uid="aibench.workbench" name="aibench.workbench.view">
 		    <gui-operation
-		    	operation="operations.loadspotsdata" 
+		    	operation="operations.loadspotsdata"
 		    	class="es.uvigo.ei.sing.s2p.aibench.operations.dialogs.LoadSpotsDataDialog"
 		    />
 		    <gui-operation
-		    	operation="operations.loadmascotidentifications" 
+		    	operation="operations.loadmascotidentifications"
 		    	class="es.uvigo.ei.sing.s2p.aibench.operations.dialogs.LoadMascotCsvFileDialog"
 		    />
 		    <gui-operation
-		    	operation="operations.loadsamespotscsvfiles" 
+		    	operation="operations.loadsamespotscsvfiles"
 		    	class="es.uvigo.ei.sing.s2p.aibench.operations.dialogs.LoadSameSpotsCsvFilesDialog"
 		    />
 		    <gui-operation
-		    	operation="operations.importmaldiplate" 
+		    	operation="operations.importmaldiplate"
 		    	class="es.uvigo.ei.sing.s2p.aibench.operations.dialogs.ImportMaldiPlateDialog"
 		    />
 		    <gui-operation
-				operation="operations.createmaldiplate" 
+				operation="operations.createmaldiplate"
 				class="es.uvigo.ei.sing.s2p.aibench.operations.dialogs.CreateMaldiPlateDialog"
 		    />
 		    <gui-operation
-				operation="operations.fillmaldiplate" 
+				operation="operations.fillmaldiplate"
 				class="es.uvigo.ei.sing.s2p.aibench.operations.dialogs.FillMaldiPlateDialog"
 		    />
 		</extension>		
 
 		<extension uid="aibench.workbench" name="aibench.workbench.view">
-			<icon-operation 
-				operation="operations.loadsamespotsanalysis" 
+			<icon-operation
+				operation="operations.loadsamespotsanalysis"
 				icon="icons/progenesis.png"
 			/>
 			<big-icon-operation	
-				operation="operations.loadsamespotsanalysis" 
+				operation="operations.loadsamespotsanalysis"
 				icon="icons/progenesis.png"
 			/>
 
-			<icon-operation 
-				operation="operations.loadsamespotscsvfiles" 
+			<icon-operation
+				operation="operations.loadsamespotscsvfiles"
 				icon="icons/progenesis.png"
 			/>
 			<big-icon-operation	
-				operation="operations.loadsamespotscsvfiles" 
+				operation="operations.loadsamespotscsvfiles"
 				icon="icons/progenesis.png"
 			/>
 			
-			<icon-operation 
-				operation="operations.loadspotsdata" 
+			<icon-operation
+				operation="operations.loadspotsdata"
 				icon="icons/loadspotsdata.png"
 			/>
 			<big-icon-operation	
-				operation="operations.loadspotsdata" 
+				operation="operations.loadspotsdata"
 				icon="icons/loadspotsdata.png"
 			/>
 			
-			<icon-operation 
-				operation="operations.importmascotidentifications" 
+			<icon-operation
+				operation="operations.importmascotidentifications"
 				icon="icons/importmascotidentifications.png"
 			/>
 			<big-icon-operation	
-				operation="operations.importmascotidentifications" 
+				operation="operations.importmascotidentifications"
 				icon="icons/importmascotidentifications.png"
 			/>
 
-			<icon-operation 
-				operation="operations.loadmascotidentifications" 
+			<icon-operation
+				operation="operations.loadmascotidentifications"
 				icon="icons/loadmascotidentifications.png"
 			/>
 			<big-icon-operation	
-				operation="operations.loadmascotidentifications" 
+				operation="operations.loadmascotidentifications"
 				icon="icons/loadmascotidentifications.png"
 			/>
 
-			<icon-operation 
-				operation="operations.importmaldiplate" 
+			<icon-operation
+				operation="operations.importmaldiplate"
 				icon="icons/importmaldiplate.png"
 			/>
 			<big-icon-operation	
-				operation="operations.importmaldiplate" 
+				operation="operations.importmaldiplate"
 				icon="icons/importmaldiplate.png"
 			/>
 			
-			<icon-operation 
-				operation="operations.createmaldiplate" 
+			<icon-operation
+				operation="operations.createmaldiplate"
 				icon="icons/createmaldiplate.png"
 			/>
 			<big-icon-operation	
-				operation="operations.createmaldiplate" 
+				operation="operations.createmaldiplate"
 				icon="icons/createmaldiplate.png"
 			/>
 
-			<icon-operation 
-				operation="operations.fillmaldiplate" 
+			<icon-operation
+				operation="operations.fillmaldiplate"
 				icon="icons/fillmaldiplate.png"
 			/>
 			<big-icon-operation
-				operation="operations.fillmaldiplate" 
+				operation="operations.fillmaldiplate"
 				icon="icons/fillmaldiplate.png"
 			/>
 
 			<icon-operation
-				operation="operations.loadmaldiplate" 
+				operation="operations.loadmaldiplate"
 				icon="icons/loadmaldiplate.png"
 			/>
 			<big-icon-operation	
-				operation="operations.loadmaldiplate" 
+				operation="operations.loadmaldiplate"
 				icon="icons/loadmaldiplate.png"
 			/>
 
-			<icon-operation 
-				operation="operations.createvenndiagramdesign" 
+			<icon-operation
+				operation="operations.createvenndiagramdesign"
 				icon="icons/createvenn.png"
 			/>
 			<big-icon-operation	
-				operation="operations.createvenndiagramdesign" 
+				operation="operations.createvenndiagramdesign"
 				icon="icons/createvenn.png"
 			/>
 			
-			<icon-operation 
-				operation="operations.loadvenndiagramdesign" 
+			<icon-operation
+				operation="operations.loadvenndiagramdesign"
 				icon="icons/loadvenn.png"
 			/>
 			<big-icon-operation	
-				operation="operations.loadvenndiagramdesign" 
+				operation="operations.loadvenndiagramdesign"
 				icon="icons/loadvenn.png"
 			/>
 			
-			<icon-datatype 
-				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.VennDiagramDesignDatatype" 
+			<icon-datatype
+				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.VennDiagramDesignDatatype"
 				icon="icons/venndatatype.png"
-			/> 
-			<icon-datatype 
-				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.SpotsDataDatatype" 
+			/>
+			<icon-datatype
+				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.SpotsDataDatatype"
 				icon="icons/dataset.png"
-			/> 
-			<icon-datatype 
-				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.MascotIdentificationsDatatype" 
+			/>
+			<icon-datatype
+				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.MascotIdentificationsDatatype"
 				icon="icons/mascotdatatype.png"
-			/> 
-			<icon-datatype 
-				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.MaldiPlateDatatype" 
+			/>
+			<icon-datatype
+				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.MaldiPlateDatatype"
 				icon="icons/maldiplatedatatype.png"
-			/> 
-			<icon-datatype 
-				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.SameSpotsAnalysisDatatype" 
+			/>
+			<icon-datatype
+				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.SameSpotsAnalysisDatatype"
 				icon="icons/samespotsdatatype.png"
-			/> 
+			/>
 		</extension>
 	</extensions>
 
