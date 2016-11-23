@@ -1,6 +1,7 @@
 package es.uvigo.ei.sing.s2p.aibench.operations;
 
 import static es.uvigo.ei.sing.s2p.aibench.operations.dialogs.AbstractCsvInputDialog.CSV_FORMAT;
+import static es.uvigo.ei.sing.s2p.aibench.operations.dialogs.AbstractCsvInputDialog.CSV_FORMAT_DESCRIPTION;
 import static es.uvigo.ei.sing.s2p.core.io.SpotsDataLoader.load;
 
 import java.io.File;
@@ -33,11 +34,7 @@ public class LoadSpotsData {
 	@Port(
 		direction = Direction.INPUT, 
 		name = CSV_FORMAT,
-		description = "The CSV format of the CSV files. S2P includes two "
-			+ "preconfigured formats for Excel and Open/LibreOffice "
-			+ "applications. In case you need to specify a custom CSV format, "
-			+ "you can select the Custom option, which allows you to configure "
-			+ "the CSV format.",
+		description = CSV_FORMAT_DESCRIPTION,
 		order = 2
 	)
 	public void setCsvFormat(CsvFormat csvFormat) {

@@ -7,7 +7,13 @@ import es.uvigo.ei.aibench.workbench.inputgui.ParamsWindow;
 public abstract class AbstractCsvInputDialog extends ParamsWindow {
 	private static final long serialVersionUID = 1L;
 	
-	public static final String CSV_FORMAT = "CSV format"; 
+	public static final String CSV_FORMAT = "CSV format";
+	public static final String CSV_FORMAT_DESCRIPTION = 
+		"<html>The CSV format of the CSV files. S2P includes two " +
+		"preconfigured formats for Excel and Open/LibreOffice " +
+		"applications. <br/>In case you need to specify a custom CSV format, " +
+		"you can select the Custom option, which allows you to configure " +
+		"the CSV format.</html>";
 
 	protected ParamProvider getParamProvider(final Port arg0,
 		final Class<?> arg1, final Object arg2
