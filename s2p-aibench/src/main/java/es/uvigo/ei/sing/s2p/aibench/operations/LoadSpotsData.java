@@ -14,7 +14,7 @@ import es.uvigo.ei.sing.s2p.aibench.datatypes.SpotsDataDatatype;
 
 @Operation(
 	name = "Load spots data",
-	description = "Loads spots data from a .CSV file."
+	description = "Loads spots data from a CSV file."
 )
 public class LoadSpotsData {
 	private File csvFile;
@@ -22,8 +22,8 @@ public class LoadSpotsData {
 
 	@Port(
 		direction = Direction.INPUT, 
-		name = "Input data", 
-		description = "A .CSV containing the spots data.",
+		name = "Spots data",
+		description = "A CSV containing the spots data to be loaded.",
 		order = 1
 	)
 	public void setCsvFile(File csvFile) {
@@ -33,7 +33,11 @@ public class LoadSpotsData {
 	@Port(
 		direction = Direction.INPUT, 
 		name = CSV_FORMAT,
-		description = "The format of the CSV file.",
+		description = "The CSV format of the CSV files. S2P includes two "
+			+ "preconfigured formats for Excel and Open/LibreOffice "
+			+ "applications. In case you need to specify a custom CSV format, "
+			+ "you can select the Custom option, which allows you to configure "
+			+ "the CSV format.",
 		order = 2
 	)
 	public void setCsvFormat(CsvFormat csvFormat) {

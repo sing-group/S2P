@@ -25,8 +25,8 @@ public class LoadMascotCsvFile {
 
 	@Port(
 		direction = Direction.INPUT, 
-		name = "CSV File", 
-		description = "Source file (*.CSV).",
+		name = "Protein identifications", 
+		description = "A CSV file containing the Mascot identifications.",
 		allowNull = false,
 		order = 1
 	)
@@ -37,7 +37,11 @@ public class LoadMascotCsvFile {
 	@Port(
 		direction = Direction.INPUT, 
 		name = CSV_FORMAT,
-		description = "The format of the CSV file.",
+		description = "The CSV format of the CSV files. S2P includes two "
+			+ "preconfigured formats for Excel and Open/LibreOffice "
+			+ "applications. In case you need to specify a custom CSV format, "
+			+ "you can select the Custom option, which allows you to configure "
+			+ "the CSV format.",
 		order = 2
 	)
 	public void setCsvFormat(CsvFormat csvFormat) {
@@ -47,7 +51,8 @@ public class LoadMascotCsvFile {
 	@Port(
 		direction = Direction.INPUT, 
 		name = "Minimum Mascot Score", 
-		description = "Entries within a lower Mascot Score are not loaded.",
+		description = "The minimum Mascot Score for identifications to be "
+			+ "loaded. Entries within a lower Mascot Score are not loaded.",
 		order = 3,
 		defaultValue = "0"
 	)
@@ -58,7 +63,8 @@ public class LoadMascotCsvFile {
 	@Port(
 		direction = Direction.INPUT, 
 		name = "Remove duplicates", 
-		description = "Check this option to remove duplicated entries.",
+		description = "whether duplicated identifications must be skipped. "
+			+ "Check this option to remove duplicated identifications.",
 		order = 4,
 		defaultValue = "true"
 	)

@@ -18,8 +18,8 @@ import es.uvigo.ei.sing.s2p.core.entities.MaldiPlate;
 import es.uvigo.ei.sing.s2p.core.entities.MaldiPlate.Positions;
 
 @Operation(
-	name = "Fill Maldi plate", 
-	description = "Allows distributing spots into one or several Maldi plates."
+	name = "Fill plate", 
+	description = "Distributes spots data into one or several Maldi plates."
 )
 public class FillMaldiPlate {
 	
@@ -36,7 +36,7 @@ public class FillMaldiPlate {
 		direction = Direction.INPUT, 
 		name = "Rows", 
 		defaultValue = "15",
-		description = "Number of rows.",
+		description = "The number of matrix rows.",
 		order = 1
 	)
 	public void setNumRows(int numRows) {
@@ -46,7 +46,7 @@ public class FillMaldiPlate {
 	@Port(
 		direction = Direction.INPUT, 
 		name = ROWS_POSITIONS, 
-		description = "Type of rows.",
+		description = "The type of rows (i.e. numeric or letters).",
 		order = 2
 	)
 	public void setRowPositions(Positions rowsPositions) {
@@ -57,7 +57,7 @@ public class FillMaldiPlate {
 		direction = Direction.INPUT, 
 		name = "Columns", 
 		defaultValue = "24",
-		description = "Number of columns.",
+		description = "The number of matrix columns.",
 		order = 3
 	)
 	public void setNumColumns(int numColumns) {
@@ -67,7 +67,7 @@ public class FillMaldiPlate {
 	@Port(
 		direction = Direction.INPUT, 
 		name = COLUMNS_POSITIONS, 
-		description = "Type of rows.",
+		description = "The type of columns (i.e. numeric or letters).",
 		order = 4
 	)
 	public void setColumnsPositions(Positions columnsType) {
@@ -78,7 +78,7 @@ public class FillMaldiPlate {
 		direction = Direction.INPUT,
 		name = "Calibrants",
 		defaultValue = "true",
-		description = "Add calibrants.",
+		description = "Whether calibrants must be added to the matrix or not.",
 		order = 5
 	)
 	public void setAddCalibrants(boolean addCalibrants) {
@@ -88,7 +88,7 @@ public class FillMaldiPlate {
 	@Port(
 		direction = Direction.INPUT,
 		name = "Spots data",
-		description = "spots data.",
+		description = "Loaded spots data from the clipboard.",
 		order = 6
 	)
 	public void setSpots(SpotsDataDatatype spots) {
@@ -99,7 +99,8 @@ public class FillMaldiPlate {
 		direction = Direction.INPUT, 
 		name = "Replicates", 
 		defaultValue = "2",
-		description = "Number of spot replicates.",
+		description = "The number of spot replicates that must be included in "
+			+ "the Maldi plate.",
 		order = 7
 	)
 	public void setSpotReplicates(int numReplicates) {
@@ -110,7 +111,7 @@ public class FillMaldiPlate {
 		direction = Direction.INPUT,
 		name = "Random",
 		defaultValue = "false",
-		description = "Randomize spots.",
+		description = "Whether spots must be distributed randomly or not.",
 		order = 8
 	)
 	public void setRandomizeSpots(boolean random) {

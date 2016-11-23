@@ -12,7 +12,7 @@ import es.uvigo.ei.sing.s2p.aibench.datatypes.MascotIdentificationsDatatype;
 
 @Operation(
 	name = "Import Mascot identifications", 
-	description = "Imports Mascot identifications from a .HTM file."
+	description = "Imports Mascot identifications from a HTM Mascot report file."
 )
 public class ImportMascotIdentifications {
 	private File htmlFile;
@@ -22,7 +22,7 @@ public class ImportMascotIdentifications {
 	@Port(
 		direction = Direction.INPUT, 
 		name = "Protein identifications", 
-		description = "A .HTM file containing the Mascot report.",
+		description = "A HTM file containing the Mascot report.",
 		order = 1
 	)
 	public void setHtmlFile(File htmlFile) {
@@ -32,7 +32,8 @@ public class ImportMascotIdentifications {
 	@Port(
 		direction = Direction.INPUT, 
 		name = "Minimum Mascot Score", 
-		description = "Entries within a lower Mascot Score are not loaded.",
+		description = "The minimum Mascot Score for identifications to be "
+			+ "loaded. Entries within a lower Mascot Score are not loaded.",
 		order = 2,
 		defaultValue = "0"
 	)
@@ -43,7 +44,8 @@ public class ImportMascotIdentifications {
 	@Port(
 		direction = Direction.INPUT, 
 		name = "Remove duplicates", 
-		description = "Check this option to remove duplicated entries.",
+		description = "whether duplicated identifications must be skipped. "
+				+ "Check this option to remove duplicated identifications.",
 		order = 3,
 		defaultValue = "true"
 	)

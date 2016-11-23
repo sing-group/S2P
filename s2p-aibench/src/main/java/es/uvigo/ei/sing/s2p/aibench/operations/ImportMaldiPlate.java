@@ -14,7 +14,7 @@ import es.uvigo.ei.sing.s2p.core.io.MaldiPlateLoader;
 
 @Operation(
 	name = "Import Maldi plate", 
-	description = "Allows importing a Maldi plate from a CSV file."
+	description = "Imports a Maldi plate from a CSV file."
 )
 public class ImportMaldiPlate {
 
@@ -24,7 +24,7 @@ public class ImportMaldiPlate {
 	@Port(
 		direction = Direction.INPUT, 
 		name = "CSV File", 
-		description = "Source file (*.CSV).",
+		description = "A CSV containing the Maldi plate to be imported.",
 		allowNull = false,
 		order = 1
 	)
@@ -35,7 +35,11 @@ public class ImportMaldiPlate {
 	@Port(
 		direction = Direction.INPUT, 
 		name = CSV_FORMAT,
-		description = "The format of the CSV file..",
+		description = "The CSV format of the CSV files. S2P includes two "
+			+ "preconfigured formats for Excel and Open/LibreOffice "
+			+ "applications. In case you need to specify a custom CSV format, "
+			+ "you can select the Custom option, which allows you to configure "
+			+ "the CSV format.",
 		order = 2
 	)
 	public void setCsvFormat(CsvFormat csvFormat) {

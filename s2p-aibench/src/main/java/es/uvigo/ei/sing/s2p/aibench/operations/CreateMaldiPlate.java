@@ -27,7 +27,7 @@ public class CreateMaldiPlate {
 		direction = Direction.INPUT, 
 		name = "Rows", 
 		defaultValue = "15",
-		description = "Number of rows.",
+		description = "The number of matrix rows.",
 		order = 1
 	)
 	public void setNumRows(int numRows) {
@@ -37,7 +37,7 @@ public class CreateMaldiPlate {
 	@Port(
 		direction = Direction.INPUT, 
 		name = ROWS_POSITIONS, 
-		description = "Type of rows.",
+		description = "The type of rows (i.e. numeric or letters).",
 		order = 2
 	)
 	public void setRowPositions(Positions rowsPositions) {
@@ -48,7 +48,7 @@ public class CreateMaldiPlate {
 		direction = Direction.INPUT, 
 		name = "Columns", 
 		defaultValue = "24",
-		description = "Number of columns.",
+		description = "The number of matrix columns.",
 		order = 3
 	)
 	public void setNumColumns(int numColumns) {
@@ -58,7 +58,7 @@ public class CreateMaldiPlate {
 	@Port(
 		direction = Direction.INPUT, 
 		name = COLUMNS_POSITIONS, 
-		description = "Type of rows.",
+		description = "The type of columns (i.e. numeric or letters).",
 		order = 4
 	)
 	public void setColumnsPositions(Positions columnsPositions) {
@@ -69,7 +69,7 @@ public class CreateMaldiPlate {
 		direction = Direction.INPUT,
 		name = "Calibrants",
 		defaultValue = "true",
-		description = "Add calibrants.",
+		description = "Whether calibrants must be added to the matrix or not.",
 		order = 5
 	)
 	public void setAddCalibrants(boolean addCalibrants) {

@@ -12,7 +12,7 @@ import es.uvigo.ei.sing.s2p.core.io.MaldiPlateLoader;
 
 @Operation(
 	name = "Load Maldi plate", 
-	description = "Allows loading a Maldi plate."
+	description = "Loads a Maldi plate from a MPL file."
 )
 public class LoadMaldiPlate {
 
@@ -20,8 +20,8 @@ public class LoadMaldiPlate {
 
 	@Port(
 		direction = Direction.INPUT, 
-		name = "File", 
-		description = "Source file.",
+		name = "File",
+		description = "A MPL file containing the Maldi plate.",
 		allowNull = false,
 		order = 1
 	)

@@ -11,8 +11,8 @@ import es.uvigo.ei.sing.vda.core.VennDiagramDesign;
 import es.uvigo.ei.sing.vda.core.io.SerializationVennDiagramDesignReader;
 
 @Operation(
-	name = "Load a venn diagram design", 
-	description = "Loads an stored venn diagram design."
+	name = "Load a Venn Diagram design", 
+	description = "Loads a Venn Diagram design from a file."
 )
 public class LoadVennDiagramDesign {
 	private File file;
