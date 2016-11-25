@@ -23,7 +23,8 @@ public class ImportMascotIdentifications {
 		direction = Direction.INPUT, 
 		name = "Protein identifications", 
 		description = "A HTM file containing the Mascot report.",
-		order = 1
+		order = 1,
+		extras="selectionMode=files"
 	)
 	public void setHtmlFile(File htmlFile) {
 		this.htmlFile = htmlFile;

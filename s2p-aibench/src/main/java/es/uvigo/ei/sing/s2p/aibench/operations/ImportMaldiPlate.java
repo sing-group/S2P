@@ -27,7 +27,8 @@ public class ImportMaldiPlate {
 		name = "CSV File", 
 		description = "A CSV containing the Maldi plate to be imported.",
 		allowNull = false,
-		order = 1
+		order = 1,
+		extras="selectionMode=files"
 	)
 	public void setFile(File file) {
 		this.file = file;

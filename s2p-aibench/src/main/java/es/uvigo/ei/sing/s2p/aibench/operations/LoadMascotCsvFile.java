@@ -29,7 +29,8 @@ public class LoadMascotCsvFile {
 		name = "Protein identifications", 
 		description = "A CSV file containing the Mascot identifications.",
 		allowNull = false,
-		order = 1
+		order = 1,
+		extras="selectionMode=files"
 	)
 	public void setFile(File file) {
 		this.file = file;

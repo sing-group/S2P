@@ -25,7 +25,8 @@ public class LoadSpotsData {
 		direction = Direction.INPUT, 
 		name = "Spots data",
 		description = "A CSV containing the spots data to be loaded.",
-		order = 1
+		order = 1,
+		extras="selectionMode=files"
 	)
 	public void setCsvFile(File csvFile) {
 		this.csvFile = csvFile;

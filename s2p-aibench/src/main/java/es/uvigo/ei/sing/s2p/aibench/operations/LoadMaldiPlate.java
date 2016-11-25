@@ -23,7 +23,8 @@ public class LoadMaldiPlate {
 		name = "File",
 		description = "A MPL file containing the Maldi plate.",
 		allowNull = false,
-		order = 1
+		order = 1,
+		extras="selectionMode=files"
 	)
 	public void setFile(File file) {
 		this.file = file;

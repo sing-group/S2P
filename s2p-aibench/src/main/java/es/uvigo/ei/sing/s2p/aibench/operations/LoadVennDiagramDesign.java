@@ -20,7 +20,8 @@ public class LoadVennDiagramDesign {
 	@Port(
 		direction = Direction.INPUT, 
 		name = "Source file", 
-		order = 1
+		order = 1,
+		extras="selectionMode=files"
 	)
 	public void setCsvFile(File file) {
 		this.file = file;
