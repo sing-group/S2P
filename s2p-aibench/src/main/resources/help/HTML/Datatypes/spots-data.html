@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<title>SameSpots analysis</title>
+</head>
+<body style="font-size: 13px">
+	<h1>Spots data</h1>
+	<p><i>Spots data</i> can be explored using the <i>Integrated analysis view</i>.</p>
+	<p><strong>Integrated analysis view</strong></p>
+	<p>The <i>Integrated analysis view</i> has two main areas: the upper area with buttons and controls and the lower area with different views to explore spots data.</p>
+	<div align="center">
+  		<p><a href="../Images/html/Views/integrated-analysis-view.html"><img src="../Images/Views/integrated-analysis-view-small.png" border="0"/></a></p>
+  		<p><strong><i>Integrated analysis view</i></strong>
+  		<br/><font size="2">(click in the image to enlarge)</font></p>
+	</div>
+	<p>The lower area has, at the same time, three tabs to explore spots data in different ways:</p>  
+	<ul>
+		<li><b>Table view</b>: shows samples in columns and spots in rows. Cell values represent the expression value for the given spot and sample.</li>
+		<li><b>Conditions summary</b>: shows a summary of the conditions in the dataset with spots in rows and conditions in samples. For each sample, four columns are shown: average spot value, standard deviation, porcentage and count of samples where the spot is present.</li>
+		<li><b>Comparison view</b>: shows a comparison of two conditions, allowing you to check what spots are common of both and what are unique.</li>
+	</ul>
+
+	<p><i>Buttons and controls</i></p>
+		<p>The upper area contains the following control buttons that allows you to accomplish different tasks:<p>
+		<ul>
+		<li><img src="../Images/Views/integrated-analysis-view/button-add-identifications.png"/>: allows you to add a list of Mascot identifications to the analysis view.</li>
+		<li><img src="../Images/Views/integrated-analysis-view/button-clear-identifications.png"/>: allows you to remove the added Mascot identifications from the analysis view.</li>
+		<li><img src="../Images/Views/integrated-analysis-view/button-show-identified-spots.png"/>: select this button to show only spots with protein identifications associated and hide those that have not identifications associated.</li>
+		<li><img src="../Images/Views/integrated-analysis-view/button-show-identifications.png"/>: select this button to show the best protein identification along with the spot number in tables.</li>
+		<li><img src="../Images/Views/integrated-analysis-view/button-diferential-spots.png"/>: select this button to show only differential spots. When this option is selected, a dialog to define how differential spots are computed is shown.</li>
+		<li><img src="../Images/Views/integrated-analysis-view/button-presence-filters.png"/>: select this option to show the presence filters by condition.</li>
+		<li><img src="../Images/Views/integrated-analysis-view/button-other-options.png"/>: shows other options related with this view.
+			<ul>
+				<li><i>Identifications detail</i>: shows a table with the Mascot identifications associated to each visible spot.</li>
+				<li><i>Summary</i>: shows a summary with the count of analyzed spots, identified spots and different proteins identified.</li>
+			</ul>
+		</li>
+	</ul>
+	
+	<p>Moreover, a presence filter is created for each condition in the upper area of this view. Regarding the <i>Table view</i>. This is usefuld to find spots that are present in one condition and not in the other at different percentages of presence. For example, the filter defined in the image below allows to look for spots that are in at least five of seven samples of the <i>Bladder cancer</i> condition.</p>
+	<div align="center">
+  		<p><img src="../Images/Views/integrated-analysis-view/slider-filter.png" border="0"/></p>
+  		<p><strong><i>Presence filter</i></strong></p>
+	</div>
+	
+	<p><i>Integrate Mascot identifications</i></p>
+	<br/>
+	<p>In order to integrate Mascot identifications into this analysis you should click the <img src="../Images/Views/integrated-analysis-view/button-add-identifications.png"/> button, which will show you the <i>Add identifications</i> dialog. As you can see in the following image, this dialog allows you to select a list of previously loaded Mascot identifications along with a MALDI plate.</p>
+	<div align="center">
+  		<p><img src="../Images/Views/integrated-analysis-view/dialog-add-identifications.png" border="0"/></p>
+  		<p><strong><i>Add identifications</i> dialog</strong></p>
+	</div>
+
+	<br/>
+	<p>After adding this information to the analysis, tables will automatically show the best Mascot identification (i.e. that with a higher Mascot Score) along with the spot number or mark in red those spot without identifications associated</p> 
+
+	<div align="center">
+  		<p><img src="../Images/Views/integrated-analysis-view/table-view-with-identifications.png" border="0"/></p>
+  		<p><strong><i>Table viewer</i> with identifications</strong></p>
+	</div>
+	
+	<p><i>Heatmap visualization</i></p>
+	<p>You can visualize the spots data as a heatmap by clicking the  <img src="../Images/Views/button-table-options.png"/> button and then selecting the <i>View as heatmap</i> option, which will show you a dialog to customize the heatmap visualization. As you can see in the image bellow, it requires you to provide the following information:</p>
+	<ul>
+		<li><b>Show sample labels</b>: whether sample labels should be shown in the heatmap or not.</li>
+		<li><b>Show spot name</b>: whether spot names should be shown in the heatmap or not.</li>
+		<li><b>Show identifications</b>: choose how protein identifications should appear in the heatmap:
+			<ul>
+				<li><i>None</i>: identifications are not shown.</li>
+				<li><i>Best Mascot score</i>: only the identification with the best Mascot score is shown.</li>
+				<li><i>All identifications</i>: all identifications are shown.</li>
+			</ul>
+		</li>
+	</ul>
+
+	<div align="center">
+  		<p><img src="../Images/Views/integrated-analysis-view/heatmap-customization.png" border="0"/></p>
+  		<p><strong><i>Heatmap customization</i> dialog</strong></p>
+	</div>
+       
+        <p>After clicking the <i>Ok</i> button the heatmap is shown in a new window.</p>
+    
+	<div align="center">
+  		<p><img src="../Images/Views/integrated-analysis-view/heatmap-example.png" border="0"/></p>
+  		<p><strong><i>Heatmap visualization</i></strong></p>
+	</div>
+	
+	<p><i>Conditions summary</i></p>
+	<p>The <i>Conditions summary</i> tab shows a summary of the conditions in the dataset with spots in rows and conditions in samples. For each spot, four columns are shown: average spot value, standard deviation, porcentage and count of samples where the spot is present.</p>
+	<p>Additionally, you can visualize a boxplot for each spot by doing double-click in a spot.</p>
+	<div align="center">
+  		<p><img src="../Images/Views/integrated-analysis-view/boxplot-example.png" border="0"/></p>
+  		<p><strong><i>Spot boxplot</i></strong></p>
+	</div>
+	<p><i>Finding differential spots</i></p>
+	<p><i>S2P</i> allows you to find differential spots between conditions, that is: spots that have statistically different average values when two conditions are compared. This can be done by clicking the <img src="../Images/Views/integrated-analysis-view/button-diferential-spots.png"/> button, which will show you the following dialog. As you can see in the image bellow, it requires you to provide the following information:</p>
+	<ul>
+		<li><b>Condition 1</b>: first testing condition.</li>
+		<li><b>Condition 2</b>: second testing condition.</li>
+		<li><b>Function</b>: the statistical test to compare means (<i>t-test</i> or <i>Mann–Whitney U test</i>).</li>
+		<li><b>p-value</b>: the maximum <i>p-value</i> to consider that a difference is statistically significant.</li>
+		<li><b>Correct p-value</b>: whether p-values should be corrected using the <i>Benjamini-Hochberg</i> method.</li>
+	</ul></p>    
+
+	<div align="center">
+  		<p><img src="../Images/Views/integrated-analysis-view/dialog-diferential-spots.png" border="0"/></p>
+  		<p><strong><i>Differential spots</i> dialog</strong></p>
+	</div>
+	<p>After clicking the <i>Ok</i> button, only those spots whose average mean is statistically different the compared conditions are shown in the table.</p>
+</body>
+</html>

@@ -15,6 +15,7 @@
 				name="Import report"
 				uid="operations.loadsamespotsanalysis"
 				path="2@Import/1@SameSpots"
+				help="import.samespots.report"
 			/>
 		</extension>
 	
@@ -26,6 +27,7 @@
 				name="Import CSV"
 				uid="operations.loadsamespotscsvfiles"
 				path="2@Import/1@SameSpots"
+				help="import.samespots.csv"
 			/>
 		</extension>
 	
@@ -38,6 +40,7 @@
 				uid="operations.loadspotsdata"
 				path="3@Load"
 				shortcut="1"
+				help="load.spots"
 			/>
 		</extension>
 		
@@ -49,6 +52,7 @@
 				name="Import Mascot identifications"
 				uid="operations.importmascotidentifications"
 				path="2@Import"
+				help="import.mascot"
 			/>
 		</extension>
 		
@@ -61,6 +65,7 @@
 				uid="operations.loadmascotidentifications"
 				path="3@Load"
 				shortcut="2"
+				help="load.identifications"
 			/>
 		</extension>
 		
@@ -72,6 +77,7 @@
 				name="Import plate"
 				uid="operations.importmaldiplate"
 				path="2@Import"
+				help="import.plate"
 			/>
 		</extension>
 		
@@ -83,6 +89,7 @@
 				name="New plate"
 				uid="operations.createmaldiplate"
 				path="1@File"
+				help="file.newplate"
 			/>
 		</extension>
 		
@@ -95,6 +102,7 @@
 				uid="operations.loadmaldiplate"
 				path="3@Load"
 				shortcut="3"
+				help="load.plate"
 			/>
 		</extension>
 		
@@ -106,6 +114,7 @@
 				name="New Venn Diagram design"
 				uid="operations.createvenndiagramdesign"
 				path="1@File"
+				help="file.newvenndiagramdesign"
 			/>
 		</extension>
 
@@ -117,6 +126,7 @@
 				name="Load Venn Diagram design"
 				uid="operations.loadvenndiagramdesign"
 				path="3@Load"
+				help="load.venndiagramdesign"
 			/>
 		</extension>
 
@@ -128,6 +138,7 @@
 				name="Fill plate"
 				uid="operations.fillmaldiplate"
 				path="4@Operations"
+				help="operations.fillplate"
 			/>
 		</extension>
 

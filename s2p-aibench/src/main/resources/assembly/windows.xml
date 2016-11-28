@@ -18,10 +18,10 @@
 			<directory>${project.build.directory}/conf</directory>
 			<outputDirectory>/conf</outputDirectory>
 		</fileSet>
-		<!--fileSet>
+		<fileSet>
 			<directory>${project.build.directory}/help</directory>
 			<outputDirectory>/help</outputDirectory>
-		</fileSet-->
+		</fileSet>
 		<fileSet>
 			<directory>${project.build.directory}/lib</directory>
 			<outputDirectory>/lib</outputDirectory>

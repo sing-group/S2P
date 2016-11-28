@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<title>Load spots data</title>
+</head>
+<body style="font-size: 13px">
+	<h1>Load spots data <img src="../Images/Toolbar/load-spots-button.png"/></h1>
+	<p>This operation allows you to load spots data from a CSV file.</p>
+	<p><strong>Spots data CSV file</strong></p>
+	<p>This option allows you to load spots data from a CSV file. This CSV file must have the same format that the one used by the <i>SameSpots report editor</i> to store the spots data.</p>
+	<p><strong>Usage</strong></p>
+	<p>You can execute this operation by clicking the menu option <i>Load/Load spots</i> or the toolbar <img src="../Images/Toolbar/load-spots-button.png"/> button.</p>
+	<p>A dialog will appear allowing you to choose the CSV file containing the spots data. As you can see in the following image, this dialog requires you to provide the following information:</p>
+	<ul>
+		<li><b>Spots data</b>: a CSV containing the spots data to be loaded.</li>
+		<li><b>CSV format</b>: the CSV format of the selected CSV file. S2P includes two preconfigured formats for Excel and Open/LibreOffice applications. In case you need to specify a custom CSV format you can select the Custom option, which allows you to configure the CSV format.</li>
+	</ul>
+	<div align="center">
+  		<p><img src="../Images/Dialogs/load-spots-data.png" border="0"/></p>
+  		<p><strong><i>Load Spots Data</i> dialog</strong></p>
+	</div>
+	<p>As commented above, you can customize the CSV format by selecting the <i>Custom</i> format option. When you select this option, the following custom format panel will be shown in the dialog. The options included in this panel will allow you to customize the CSV format:</p>
+	<ul>
+		<li><b>Quote fields</b>: if this option is selected, then all fields will be quoted in the resulting CSV file.</li>
+		<li><b>Column separator</b>: the separator character/s between columns.</li>
+		<li><b>Decimal separator</b>: the character to use as decimal separator. Note that the decimal separator should be different from the column separator; otherwise, it may result in an unreadable CSV file.</li>
+		<li><b>Line break</b>: the type of line break depending in the target operating system.</li>
+	</ul>
+	<div align="center">
+  		<p><img src="../Images/Dialogs/csv-custom-format.png" border="0"/></p>
+  		<p><strong><i>Custom CSV</i> panel</strong></p>
+	</div>
+	<p>After clicking the <i>Ok</i> button, the loaded spots data is automatically added as a <a href="../Datatypes/spots-data.html"><i>Spots data</i> datatype</a> to the clipboard and automatically opened it in the <i>Integrated analysis view</i>.</li>
+</body>
+</html>

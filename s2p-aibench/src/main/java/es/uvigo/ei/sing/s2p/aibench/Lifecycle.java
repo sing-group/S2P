@@ -4,6 +4,7 @@ import static es.uvigo.ei.aibench.workbench.inputgui.Common.SINGLE_FILE_CHOOSER;
 import static es.uvigo.ei.aibench.workbench.utilities.ClearClipboardAction.ICON_24;
 import static java.lang.System.getProperty;
 import static javax.swing.SwingUtilities.invokeLater;
+import static es.uvigo.ei.sing.s2p.gui.util.S2pIcons.ICON_HELP;
 
 import java.awt.Color;
 import java.io.File;
@@ -21,6 +22,7 @@ import javax.swing.JToolBar;
 import es.uvigo.ei.aibench.workbench.MainWindow;
 import es.uvigo.ei.aibench.workbench.Workbench;
 import es.uvigo.ei.aibench.workbench.utilities.ClearClipboardAction;
+import es.uvigo.ei.aibench.workbench.utilities.HelpButton;
 import es.uvigo.ei.sing.s2p.aibench.gui.AboutFrame;
 import es.uvigo.ei.sing.s2p.gui.util.CommonFileChooser;
 
@@ -65,6 +67,7 @@ public class Lifecycle extends org.platonos.pluginengine.PluginLifecycle {
 		toolBar.add(Box.createHorizontalGlue());
 		toolBar.add(new ClearClipboardAction(ICON_24));
 		AboutFrame.getInstance().addToJToolbar(toolBar);
+		toolBar.add(new HelpButton(ICON_HELP));
 	}
 
 	private void configureAIBenchMenu() {

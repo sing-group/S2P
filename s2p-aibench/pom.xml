@@ -145,7 +145,6 @@
 					</execution>
 					
 					<!-- copy help resources -->
-					<!--
 					<execution>
 						<id>copy-resources-help</id>
 						<phase>validate</phase>
@@ -161,8 +160,7 @@
 								</resource>
 							</resources>
 						</configuration>
-					</execution>					
-					-->
+					</execution>
 				</executions>
 			</plugin>		
 			
