@@ -59,6 +59,176 @@
 
 	<profiles>
 		<profile>
+			<id>createInstallers</id>
+			<properties>
+				<should.skip.installer>false</should.skip.installer>
+				<should.skip.download>false</should.skip.download>
+
+				<!--
+				 Installer requisites:
+					* mingw-w64
+					* wine
+					* A Win64 JRE version 8 or later
+					* NSIS uncompressed in some folder (will use makensis.exe)
+				-->
+				<jre.simplepath>jre1.8.0_111</jre.simplepath>
+				<jre.64b.path>z:\${project.build.directory}\java-installer-resources\windows\64b\${jre.simplepath}</jre.64b.path>
+				<jre.32b.path>z:\${project.build.directory}\java-installer-resources\windows\32b\${jre.simplepath}</jre.32b.path>
+				<nsis.path>${project.build.directory}/java-installer-resources/NSIS</nsis.path>
+				<target.exluded.dirs>java-installer-resources</target.exluded.dirs>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-resources-plugin</artifactId>
+						<configuration>
+							<encoding>UTF-8</encoding>
+						</configuration>
+						<executions>
+							<execution>
+								<id>copy-resources-installer</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<outputDirectory>${project.build.directory}/builds/dist</outputDirectory>
+									<resources>
+										<resource>
+											<directory>src/main/resources/windows-installer</directory>
+											<filtering>false</filtering>
+											 <excludes>
+									          <exclude>**/*.res</exclude>
+									          <exclude>**/*.txt</exclude>
+									          <exclude>**/*.nsi</exclude>
+									          <exclude>**/*.rc</exclude>
+									          <exclude>**/*.c</exclude>
+									        </excludes>
+										</resource>
+										<resource>
+											<directory>src/main/resources/windows-installer</directory>
+											<filtering>true</filtering>
+											 <includes>
+									          <include>**/*.res</include>
+									          <include>**/*.txt</include>
+									          <include>**/*.nsi</include>
+									          <include>**/*.rc</include>
+									          <include>**/*.c</include>
+									        </includes>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+							<execution>
+								<id>copy-resources-installer-32b</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<outputDirectory>${project.build.directory}/builds/dist32</outputDirectory>
+									<resources>
+										<resource>
+											<directory>src/main/resources/windows-installer32</directory>
+											<filtering>false</filtering>
+											 <excludes>
+									          <exclude>**/*.res</exclude>
+									          <exclude>**/*.txt</exclude>
+									          <exclude>**/*.nsi</exclude>
+									          <exclude>**/*.rc</exclude>
+									          <exclude>**/*.c</exclude>
+									        </excludes>
+										</resource>
+										<resource>
+											<directory>src/main/resources/windows-installer32</directory>
+											<filtering>true</filtering>
+											 <includes>
+									          <include>**/*.res</include>
+									          <include>**/*.txt</include>
+									          <include>**/*.nsi</include>
+									          <include>**/*.rc</include>
+									          <include>**/*.c</include>
+									        </includes>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>create-installer</id>
+								<phase>package</phase>
+								<configuration>
+									<skip>${should.skip.installer}</skip>
+									<target>
+										<exec executable="i686-w64-mingw32-windres">
+										    <arg value="${project.build.directory}/builds/dist/resources.rc" />
+										    <arg value="-O" />
+										    <arg value="coff" />
+										    <arg value="-o" />
+											<arg value="${project.build.directory}/builds/dist/resources.res" />
+										</exec>
+										<exec executable="i686-w64-mingw32-gcc">
+										    <arg value="-Wl,-subsystem,windows" />
+										    <arg value="${project.build.directory}/builds/dist/s2p-launcher.c" />
+										    <arg value="-o" />
+										    <arg value="${project.build.directory}/builds/dist/s2p.exe" />
+											<arg value="${project.build.directory}/builds/dist/resources.res" />
+										</exec>
+										<exec executable="${nsis.path}/makensis.exe">
+											<arg value="target/builds/dist/installer-script.nsi" />
+										</exec>
+										<delete includeemptydirs="true">
+		    								<fileset dir="${project.build.directory}/builds/dist/" excludes="setup.exe"/>
+										</delete>
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+							<execution>
+								<id>create-installer-32b</id>
+								<phase>package</phase>
+								<configuration>
+									<skip>${should.skip.installer}</skip>
+									<target>
+										<exec executable="i686-w64-mingw32-windres">
+										    <arg value="${project.build.directory}/builds/dist32/resources.rc" />
+										    <arg value="-O" />
+										    <arg value="coff" />
+										    <arg value="-o" />
+											<arg value="${project.build.directory}/builds/dist32/resources.res" />
+										</exec>
+										<exec executable="i686-w64-mingw32-gcc">
+										    <arg value="-Wl,-subsystem,windows" />
+										    <arg value="${project.build.directory}/builds/dist32/s2p-launcher.c" />
+										    <arg value="-o" />
+										    <arg value="${project.build.directory}/builds/dist32/s2p.exe" />
+											<arg value="${project.build.directory}/builds/dist32/resources.res" />
+										</exec>
+										<exec executable="${nsis.path}/makensis.exe">
+											<arg value="target/builds/dist32/installer-script.nsi" />
+										</exec>
+										<delete includeemptydirs="true">
+		    								<fileset dir="${project.build.directory}/builds/dist32/" excludes="setup.exe"/>
+										</delete>
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>	
+		<profile>
 			<id>createDistributables</id>
 			<properties>
 				<should.skip.download>false</should.skip.download>
@@ -291,14 +461,8 @@
 					<exclude>s2p.properties</exclude>
 					<exclude>help/**/*</exclude>
 					<exclude>help</exclude>
-					<!--
-					<exclude>installer*/**/*</exclude>
-					<exclude>installer*</exclude>
-					<exclude>dist/**/*</exclude>
-					<exclude>dist</exclude>
-					<exclude>dist32/**/*</exclude>
-					<exclude>dist32</exclude>
-					-->
+					<exclude>windows-installer*/**/*</exclude>
+					<exclude>windows-installer*</exclude>
 				</excludes>
 			</resource>
 			<resource>
