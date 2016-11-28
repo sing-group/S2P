@@ -9,11 +9,11 @@
 	<extensions>
 		<extension
 			uid="aibench.core" name="aibench.core.operation-definition"
-			class="es.uvigo.ei.sing.s2p.aibench.operations.LoadSameSpotsAnalysis"
+			class="es.uvigo.ei.sing.s2p.aibench.operations.ImportSameSpotsReport"
 		>
 			<operation-description
 				name="Import report"
-				uid="operations.loadsamespotsanalysis"
+				uid="operations.importsamespotsreport"
 				path="2@Import/1@SameSpots"
 				help="import.samespots.report"
 			/>
@@ -21,11 +21,11 @@
 	
 		<extension
 			uid="aibench.core" name="aibench.core.operation-definition"
-			class="es.uvigo.ei.sing.s2p.aibench.operations.LoadSameSpotsCsvFiles"
+			class="es.uvigo.ei.sing.s2p.aibench.operations.ImportSameSpotsCsvFiles"
 		>
 			<operation-description
 				name="Import CSV"
-				uid="operations.loadsamespotscsvfiles"
+				uid="operations.importsamespotscsvfiles"
 				path="2@Import/1@SameSpots"
 				help="import.samespots.csv"
 			/>
@@ -185,8 +185,8 @@
 		    	class="es.uvigo.ei.sing.s2p.aibench.operations.dialogs.LoadMascotCsvFileDialog"
 		    />
 		    <gui-operation
-		    	operation="operations.loadsamespotscsvfiles"
-		    	class="es.uvigo.ei.sing.s2p.aibench.operations.dialogs.LoadSameSpotsCsvFilesDialog"
+		    	operation="operations.importsamespotscsvfiles"
+		    	class="es.uvigo.ei.sing.s2p.aibench.operations.dialogs.ImportSameSpotsCsvFilesDialog"
 		    />
 		    <gui-operation
 		    	operation="operations.importmaldiplate"
@@ -204,20 +204,20 @@
 
 		<extension uid="aibench.workbench" name="aibench.workbench.view">
 			<icon-operation
-				operation="operations.loadsamespotsanalysis"
+				operation="operations.importsamespotsreport"
 				icon="icons/progenesis.png"
 			/>
 			<big-icon-operation	
-				operation="operations.loadsamespotsanalysis"
+				operation="operations.importsamespotsreport"
 				icon="icons/progenesis.png"
 			/>
 
 			<icon-operation
-				operation="operations.loadsamespotscsvfiles"
+				operation="operations.importsamespotscsvfiles"
 				icon="icons/progenesis.png"
 			/>
 			<big-icon-operation	
-				operation="operations.loadsamespotscsvfiles"
+				operation="operations.importsamespotscsvfiles"
 				icon="icons/progenesis.png"
 			/>
 			

@@ -19,7 +19,7 @@ import es.uvigo.ei.sing.s2p.core.entities.Sample;
 	name = "Import SameSpots CSV files", 
 	description = "Imports a set of CSV files containing spots data obtained with Progenesis SameSpots."
 )
-public class LoadSameSpotsCsvFiles {
+public class ImportSameSpotsCsvFiles {
 	private static final String DEFAULT_P = "1";
 	private static final String DEFAULT_FOLD = "0";
 

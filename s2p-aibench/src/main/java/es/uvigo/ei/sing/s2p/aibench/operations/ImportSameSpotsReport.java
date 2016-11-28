@@ -17,7 +17,7 @@ import es.uvigo.ei.sing.s2p.core.entities.Sample;
 	name = "Import SameSpots report", 
 	description = "Imports a Progenesis SameSpots report from the generated HTM files."
 )
-public class LoadSameSpotsAnalysis {
+public class ImportSameSpotsReport {
 	private static final String DEFAULT_P = "0.05";
 	private static final String DEFAULT_FOLD = "1.5";
 
