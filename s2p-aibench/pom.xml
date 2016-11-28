@@ -187,7 +187,7 @@
 										</delete>
 										<move 
 											file="${project.builds.directory}/dist/setup.exe" 
-											tofile="${project.builds.directory}/${project.name}-${project.version}.exe"
+											tofile="${project.builds.directory}/${project.name}-${project.version}-windows-64b.exe"
 										/>
 										<delete dir="${project.builds.directory}/dist/"/>
 									</target>
@@ -224,7 +224,7 @@
 										</delete>
 										<move 
 											file="${project.builds.directory}/dist32/setup.exe" 
-											tofile="${project.builds.directory}/${project.name}-${project.version}-32b.exe"
+											tofile="${project.builds.directory}/${project.name}-${project.version}-windows-32b.exe"
 										/>
 										<delete dir="${project.builds.directory}/dist32/"/>
 									</target>
