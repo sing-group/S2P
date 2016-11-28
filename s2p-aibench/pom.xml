@@ -185,6 +185,11 @@
 										<delete includeemptydirs="true">
 		    								<fileset dir="${project.build.directory}/builds/dist/" excludes="setup.exe"/>
 										</delete>
+										<move 
+											file="${project.build.directory}/builds/dist/setup.exe" 
+											tofile="${project.build.directory}/builds/${project.name}-${project.version}.exe"
+										/>
+										<delete dir="${project.build.directory}/builds/dist/"/>
 									</target>
 								</configuration>
 								<goals>
@@ -217,6 +222,11 @@
 										<delete includeemptydirs="true">
 		    								<fileset dir="${project.build.directory}/builds/dist32/" excludes="setup.exe"/>
 										</delete>
+										<move 
+											file="${project.build.directory}/builds/dist32/setup.exe" 
+											tofile="${project.build.directory}/builds/${project.name}-${project.version}-32b.exe"
+										/>
+										<delete dir="${project.build.directory}/builds/dist32/"/>
 									</target>
 								</configuration>
 								<goals>
