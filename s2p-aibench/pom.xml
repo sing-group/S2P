@@ -73,12 +73,11 @@
 							<skipAssembly>${should.skip.distributable}</skipAssembly>
 							<finalName>${project.name}-${project.version}</finalName>
 							<appendAssemblyId>true</appendAssemblyId>
+							<outputDirectory>${project.build.directory}/builds</outputDirectory>
 							<descriptors>
-								<!--
 								<descriptor>src/main/resources/assembly/linux.xml</descriptor>
 								<descriptor>src/main/resources/assembly/linux-32b.xml</descriptor>
 								<descriptor>src/main/resources/assembly/windows-32b.xml</descriptor>
-								-->
 								<descriptor>src/main/resources/assembly/windows.xml</descriptor>
 							</descriptors>
 						</configuration>
@@ -143,6 +142,24 @@
 							</resources>
 						</configuration>
 					</execution>
+					<!-- copy dist scripts -->
+					<execution>
+						<id>copy-resources-dist-scripts</id>
+						<!-- here the phase you need -->
+						<phase>validate</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/dist-scripts/</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/main/resources/dist-scripts</directory>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
 					
 					<!-- copy help resources -->
 					<execution>
@@ -182,7 +199,6 @@
 							<md5>a8107f6b2bbd63e6bbde362dfdb15976</md5>
 						</configuration>
 					</execution>
-					<!--
 					<execution>
 						<id>download-java-installer-resources-linux</id>
 						<phase>validate</phase>
@@ -197,7 +213,6 @@
 							<md5>0cdbd9f7813bba566b56db1380248d71</md5>
 						</configuration>
 					</execution>
-					-->
 				</executions>
 			</plugin>			
 			
@@ -271,12 +286,14 @@
 					<exclude>conf</exclude>
 					<exclude>scripts/**/*</exclude>
 					<exclude>scripts</exclude>
-					<!--
-					<exclude>laimages.properties</exclude>
-					<exclude>installer*/**/*</exclude>
-					<exclude>installer*</exclude>
+					<exclude>dist-scripts/**/*</exclude>
+					<exclude>dist-scripts</exclude>
+					<exclude>s2p.properties</exclude>
 					<exclude>help/**/*</exclude>
 					<exclude>help</exclude>
+					<!--
+					<exclude>installer*/**/*</exclude>
+					<exclude>installer*</exclude>
 					<exclude>dist/**/*</exclude>
 					<exclude>dist</exclude>
 					<exclude>dist32/**/*</exclude>
@@ -293,42 +310,7 @@
 				</includes>
 			</resource>
 		</resources>
-		
-		<!--<pluginManagement>
-			<plugins>
-				This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>
-											com.googlecode.maven-download-plugin
-										</groupId>
-										<artifactId>
-											download-maven-plugin
-										</artifactId>
-										<versionRange>
-											[1.2.1,)
-										</versionRange>
-										<goals>
-											<goal>wget</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore></ignore>
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>-->
+
 		<pluginManagement>
 			<plugins>
 				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->

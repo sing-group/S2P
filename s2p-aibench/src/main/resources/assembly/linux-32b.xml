@@ -8,7 +8,7 @@
 	</formats>
 	<files>
 		<file>
-			<source>${project.build.directory}/run.sh</source>
+			<source>${project.build.directory}/dist-scripts/run.sh</source>
 			<fileMode>777</fileMode>
 			<outputDirectory>/</outputDirectory>
 		</file>
