@@ -92,7 +92,7 @@
 									<goal>copy-resources</goal>
 								</goals>
 								<configuration>
-									<outputDirectory>${project.build.directory}/builds/dist</outputDirectory>
+									<outputDirectory>${project.builds.directory}/dist</outputDirectory>
 									<resources>
 										<resource>
 											<directory>src/main/resources/windows-installer</directory>
@@ -126,7 +126,7 @@
 									<goal>copy-resources</goal>
 								</goals>
 								<configuration>
-									<outputDirectory>${project.build.directory}/builds/dist32</outputDirectory>
+									<outputDirectory>${project.builds.directory}/dist32</outputDirectory>
 									<resources>
 										<resource>
 											<directory>src/main/resources/windows-installer32</directory>
@@ -166,30 +166,30 @@
 									<skip>${should.skip.installer}</skip>
 									<target>
 										<exec executable="i686-w64-mingw32-windres">
-										    <arg value="${project.build.directory}/builds/dist/resources.rc" />
+										    <arg value="${project.builds.directory}/dist/resources.rc" />
 										    <arg value="-O" />
 										    <arg value="coff" />
 										    <arg value="-o" />
-											<arg value="${project.build.directory}/builds/dist/resources.res" />
+											<arg value="${project.builds.directory}/dist/resources.res" />
 										</exec>
 										<exec executable="i686-w64-mingw32-gcc">
 										    <arg value="-Wl,-subsystem,windows" />
-										    <arg value="${project.build.directory}/builds/dist/s2p-launcher.c" />
+										    <arg value="${project.builds.directory}/dist/s2p-launcher.c" />
 										    <arg value="-o" />
-										    <arg value="${project.build.directory}/builds/dist/s2p.exe" />
-											<arg value="${project.build.directory}/builds/dist/resources.res" />
+										    <arg value="${project.builds.directory}/dist/s2p.exe" />
+											<arg value="${project.builds.directory}/dist/resources.res" />
 										</exec>
 										<exec executable="${nsis.path}/makensis.exe">
 											<arg value="target/builds/dist/installer-script.nsi" />
 										</exec>
 										<delete includeemptydirs="true">
-		    								<fileset dir="${project.build.directory}/builds/dist/" excludes="setup.exe"/>
+		    								<fileset dir="${project.builds.directory}/dist/" excludes="setup.exe"/>
 										</delete>
 										<move 
-											file="${project.build.directory}/builds/dist/setup.exe" 
-											tofile="${project.build.directory}/builds/${project.name}-${project.version}.exe"
+											file="${project.builds.directory}/dist/setup.exe" 
+											tofile="${project.builds.directory}/${project.name}-${project.version}.exe"
 										/>
-										<delete dir="${project.build.directory}/builds/dist/"/>
+										<delete dir="${project.builds.directory}/dist/"/>
 									</target>
 								</configuration>
 								<goals>
@@ -203,30 +203,30 @@
 									<skip>${should.skip.installer}</skip>
 									<target>
 										<exec executable="i686-w64-mingw32-windres">
-										    <arg value="${project.build.directory}/builds/dist32/resources.rc" />
+										    <arg value="${project.builds.directory}/dist32/resources.rc" />
 										    <arg value="-O" />
 										    <arg value="coff" />
 										    <arg value="-o" />
-											<arg value="${project.build.directory}/builds/dist32/resources.res" />
+											<arg value="${project.builds.directory}/dist32/resources.res" />
 										</exec>
 										<exec executable="i686-w64-mingw32-gcc">
 										    <arg value="-Wl,-subsystem,windows" />
-										    <arg value="${project.build.directory}/builds/dist32/s2p-launcher.c" />
+										    <arg value="${project.builds.directory}/dist32/s2p-launcher.c" />
 										    <arg value="-o" />
-										    <arg value="${project.build.directory}/builds/dist32/s2p.exe" />
-											<arg value="${project.build.directory}/builds/dist32/resources.res" />
+										    <arg value="${project.builds.directory}/dist32/s2p.exe" />
+											<arg value="${project.builds.directory}/dist32/resources.res" />
 										</exec>
 										<exec executable="${nsis.path}/makensis.exe">
 											<arg value="target/builds/dist32/installer-script.nsi" />
 										</exec>
 										<delete includeemptydirs="true">
-		    								<fileset dir="${project.build.directory}/builds/dist32/" excludes="setup.exe"/>
+		    								<fileset dir="${project.builds.directory}/dist32/" excludes="setup.exe"/>
 										</delete>
 										<move 
-											file="${project.build.directory}/builds/dist32/setup.exe" 
-											tofile="${project.build.directory}/builds/${project.name}-${project.version}-32b.exe"
+											file="${project.builds.directory}/dist32/setup.exe" 
+											tofile="${project.builds.directory}/${project.name}-${project.version}-32b.exe"
 										/>
-										<delete dir="${project.build.directory}/builds/dist32/"/>
+										<delete dir="${project.builds.directory}/dist32/"/>
 									</target>
 								</configuration>
 								<goals>
@@ -253,7 +253,7 @@
 							<skipAssembly>${should.skip.distributable}</skipAssembly>
 							<finalName>${project.name}-${project.version}</finalName>
 							<appendAssemblyId>true</appendAssemblyId>
-							<outputDirectory>${project.build.directory}/builds</outputDirectory>
+							<outputDirectory>${project.builds.directory}</outputDirectory>
 							<descriptors>
 								<descriptor>src/main/resources/assembly/linux.xml</descriptor>
 								<descriptor>src/main/resources/assembly/linux-32b.xml</descriptor>

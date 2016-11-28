@@ -82,7 +82,6 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		
 
 		<!-- License configuration -->
 		<license.licenseName>gpl_v3</license.licenseName>
@@ -129,6 +128,7 @@
 		
 		<should.skip.distributable>true</should.skip.distributable>
 		<should.skip.download>true</should.skip.download>
+		<project.builds.directory>${project.build.directory}/builds</project.builds.directory>
 	</properties>
 	
 	<repositories>
