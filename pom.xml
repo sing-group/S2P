@@ -86,7 +86,7 @@
 		<!-- License configuration -->
 		<license.licenseName>gpl_v3</license.licenseName>
 		<license.copyrightOwners>José Luis Capelo Martínez, José Eduardo Araújo, Florentino Fdez-Riverola, Miguel
-			Reboiro-Jato, Hugo López-Fdez, and Daniel Glez-Peña</license.copyrightOwners>
+			Reboiro-Jato, Hugo López-Fernández, and Daniel Glez-Peña</license.copyrightOwners>
 		<license.organizationName>Bioscope Group (Universidade Nova de Lisboa) and SING
 			Group (Universidade de Vigo)</license.organizationName>
 		<license.addJavaLicenseAfterPackage>false</license.addJavaLicenseAfterPackage>
