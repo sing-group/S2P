@@ -46,7 +46,7 @@
 		<dependency>
 			<groupId>es.uvigo.ei.sing</groupId>
 			<artifactId>s2p-core</artifactId>
-			<version>${parent.version}</version><!--$NO-MVN-MAN-VER$-->
+			<version>${project.parent.version}</version><!--$NO-MVN-MAN-VER$-->
 			<type>test-jar</type>
 			<scope>test</scope>
 		</dependency>
