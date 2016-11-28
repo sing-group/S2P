@@ -2,6 +2,7 @@ package es.uvigo.ei.sing.s2p.gui.plate;
 
 import static es.uvigo.ei.sing.hlfernandez.utilities.MatrixUtils.asStringMatrix;
 import static es.uvigo.ei.sing.hlfernandez.utilities.MatrixUtils.removeColumn;
+import static es.uvigo.ei.sing.s2p.gui.UISettings.FONT_SIZE;
 import static java.awt.BorderLayout.CENTER;
 import static java.awt.BorderLayout.NORTH;
 import static javax.swing.BorderFactory.createEmptyBorder;
@@ -31,7 +32,6 @@ import es.uvigo.ei.sing.hlfernandez.dialog.ExportCsvDialog;
 import es.uvigo.ei.sing.hlfernandez.table.RowHeaderExtendedJXTable;
 import es.uvigo.ei.sing.hlfernandez.utilities.ExtendedAbstractAction;
 import es.uvigo.ei.sing.s2p.core.entities.MaldiPlate;
-import es.uvigo.ei.sing.s2p.gui.UISettings;
 import es.uvigo.ei.sing.s2p.gui.util.CommonFileChooser;
 import es.uvigo.ei.sing.s2p.gui.util.CsvUtils;
 
@@ -74,6 +74,7 @@ public class MaldiPlateTable extends JPanel {
 	
 	protected void configureTable() {
 		this.table.setBorder(createEmptyBorder(5, 5, 5, 5));
+		this.table.setColumVisibilityActionsEnabled(false);
 		this.table.setColumnControlVisible(true);
 		this.table.setColumnSelectionAllowed(false);
 		this.table.setRowSelectionAllowed(false);
@@ -84,7 +85,7 @@ public class MaldiPlateTable extends JPanel {
 		this.table.setHorizontalScrollEnabled(true);
 		this.table.putClientProperty("terminateEditOnFocusLost", true);
 		this.table.getModel().addTableModelListener(this::tableChanged);
-		this.table.setFont(this.table.getFont().deriveFont(UISettings.FONT_SIZE));
+		this.table.setFont(this.table.getFont().deriveFont(FONT_SIZE));
 
 		this.table.addAction(
 			new ExtendedAbstractAction("Export to CSV", this::exportToCsv)
