@@ -281,9 +281,11 @@
 				<artifactId>license-maven-plugin</artifactId>
 				<version>${license-maven-plugin.version}</version>
 				<configuration>
-					<excludes>
-						<exclude>*.lai</exclude>
-					</excludes>
+					    <excludes>
+						<exclude>**/*.htm</exclude>
+						<exclude>**/*.HTM</exclude>
+						<exclude>**/*.properties</exclude>
+					    </excludes>
 				</configuration>
 			</plugin>
 			<plugin>
