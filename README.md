@@ -1,4 +1,4 @@
-![Logo](s2p.png) S2P [![license](https://img.shields.io/badge/LICENSE-GPLv3-blue.svg)]()[![Build Status](https://travis-ci.org/sing-group/S2P.svg?branch=master)](https://travis-ci.org/sing-group/S2P)
+![Logo](s2p.png) S2P [![license](https://img.shields.io/badge/LICENSE-GPLv3-blue.svg)]() [![Build Status](https://travis-ci.org/sing-group/S2P.svg?branch=master)](https://travis-ci.org/sing-group/S2P)
 =================================
 S2P is an open source application for fast and easy processing of 2D-gel and MALDI-based mass spectrometry protein data. Please, visit the [official web page](http://sing.ei.uvigo.es/s2p) of the project for downloads and support.
 
