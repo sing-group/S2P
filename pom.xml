@@ -125,7 +125,8 @@
 		<jir.windows.32b>${project.build.directory}/java-installer-resources/windows/32b/jre1.8.0_111</jir.windows.32b>
 		<jir.linux.64b>${project.build.directory}/java-installer-resources/linux/64b/jre1.8.0_111</jir.linux.64b>
 		<jir.linux.32b>${project.build.directory}/java-installer-resources/linux/32b/jre1.8.0_111</jir.linux.32b>
-		
+		<jir.mac>${project.build.directory}/java-installer-resources/mac/jre1.8.0_111</jir.mac>
+
 		<should.skip.distributable>true</should.skip.distributable>
 		<should.skip.download>true</should.skip.download>
 		<project.builds.directory>${project.build.directory}/builds</project.builds.directory>
