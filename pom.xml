@@ -9,7 +9,7 @@
 	<name>S2P</name>
 	<description>Spot to protein analysis tool.</description>
 	<inceptionYear>2016</inceptionYear>
-	<!--<url>http://sing.ei.uvigo.es/s2p</url>-->
+	<url>http://www.sing-group.org/s2p</url>
 	<packaging>pom</packaging>
 
 	<modules>
@@ -30,19 +30,19 @@
 		<developer>
 			<name>Miguel Reboiro-Jato</name>
 			<organization>SING Group - Universidade de Vigo</organization>
-			<organizationUrl>http://sing.ei.uvigo.es/</organizationUrl>
+			<organizationUrl>http://www.sing-group.org/</organizationUrl>
 			<email>mrjato@uvigo.es</email>
 		</developer>
 		<developer>
 			<name>Hugo López-Fernández</name>
 			<organization>SING Group - Universidade de Vigo</organization>
-			<organizationUrl>http://sing.ei.uvigo.es/</organizationUrl>
+			<organizationUrl>http://www.sing-group.org/</organizationUrl>
 			<email>hlfernandez@uvigo.es</email>
 		</developer>
 		<developer>
 			<name>Daniel Glez-Peña</name>
 			<organization>SING Group - Universidade de Vigo</organization>
-			<organizationUrl>http://sing.ei.uvigo.es/</organizationUrl>
+			<organizationUrl>http://www.sing-group.org/</organizationUrl>
 			<email>dgpena@uvigo.es</email>
 		</developer>
 	</developers>
@@ -69,7 +69,7 @@
 		<contributor>
 			<name>Florentino Fdez-Riverola</name>
 			<organization>SING Group - Universidade de Vigo</organization>
-			<organizationUrl>http://sing.ei.uvigo.es/</organizationUrl>
+			<organizationUrl>http://www.sing-group.org/</organizationUrl>
 			<email>riverola@uvigo.es</email>
 			<roles>
 				<role>Researcher</role>
