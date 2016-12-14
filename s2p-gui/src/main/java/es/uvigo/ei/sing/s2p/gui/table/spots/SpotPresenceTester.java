@@ -20,9 +20,11 @@
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
-package es.uvigo.ei.sing.s2p.gui.table;
+package es.uvigo.ei.sing.s2p.gui.table.spots;
 
 import java.util.Set;
+
+import es.uvigo.ei.sing.s2p.gui.table.Tester;
 
 public class SpotPresenceTester implements Tester {
 

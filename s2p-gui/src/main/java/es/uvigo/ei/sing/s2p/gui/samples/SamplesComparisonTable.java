@@ -56,8 +56,9 @@ import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
 import es.uvigo.ei.sing.s2p.gui.spots.heatmap.SpotRenderer;
 import es.uvigo.ei.sing.s2p.gui.table.ExtendedCsvTable;
-import es.uvigo.ei.sing.s2p.gui.table.SpotPresenceTester;
 import es.uvigo.ei.sing.s2p.gui.table.TestRowFilter;
+import es.uvigo.ei.sing.s2p.gui.table.spots.SpotPresenceTester;
+import es.uvigo.ei.sing.s2p.gui.table.spots.SpotsCsvTable;
 
 public class SamplesComparisonTable extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -97,7 +98,7 @@ public class SamplesComparisonTable extends JPanel {
 
 	private void initTable() {
 		this.tableModel = new SamplesComparisonTableModel(this.samples);
-		this.table = new ExtendedCsvTable(this.tableModel);
+		this.table = new SpotsCsvTable(this.tableModel, this::getSpotValue);
 		final SamplesComparisonTableCellRenderer renderer = 
 			new SamplesComparisonTableCellRenderer();
 		this.table.setDefaultRenderer(Double.class, renderer);
@@ -106,10 +107,18 @@ public class SamplesComparisonTable extends JPanel {
 			new SamplesComparisonTableHeaderCellRenderer(
 				this.table.getTableHeader().getDefaultRenderer()));
 		this.table.setColumnControlVisible(true);	
+		this.table.getTableHeader().setReorderingAllowed(false);
+		this.table.addExportToCsvAction();
+
 		spotPresenceTester = new SpotPresenceTester(getProteins(this.samples));
 		table.setRowFilter(new TestRowFilter<>(spotPresenceTester, 0));
 	}
-	
+
+	private String getSpotValue(String spot) {
+		return spotValue(spot,
+				showProteinIdentifications, mascotIdentifications);
+	}
+
 	private static Set<String> getProteins(List<Sample> samples) {
 		Set<String> all = new HashSet<String>();
 		samples.forEach(s -> {
