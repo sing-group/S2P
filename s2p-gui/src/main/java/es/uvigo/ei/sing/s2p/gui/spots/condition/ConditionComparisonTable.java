@@ -31,8 +31,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Window;
-import java.awt.event.ActionEvent;
-import java.awt.event.ItemEvent;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -44,8 +42,6 @@ import javax.swing.Action;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import org.jdesktop.swingx.action.AbstractActionExt;
-
 import es.uvigo.ei.sing.hlfernandez.utilities.ExtendedAbstractAction;
 import es.uvigo.ei.sing.s2p.core.entities.Condition;
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
@@ -54,6 +50,7 @@ import es.uvigo.ei.sing.s2p.gui.samples.SamplesComparisonTable;
 import es.uvigo.ei.sing.s2p.gui.spots.comparison.JHeatMapDialog;
 import es.uvigo.ei.sing.s2p.gui.spots.heatmap.JHeatMapConfigurationDialog;
 import es.uvigo.ei.sing.s2p.gui.spots.heatmap.SpotRenderer;
+import es.uvigo.ei.sing.s2p.gui.table.spots.ConditionControlAction;
 
 public class ConditionComparisonTable extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -105,29 +102,7 @@ public class ConditionComparisonTable extends JPanel {
 	}
 
 	private Action getHideConditionAction(Condition c) {
-		return new ConditionControlAction(c);
-	}
-
-	public class ConditionControlAction extends AbstractActionExt {
-		private static final long serialVersionUID = 1L;
-		private Condition condition;
-
-		public ConditionControlAction(Condition c) {
-			super("Condition: " + c.getName());
-			this.condition = c;
-			this.setSelected(true);
-			setStateAction();
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-		}
-
-		@Override
-		public void itemStateChanged(final ItemEvent e) {
-			setConditionVisibility(condition,
-				e.getStateChange() == ItemEvent.SELECTED);
-		}
+		return new ConditionControlAction(c, this::setConditionVisibility);
 	}
 
 	private void setConditionVisibility(Condition c, boolean visible) {
