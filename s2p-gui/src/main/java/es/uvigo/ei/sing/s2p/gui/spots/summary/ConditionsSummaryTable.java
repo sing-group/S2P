@@ -26,6 +26,9 @@ import static es.uvigo.ei.sing.s2p.gui.UISettings.FONT_SIZE;
 import static es.uvigo.ei.sing.s2p.gui.UISettings.FONT_SIZE_HEADER;
 import static es.uvigo.ei.sing.s2p.gui.spots.SpotUtils.spotTooltip;
 import static es.uvigo.ei.sing.s2p.gui.spots.SpotUtils.spotValue;
+import static es.uvigo.ei.sing.s2p.gui.spots.summary.ConditionsSummaryTableModel.SUMMARY_FIELDS;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.IntStream.range;
 import static javax.swing.BorderFactory.createEmptyBorder;
 
 import java.awt.BorderLayout;
@@ -44,6 +47,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.swing.Action;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -63,6 +67,7 @@ import es.uvigo.ei.sing.s2p.gui.charts.spots.ChartSpotSummary;
 import es.uvigo.ei.sing.s2p.gui.charts.spots.SpotsSummaryChartDialog;
 import es.uvigo.ei.sing.s2p.gui.table.ExtendedCsvTable;
 import es.uvigo.ei.sing.s2p.gui.table.TestRowFilter;
+import es.uvigo.ei.sing.s2p.gui.table.spots.ConditionControlAction;
 import es.uvigo.ei.sing.s2p.gui.table.spots.SpotPresenceTester;
 import es.uvigo.ei.sing.s2p.gui.table.spots.SpotsCsvTable;
 import es.uvigo.ei.sing.s2p.gui.util.ColorUtils;
@@ -124,7 +129,8 @@ public class ConditionsSummaryTable extends JPanel {
 			);
 			this.table.getTableHeader().setReorderingAllowed(false);
 			this.table.addExportToCsvAction();
-			
+			this.createHideConditionsActions();
+
 			this.table.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
@@ -141,6 +147,25 @@ public class ConditionsSummaryTable extends JPanel {
 			table.setRowFilter(new TestRowFilter<>(spotPresenceTester, 0));
 		}
 		return this.table;
+	}
+
+	private void createHideConditionsActions() {
+		this.getConditions().forEach(c -> {
+			this.table.addAction(getHideConditionAction(c));
+		});
+	}
+
+	private Action getHideConditionAction(Condition c) {
+		return new ConditionControlAction(c, this::setConditionVisibility);
+	}
+
+	private void setConditionVisibility(Condition c, boolean visible) {
+		int conditionIndex = getConditions().indexOf(c) * SUMMARY_FIELDS + 1;
+		List<Integer> columnIndices =
+			range(conditionIndex, conditionIndex+SUMMARY_FIELDS)
+			.boxed().collect(toList());
+
+		this.table.setColumnsVisibility(columnIndices, visible);
 	}
 
 	private String getSpotValue(String spot) {

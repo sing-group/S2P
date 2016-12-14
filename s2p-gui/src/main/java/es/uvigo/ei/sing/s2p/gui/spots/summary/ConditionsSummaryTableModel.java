@@ -52,7 +52,7 @@ public class ConditionsSummaryTableModel extends AbstractTableModel {
 	}
 
 	private static final int OFFSET = 1;
-	private static final int SUMMARY_FIELDS = 4;
+	public static final int SUMMARY_FIELDS = 4;
 	
 	private List<String> spots;
 	private ConditionsSummary summary;
