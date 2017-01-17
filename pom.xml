@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>es.uvigo.ei.sing</groupId>
 	<artifactId>s2p</artifactId>
-	<version>0.12.0-SNAPSHOT</version>
+	<version>0.12.0</version>
 
 	<name>S2P</name>
 	<description>Spot to protein analysis tool.</description>
@@ -109,7 +109,7 @@
 		<gc4s.version>0.4.0</gc4s.version>
 		<commons.math.version>3.6.1</commons.math.version>
 		<jfreechart.version>1.0.19</jfreechart.version>
-		<sing.commons.csv.version>1.0.1</sing.commons.csv.version>
+		<sing.commons.csv.version>1.0.2</sing.commons.csv.version>
 		<sing.commons.math.version>0.1-SNAPSHOT</sing.commons.math.version>
 		<itextpdf.version>5.5.10</itextpdf.version>
 
@@ -136,7 +136,7 @@
 		<repository>
 			<id>sing-repository</id>
 			<name>SING repository</name>
-			<url>http://sing.ei.uvigo.es/maven2</url>
+			<url>http://maven.sing-group.org/repository/maven/</url>
 		</repository>
 	</repositories>
 	
