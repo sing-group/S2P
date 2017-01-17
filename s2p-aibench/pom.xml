@@ -486,6 +486,8 @@
 					<exclude>s2p.properties</exclude>
 					<exclude>help/**/*</exclude>
 					<exclude>help</exclude>
+					<exclude>assembly/**/*</exclude>
+					<exclude>assembly</exclude>
 					<exclude>windows-installer*/**/*</exclude>
 					<exclude>windows-installer*</exclude>
 				</excludes>
