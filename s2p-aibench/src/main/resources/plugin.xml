@@ -20,8 +20,7 @@
   <http://www.gnu.org/licenses/gpl-3.0.html>.
   #L%
   -->
-<plugin start="true
-			">
+<plugin start="true">
 	<uid>my-aibench-application</uid>
 	<name>my-aibench-application</name>
 	<version>1.0-SNAPSHOT</version>
@@ -344,6 +343,10 @@
 				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.SameSpotsAnalysisDatatype"
 				icon="icons/samespotsdatatype.png"
 			/>
+		</extension>
+
+		<extension uid="aibench.workbench" name="aibench.workbench.view" >
+			<welcomescreen class="es.uvigo.ei.sing.s2p.aibench.gui.Welcome" title="Welcome to S2P"/>
 		</extension>
 	</extensions>
 
