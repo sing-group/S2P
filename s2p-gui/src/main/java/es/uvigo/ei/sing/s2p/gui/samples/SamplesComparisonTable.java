@@ -34,23 +34,29 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.IntStream;
 
 import javax.swing.Action;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.event.PopupMenuEvent;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 
+import es.uvigo.ei.sing.hlfernandez.event.PopupMenuAdapter;
+import es.uvigo.ei.sing.hlfernandez.utilities.ExtendedAbstractAction;
 import es.uvigo.ei.sing.hlfernandez.visualization.JHeatMapModel;
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
@@ -74,6 +80,8 @@ public class SamplesComparisonTable extends JPanel {
 	private boolean showProteinIdentifications = false;
 	private Optional<Map<String, MascotIdentifications>> mascotIdentifications = 
 		Optional.empty();
+
+	private ExtendedAbstractAction removeSpotsAction;
 
 	public SamplesComparisonTable(List<Sample> samples) {
 		this(samples, new HashMap<>(), new HashMap<>());
@@ -256,5 +264,57 @@ public class SamplesComparisonTable extends JPanel {
 
 	public void removeMascotIdentifications() {
 		this.mascotIdentifications = Optional.empty();
+	}
+
+	public void setShowComponentPopupMenu(boolean show) {
+		if(show) {
+			this.table.setComponentPopupMenu(getSpotsTablePopupMenu());
+		} else {
+			this.table.setComponentPopupMenu(null);
+		}
+	}
+
+	private JPopupMenu getSpotsTablePopupMenu() {
+		JPopupMenu menu = new JPopupMenu();
+		menu.add(getRemoveSelectedRowsAction());
+		menu.addPopupMenuListener(new PopupMenuAdapter() {
+
+			@Override
+			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+				removeSpotsAction.setEnabled(table.getSelectedRowCount() > 0);
+			}
+		});
+
+		return menu;
+	}
+
+	private Action getRemoveSelectedRowsAction() {
+		removeSpotsAction = new ExtendedAbstractAction(
+			"Remove selected spots", this::removeSelectedSpots);
+		removeSpotsAction.setEnabled(false);
+
+		return removeSpotsAction;
+	}
+
+	private void removeSelectedSpots() {
+		if (table.getSelectedRowCount() > 0) {
+			this.removeSelectedSpotsFromSamples();
+			this.tableModel.fireTableDataChanged();
+		}
+	}
+
+	private void removeSelectedSpotsFromSamples() {
+		IntStream.of(table.getSelectedRows()).boxed()
+			.map(table::convertRowIndexToModel)
+			.sorted(Collections.reverseOrder(Integer::compareTo))
+			.forEach(i -> {
+				removeSpotFromSamples(tableModel.getValueAt(i, 0).toString());
+			});
+	}
+
+	private void removeSpotFromSamples(String spot) {
+		this.samples.forEach(s -> {
+			s.removeSpot(spot);
+		});
 	}
 }

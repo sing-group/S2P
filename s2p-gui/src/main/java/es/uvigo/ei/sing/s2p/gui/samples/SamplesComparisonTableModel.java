@@ -38,9 +38,17 @@ public class SamplesComparisonTableModel extends AbstractTableModel {
 
 	public SamplesComparisonTableModel(List<Sample> samples) {
 		this.samples = samples;
-		this.proteins = new LinkedList<String>(this.samples.stream().map(Sample::getSpots).flatMap(Collection::stream).collect(Collectors.toSet()));
+		this.proteins = calculateProteins();
 	}
 	
+	private List<String> calculateProteins() {
+		return 	new LinkedList<String>(
+			this.samples.stream().map(Sample::getSpots)
+			.flatMap(Collection::stream)
+			.collect(Collectors.toSet())
+		);
+	}
+
 	@Override
 	public String getColumnName(int column) {
 		if(column == 0) {
@@ -71,4 +79,9 @@ public class SamplesComparisonTableModel extends AbstractTableModel {
 		}
 	}
 
+	@Override
+	public void fireTableDataChanged() {
+		this.proteins = calculateProteins();
+		super.fireTableDataChanged();
+	}
 }

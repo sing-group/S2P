@@ -161,12 +161,13 @@ public class SameSpotsDatasetViewer extends JPanel {
 	private Component getSamplesTable() {
 		if (this.samplesTable == null) {
 			this.samplesTable = new SamplesComparisonTable(this.samples);
+			this.samplesTable.setShowComponentPopupMenu(true);
 			this.samplesTable.setOpaque(false);
 			this.samplesTable.setBorder(createEmptyBorder(10, 10, 10, 10));
 		}
 		return this.samplesTable;
 	}
-	
+
 	private void editConditions() {
 		ConditionLabelInputDialog inputDialog = new ConditionLabelInputDialog(
 			getDialogParent(), 

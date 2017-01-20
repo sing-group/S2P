@@ -51,6 +51,10 @@ public class Sample {
 		this.name = name;	
 	}
 	
+	public void removeSpot(String spot) {
+		this.spotValues.remove(spot);
+	}
+
 	@Override
 	public boolean equals(Object aThat) {
 		if (aThat == null) {
