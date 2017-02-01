@@ -56,7 +56,7 @@ public class ImportSameSpotsReport {
 		order = 1,
 		extras="selectionMode=directories"
 	)
-	public void setCsvFile(File directory) {
+	public void setDataDirectory(File directory) {
 		this.directory = directory;
 	}
 	
