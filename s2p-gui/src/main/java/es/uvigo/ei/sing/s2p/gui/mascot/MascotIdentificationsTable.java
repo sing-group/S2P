@@ -26,9 +26,9 @@ import java.util.Map;
 import java.util.Set;
 
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
-import es.uvigo.ei.sing.s2p.gui.table.CSVTable;
+import es.uvigo.ei.sing.s2p.gui.table.ExtendedCsvTable;
 
-public class MascotIdentificationsTable extends CSVTable {
+public class MascotIdentificationsTable extends ExtendedCsvTable {
 	private static final long serialVersionUID = 1L;
 
 	public MascotIdentificationsTable(Set<String> spots,
@@ -43,6 +43,7 @@ public class MascotIdentificationsTable extends CSVTable {
 		this.setAutoCreateRowSorter(true);
 		this.setColumnControlVisible(true);
 		this.getRowSorter().toggleSortOrder(3);
-		this.getRowSorter().toggleSortOrder(3); 
+		this.getRowSorter().toggleSortOrder(3);
+		this.addExportToCsvAction();
 	}
 }
