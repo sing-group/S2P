@@ -46,6 +46,10 @@ public class MascotIdentificationsTableModel extends AbstractTableModel {
 		TABLE_FIELDS.put(4, "Difference");
 		TABLE_FIELDS.put(5, "MS Coverage");
 		TABLE_FIELDS.put(6, "Accession");
+		TABLE_FIELDS.put(7, "Method");
+		TABLE_FIELDS.put(8, "Protein Mw");
+		TABLE_FIELDS.put(9, "pI value");
+		TABLE_FIELDS.put(10, "Source");
 	}
 	
 	private Set<String> spots;
@@ -73,6 +77,10 @@ public class MascotIdentificationsTableModel extends AbstractTableModel {
 				row[4] = new Integer(identification.getDifference()); 
 				row[5] = new Integer(identification.getMsCoverage()); 
 				row[6] = identification.getAccession();
+				row[7] = identification.getMethod();
+				row[8] = new Double(identification.getProteinMW());
+				row[9] = new Double(identification.getpIValue());
+				row[10] = identification.getSource().getName();
 				rows.add(row);
 			});
 		});
