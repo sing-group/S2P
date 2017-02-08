@@ -266,12 +266,34 @@ public class SpotsDataViewer extends JPanel implements
 	protected void addMascotIdentifications() {
 		LoadMascotIdentificationsDialog dialog = getMascotIdentificationsDialog();
 		dialog.setVisible(true);
-		if(!dialog.isCanceled()) {
-			this.setMascotIdentifications(dialog.getMascotIdentifications());
+		if (!dialog.isCanceled()) {
+			this.addMascotIdentifications(dialog.getMascotIdentifications());
+			this.setMascotIdentificationsVisible();
+		}
+	}
+
+	private void setMascotIdentificationsVisible() {
+		if (!this.toggleVisualizationMode.isSelected()) {
 			this.toggleVisualizationMode.doClick();
 		}
 	}
 
+	private void addMascotIdentifications(
+		Map<String, MascotIdentifications> identifications
+	) {
+		if (identifications != null) {
+			if (this.mascotIdentifications.isPresent()) {
+				for(String key : this.mascotIdentifications.get().keySet()) {
+					if(identifications.containsKey(key)) {
+						identifications.get(key).addAll(this.mascotIdentifications.get().get(key));
+					} else {
+						identifications.put(key, this.mascotIdentifications.get().get(key));
+					}
+				}
+			}
+			this.setMascotIdentifications(identifications);
+		}
+	}
 	private void setMascotIdentifications(
 		Map<String, MascotIdentifications> identifications
 	) {
