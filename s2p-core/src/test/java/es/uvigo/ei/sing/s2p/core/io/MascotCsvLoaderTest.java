@@ -39,12 +39,14 @@ public class MascotCsvLoaderTest {
 	
 	private static final MascotEntry FIRST = new MascotEntry(
 		"Gelsolin", "A1", 247, 54, 45, 
-		86043.00d, "50ppm_BladderCancer", 5.90d, "GELS_HUMAN"
+		86043.00d, "50ppm_BladderCancer", 5.90d, "GELS_HUMAN",
+		MASCOT_CSV
 	);
 
 	private static final MascotEntry SECOND = new MascotEntry(
 		"Serum albumin", "A1", 193, 54, 49, 
-		71317.00d, "50ppm_BladderCancer", 5.88d, "ALBU_HUMAN"
+		71317.00d, "50ppm_BladderCancer", 5.88d, "ALBU_HUMAN",
+		MASCOT_CSV
 	);
 	
 	private static final MascotIdentifications ENTRIES = 

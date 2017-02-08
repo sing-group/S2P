@@ -37,7 +37,14 @@ public class MascotProjectLoaderTest {
 	
 	private static final MascotEntry FIRST = new MascotEntry(
 		"Uncharacterized protein KIAA1688", "B2", 52, 52, 8, 
-		122236.00d, "50ppm_BladderCancer", 7.80d, "K1688_HUMAN"
+		122236.00d, "50ppm_BladderCancer", 7.80d, "K1688_HUMAN",
+		MASCOT_PROJECT
+	);
+
+	private static final MascotEntry FIRST_FULL = new MascotEntry(
+		"Uncharacterized protein KIAA1688", "B2", 52, 52, 8, 
+		122236.00d, "50ppm_BladderCancer", 7.80d, "K1688_HUMAN",
+		MASCOT_PROJECT_FULL
 	);
 
 	@Test
@@ -54,7 +61,7 @@ public class MascotProjectLoaderTest {
 			MascotProjectLoader.load(MASCOT_PROJECT_FULL);
 		
 		assertEquals(1473, entries.size());
-		assertEquals(entries.get(0), FIRST);
+		assertEquals(entries.get(0), FIRST_FULL);
 	}
 	
 	@Test

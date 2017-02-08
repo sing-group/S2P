@@ -22,6 +22,7 @@
  */
 package es.uvigo.ei.sing.s2p.core.entities;
 
+import java.io.File;
 import java.util.Objects;
 
 public class MascotEntry {
@@ -35,10 +36,11 @@ public class MascotEntry {
 	private String method;
 	private double pIValue;
 	private String accession;
+	private File source;
 
 	public MascotEntry(String title, String platePosition, int mascotScore,
 		int difference, int msCoverage, double proteinMW, String method,
-		double pIValue, String accession
+		double pIValue, String accession, File source
 	) {
 		this.title 			= title;
 		this.platePosition 	= platePosition;
@@ -49,6 +51,7 @@ public class MascotEntry {
 		this.method 		= method;
 		this.pIValue 		= pIValue;
 		this.accession 		= accession;
+		this.source = source;
 	}
 	
 	public String getTitle() {
@@ -87,6 +90,10 @@ public class MascotEntry {
 		return accession;
 	}
 
+	public File getSource() {
+		return source;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -107,7 +114,9 @@ public class MascotEntry {
 			.append(", ")
 			.append(pIValue)
 			.append(", ")
-			.append(accession);
+			.append(accession)
+			.append(", ")
+			.append(source.getName());
 		return sb.toString();
 	}
 	
@@ -128,7 +137,8 @@ public class MascotEntry {
 				&& 	this.proteinMW == that.proteinMW 
 				&& 	this.method.equals(that.method)
 				&& 	this.pIValue == that.pIValue 
-				&&	this.accession.equals(that.accession);
+				&&	this.accession.equals(that.accession)
+				&& 	this.source.equals(that.source);
 	}
 	
 	@Override
@@ -136,7 +146,7 @@ public class MascotEntry {
 		return 	Objects.hash(
 					this.title, this.platePosition, this.mascotScore,
 					this.difference, this.proteinMW, this.method, this.pIValue,
-					this.accession
+					this.accession, this.source
 				);
 	}
 }

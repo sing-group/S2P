@@ -72,7 +72,7 @@ public class MascotProjectLoader {
 		Elements trs = doc.select("tr");
 		for (Element tr : trs.subList(2, trs.size())) {
 			Elements tds = tr.select("td");
-			MascotEntry entry = createMascotEntry(tds, toret, lastColumnValues);
+			MascotEntry entry = createMascotEntry(tds, toret, lastColumnValues, file);
 
 			if(entry.getMascotScore() > minScore) {
 				toret.add(entry);
@@ -83,7 +83,8 @@ public class MascotProjectLoader {
 	}
 
 	private static MascotEntry createMascotEntry(Elements tds,
-		MascotIdentifications toret, Map<Integer, String> lastColumnValues
+		MascotIdentifications toret, Map<Integer, String> lastColumnValues, 
+		File source
 	) {
 		return new MascotEntry(
 			columnValue(INDEX_TITLE, tds, lastColumnValues),
@@ -94,7 +95,8 @@ public class MascotProjectLoader {
 			Double.valueOf(columnValue(INDEX_PROTEIN_MW, tds, lastColumnValues)),
 			columnValue(INDEX_METHOD, tds, lastColumnValues),
 			Double.valueOf(columnValue(INDEX_PI_VALUE, tds, lastColumnValues)),
-			columnValue(INDEX_ACCESSION, tds, lastColumnValues)
+			columnValue(INDEX_ACCESSION, tds, lastColumnValues),
+			source
 		);
 	}
 	

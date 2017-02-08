@@ -54,22 +54,22 @@ public class MascotCsvLoader {
 						.withFormat(csvFormat).withHeader()
 						.build().read(file);
 
-		return parseEntries(data);
+		return parseEntries(data, file);
 	}
 
-	private static MascotIdentifications parseEntries(CsvData data) 
+	private static MascotIdentifications parseEntries(CsvData data, File file) 
 		throws IOException 
 	{
 		MascotIdentifications entries = new MascotIdentifications();
 		for (CsvEntry e : data) {
-			entries.add(parseEntry(e, data.getFormat()));
+			entries.add(parseEntry(e, data.getFormat(), file));
 		}
 
 		return entries;
 	}
 	
-	private static MascotEntry parseEntry(CsvEntry entry, CsvFormat format)
-		throws IOException 
+	private static MascotEntry parseEntry(CsvEntry entry, CsvFormat format, 
+		File file) throws IOException 
 	{
 		String title 			= entry.get(0);
 		String platePosition 	= entry.get(1);
@@ -82,7 +82,7 @@ public class MascotCsvLoader {
 		String accession 		= entry.get(8);
 		
 		return new MascotEntry(title, platePosition, mascotScore, difference,
-			msCoverage, proteinMW, method, pIValue, accession);
+			msCoverage, proteinMW, method, pIValue, accession, file);
 	}
 	
 	private static double asDouble(String string, CsvFormat format)
