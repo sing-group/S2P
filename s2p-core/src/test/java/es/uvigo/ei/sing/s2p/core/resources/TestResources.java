@@ -48,6 +48,9 @@ public class TestResources {
 	public static final File MASCOT_PROJECT = 
 		loadResource("/test/MascotProject.BTR.HTM");
 
+	public static final File MASCOT_PROJECT_EMPTY_ROWS_BEGINNING =
+		loadResource("/test/MascotProject.BTR-EmptyRowsBeginning.HTM");
+
 	public static final File MASCOT_CSV = 
 		loadResource("/test/MascotIdentifications.csv");
 

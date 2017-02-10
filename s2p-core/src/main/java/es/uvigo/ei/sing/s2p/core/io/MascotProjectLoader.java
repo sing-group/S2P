@@ -72,10 +72,14 @@ public class MascotProjectLoader {
 		Elements trs = doc.select("tr");
 		for (Element tr : trs.subList(2, trs.size())) {
 			Elements tds = tr.select("td");
-			MascotEntry entry = createMascotEntry(tds, toret, lastColumnValues, file);
+			try {
+				MascotEntry entry = createMascotEntry(tds, toret, lastColumnValues, file);
 
-			if(entry.getMascotScore() > minScore) {
-				toret.add(entry);
+				if (entry.getMascotScore() > minScore) {
+					toret.add(entry);
+				}
+			} catch (NullPointerException e) {
+
 			}
 		}
 		
@@ -108,7 +112,7 @@ public class MascotProjectLoader {
 		if(text.equals("&nbsp;")) {
 			text = lastColumnValues.get(column);
 		}
-		
+
 		if(column == INDEX_TITLE && text.contains(TITLE_DELIMITER)) {
 			text = text.substring(0, text.indexOf(TITLE_DELIMITER));
 		}
