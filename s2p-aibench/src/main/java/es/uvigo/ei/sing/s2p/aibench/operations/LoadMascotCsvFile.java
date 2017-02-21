@@ -22,6 +22,7 @@
  */
 package es.uvigo.ei.sing.s2p.aibench.operations;
 
+import static es.uvigo.ei.sing.s2p.aibench.util.PortConfiguration.EXTRAS_CSV_FILES;
 import static es.uvigo.ei.sing.s2p.aibench.operations.dialogs.AbstractCsvInputDialog.CSV_FORMAT;
 import static es.uvigo.ei.sing.s2p.aibench.operations.dialogs.AbstractCsvInputDialog.CSV_FORMAT_DESCRIPTION;
 import static es.uvigo.ei.sing.s2p.core.io.MascotCsvLoader.load;
@@ -52,7 +53,7 @@ public class LoadMascotCsvFile {
 		description = "A CSV file containing the Mascot identifications.",
 		allowNull = false,
 		order = 1,
-		extras="selectionMode=files"
+		extras = EXTRAS_CSV_FILES
 	)
 	public void setFile(File file) {
 		this.file = file;

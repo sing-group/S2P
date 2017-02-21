@@ -22,6 +22,7 @@
  */
 package es.uvigo.ei.sing.s2p.aibench.operations;
 
+import static es.uvigo.ei.sing.s2p.aibench.util.PortConfiguration.EXTRAS_CSV_FILES;
 import static es.uvigo.ei.sing.s2p.aibench.operations.dialogs.AbstractCsvInputDialog.CSV_FORMAT;
 import static es.uvigo.ei.sing.s2p.aibench.operations.dialogs.AbstractCsvInputDialog.CSV_FORMAT_DESCRIPTION;
 import static es.uvigo.ei.sing.s2p.core.io.SpotsDataLoader.load;
@@ -48,7 +49,7 @@ public class LoadSpotsData {
 		name = "Spots data",
 		description = "A CSV containing the spots data to be loaded.",
 		order = 1,
-		extras="selectionMode=files"
+		extras = EXTRAS_CSV_FILES
 	)
 	public void setCsvFile(File csvFile) {
 		this.csvFile = csvFile;

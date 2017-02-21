@@ -22,6 +22,7 @@
  */
 package es.uvigo.ei.sing.s2p.aibench.operations;
 
+import static es.uvigo.ei.sing.s2p.aibench.util.PortConfiguration.EXTRAS_HTML_FILES;
 import static es.uvigo.ei.sing.s2p.core.io.MascotProjectLoader.load;
 
 import java.io.File;
@@ -46,7 +47,7 @@ public class ImportMascotIdentifications {
 		name = "Protein identifications", 
 		description = "A HTM file containing the Mascot report.",
 		order = 1,
-		extras="selectionMode=files"
+		extras = EXTRAS_HTML_FILES
 	)
 	public void setHtmlFile(File htmlFile) {
 		this.htmlFile = htmlFile;

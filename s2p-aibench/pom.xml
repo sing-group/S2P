@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>es.uvigo.ei.sing</groupId>
 		<artifactId>s2p</artifactId>
-		<version>1.0.3</version>
+		<version>1.0.4</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 

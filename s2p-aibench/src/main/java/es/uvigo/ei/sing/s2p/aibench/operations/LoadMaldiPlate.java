@@ -22,6 +22,7 @@
  */
 package es.uvigo.ei.sing.s2p.aibench.operations;
 
+import static es.uvigo.ei.sing.s2p.aibench.util.PortConfiguration.EXTRAS_MPL_FILES;
 import java.io.File;
 import java.io.IOException;
 
@@ -46,7 +47,7 @@ public class LoadMaldiPlate {
 		description = "A MPL file containing the Maldi plate.",
 		allowNull = false,
 		order = 1,
-		extras="selectionMode=files"
+		extras = EXTRAS_MPL_FILES
 	)
 	public void setFile(File file) {
 		this.file = file;
