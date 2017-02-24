@@ -92,7 +92,7 @@ public class MascotProjectLoader {
 	) {
 		return new MascotEntry(
 			columnValue(INDEX_TITLE, tds, lastColumnValues),
-			columnValue(INDEX_POS_ON_SCOUT, tds, lastColumnValues),
+			parsePlatePosition(columnValue(INDEX_POS_ON_SCOUT, tds, lastColumnValues)),
 			valueOf(columnValue(INDEX_MASCOT_SCORE, tds, lastColumnValues)),
 			valueOf(columnValue(INDEX_DIFFERENCE, tds, lastColumnValues)),
 			valueOf(columnValue(INDEX_MS_COVERAGE, tds, lastColumnValues)),
@@ -104,6 +104,10 @@ public class MascotProjectLoader {
 		);
 	}
 	
+	private static String parsePlatePosition(String platePosition) {
+		return platePosition.replaceAll(":", "");
+	}
+
 	private static String columnValue(int column, Elements tds,
 		Map<Integer, String> lastColumnValues
 	) {
