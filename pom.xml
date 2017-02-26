@@ -102,7 +102,7 @@
 		
 		<!-- General dependencies -->
 		<jsoup.version>1.8.3</jsoup.version>
-		<aibench.version>2.8.4</aibench.version>
+		<aibench.version>2.9.0-SNAPSHOT</aibench.version>
 		<swingx.version>1.6.5-1</swingx.version>
 		<charts4j.version>1.3</charts4j.version>
 		<jvenndiagram.version>1.1.0</jvenndiagram.version>
@@ -112,13 +112,14 @@
 		<sing.commons.csv.version>1.0.2</sing.commons.csv.version>
 		<sing.commons.math.version>0.1.0</sing.commons.math.version>
 		<itextpdf.version>5.5.10</itextpdf.version>
+		<aibench-plugin-recent-files-history.version>0.1.0-SNAPSHOT</aibench-plugin-recent-files-history.version>
 
 		<!-- Testing dependencies -->
 		<junit.version>4.8.2</junit.version>
 		
 		<!-- AIBench configuration -->		
 		<aibench.lib.artifactIds>javatar,aibench-aibench,jhall,log4j</aibench.lib.artifactIds>
-		<aibench.plugins.artifactIds>aibench-core,aibench-workbench</aibench.plugins.artifactIds>
+		<aibench.plugins.artifactIds>aibench-core,aibench-workbench,aibench-plugin-recent-files-history</aibench.plugins.artifactIds>
 
 		<!-- Java resources for assemblies -->
 		<jir.windows.64b>${project.build.directory}/java-installer-resources/windows/64b/jre1.8.0_111</jir.windows.64b>
@@ -236,6 +237,17 @@
 				<groupId>es.uvigo.ei.sing</groupId>
 				<artifactId>aibench-workbench</artifactId>
 				<version>${aibench.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>*</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.sing_group</groupId>
+				<artifactId>aibench-plugin-recent-files-history</artifactId>
+				<version>${aibench-plugin-recent-files-history.version}</version>
 				<exclusions>
 					<exclusion>
 						<groupId>*</groupId>

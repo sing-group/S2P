@@ -21,11 +21,15 @@
   #L%
   -->
 <plugin start="true">
-	<uid>my-aibench-application</uid>
-	<name>my-aibench-application</name>
-	<version>1.0-SNAPSHOT</version>
+	<uid>s2p-aibench-application</uid>
+	<name>s2p-aibench-application</name>
+	<version>1.0</version>
 	
 	<lifecycleclass>es.uvigo.ei.sing.s2p.aibench.Lifecycle</lifecycleclass>
+
+	<dependencies>
+		<dependency uid="aibench-plugin-recent-files-history"/>
+	</dependencies>
 
 	<extensions>
 		<extension

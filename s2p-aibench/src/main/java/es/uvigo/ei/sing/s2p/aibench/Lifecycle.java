@@ -41,6 +41,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JSeparator;
 import javax.swing.JToolBar;
 
+import org.sing_group.aibench.plugins.recentfiles.RecentFilesHistory;
+
+import es.uvigo.ei.aibench.core.Core;
 import es.uvigo.ei.aibench.workbench.MainWindow;
 import es.uvigo.ei.aibench.workbench.Workbench;
 import es.uvigo.ei.aibench.workbench.utilities.ClearClipboardAction;
@@ -49,7 +52,17 @@ import es.uvigo.ei.sing.s2p.aibench.gui.AboutFrame;
 import es.uvigo.ei.sing.s2p.gui.util.CommonFileChooser;
 
 public class Lifecycle extends org.platonos.pluginengine.PluginLifecycle {
-	
+
+	private static final String[] RECENT_FILES_OPERATIONS = new String[] {
+		"operations.importsamespotsreport",
+		"operations.importsamespotscsvfiles",
+		"operations.loadspotsdata",
+		"operations.importmascotidentifications",
+		"operations.importmascotquantifications",
+		"operations.loadmascotidentifications",
+		"operations.loadmaldiplate"
+	};
+
 	private static final ImageIcon ICON =
 		new ImageIcon(Lifecycle.class.getResource("/icons/s2p-icon.png"));
 
@@ -64,6 +77,7 @@ public class Lifecycle extends org.platonos.pluginengine.PluginLifecycle {
 		configureAIBenchToolbar();
 		configureAIBenchMenu();
 		configureFileChooser();
+		configureHistoryListener();
 	}
 
 	private static final void configureLocale() {
@@ -101,5 +115,15 @@ public class Lifecycle extends org.platonos.pluginengine.PluginLifecycle {
 	private void configureFileChooser() {
 		SINGLE_FILE_CHOOSER.setCurrentDirectory(new File(getProperty("user.home")));
 		CommonFileChooser.getInstance().setFilechooser(SINGLE_FILE_CHOOSER);
+	}
+
+	private void configureHistoryListener() {
+		RecentFilesHistory recentFilesHistory = new RecentFilesHistory(
+			RECENT_FILES_OPERATIONS, getPlugin().getUID(),
+			Workbench.getInstance().getMenuBar(), "File",
+			new File(System.getProperty("user.home"), ".s2p-history"), 20
+		);
+
+		Core.getInstance().getHistory().addHistoryListener(recentFilesHistory);
 	}
 }
