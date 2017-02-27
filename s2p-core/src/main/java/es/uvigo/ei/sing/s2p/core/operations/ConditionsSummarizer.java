@@ -22,6 +22,8 @@
  */
 package es.uvigo.ei.sing.s2p.core.operations;
 
+import static es.uvigo.ei.sing.s2p.core.util.ArrayUtils.doubleArray;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -55,7 +57,7 @@ public class ConditionsSummarizer {
 
 	private static SpotSummary spotSummary(String spot, Condition c) {
 		List<Double> spotValues = new LinkedList<Double>();
-		
+
 		c.getSamples().forEach(s -> { 
 			if(s.getSpotValues().containsKey(spot)) {
 				double spotValue = s.getSpotValues().get(spot);
@@ -64,10 +66,10 @@ public class ConditionsSummarizer {
 				}
 			}
 		});
-		
+
 		DescriptiveStatistics statistics = 
 			new DescriptiveStatistics(doubleArray(spotValues));
-		
+
 		return new SpotSummary(
 			(int) statistics.getN(), 
 			c.getSamples().size(), 
@@ -75,13 +77,5 @@ public class ConditionsSummarizer {
 			statistics.getStandardDeviation(),
 			spotValues
 		);
-	}
-
-	private static double[] doubleArray(List<Double> spotValues) {
-		double[] toret = new double[spotValues.size()];
-		for (int i = 0; i < spotValues.size(); i++) {
-			toret[i] = spotValues.get(i).doubleValue();
-		}
-		return toret;
 	}
 }

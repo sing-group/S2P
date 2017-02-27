@@ -116,6 +116,7 @@
 
 		<!-- Testing dependencies -->
 		<junit.version>4.8.2</junit.version>
+		<java-hamcrest.version>2.0.0.0</java-hamcrest.version>
 		
 		<!-- AIBench configuration -->		
 		<aibench.lib.artifactIds>javatar,aibench-aibench,jhall,log4j</aibench.lib.artifactIds>
@@ -261,6 +262,11 @@
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
 				<version>${junit.version}</version>
+			</dependency>
+			<dependency>
+			    <groupId>org.hamcrest</groupId>
+			    <artifactId>java-hamcrest</artifactId>
+			    <version>${java-hamcrest.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

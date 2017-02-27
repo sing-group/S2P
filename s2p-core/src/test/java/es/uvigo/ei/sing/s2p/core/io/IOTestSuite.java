@@ -26,6 +26,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
+import es.uvigo.ei.sing.s2p.core.io.quantification.QuantificationTestSuite;
 import es.uvigo.ei.sing.s2p.core.io.samespots.SameSpotsTestSuite;
 
 @RunWith(Suite.class)
@@ -34,7 +35,8 @@ import es.uvigo.ei.sing.s2p.core.io.samespots.SameSpotsTestSuite;
 	MascotProjectLoaderTest.class,
 	MascotCsvLoaderTest.class,
 	SpotsDataLoaderTest.class,
-	SameSpotsTestSuite.class
+	SameSpotsTestSuite.class,
+	QuantificationTestSuite.class
 })
 public class IOTestSuite {
 

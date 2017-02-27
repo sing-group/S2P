@@ -56,7 +56,7 @@ public class TestResources {
 
 	public static final File MASCOT_PROJECT_FULL =
 		loadResource("/real/2016.07.21_BladderCancerProject.BTR.HTM");
-	
+
 	public static final File SAMESPOTS_FILE =
 		loadResource("/real/SameSpots.htm");
 	
@@ -68,4 +68,10 @@ public class TestResources {
 
 	public static final File SAMESPOTS_CSV_DIRECTORY =
 		loadResource("/real/Samespots/Old (Individual)");
+
+	public static final File QUANTIFICATION_EMPAI_FILE =
+		loadResource("/test/quantification/RMP1.1_F026360.csv");
+
+	public static final File QUANTIFICATION_EMPAI_DIRECTORY =
+		loadResource("/real/Quantification/emPAI");
 }
