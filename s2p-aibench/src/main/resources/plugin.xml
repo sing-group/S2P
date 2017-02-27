@@ -80,6 +80,18 @@
 				help="import.mascot"
 			/>
 		</extension>
+
+		<extension
+			uid="aibench.core" name="aibench.core.operation-definition"
+			class="es.uvigo.ei.sing.s2p.aibench.operations.ImportMascotQuantificationCsvFiles"
+		>
+			<operation-description
+				name="Import Mascot quantifications"
+				uid="operations.importmascotquantifications"
+				path="2@Import"
+				help="import.mascot"
+			/>
+		</extension>
 		
 		<extension
 			uid="aibench.core" name="aibench.core.operation-definition"
@@ -187,6 +199,12 @@
 				help="es.uvigo.ei.sing.s2p.aibench.datatypes.MascotIdentificationsDatatype"
 			/>
 			<view
+				name="Mascot quantifications viewer"
+				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.QuantificationDatasetDatatype"
+				class="es.uvigo.ei.sing.s2p.aibench.views.QuantificationDatasetView"
+				help="es.uvigo.ei.sing.s2p.aibench.datatypes.QuantificationDatasetDatatype"
+			/>
+			<view
 				name="Maldi plate editor"
 				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.MaldiPlateDatatype"
 				class="es.uvigo.ei.sing.s2p.aibench.views.MaldiPlateDatatypeView"
@@ -265,6 +283,15 @@
 			/>
 
 			<icon-operation
+				operation="operations.importmascotquantifications"
+				icon="icons/importmascotquantifications.png"
+			/>
+			<big-icon-operation
+				operation="operations.importmascotquantifications"
+				icon="icons/importmascotquantifications.png"
+			/>
+
+			<icon-operation
 				operation="operations.loadmascotidentifications"
 				icon="icons/loadmascotidentifications.png"
 			/>
@@ -338,6 +365,10 @@
 			<icon-datatype
 				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.MascotIdentificationsDatatype"
 				icon="icons/mascotdatatype.png"
+			/>
+			<icon-datatype
+				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.QuantificationDatasetDatatype"
+				icon="icons/quantificationdatasetdatatype.png"
 			/>
 			<icon-datatype
 				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.MaldiPlateDatatype"
