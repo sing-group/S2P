@@ -22,99 +22,41 @@
  */
 package es.uvigo.ei.sing.s2p.gui.charts.spots;
 
-import static es.uvigo.ei.sing.s2p.gui.UISettings.BG_COLOR;
-
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
-import javax.swing.JPanel;
-
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.renderer.category.BoxAndWhiskerRenderer;
 import org.jfree.data.statistics.DefaultBoxAndWhiskerCategoryDataset;
 
-public class SpotsSummaryChart extends JPanel {
+import es.uvigo.ei.sing.s2p.gui.charts.ChartDataSeriesPanel;
+import es.uvigo.ei.sing.s2p.gui.charts.DataSeries;
+
+public class SpotsSummaryChart extends ChartDataSeriesPanel {
 	private static final long serialVersionUID = 1L;
 	
    	final DefaultBoxAndWhiskerCategoryDataset dataset 
    		= new DefaultBoxAndWhiskerCategoryDataset();
 
-	private String spot;
-	private List<ChartSpotSummary> summaries;
-
 	public SpotsSummaryChart(String spot, List<ChartSpotSummary> summaries) {
-		this.spot = spot;
-		this.summaries = summaries;
-
-		this.initComponent();
+		this("Spot: " + spot, "", "Expression value", toSeries(summaries));
 	}
 
-	private void initComponent() {
-		this.setLayout(new BorderLayout());
-		this.add(
-			createChartPanel(createDataset(), 
-			"Spot: " + spot, "Condition", "Expression value", true)
-		);
-	}
-	
-	private DefaultBoxAndWhiskerCategoryDataset createDataset() {
-		final DefaultBoxAndWhiskerCategoryDataset dataset = 
-			new DefaultBoxAndWhiskerCategoryDataset();
-		
-		for (int i = 0; i < this.summaries.size(); i++) {
-			dataset.add(
-				this.summaries.get(i).getSummary().getSpotValues(), 
-				this.summaries.get(i).getCondition(), 
-				""
-			);
-		}
-
-		return dataset;
-	}
-
-	public ChartPanel createChartPanel(
-		DefaultBoxAndWhiskerCategoryDataset dataset, String chartTitle,
-		String xAxisTitle, String yAxisTitle, boolean legend
+	public SpotsSummaryChart(String title, String xAxisTitle, String yAxisTitle,
+		List<DataSeries> series
 	) {
-
-		JFreeChart boxAndWhiskerChart = ChartFactory.createBoxAndWhiskerChart(
-			chartTitle, xAxisTitle, yAxisTitle, dataset, legend);
-		
-		CategoryPlot pl = (CategoryPlot) boxAndWhiskerChart.getPlot();
-		pl.setRangeGridlinePaint(Color.GRAY);
-		pl.setBackgroundPaint(BG_COLOR);
-		
-		BoxAndWhiskerRenderer renderer = 
-			(BoxAndWhiskerRenderer) pl.getRenderer();
-		for(Entry<Integer, Color> entry : getSeriesColor().entrySet()){
-			renderer.setSeriesPaint(entry.getKey(), entry.getValue());
-		}
-
-		renderer.setMaximumBarWidth(0.1);
-		renderer.setFillBox(true);
-		renderer.setMeanVisible(true);
-		renderer.setMedianVisible(true);
-		pl.setRangeGridlinesVisible(false);
-		pl.setOutlineVisible(false);
-		pl.getDomainAxis().setLabel("");
-		final ChartPanel chartPanel = new ChartPanel(boxAndWhiskerChart);
-
-		chartPanel.setPreferredSize(new java.awt.Dimension(450, 270));
-		return chartPanel;
+		super(title, xAxisTitle, yAxisTitle, series);
 	}
 
-	private Map<Integer, Color> getSeriesColor() {
-		Map<Integer, Color> seriesColor = new HashMap<Integer, Color>();
-		for (int i = 0; i < this.summaries.size(); i++) {
-			seriesColor.put(i, this.summaries.get(i).getColor());
-		}
-		return seriesColor;
+	private static List<DataSeries> toSeries(List<ChartSpotSummary> summaries) {
+		List<DataSeries> series = new LinkedList<>();
+		summaries.forEach(s -> {
+			series.add(
+				new DataSeries(
+					s.getCondition(),
+					s.getColor(),
+					s.getSummary().getSpotValues()
+				)
+			);
+		});
+		return series;
 	}
 }
