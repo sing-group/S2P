@@ -59,7 +59,7 @@ import javax.swing.table.TableCellRenderer;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 
 import es.uvigo.ei.sing.s2p.core.entities.Condition;
-import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
+import es.uvigo.ei.sing.s2p.core.entities.SpotMascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.entities.SpotSummary;
 import es.uvigo.ei.sing.s2p.core.entities.SpotsData;
 import es.uvigo.ei.sing.s2p.gui.UISettings;
@@ -83,7 +83,7 @@ public class ConditionsSummaryTable extends JPanel {
 	
 	private SpotPresenceTester spotPresenceTester;
 	private boolean showProteinIdentifications = false;
-	private Optional<Map<String, MascotIdentifications>> mascotIdentifications =
+	private Optional<SpotMascotIdentifications> mascotIdentifications =
 		Optional.empty();
 
 	public ConditionsSummaryTable(SpotsData data) {
@@ -226,7 +226,7 @@ public class ConditionsSummaryTable extends JPanel {
 				spotLabel.setToolTipText(spotTooltip(spot, mascotIdentifications));
 
 				if (mascotIdentifications.isPresent()) {
-					if (mascotIdentifications.get().get(spot) != null) {
+					if (!mascotIdentifications.get().get(spot).isEmpty()) {
 						if (!showProteinIdentifications) {
 							spotLabel.setFont(c.getFont().deriveFont(Font.BOLD));
 						}
@@ -281,7 +281,7 @@ public class ConditionsSummaryTable extends JPanel {
 	}
 
 	public void setMascotIdentifications(
-		Map<String, MascotIdentifications> mascotIdentifications
+		SpotMascotIdentifications mascotIdentifications
 	) {
 		this.mascotIdentifications = Optional.ofNullable(mascotIdentifications);
 		fireTableStructureChanged();

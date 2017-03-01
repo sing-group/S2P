@@ -26,10 +26,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
+import es.uvigo.ei.sing.s2p.core.entities.SpotMascotIdentifications;
 
 public class SpotMascotEntryPositionJoiner {
 
-	public static Map<String, MascotIdentifications> join(
+	public static SpotMascotIdentifications join(
 		Map<String, String> positionToSpot, MascotIdentifications entries
 	) {
 		Map<String, MascotIdentifications> toret = 
@@ -40,6 +41,7 @@ public class SpotMascotEntryPositionJoiner {
 			toret.putIfAbsent(spot, new MascotIdentifications());
 			toret.get(spot).add(e);
 		});
-		return toret;
+
+		return new SpotMascotIdentifications(toret);
 	}
 }

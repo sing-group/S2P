@@ -75,6 +75,7 @@ import es.uvigo.ei.sing.s2p.core.entities.Condition;
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.entities.Pair;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
+import es.uvigo.ei.sing.s2p.core.entities.SpotMascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.entities.SpotsCount;
 import es.uvigo.ei.sing.s2p.core.entities.SpotsData;
 import es.uvigo.ei.sing.s2p.core.io.samespots.SameSpotsReportFileWriter;
@@ -148,7 +149,7 @@ public class SpotsDataViewer extends JPanel implements
 	private Map<Sample, Color> samplesColors;
 	private Map<Sample, String> samplesLabels;
 
-	protected Optional<Map<String, MascotIdentifications>> mascotIdentifications = 
+	protected Optional<SpotMascotIdentifications> mascotIdentifications = 
 		Optional.empty();
 	protected Optional<Set<String>> differentialSpots =	Optional.empty();
 
@@ -288,23 +289,26 @@ public class SpotsDataViewer extends JPanel implements
 	}
 
 	private void addMascotIdentifications(
-		Map<String, MascotIdentifications> identifications
+		SpotMascotIdentifications identifications
 	) {
 		if (identifications != null) {
+			Map<String, MascotIdentifications> newSpotIdentifications =
+				new HashMap<>();
 			if (this.mascotIdentifications.isPresent()) {
-				for(String key : this.mascotIdentifications.get().keySet()) {
-					if(identifications.containsKey(key)) {
-						identifications.get(key).addAll(this.mascotIdentifications.get().get(key));
-					} else {
-						identifications.put(key, this.mascotIdentifications.get().get(key));
-					}
+				for(String key : this.mascotIdentifications.get().getSpots()) {
+					MascotIdentifications currentKeyIdentifications =
+						new MascotIdentifications();
+					currentKeyIdentifications.addAll(this.mascotIdentifications.get().get(key));
+					currentKeyIdentifications.addAll(identifications.get(key));
+					
+					newSpotIdentifications.put(key, currentKeyIdentifications);
 				}
 			}
 			this.setMascotIdentifications(identifications);
 		}
 	}
 	private void setMascotIdentifications(
-		Map<String, MascotIdentifications> identifications
+			SpotMascotIdentifications identifications
 	) {
 		this.mascotIdentifications = Optional.of(identifications);
 		sortMascotIdentifications();
@@ -335,7 +339,7 @@ public class SpotsDataViewer extends JPanel implements
 	}
 
 	private void sortMascotIdentifications() {
-		this.mascotIdentifications.get().values().forEach(list -> {
+		this.mascotIdentifications.get().getMascotIdentifications().forEach(list -> {
 			Collections.sort(list, (o1, o2) -> {
 					return o2.getMascotScore() - o1.getMascotScore();
 				}
@@ -675,7 +679,7 @@ public class SpotsDataViewer extends JPanel implements
 
 	private boolean isIdentifiedSpot(String spot) {
 		return 	this.mascotIdentifications.isPresent() && 
-				this.mascotIdentifications.get().containsKey(spot);
+				this.mascotIdentifications.get().containsSpot(spot);
 	}
 
 	private boolean isShowOnlyIdentifiedSpots() {

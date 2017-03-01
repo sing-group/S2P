@@ -28,7 +28,6 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Window;
-import java.util.Map;
 import java.util.Set;
 
 import javax.swing.JPanel;
@@ -37,7 +36,7 @@ import javax.swing.JTable;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 
 import es.uvigo.ei.sing.hlfernandez.dialog.AbstractInputJDialog;
-import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
+import es.uvigo.ei.sing.s2p.core.entities.SpotMascotIdentifications;
 import es.uvigo.ei.sing.s2p.gui.UISettings;
 import es.uvigo.ei.sing.s2p.gui.table.CSVTable;
 
@@ -49,8 +48,8 @@ public class MascotIdentificationsSummaryDialog extends AbstractInputJDialog {
 	private CSVTable table;
 	
 	public MascotIdentificationsSummaryDialog(Window parent, Set<String> spots,
-			Map<String, MascotIdentifications> spotIdentifications
-		) {
+		SpotMascotIdentifications spotIdentifications
+	) {
 		super(parent);
 		
 		this.table = new CSVTable(new MascotIdentificationsSummaryTableModel(spots, spotIdentifications));

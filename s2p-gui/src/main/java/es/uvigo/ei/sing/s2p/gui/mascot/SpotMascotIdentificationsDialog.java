@@ -24,14 +24,13 @@ package es.uvigo.ei.sing.s2p.gui.mascot;
 
 import java.awt.BorderLayout;
 import java.awt.Window;
-import java.util.Map;
 import java.util.Set;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import es.uvigo.ei.sing.hlfernandez.dialog.AbstractInputJDialog;
-import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
+import es.uvigo.ei.sing.s2p.core.entities.SpotMascotIdentifications;
 
 public class SpotMascotIdentificationsDialog extends AbstractInputJDialog {
 	private static final long serialVersionUID = 1L;
@@ -40,8 +39,8 @@ public class SpotMascotIdentificationsDialog extends AbstractInputJDialog {
 	private JPanel inputComponents;
 	
 	public SpotMascotIdentificationsDialog(Window parent, Set<String> spots,
-			Map<String, MascotIdentifications> spotIdentifications
-		) {
+		SpotMascotIdentifications spotIdentifications
+	) {
 		super(parent);
 		
 		this.table = new SpotMascotIdentificationsTable(spots, spotIdentifications);

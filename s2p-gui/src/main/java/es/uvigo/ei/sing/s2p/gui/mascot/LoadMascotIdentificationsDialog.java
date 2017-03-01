@@ -44,6 +44,7 @@ import es.uvigo.ei.sing.hlfernandez.input.InputParameter;
 import es.uvigo.ei.sing.hlfernandez.input.InputParametersPanel;
 import es.uvigo.ei.sing.hlfernandez.text.JIntegerTextField;
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
+import es.uvigo.ei.sing.s2p.core.entities.SpotMascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.io.MaldiPlateLoader;
 import es.uvigo.ei.sing.s2p.core.io.MascotCsvLoader;
 import es.uvigo.ei.sing.s2p.gui.components.dialog.AbstractFileInputJDialog;
@@ -207,7 +208,7 @@ public class LoadMascotIdentificationsDialog extends AbstractFileInputJDialog {
 		super.setVisible(b);
 	}
 
-	public Map<String, MascotIdentifications> getMascotIdentifications() {
+	public SpotMascotIdentifications getMascotIdentifications() {
 		return join(getMaldiPlate(), getMascotEntries());
 	}
 

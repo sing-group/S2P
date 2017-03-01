@@ -31,7 +31,6 @@ import java.awt.Component;
 import java.awt.Font;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -47,8 +46,8 @@ import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 
 import es.uvigo.ei.sing.s2p.core.entities.Condition;
-import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
+import es.uvigo.ei.sing.s2p.core.entities.SpotMascotIdentifications;
 import es.uvigo.ei.sing.s2p.gui.event.ProteinDataComparisonEvent;
 import es.uvigo.ei.sing.s2p.gui.event.ProteinDataComparisonListener;
 import es.uvigo.ei.sing.s2p.gui.table.CSVTable;
@@ -241,7 +240,7 @@ public class ProteinDataComparisonTable extends JPanel {
 	}
 
 	public void setMascotIdentifications(
-		Map<String, MascotIdentifications> identifications
+		SpotMascotIdentifications identifications
 	) {
 		this.tableModel.setMascotIdentifications(identifications);
 	}

@@ -37,7 +37,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -51,7 +50,7 @@ import javax.swing.SwingConstants;
 
 import es.uvigo.ei.sing.hlfernandez.list.ExtendedDefaultListModel;
 import es.uvigo.ei.sing.s2p.core.entities.Condition;
-import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
+import es.uvigo.ei.sing.s2p.core.entities.SpotMascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.operations.StringSetComparison;
 import es.uvigo.ei.sing.s2p.gui.components.VennDiagram;
 
@@ -69,7 +68,7 @@ public class ProteinDataComparisonInformationPanel extends JPanel {
 	private ExtendedDefaultListModel<String> itemsListModel;
 
 	private boolean showProteinIdentifications = false;
-	private Optional<Map<String, MascotIdentifications>> mascotIdentifications =
+	private Optional<SpotMascotIdentifications> mascotIdentifications =
 		Optional.empty();
 
 	private StringSetComparison setComparison;
@@ -269,7 +268,7 @@ public class ProteinDataComparisonInformationPanel extends JPanel {
 	}
 
 	public void setMascotIdentifications(
-			Map<String, MascotIdentifications> identifications
+		SpotMascotIdentifications identifications
 	) {
 		this.mascotIdentifications  = Optional.of(identifications);
 	}

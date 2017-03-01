@@ -46,6 +46,7 @@ import es.uvigo.ei.sing.hlfernandez.utilities.ExtendedAbstractAction;
 import es.uvigo.ei.sing.s2p.core.entities.Condition;
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
+import es.uvigo.ei.sing.s2p.core.entities.SpotMascotIdentifications;
 import es.uvigo.ei.sing.s2p.gui.samples.SamplesComparisonTable;
 import es.uvigo.ei.sing.s2p.gui.spots.comparison.JHeatMapDialog;
 import es.uvigo.ei.sing.s2p.gui.spots.heatmap.JHeatMapConfigurationDialog;
@@ -159,7 +160,8 @@ public class ConditionComparisonTable extends JPanel {
 	}
 
 	public void setMascotIdentifications(
-			Map<String, MascotIdentifications> mascotIdentifications) {
+		SpotMascotIdentifications mascotIdentifications
+	) {
 		this.samplesTable.setMascotIdentifications(mascotIdentifications);
 	}
 

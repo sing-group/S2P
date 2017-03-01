@@ -26,15 +26,14 @@ package es.uvigo.ei.sing.s2p.gui.spots.comparison;
 import static es.uvigo.ei.sing.s2p.core.entities.Util.getSampleProteins;
 import static java.util.Collections.emptySet;
 
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
 import javax.swing.table.AbstractTableModel;
 
 import es.uvigo.ei.sing.s2p.core.entities.Condition;
-import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
+import es.uvigo.ei.sing.s2p.core.entities.SpotMascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.operations.StringSetComparison;
 
 public class ProteinDataComparisonTableModel extends AbstractTableModel {
@@ -42,7 +41,7 @@ public class ProteinDataComparisonTableModel extends AbstractTableModel {
 	
 	private Condition condition1;
 	private Condition condition2;
-	private Optional<Map<String, MascotIdentifications>> mascotIdentifications =
+	private Optional<SpotMascotIdentifications> mascotIdentifications =
 		Optional.empty();
 
 	private boolean showProteinIdentifications = false;
@@ -115,7 +114,7 @@ public class ProteinDataComparisonTableModel extends AbstractTableModel {
 	}
 
 	public void setMascotIdentifications(
-		Map<String, MascotIdentifications> identifications
+		SpotMascotIdentifications identifications
 	) {
 		this.mascotIdentifications  = Optional.of(identifications);
 	}

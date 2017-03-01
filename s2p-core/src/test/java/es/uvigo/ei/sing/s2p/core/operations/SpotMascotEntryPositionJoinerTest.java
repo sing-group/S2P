@@ -33,6 +33,7 @@ import java.util.Map;
 import org.junit.Test;
 
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
+import es.uvigo.ei.sing.s2p.core.entities.SpotMascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.io.MaldiPlateLoader;
 import es.uvigo.ei.sing.s2p.core.io.MascotProjectLoader;
 
@@ -44,7 +45,7 @@ public class SpotMascotEntryPositionJoinerTest {
 		Map<String, String> posToSpot = MaldiPlateLoader
 			.importCsv(MALDI_PLATE_FILE, MALDI_PLATE_FORMAT).asMap();
 		
-		Map<String, MascotIdentifications> join = 
+		SpotMascotIdentifications join = 
 			SpotMascotEntryPositionJoiner.join(posToSpot, entries);
 		
 		assertEquals(1, join.get("45").size());

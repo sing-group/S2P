@@ -22,23 +22,23 @@
  */
 package es.uvigo.ei.sing.s2p.gui.spots;
 
-import java.util.Map;
 import java.util.Optional;
 
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
+import es.uvigo.ei.sing.s2p.core.entities.SpotMascotIdentifications;
 
 public class SpotUtils {
 	
 	public static String spotValue(String spot,
 		boolean showProteinIdentifications,
-		Optional<Map<String, MascotIdentifications>> mascotIdentifications
+		Optional<SpotMascotIdentifications> mascotIdentifications
 	) {
 		StringBuilder spotValue = new StringBuilder(spot);
 		if(showProteinIdentifications) {
 			if(mascotIdentifications.isPresent()) {
 				MascotIdentifications spotIdentifications = 
 					mascotIdentifications.get().get(spot);
-				if(spotIdentifications != null) {
+				if(!spotIdentifications.isEmpty()) {
 					spotValue
 						.append(" (")
 						.append(spotIdentifications.get(0).getTitle())
@@ -50,12 +50,12 @@ public class SpotUtils {
 	}
 	
 	public static String spotTooltip(String value,
-		Optional<Map<String, MascotIdentifications>> mascotIdentifications
+		Optional<SpotMascotIdentifications> mascotIdentifications
 	) {
 		if(mascotIdentifications.isPresent()) {
 			MascotIdentifications spotIdentifications = 
 				mascotIdentifications.get().get(value);
-			if(spotIdentifications != null) {
+			if (!spotIdentifications.isEmpty()) {
 				StringBuilder tooltip = new StringBuilder();
 				tooltip
 					.append(spotIdentifications.get(0).getTitle())

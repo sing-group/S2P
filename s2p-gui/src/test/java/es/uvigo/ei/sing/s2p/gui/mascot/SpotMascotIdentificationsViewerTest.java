@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
+import es.uvigo.ei.sing.s2p.core.entities.SpotMascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.io.MaldiPlateLoader;
 import es.uvigo.ei.sing.s2p.core.io.MascotProjectLoader;
 import es.uvigo.ei.sing.s2p.core.operations.SpotMascotEntryPositionJoiner;
@@ -26,11 +27,11 @@ public class SpotMascotIdentificationsViewerTest {
 		Map<String, String> posToSpot = MaldiPlateLoader
 			.importCsv(MALDI_PLATE_FILE, MALDI_PLATE_FORMAT).asMap();
 		
-		Map<String, MascotIdentifications> join = 
+		SpotMascotIdentifications join = 
 			SpotMascotEntryPositionJoiner.join(posToSpot, entries);
 	
 		SpotMascotIdentificationsTable table =
-			new SpotMascotIdentificationsTable(join.keySet(), join);
+			new SpotMascotIdentificationsTable(join.getSpots(), join);
 		
 		showComponent(new JScrollPane(table), JFrame.MAXIMIZED_BOTH);
 	}

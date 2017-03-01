@@ -10,7 +10,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Arrays;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.function.Function;
 
@@ -19,6 +18,7 @@ import org.jsoup.select.Elements;
 
 import es.uvigo.ei.sing.s2p.core.entities.MascotEntry;
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
+import es.uvigo.ei.sing.s2p.core.entities.SpotMascotIdentifications;
 
 public class SameSpotsReportFileWriter {
 
@@ -43,7 +43,7 @@ public class SameSpotsReportFileWriter {
 	};
 
 	public static void writeReportDirectory(
-		Map<String, MascotIdentifications> identifications, File reportDirectory,
+		SpotMascotIdentifications identifications, File reportDirectory,
 		SameSpotsReportFileWriterConfiguration configuration
 	) throws IOException {
 		for (File f : reportDirectory.listFiles(HTM_FILE::apply)) {
@@ -67,7 +67,7 @@ public class SameSpotsReportFileWriter {
 	}
 	
 	public static void writeReportFile(
-		Map<String, MascotIdentifications> identifications, File reportFile,
+		SpotMascotIdentifications identifications, File reportFile,
 		File outputFile
 	) throws IOException {
 		writeReportFile(identifications, reportFile, 
@@ -75,7 +75,7 @@ public class SameSpotsReportFileWriter {
 	}
 	
 	public static void writeReportFile(
-		Map<String, MascotIdentifications> identifications, File reportFile,
+		SpotMascotIdentifications identifications, File reportFile,
 		SameSpotsReportFileWriterConfiguration configuration,
 		File outputFile
 	) throws IOException {
@@ -85,7 +85,7 @@ public class SameSpotsReportFileWriter {
 	}
 
 	private static void parseReportFile(File reportFile,
-		Map<String, MascotIdentifications> identifications, 
+		SpotMascotIdentifications identifications, 
 		StringBuilder reportSb, 
 		SameSpotsReportFileWriterConfiguration configuration
 	) throws FileNotFoundException {
@@ -145,7 +145,7 @@ public class SameSpotsReportFileWriter {
 	}
 	
 	private static void parseSport(
-		Map<String, MascotIdentifications> identifications, String spot,
+		SpotMascotIdentifications identifications, String spot,
 		StringBuilder reportSb, 
 		SameSpotsReportFileWriterConfiguration configuration
 	) {
@@ -153,7 +153,7 @@ public class SameSpotsReportFileWriter {
 		Elements tds = spotRow.select("td");
 	
 		MascotIdentifications spotIdentifications = identifications
-			.getOrDefault(tds.get(0).html(), new MascotIdentifications());
+			.get(tds.get(0).html());
 
 		if(!configuration.isRemoveDuplicatedProteinNames()) {
 			spotIdentifications =
@@ -229,7 +229,7 @@ public class SameSpotsReportFileWriter {
 
 	private static String parseIndividualSpotsReports(
 		String individualSpotsHtml,
-		Map<String, MascotIdentifications> identifications,
+		SpotMascotIdentifications identifications,
 		SameSpotsReportFileWriterConfiguration configuration
 	) {
 		StringBuilder individualSpotsSB = new StringBuilder();
@@ -241,7 +241,7 @@ public class SameSpotsReportFileWriter {
 			String spot = div.select("h2").get(0)
 				.html().replace("Identifier ", "");
 			if (configuration.isIncludeSpotsWithoutIdentifications()
-					|| identifications.containsKey(spot)
+					|| identifications.containsSpot(spot)
 			) {
 				individualSpotsSB
 					.append(div.toString().replaceAll(NEW_LINE, ""));

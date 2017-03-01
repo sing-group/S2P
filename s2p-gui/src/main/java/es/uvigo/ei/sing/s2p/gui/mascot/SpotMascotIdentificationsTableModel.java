@@ -30,7 +30,7 @@ import java.util.Set;
 
 import javax.swing.table.AbstractTableModel;
 
-import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
+import es.uvigo.ei.sing.s2p.core.entities.SpotMascotIdentifications;
 
 public class SpotMascotIdentificationsTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
@@ -53,11 +53,11 @@ public class SpotMascotIdentificationsTableModel extends AbstractTableModel {
 	}
 
 	private Set<String> spots;
-	private Map<String, MascotIdentifications> spotIdentifications;
+	private SpotMascotIdentifications spotIdentifications;
 	private List<Object[]> rows = new LinkedList<Object[]>();
 
 	public SpotMascotIdentificationsTableModel(Set<String> spots,
-		Map<String, MascotIdentifications> spotIdentifications
+		SpotMascotIdentifications spotIdentifications
 	) {
 		this.spots = spots;
 		this.spotIdentifications = spotIdentifications;
@@ -67,7 +67,7 @@ public class SpotMascotIdentificationsTableModel extends AbstractTableModel {
 
 	private void initMatrixData() {
 		spots.forEach(s -> {
-			this.spotIdentifications.getOrDefault(s, new MascotIdentifications())
+			this.spotIdentifications.get(s)
 				.forEach(identification -> {
 				Object[] row = new Object[TABLE_FIELDS.size()];
 				row[0] = s;

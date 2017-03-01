@@ -31,7 +31,7 @@ import java.util.Set;
 import javax.swing.table.AbstractTableModel;
 
 import es.uvigo.ei.sing.s2p.core.entities.MascotEntry;
-import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
+import es.uvigo.ei.sing.s2p.core.entities.SpotMascotIdentifications;
 
 public class MascotIdentificationsSummaryTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
@@ -47,10 +47,11 @@ public class MascotIdentificationsSummaryTableModel extends AbstractTableModel {
 	private static Map<Integer, String> tableValues = new HashMap<>();
 	
 	private Set<String> spots;
-	private Map<String, MascotIdentifications> spotIdentifications;
+	private SpotMascotIdentifications spotIdentifications;
 
 	public MascotIdentificationsSummaryTableModel(Set<String> spots,
-			Map<String, MascotIdentifications> spotIdentifications) {
+		SpotMascotIdentifications spotIdentifications
+	) {
 		this.spots = spots;
 		this.spotIdentifications = spotIdentifications;
 		
@@ -65,12 +66,12 @@ public class MascotIdentificationsSummaryTableModel extends AbstractTableModel {
 
 	private String identifiedSpotsCount() {
 		Set<String> unidentifiedSpots = new HashSet<>(spots);
-		unidentifiedSpots.removeAll(spotIdentifications.keySet());
+		unidentifiedSpots.removeAll(spotIdentifications.getSpots());
 		return String.valueOf(spots.size() - unidentifiedSpots.size());
 	}
 
 	private String uniqueProteinsCount() {
-		return 	String.valueOf(this.spotIdentifications.keySet().stream()
+		return 	String.valueOf(this.spotIdentifications.getSpots().stream()
 				.filter(spot -> spots.contains(spot))
 				.map(spot -> this.spotIdentifications.get(spot))
 				.flatMap(Collection::stream).map(MascotEntry::getTitle)

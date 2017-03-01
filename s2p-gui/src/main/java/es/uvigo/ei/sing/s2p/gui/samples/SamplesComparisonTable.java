@@ -22,6 +22,7 @@
  */
 package es.uvigo.ei.sing.s2p.gui.samples;
 
+import static java.awt.Font.BOLD;
 import static es.uvigo.ei.sing.s2p.gui.UISettings.FONT_SIZE;
 import static es.uvigo.ei.sing.s2p.gui.UISettings.FONT_SIZE_HEADER;
 import static es.uvigo.ei.sing.s2p.gui.spots.SpotUtils.spotTooltip;
@@ -58,8 +59,8 @@ import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import es.uvigo.ei.sing.hlfernandez.event.PopupMenuAdapter;
 import es.uvigo.ei.sing.hlfernandez.utilities.ExtendedAbstractAction;
 import es.uvigo.ei.sing.hlfernandez.visualization.JHeatMapModel;
-import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
+import es.uvigo.ei.sing.s2p.core.entities.SpotMascotIdentifications;
 import es.uvigo.ei.sing.s2p.gui.spots.heatmap.SpotRenderer;
 import es.uvigo.ei.sing.s2p.gui.table.ExtendedCsvTable;
 import es.uvigo.ei.sing.s2p.gui.table.TestRowFilter;
@@ -78,7 +79,7 @@ public class SamplesComparisonTable extends JPanel {
 	private SpotPresenceTester spotPresenceTester;
 	
 	private boolean showProteinIdentifications = false;
-	private Optional<Map<String, MascotIdentifications>> mascotIdentifications = 
+	private Optional<SpotMascotIdentifications> mascotIdentifications = 
 		Optional.empty();
 
 	private ExtendedAbstractAction removeSpotsAction;
@@ -174,9 +175,9 @@ public class SamplesComparisonTable extends JPanel {
 				spotLabel.setToolTipText(spotTooltip(spot, mascotIdentifications));
 				
 				if (mascotIdentifications.isPresent()) {
-					if (mascotIdentifications.get().get(spot) != null) {
+					if (!mascotIdentifications.get().get(spot).isEmpty()) {
 						if (!showProteinIdentifications) {
-							spotLabel.setFont(c.getFont().deriveFont(Font.BOLD));
+							spotLabel.setFont(c.getFont().deriveFont(BOLD));
 						}
 					} else {
 						spotLabel.setForeground(Color.RED);
@@ -235,7 +236,7 @@ public class SamplesComparisonTable extends JPanel {
 	}
 	
 	public void setMascotIdentifications(
-		Map<String, MascotIdentifications> mascotIdentifications
+		SpotMascotIdentifications mascotIdentifications
 	) {
 		this.mascotIdentifications = ofNullable(mascotIdentifications);
 		fireTableStructureChanged();

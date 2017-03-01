@@ -35,6 +35,7 @@ import java.util.stream.Collectors;
 import es.uvigo.ei.sing.hlfernandez.visualization.JHeatMapModel;
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
+import es.uvigo.ei.sing.s2p.core.entities.SpotMascotIdentifications;
 import es.uvigo.ei.sing.s2p.gui.table.ExtendedCsvTable;
 
 public class HeatMapModelBuilder {
@@ -43,7 +44,7 @@ public class HeatMapModelBuilder {
 	private int[] visibleRows;
 	private int[] visibleColumns;
 	private SpotRenderer spotRenderer;
-	private Optional<Map<String, MascotIdentifications>> mascotIdentifications;
+	private Optional<SpotMascotIdentifications> mascotIdentifications;
 	private Map<String, String> sampleLabels;
 
 	private HeatMapModelBuilder(ExtendedCsvTable table,
@@ -69,7 +70,7 @@ public class HeatMapModelBuilder {
 	}
 
 	public HeatMapModelBuilder withMascotIdentifications(
-		Optional<Map<String, MascotIdentifications>> identifications
+		Optional<SpotMascotIdentifications> identifications
 	) {
 		this.mascotIdentifications = identifications;
 		return this;
@@ -153,8 +154,7 @@ public class HeatMapModelBuilder {
 		spots.forEach(spot -> {
 			MascotIdentifications identifications =
 				this.mascotIdentifications.isPresent() ?
-					this.mascotIdentifications.get()
-					.getOrDefault(spot, new MascotIdentifications()) :
+					this.mascotIdentifications.get().get(spot) :
 					new MascotIdentifications();
 
 			rowNames.add(

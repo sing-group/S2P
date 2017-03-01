@@ -24,7 +24,6 @@ package es.uvigo.ei.sing.s2p.gui.mascot;
 
 import java.awt.Component;
 import java.io.File;
-import java.util.Map;
 import java.util.Set;
 
 import javax.swing.JLabel;
@@ -32,14 +31,20 @@ import javax.swing.JTable;
 
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 
-import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
+import es.uvigo.ei.sing.s2p.core.entities.SpotMascotIdentifications;
 import es.uvigo.ei.sing.s2p.gui.table.ExtendedCsvTable;
 
 public class SpotMascotIdentificationsTable extends ExtendedCsvTable {
 	private static final long serialVersionUID = 1L;
 
+	public SpotMascotIdentificationsTable(
+		SpotMascotIdentifications spotIdentifications
+	) {
+		this(spotIdentifications.getSpots(), spotIdentifications);
+	}
+
 	public SpotMascotIdentificationsTable(Set<String> spots,
-		Map<String, MascotIdentifications> spotIdentifications
+		SpotMascotIdentifications spotIdentifications
 	) {
 		super(new SpotMascotIdentificationsTableModel(spots, spotIdentifications));
 		
