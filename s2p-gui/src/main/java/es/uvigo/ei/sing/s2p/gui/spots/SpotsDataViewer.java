@@ -35,6 +35,9 @@ import static javax.swing.BorderFactory.createTitledBorder;
 import static javax.swing.Box.createHorizontalGlue;
 import static javax.swing.Box.createHorizontalStrut;
 import static javax.swing.BoxLayout.X_AXIS;
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
+import static javax.swing.JOptionPane.showMessageDialog;
 import static javax.swing.SwingUtilities.invokeLater;
 
 import java.awt.BorderLayout;
@@ -44,6 +47,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Window;
 import java.awt.event.ItemEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -72,6 +77,8 @@ import es.uvigo.ei.sing.s2p.core.entities.Pair;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
 import es.uvigo.ei.sing.s2p.core.entities.SpotsCount;
 import es.uvigo.ei.sing.s2p.core.entities.SpotsData;
+import es.uvigo.ei.sing.s2p.core.io.samespots.SameSpotsReportFileWriter;
+import es.uvigo.ei.sing.s2p.core.io.samespots.SameSpotsReportFileWriterConfiguration;
 import es.uvigo.ei.sing.s2p.core.operations.SpotSummaryOperations;
 import es.uvigo.ei.sing.s2p.core.operations.SpotSummaryOperations.DifferentialSpotFunction;
 import es.uvigo.ei.sing.s2p.gui.components.ExtendedJTabbedPane;
@@ -81,6 +88,7 @@ import es.uvigo.ei.sing.s2p.gui.event.ProteinDataComparisonListener;
 import es.uvigo.ei.sing.s2p.gui.mascot.LoadMascotIdentificationsDialog;
 import es.uvigo.ei.sing.s2p.gui.mascot.MascotIdentificationsDialog;
 import es.uvigo.ei.sing.s2p.gui.mascot.MascotIdentificationsSummaryDialog;
+import es.uvigo.ei.sing.s2p.gui.samespots.FillSameSpotsReportDialog;
 import es.uvigo.ei.sing.s2p.gui.samples.SampleComparisonView;
 import es.uvigo.ei.sing.s2p.gui.spots.comparison.ConditionVsConditionComparisonView;
 import es.uvigo.ei.sing.s2p.gui.spots.condition.ConditionComparisonTable;
@@ -129,6 +137,7 @@ public class SpotsDataViewer extends JPanel implements
 	private Action showProteinIdentificationsAction;
 	private JToggleButton togleFilterDiferentialSpots;
 	private Action showProteinIdentificationsSummaryAction;
+	private Action fillSameSpotsReportAction;
 	private JButton clearIdentificationsBtn;
 
 	protected SpotsData data;
@@ -318,6 +327,7 @@ public class SpotsDataViewer extends JPanel implements
 		this.togleFilterDiferentialSpots.setEnabled(enabled);
 		this.showProteinIdentificationsAction.setEnabled(enabled);
 		this.showProteinIdentificationsSummaryAction.setEnabled(enabled);
+		this.fillSameSpotsReportAction.setEnabled(enabled);
 	}
 
 	protected LoadMascotIdentificationsDialog getMascotIdentificationsDialog() {
@@ -470,6 +480,7 @@ public class SpotsDataViewer extends JPanel implements
 		HamburgerMenu menu = new HamburgerMenu(HamburgerMenu.Size.SIZE16);
 		menu.add(getShowProteinIdentificationsButton());
 		menu.add(getShowProteinIdentificationsSummaryButton());
+		menu.add(getFillSameSpotsReportButton());
 		return menu;
 	}
 
@@ -514,6 +525,45 @@ public class SpotsDataViewer extends JPanel implements
 				this.mascotIdentifications.get()
 			);
 		dialog.setVisible(true);
+	}
+
+	private Action getFillSameSpotsReportButton() {
+		if(this.fillSameSpotsReportAction == null) {
+			this.fillSameSpotsReportAction =
+				new ExtendedAbstractAction(
+					"Fill SameSpots report", Icons.ICON_EDIT_16, 
+					this::fillSameSpotsReport
+				);
+		}
+		this.fillSameSpotsReportAction.setEnabled(false);
+		return this.fillSameSpotsReportAction;
+	}
+
+	private void fillSameSpotsReport() {
+		FillSameSpotsReportDialog dialog =
+			new FillSameSpotsReportDialog(getDialogParent());
+		dialog.setVisible(true);
+		if (!dialog.isCanceled()) {
+			fillSameSpotsReport(
+				dialog.getSelectedFile(), dialog.getSelectedConfiguration());
+		}
+	}
+
+	private void fillSameSpotsReport(File reportDirectory,
+		SameSpotsReportFileWriterConfiguration configuration
+	) {
+		try {
+			SameSpotsReportFileWriter.writeReportDirectory(
+				this.mascotIdentifications.get(), reportDirectory, configuration);
+
+			showMessageDialog(this,
+				"Reports at " + reportDirectory
+				+ " has been successfully processed",
+				"Success", INFORMATION_MESSAGE);
+		} catch (IOException e) {
+			showMessageDialog(this, "An error ocurred writing report files",
+				"Error", ERROR_MESSAGE);
+		}
 	}
 
 	private JPanel getConditionFilteringPanel() {
