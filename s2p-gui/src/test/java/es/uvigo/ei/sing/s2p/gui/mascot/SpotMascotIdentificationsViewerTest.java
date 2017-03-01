@@ -29,8 +29,8 @@ public class SpotMascotIdentificationsViewerTest {
 		Map<String, MascotIdentifications> join = 
 			SpotMascotEntryPositionJoiner.join(posToSpot, entries);
 	
-		MascotIdentificationsTable table =
-			new MascotIdentificationsTable(join.keySet(), join);
+		SpotMascotIdentificationsTable table =
+			new SpotMascotIdentificationsTable(join.keySet(), join);
 		
 		showComponent(new JScrollPane(table), JFrame.MAXIMIZED_BOTH);
 	}

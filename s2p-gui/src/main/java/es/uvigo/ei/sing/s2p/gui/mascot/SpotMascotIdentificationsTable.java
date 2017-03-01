@@ -35,13 +35,13 @@ import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 import es.uvigo.ei.sing.s2p.gui.table.ExtendedCsvTable;
 
-public class MascotIdentificationsTable extends ExtendedCsvTable {
+public class SpotMascotIdentificationsTable extends ExtendedCsvTable {
 	private static final long serialVersionUID = 1L;
 
-	public MascotIdentificationsTable(Set<String> spots,
+	public SpotMascotIdentificationsTable(Set<String> spots,
 		Map<String, MascotIdentifications> spotIdentifications
 	) {
-		super(new MascotIdentificationsTableModel(spots, spotIdentifications));
+		super(new SpotMascotIdentificationsTableModel(spots, spotIdentifications));
 		
 		this.initComponent();
 	}

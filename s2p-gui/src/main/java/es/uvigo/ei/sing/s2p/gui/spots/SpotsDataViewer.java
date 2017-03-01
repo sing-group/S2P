@@ -86,7 +86,7 @@ import es.uvigo.ei.sing.s2p.gui.components.dialog.ConditionSelectionDialog;
 import es.uvigo.ei.sing.s2p.gui.event.ProteinDataComparisonEvent;
 import es.uvigo.ei.sing.s2p.gui.event.ProteinDataComparisonListener;
 import es.uvigo.ei.sing.s2p.gui.mascot.LoadMascotIdentificationsDialog;
-import es.uvigo.ei.sing.s2p.gui.mascot.MascotIdentificationsDialog;
+import es.uvigo.ei.sing.s2p.gui.mascot.SpotMascotIdentificationsDialog;
 import es.uvigo.ei.sing.s2p.gui.mascot.MascotIdentificationsSummaryDialog;
 import es.uvigo.ei.sing.s2p.gui.samespots.FillSameSpotsReportDialog;
 import es.uvigo.ei.sing.s2p.gui.samples.SampleComparisonView;
@@ -497,7 +497,7 @@ public class SpotsDataViewer extends JPanel implements
 	}
 
 	private void showProteinIdentifications() {
-		MascotIdentificationsDialog dialog = new MascotIdentificationsDialog(
+		SpotMascotIdentificationsDialog dialog = new SpotMascotIdentificationsDialog(
 			getDialogParent(), getVisibleSpots(), mascotIdentifications.get());
 		dialog.setVisible(true);
 	}

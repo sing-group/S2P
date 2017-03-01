@@ -33,18 +33,18 @@ import javax.swing.JScrollPane;
 import es.uvigo.ei.sing.hlfernandez.dialog.AbstractInputJDialog;
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 
-public class MascotIdentificationsDialog extends AbstractInputJDialog {
+public class SpotMascotIdentificationsDialog extends AbstractInputJDialog {
 	private static final long serialVersionUID = 1L;
 	
-	private MascotIdentificationsTable table;
+	private SpotMascotIdentificationsTable table;
 	private JPanel inputComponents;
 	
-	public MascotIdentificationsDialog(Window parent, Set<String> spots,
+	public SpotMascotIdentificationsDialog(Window parent, Set<String> spots,
 			Map<String, MascotIdentifications> spotIdentifications
 		) {
 		super(parent);
 		
-		this.table = new MascotIdentificationsTable(spots, spotIdentifications);
+		this.table = new SpotMascotIdentificationsTable(spots, spotIdentifications);
 		this.configureDialog();
 	}
 	

@@ -32,12 +32,12 @@ import javax.swing.table.AbstractTableModel;
 
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 
-public class MascotIdentificationsTableModel extends AbstractTableModel {
+public class SpotMascotIdentificationsTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
-	
+
 	private static final Map<Integer, String> TABLE_FIELDS = 
 		new HashMap<Integer, String>();
-		
+
 	static {
 		TABLE_FIELDS.put(0, "Spot");
 		TABLE_FIELDS.put(1, "Protein");
@@ -51,12 +51,12 @@ public class MascotIdentificationsTableModel extends AbstractTableModel {
 		TABLE_FIELDS.put(9, "pI value");
 		TABLE_FIELDS.put(10, "Source");
 	}
-	
+
 	private Set<String> spots;
 	private Map<String, MascotIdentifications> spotIdentifications;
 	private List<Object[]> rows = new LinkedList<Object[]>();
 
-	public MascotIdentificationsTableModel(Set<String> spots,
+	public SpotMascotIdentificationsTableModel(Set<String> spots,
 		Map<String, MascotIdentifications> spotIdentifications
 	) {
 		this.spots = spots;
