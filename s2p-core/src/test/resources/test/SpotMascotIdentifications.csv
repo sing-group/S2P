@@ -1,0 +1,5 @@
+Spot,Title,Plate position,Score,Difference,MS Coverage,Protein MW,Method,pI-Value,Accession,Source
+1,Gelsolin,A1,247,54,45,86043.0000,50ppm_BladderCancer,5.9000,GELS_HUMAN,MascotProject.BTR.HTM
+1,Serum albumin,A1,193,54,49,71317.0000,50ppm_BladderCancer,5.8800,ALBU_HUMAN,MascotProject.BTR.HTM
+2,Gelsolin,A2,246,54,45,86043.0000,50ppm_BladderCancer,5.9000,GELS_HUMAN,MascotProject.BTR.HTM
+2,Serum albumin,A2,192,54,49,71317.0000,50ppm_BladderCancer,5.8800,ALBU_HUMAN,MascotProject.BTR.HTM

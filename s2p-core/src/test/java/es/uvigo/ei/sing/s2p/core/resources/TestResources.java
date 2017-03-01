@@ -57,6 +57,9 @@ public class TestResources {
 	public static final File MASCOT_PROJECT_FULL =
 		loadResource("/real/2016.07.21_BladderCancerProject.BTR.HTM");
 
+	public static final File MASCOT_SPOT_CSV =
+		loadResource("/test/SpotMascotIdentifications.csv");
+
 	public static final File SAMESPOTS_TINY_FILE =
 		loadResource("/test/samespots-report/SameSpotsTiny.htm");
 
