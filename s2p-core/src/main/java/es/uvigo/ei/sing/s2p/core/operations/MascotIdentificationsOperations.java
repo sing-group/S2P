@@ -22,8 +22,15 @@
  */
 package es.uvigo.ei.sing.s2p.core.operations;
 
+import static java.lang.Integer.valueOf;
 import static java.util.stream.Collectors.toList;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+
+import es.uvigo.ei.sing.s2p.core.entities.MascotEntry;
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 
 public class MascotIdentificationsOperations {
@@ -44,5 +51,49 @@ public class MascotIdentificationsOperations {
 		return new MascotIdentifications(
 			mascotIdentifications.stream().distinct().collect(toList())
 		);
+	}
+
+	public static MascotIdentifications removeDuplicatedProteinNames(
+		MascotIdentifications identifications
+	) {
+		Map<String, MascotIdentifications> proteinNamesToIdentifications = 
+			getProteinNamesMap(identifications);
+
+		proteinNamesToIdentifications.values()
+			.forEach(MascotIdentificationsOperations::sortByMascotScore);
+
+		return new MascotIdentifications(
+			proteinNamesToIdentifications.values().stream()
+			.map(m -> m.get(0)).collect(toList())
+		);
+	}
+
+	private static Map<String, MascotIdentifications> getProteinNamesMap(
+		MascotIdentifications identifications
+	) {
+		Map<String, MascotIdentifications> proteinNamesToIdentifications =
+			new HashMap<>();
+
+		for(MascotEntry identification : identifications) {
+			proteinNamesToIdentifications.putIfAbsent(
+				identification.getTitle(), new MascotIdentifications());
+			proteinNamesToIdentifications.get(identification.getTitle())
+				.add(identification);
+		}
+
+		return proteinNamesToIdentifications;
+	}
+
+	private static void sortByMascotScore(
+			MascotIdentifications identifications
+	) {
+		Collections.sort(identifications, new Comparator<MascotEntry>() {
+
+			@Override
+			public int compare(MascotEntry o1, MascotEntry o2) {
+				return valueOf(o2.getMascotScore())
+						.compareTo(valueOf(o1.getMascotScore()));
+			}
+		});
 	}
 }
