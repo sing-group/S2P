@@ -105,7 +105,19 @@
 				help="load.identifications"
 			/>
 		</extension>
-		
+
+		<extension
+			uid="aibench.core" name="aibench.core.operation-definition"
+			class="es.uvigo.ei.sing.s2p.aibench.operations.LoadSpotMascotIdentificationsCsvFile"
+		>
+			<operation-description
+				name="Load spots identifications"
+				uid="operations.loadspotmascotidentifications"
+				path="3@Load"
+				help="load.identifications"
+			/>
+		</extension>
+
 		<extension
 			uid="aibench.core" name="aibench.core.operation-definition"
 			class="es.uvigo.ei.sing.s2p.aibench.operations.ImportMaldiPlate"
@@ -199,6 +211,12 @@
 				help="es.uvigo.ei.sing.s2p.aibench.datatypes.MascotIdentificationsDatatype"
 			/>
 			<view
+				name="Spots Mascot identifications viewer"
+				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.SpotMascotIdentificationsDatatype"
+				class="es.uvigo.ei.sing.s2p.aibench.views.SpotMascotIdentificationsDatatypeView"
+				help="es.uvigo.ei.sing.s2p.aibench.datatypes.SpotMascotIdentificationsDatatype"
+			/>
+			<view
 				name="Mascot quantifications viewer"
 				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.QuantificationDatasetDatatype"
 				class="es.uvigo.ei.sing.s2p.aibench.views.QuantificationDatasetView"
@@ -226,6 +244,10 @@
 		    <gui-operation
 		    	operation="operations.loadmascotidentifications"
 		    	class="es.uvigo.ei.sing.s2p.aibench.operations.dialogs.LoadMascotCsvFileDialog"
+		    />
+		    <gui-operation
+				operation="operations.loadspotmascotidentifications"
+				class="es.uvigo.ei.sing.s2p.aibench.operations.dialogs.LoadSpotMascotIdentificationsCsvFileDialog"
 		    />
 		    <gui-operation
 		    	operation="operations.importsamespotscsvfiles"
@@ -301,6 +323,15 @@
 			/>
 
 			<icon-operation
+				operation="operations.loadspotmascotidentifications"
+				icon="icons/loadspotmascotidentifications.png"
+			/>
+			<big-icon-operation
+				operation="operations.loadspotmascotidentifications"
+				icon="icons/loadspotmascotidentifications.png"
+			/>
+
+			<icon-operation
 				operation="operations.importmaldiplate"
 				icon="icons/importmaldiplate.png"
 			/>
@@ -364,6 +395,10 @@
 			/>
 			<icon-datatype
 				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.MascotIdentificationsDatatype"
+				icon="icons/mascotdatatype.png"
+			/>
+			<icon-datatype
+				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.SpotMascotIdentificationsDatatype"
 				icon="icons/mascotdatatype.png"
 			/>
 			<icon-datatype
