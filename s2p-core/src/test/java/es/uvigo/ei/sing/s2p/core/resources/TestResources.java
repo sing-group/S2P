@@ -57,6 +57,15 @@ public class TestResources {
 	public static final File MASCOT_PROJECT_FULL =
 		loadResource("/real/2016.07.21_BladderCancerProject.BTR.HTM");
 
+	public static final File SAMESPOTS_TINY_FILE =
+		loadResource("/test/samespots-report/SameSpotsTiny.htm");
+
+	public static final File SAMESPOTS_TINY_FILE_WITH_IDENTIFICATIONS =
+		loadResource("/test/samespots-report/SameSpotsTinyWithIdentifications.htm");
+
+	public static final File SAMESPOTS_TINY_FILE_WITH_IDENTIFICATIONS_EXCLUDE_SPOTS =
+		loadResource("/test/samespots-report/SameSpotsTinyWithIdentifications_ExcludingSpots.htm");
+
 	public static final File SAMESPOTS_FILE =
 		loadResource("/real/SameSpots.htm");
 	
