@@ -80,7 +80,7 @@ public class MascotIdentificationsTableModel extends AbstractTableModel {
 				row[7] = identification.getMethod();
 				row[8] = new Double(identification.getProteinMW());
 				row[9] = new Double(identification.getpIValue());
-				row[10] = identification.getSource().getName();
+				row[10] = identification.getSource();
 				rows.add(row);
 			});
 		});

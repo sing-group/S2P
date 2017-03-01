@@ -22,8 +22,15 @@
  */
 package es.uvigo.ei.sing.s2p.gui.mascot;
 
+import java.awt.Component;
+import java.io.File;
 import java.util.Map;
 import java.util.Set;
+
+import javax.swing.JLabel;
+import javax.swing.JTable;
+
+import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 import es.uvigo.ei.sing.s2p.gui.table.ExtendedCsvTable;
@@ -45,5 +52,27 @@ public class MascotIdentificationsTable extends ExtendedCsvTable {
 		this.getRowSorter().toggleSortOrder(3);
 		this.getRowSorter().toggleSortOrder(3);
 		this.addExportToCsvAction();
+		this.setDefaultRenderer(File.class, new FileCellRenderer());
+	}
+
+	private class FileCellRenderer extends DefaultTableRenderer {
+		private static final long serialVersionUID = 1L;
+
+		public Component getTableCellRendererComponent(JTable table,
+			Object value, boolean isSelected, boolean hasFocus, int row,
+			int column
+		) {
+			final Component c = super.getTableCellRendererComponent(
+				table, value, isSelected, hasFocus, row, column
+			);
+
+			if (c instanceof JLabel && value instanceof File) {
+				JLabel label = (JLabel) c;
+				label.setText(((File) value).getName());
+				label.setToolTipText(((File) value).getAbsolutePath());
+			}
+
+			return c;
+		}
 	}
 }
