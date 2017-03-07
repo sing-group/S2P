@@ -33,7 +33,7 @@ public class MascotIdentificationsOperations {
 	) {
 		return new MascotIdentifications(
 			mascotIdentifications.stream()
-			.filter(e -> e.getMascotScore() > mascotScore)
+			.filter(e -> e.getMascotScore() >= mascotScore)
 			.collect(toList())
 		);
 	}

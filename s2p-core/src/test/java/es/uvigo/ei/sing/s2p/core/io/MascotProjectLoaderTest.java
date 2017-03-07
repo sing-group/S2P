@@ -81,15 +81,14 @@ public class MascotProjectLoaderTest {
 	
 	@Test
 	public void mascotProjectLoaderTest3() throws IOException {
-		MascotIdentifications entries = load(MASCOT_PROJECT_FULL, 500, false);
+		MascotIdentifications entries = load(MASCOT_PROJECT_FULL, 541, false);
 		
 		assertEquals(2, entries.size());
 	}
 	
 	@Test
 	public void mascotProjectLoaderTest4() throws IOException {
-		MascotIdentifications entries = load(MASCOT_PROJECT_FULL, 500, true);
-		
+		MascotIdentifications entries = load(MASCOT_PROJECT_FULL, 541, true);
 		assertEquals(1, entries.size());
 	}
 }

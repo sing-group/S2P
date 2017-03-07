@@ -75,7 +75,7 @@ public class MascotProjectLoader {
 			try {
 				MascotEntry entry = createMascotEntry(tds, toret, lastColumnValues, file);
 
-				if (entry.getMascotScore() > minScore) {
+				if (entry.getMascotScore() >= minScore) {
 					toret.add(entry);
 				}
 			} catch (NullPointerException e) {

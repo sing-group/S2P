@@ -60,7 +60,13 @@ public class MascotCsvLoaderTest {
 
 	@Test
 	public void mascotProjectLoaderTest2() throws IOException {
-		MascotIdentifications entries = load(MASCOT_CSV, CSV_FORMAT, 200, true);
+		MascotIdentifications entries = load(MASCOT_CSV, CSV_FORMAT, 247, true);
 		assertEquals(new MascotIdentifications(asList(FIRST)), entries);
+	}
+
+	@Test
+	public void mascotProjectLoaderTest3() throws IOException {
+		MascotIdentifications entries = load(MASCOT_CSV, CSV_FORMAT, 248, true);
+		assertEquals(0, entries.size());
 	}
 }
