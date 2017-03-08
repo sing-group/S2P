@@ -43,12 +43,20 @@ public class ProteinSummary {
 		return this.proteinValuesStatistics.getStandardDeviation();
 	}
 
+	public double getProteinValueRsd() {
+		return getProteinValueStd() / getProteinValueMean();
+	}	
+
 	public double getNormalizedProteinValueMean() {
 		return this.normalizedProteinValuesStatistics.getMean();
 	}
 	
 	public double getNormalizedProteinValueStd() {
 		return this.normalizedProteinValuesStatistics.getStandardDeviation();
+	}
+
+	public double getNormalizedProteinValueRsd() {
+		return getNormalizedProteinValueStd() / getNormalizedProteinValueMean();
 	}
 
 	public double getPop() {

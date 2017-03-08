@@ -23,6 +23,7 @@
 package es.uvigo.ei.sing.s2p.core.io.quantification.operations;
 
 import static es.uvigo.ei.sing.s2p.core.io.quantification.operations.QuantificationConditionsResources.DATASET;
+import static es.uvigo.ei.sing.s2p.core.io.quantification.operations.QuantificationConditionsResources.DATASET_2;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
@@ -33,6 +34,8 @@ import es.uvigo.ei.sing.s2p.core.entities.quantification.ProteinSummary;
 import es.uvigo.ei.sing.s2p.core.entities.quantification.QuantificationCondition;
 import es.uvigo.ei.sing.s2p.core.entities.quantification.QuantificationConditionSummary;
 import es.uvigo.ei.sing.s2p.core.entities.quantification.QuantificationConditionsSummary;
+import es.uvigo.ei.sing.s2p.core.entities.quantification.QuantificationDataset;
+import es.uvigo.ei.sing.s2p.core.operations.quantification.GlobalNormalizationStrategy;
 import es.uvigo.ei.sing.s2p.core.operations.quantification.QuantificationConditionsSummarizer;
 
 public class QuantificationConditionsSummarizerTest {
@@ -58,5 +61,25 @@ public class QuantificationConditionsSummarizerTest {
 		assertEquals(1, p2Summary.getNumReplicates());
 		assertEquals(2d, p2Summary.getProteinValueMean(), 0.0);
 		assertEquals(2d, p2Summary.getNormalizedProteinValueMean(), 0.0);
+	}
+	
+	@Test
+	public void testEqualRsdWithGlobalNormalization() {
+		QuantificationDataset dataset = new QuantificationDataset(
+			new GlobalNormalizationStrategy().normalize(DATASET_2));
+
+		QuantificationConditionsSummary summary =
+			QuantificationConditionsSummarizer.summary(dataset);
+
+		summary.entrySet().forEach(e -> {
+			e.getValue().entrySet().forEach(qS -> {
+				ProteinSummary proteinSummary = qS.getValue();
+				assertEquals(
+					proteinSummary.getNormalizedProteinValueRsd(), 
+					proteinSummary.getProteinValueRsd(), 
+					0.0001d
+				);
+			});
+		});
 	}
 }

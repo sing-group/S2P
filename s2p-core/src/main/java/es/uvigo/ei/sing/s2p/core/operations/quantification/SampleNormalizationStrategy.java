@@ -1,5 +1,6 @@
 package es.uvigo.ei.sing.s2p.core.operations.quantification;
 
+import static es.uvigo.ei.sing.s2p.core.operations.quantification.NormalizationUtils.getTotalProteinValue;
 import static java.util.stream.Collectors.toList;
 
 import java.util.List;
@@ -17,25 +18,10 @@ public class SampleNormalizationStrategy implements NormalizationStrategy {
 				.collect(toList());
 	}
 
-	private static final QuantificationSample normalizeSample(QuantificationSample sample) {
-		double totalSampleAmount = NormalizationUtils.getTotalProteinValue(sample);
-		if(sample.getCondition().isPresent()) {
-		return 	new QuantificationSample(
-					sample.getName(),
-					sample.getCondition().get(),
-					sample.getReplicates().stream()
-						.map(r -> {return NormalizationUtils.normalizeReplicate(r, totalSampleAmount);})
-						.collect(toList()),
-					sample.getProteinMass()
-				);
-		} else {
-			return 	new QuantificationSample(
-					sample.getName(),
-					sample.getReplicates().stream()
-						.map(r -> {return NormalizationUtils.normalizeReplicate(r, totalSampleAmount);})
-						.collect(toList()),
-					sample.getProteinMass()
-				);
-		}
+	private static final QuantificationSample normalizeSample(
+		QuantificationSample sample
+	) {
+		double totalSampleAmount = getTotalProteinValue(sample);
+		return NormalizationUtils.normalizeSample(sample, totalSampleAmount);
 	}
 }

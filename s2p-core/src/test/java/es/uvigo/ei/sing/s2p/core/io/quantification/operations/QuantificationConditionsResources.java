@@ -40,5 +40,82 @@ public class QuantificationConditionsResources {
 				))
 			), 1d)
 		)
+	);
+	
+	public static final QuantificationDataset DATASET_2 = 
+		new QuantificationDataset(asList(
+			new QuantificationSample("Sample 1", "A", asList(
+				new QuantificationReplicate(asList(
+					new DefaultProteinQuantification("P1", EMPAI, 1.1d),
+					new DefaultProteinQuantification("P2", EMPAI, 1.2d),
+					new DefaultProteinQuantification("P3", EMPAI, 1.3d)
+				)),
+				new QuantificationReplicate(asList(
+					new DefaultProteinQuantification("P1", EMPAI, 1.1d),
+					new DefaultProteinQuantification("P2", EMPAI, 1.2d),
+					new DefaultProteinQuantification("P3", EMPAI, 1.3d)
+				))
+			), 1d),
+			new QuantificationSample("Sample 2", "A",asList(
+				new QuantificationReplicate(asList(
+					new DefaultProteinQuantification("P1", EMPAI, 2.1d),
+					new DefaultProteinQuantification("P2", EMPAI, 2.2d),
+					new DefaultProteinQuantification("P3", EMPAI, 2.3d)
+				)),
+				new QuantificationReplicate(asList(
+					new DefaultProteinQuantification("P1", EMPAI, 2.1d),
+					new DefaultProteinQuantification("P2", EMPAI, 2.2d),
+					new DefaultProteinQuantification("P3", EMPAI, 2.3d)
+				))
+			), 1d),
+			new QuantificationSample("Sample 3", "A",asList(
+				new QuantificationReplicate(asList(
+					new DefaultProteinQuantification("P1", EMPAI, 3.1d),
+					new DefaultProteinQuantification("P2", EMPAI, 3.2d),
+					new DefaultProteinQuantification("P3", EMPAI, 3.3d)
+				)),
+				new QuantificationReplicate(asList(
+					new DefaultProteinQuantification("P1", EMPAI, 3.1d),
+					new DefaultProteinQuantification("P2", EMPAI, 3.2d),
+					new DefaultProteinQuantification("P3", EMPAI, 3.3d)
+				))
+			), 1d),
+			new QuantificationSample("Sample 1.B", "B", asList(
+				new QuantificationReplicate(asList(
+					new DefaultProteinQuantification("P1", EMPAI, 1.1d),
+					new DefaultProteinQuantification("P2", EMPAI, 1.2d),
+					new DefaultProteinQuantification("P3", EMPAI, 1.3d)
+				)),
+				new QuantificationReplicate(asList(
+					new DefaultProteinQuantification("P1", EMPAI, 1.1d),
+					new DefaultProteinQuantification("P2", EMPAI, 1.2d),
+					new DefaultProteinQuantification("P3", EMPAI, 1.3d)
+				))
+			), 1d),
+			new QuantificationSample("Sample 2.B", "B",asList(
+				new QuantificationReplicate(asList(
+					new DefaultProteinQuantification("P1", EMPAI, 2.1d),
+					new DefaultProteinQuantification("P2", EMPAI, 2.2d),
+					new DefaultProteinQuantification("P3", EMPAI, 2.3d)
+				)),
+				new QuantificationReplicate(asList(
+					new DefaultProteinQuantification("P1", EMPAI, 2.1d),
+					new DefaultProteinQuantification("P2", EMPAI, 2.2d),
+					new DefaultProteinQuantification("P3", EMPAI, 2.3d)
+				))
+			), 1d),
+			new QuantificationSample("Sample 3.B", "B",asList(
+				new QuantificationReplicate(asList(
+					new DefaultProteinQuantification("P1", EMPAI, 3.1d),
+					new DefaultProteinQuantification("P2", EMPAI, 3.2d),
+					new DefaultProteinQuantification("P3", EMPAI, 3.3d)
+				)),
+				new QuantificationReplicate(asList(
+					new DefaultProteinQuantification("P1", EMPAI, 3.1d),
+					new DefaultProteinQuantification("P2", EMPAI, 3.2d),
+					new DefaultProteinQuantification("P3", EMPAI, 3.3d)
+				))
+			), 1d)
+		)
 	);	
 }

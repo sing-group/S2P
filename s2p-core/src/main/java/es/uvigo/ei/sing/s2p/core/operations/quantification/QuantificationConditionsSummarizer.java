@@ -78,7 +78,7 @@ public class QuantificationConditionsSummarizer {
 				}
 			});
 		});
-		
+
 		return new ProteinSummary(
 			replicatesCount.intValue(), proteinValues, proteinNormalizedValues);
 	}
