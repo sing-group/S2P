@@ -145,6 +145,8 @@ public class ExtendedCsvTable extends CSVTable {
 		
 		Object[][] data = getData(visibleRows, visibleColumns);
 		
+		csvFormat.setDecimalFormatterMaximumFractionDigits(Integer.MAX_VALUE);
+
 		CsvWriter csvWriter = CsvWriter.of(csvFormat);
 		csvWriter.write(data, headerData, file);
 	}
