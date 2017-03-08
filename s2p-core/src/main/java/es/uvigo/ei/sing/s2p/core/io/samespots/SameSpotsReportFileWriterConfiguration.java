@@ -9,6 +9,11 @@ public class SameSpotsReportFileWriterConfiguration {
 	public static final boolean DEFAULT_INCLUDE_TITLE = true;
 	public static final boolean DEFAULT_INCLUDE_PI_VALUE = true;
 	public static final boolean DEFAULT_INCLUDE_PROTEIN_MW = true;
+	public static final boolean DEFAULT_INCLUDE_DIFFERENCE = false;
+	public static final boolean DEFAULT_INCLUDE_MS_COVERAGE = false;
+	public static final boolean DEFAULT_INCLUDE_PLATE_POS = false;
+	public static final boolean DEFAULT_INCLUDE_SOURCE = false;
+	public static final boolean DEFAULT_INCLUDE_METHOD = false;
 	public static final boolean DEFAULT_INCLUDE_SPOTS_WITHOUT_IDENTIFICATIONS = true;
 	public static final boolean DEFAULT_REMOVE_DUPLICATED_PROTEIN_NAMES = false;
 	
@@ -17,33 +22,44 @@ public class SameSpotsReportFileWriterConfiguration {
 	private boolean includeTitle = DEFAULT_INCLUDE_TITLE;
 	private boolean includePiValue = DEFAULT_INCLUDE_PI_VALUE;
 	private boolean includeProteinMw = DEFAULT_INCLUDE_PROTEIN_MW;
+	private boolean isIncludeDifference = DEFAULT_INCLUDE_DIFFERENCE;
+	private boolean isIncludeMsCoverage = DEFAULT_INCLUDE_MS_COVERAGE;
+	private boolean isIncludePlatePosition = DEFAULT_INCLUDE_PLATE_POS;
+	private boolean isIncludeSource = DEFAULT_INCLUDE_SOURCE;
+	private boolean isIncludeMethod = DEFAULT_INCLUDE_METHOD;
 	private boolean includeSpotsWithoutIdentifications = DEFAULT_INCLUDE_SPOTS_WITHOUT_IDENTIFICATIONS;
 	private boolean includeRemoveDuplicatedProteinNames = DEFAULT_REMOVE_DUPLICATED_PROTEIN_NAMES;
 	private boolean overwriteOriginalReport = DEFAULT_REPORT_OVERWRITE;
 	private String reportSuffix = DEFAULT_REPORT_SUFFIX;
 
 	public SameSpotsReportFileWriterConfiguration() {
-
 	}
 
-	public SameSpotsReportFileWriterConfiguration(boolean includeMascotScore,
-		boolean includeAccession, boolean includeTitle,
-		boolean includePiValue, boolean includeProteinMw, 
-		boolean includeSpotsWithoutIdentifications,
-		boolean removeDuplicatedProteinNames
-	) {
-		this(includeMascotScore, includeAccession, includeTitle, includePiValue,
-			includeProteinMw, includeSpotsWithoutIdentifications,
-			removeDuplicatedProteinNames, DEFAULT_REPORT_OVERWRITE,
-			DEFAULT_REPORT_SUFFIX
-		);
-	}
-	
 	public SameSpotsReportFileWriterConfiguration(boolean includeMascotScore,
 		boolean includeAccession, boolean includeTitle,
 		boolean includePiValue, boolean includeProteinMw, 
 		boolean includeSpotsWithoutIdentifications,
 		boolean removeDuplicatedProteinNames,
+		boolean isIncludeMethod, boolean isIncludeMsCoverage,
+		boolean isIncludePlatePosition, boolean isIncludeSource,
+		boolean isIncludeDifference
+	) {
+		this(includeMascotScore, includeAccession, includeTitle, includePiValue,
+			includeProteinMw, includeSpotsWithoutIdentifications,
+			removeDuplicatedProteinNames, isIncludeMethod,
+			isIncludeMsCoverage, isIncludePlatePosition, isIncludeSource,
+			isIncludeDifference, DEFAULT_REPORT_OVERWRITE,
+			DEFAULT_REPORT_SUFFIX
+		);
+	}
+	public SameSpotsReportFileWriterConfiguration(boolean includeMascotScore,
+		boolean includeAccession, boolean includeTitle,
+		boolean includePiValue, boolean includeProteinMw, 
+		boolean includeSpotsWithoutIdentifications,
+		boolean removeDuplicatedProteinNames,
+		boolean isIncludeMethod, boolean isIncludeMsCoverage, 
+		boolean isIncludePlatePosition, boolean isIncludeSource,
+		boolean isIncludeDifference,
 		boolean overwriteOriginalReport, String reportSuffix
 	) {
 		this.includeMascotScore = includeMascotScore;
@@ -55,6 +71,11 @@ public class SameSpotsReportFileWriterConfiguration {
 		this.includeRemoveDuplicatedProteinNames = removeDuplicatedProteinNames;
 		this.overwriteOriginalReport = overwriteOriginalReport;
 		this.reportSuffix = reportSuffix;
+		this.isIncludeMethod = isIncludeMethod;
+		this.isIncludeMsCoverage = isIncludeMsCoverage;
+		this.isIncludePlatePosition = isIncludePlatePosition;
+		this.isIncludeSource = isIncludeSource;
+		this.isIncludeDifference = isIncludeDifference;
 	}
 
 	public boolean isIncludeMascotScore() {
@@ -91,5 +112,29 @@ public class SameSpotsReportFileWriterConfiguration {
 
 	public String getReportSuffix() {
 		return reportSuffix;
+	}
+
+	public boolean isIncludeDifference() {
+		return isIncludeDifference;
+	}
+
+	public boolean isIncludeMsCoverage() {
+		return isIncludeMsCoverage;
+	}
+
+	public boolean isIncludeRemoveDuplicatedProteinNames() {
+		return includeRemoveDuplicatedProteinNames;
+	}
+
+	public boolean isIncludePlatePosition() {
+		return isIncludePlatePosition;
+	}
+
+	public boolean isIncludeSource() {
+		return isIncludeSource;
+	}
+
+	public boolean isIncludeMethod() {
+		return isIncludeMethod;
 	}
 }

@@ -101,4 +101,10 @@ public class FillSameSpotsReportDialog extends AbstractFileInputJDialog {
 	public File getSelectedFile() {
 		return this.fileChooserPanel.getSelectedFile();
 	}
+	
+	@Override
+	public void setVisible(boolean b) {
+		this.pack();
+		super.setVisible(b);
+	}
 }

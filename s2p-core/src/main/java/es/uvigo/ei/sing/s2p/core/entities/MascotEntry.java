@@ -26,6 +26,16 @@ import java.io.File;
 import java.util.Objects;
 
 public class MascotEntry {
+	public static final String LABEL_TITLE 			= "Protein name";
+	public static final String LABEL_PLATE_POSITION = "Plate position";
+	public static final String LABEL_SCORE 			= "Mascot score";
+	public static final String LABEL_DIFFERENCE 	= "Difference";
+	public static final String LABEL_MS_COVERAGE 	= "MS Coverage";
+	public static final String LABEL_PROTEIN_MW 	= "Protein MW";
+	public static final String LABEL_METHOD 		= "Method";
+	public static final String LABEL_PI_VALUE 		= "pI-Value";
+	public static final String LABEL_ACCESSION 		= "Accession";
+	public static final String LABEL_SOURCE 		= "Source";
 
 	private String title;
 	private String platePosition;

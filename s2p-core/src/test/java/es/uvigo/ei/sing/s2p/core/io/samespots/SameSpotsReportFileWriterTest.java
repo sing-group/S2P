@@ -54,11 +54,7 @@ public class SameSpotsReportFileWriterTest {
 		SameSpotsReportFileWriter.writeReportFile(
 			new SpotMascotIdentifications(IDENTIFICATIONS_A_MAP),
 			SAMESPOTS_TINY_FILE,
-			new SameSpotsReportFileWriterConfiguration(
-				true, true, true, true, true, 
-				true, /** Include spots without identifications **/ 
-				false
-			), 
+			new SameSpotsReportFileWriterConfiguration(),
 			tmpReportFile);
 
 		assertThat(
@@ -66,7 +62,7 @@ public class SameSpotsReportFileWriterTest {
 			hasEqualFileContent(SAMESPOTS_TINY_FILE_WITH_IDENTIFICATIONS)
 		);
 	}
-	
+
 	@Test
 	public void testExcludeSportReportsWithoutIdentifications() 
 		throws IOException {
@@ -79,7 +75,7 @@ public class SameSpotsReportFileWriterTest {
 			new SameSpotsReportFileWriterConfiguration(
 				true, true, true, true, true,
 				false, /** Exclude spots without identifications **/ 
-				false
+				false, false, false, false, false ,false
 			), 
 			tmpReportFile);
 

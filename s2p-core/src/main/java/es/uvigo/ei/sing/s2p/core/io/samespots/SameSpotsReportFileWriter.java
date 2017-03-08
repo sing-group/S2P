@@ -1,5 +1,11 @@
 package es.uvigo.ei.sing.s2p.core.io.samespots;
 
+import static es.uvigo.ei.sing.s2p.core.entities.MascotEntry.LABEL_DIFFERENCE;
+import static es.uvigo.ei.sing.s2p.core.entities.MascotEntry.LABEL_METHOD;
+import static es.uvigo.ei.sing.s2p.core.entities.MascotEntry.LABEL_MS_COVERAGE;
+import static es.uvigo.ei.sing.s2p.core.entities.MascotEntry.LABEL_PLATE_POSITION;
+import static es.uvigo.ei.sing.s2p.core.entities.MascotEntry.LABEL_SCORE;
+import static es.uvigo.ei.sing.s2p.core.entities.MascotEntry.LABEL_SOURCE;
 import static es.uvigo.ei.sing.s2p.core.operations.MascotIdentificationsOperations.removeDuplicatedProteinNames;
 import static es.uvigo.ei.sing.s2p.core.util.FileUtils.getAvailableFileAtDirectory;
 import static es.uvigo.ei.sing.s2p.core.util.FileUtils.removeExtension;
@@ -11,6 +17,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.StringJoiner;
 import java.util.function.Function;
 
 import org.jsoup.nodes.Document;
@@ -189,9 +196,7 @@ public class SameSpotsReportFileWriter {
 			.append(tds.get(3).html())
 			.append(TD_CLOSE)
 			.append(TD_ALIGN_LEFT)
-			.append(configuration.isIncludeMascotScore() ? 
-					"Mascot score = "+ sI.getMascotScore() 
-					: "")
+			.append(notes(sI, configuration))
 			.append(TD_CLOSE)
 			.append(TD_ALIGN_RIGHT)
 			.append(tds.get(4).html())
@@ -221,6 +226,31 @@ public class SameSpotsReportFileWriter {
 				.append(TD_CLOSE);
 		}
 		reportSb.append(TR_CLOSE).append(NEW_LINE);
+	}
+
+	private static String notes(MascotEntry sI,
+		SameSpotsReportFileWriterConfiguration configuration
+	) {
+		StringJoiner joiner = new StringJoiner("; ");
+		if (configuration.isIncludeMascotScore()) {
+			joiner.add(LABEL_SCORE + " = " + sI.getMascotScore());
+		}
+		if (configuration.isIncludeDifference()) {
+			joiner.add(LABEL_DIFFERENCE + " = " + sI.getDifference());
+		}
+		if (configuration.isIncludeMsCoverage()) {
+			joiner.add(LABEL_MS_COVERAGE + " = " + sI.getMsCoverage());
+		}
+		if (configuration.isIncludePlatePosition()) {
+			joiner.add(LABEL_PLATE_POSITION + " = " + sI.getPlatePosition());
+		}
+		if (configuration.isIncludeMethod()) {
+			joiner.add(LABEL_METHOD + " = " + sI.getMethod());
+		}
+		if (configuration.isIncludeSource()) {
+			joiner.add(LABEL_SOURCE + " = " + sI.getSource().getName());
+		}
+		return joiner.toString();
 	}
 
 	private static String spotToRow(String spot) {
