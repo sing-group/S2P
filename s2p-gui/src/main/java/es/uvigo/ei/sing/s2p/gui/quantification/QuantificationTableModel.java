@@ -29,20 +29,25 @@ public class QuantificationTableModel extends DefaultTableModel {
 	private static final long serialVersionUID = 1L;
 
 	private static final int COLUMNS_PER_COMPARISON 		= 2;
-	private static final int COLUMNS_PER_SAMPLE 			= 7;
+	private static final int COLUMNS_PER_SAMPLE 			= 9;
 
 	private static final int SAMPLE_PQ_MEAN 			= 0;
 	private static final int SAMPLE_PQ_STD 				= 1;
-	private static final int SAMPLE_NORMALIZED_PQ_MEAN 	= 2;
-	private static final int SAMPLE_NORMALIZED_PQ_STD 	= 3;
-	private static final int SAMPLE_MASS_MEAN 			= 4;
-	private static final int SAMPLE_MASS_STD 			= 5;
-	private static final int SAMPLE_POP					= 6;
+	private static final int SAMPLE_PQ_RSD 				= 2;
+	private static final int SAMPLE_NORMALIZED_PQ_MEAN 	= 3;
+	private static final int SAMPLE_NORMALIZED_PQ_STD 	= 4;
+	private static final int SAMPLE_NORMALIZED_PQ_RSD 	= 5;
+	private static final int SAMPLE_MASS_MEAN 			= 6;
+	private static final int SAMPLE_MASS_STD 			= 7;
+	private static final int SAMPLE_POP					= 8;
 
 	private static final Function<DescriptiveStatistics, Double> MEAN =
 		DescriptiveStatistics::getMean;
 	private static final Function<DescriptiveStatistics, Double> STD =
 		DescriptiveStatistics::getStandardDeviation;
+	private static final Function<DescriptiveStatistics, Double> RSD = d -> {
+		return d.getStandardDeviation() / d.getMean();
+	};
 
 	private static final BiFunction<QuantificationSample, ProteinQuantification, Double> 
 		PROTEIN_MASS = (s, pQ) -> {
@@ -130,10 +135,14 @@ public class QuantificationTableModel extends DefaultTableModel {
 			return sample.getName() + " [mean PQ]" + condition;
 		case SAMPLE_PQ_STD:
 			return sample.getName() + " [std PQ]" + condition;
+		case SAMPLE_PQ_RSD:
+			return sample.getName() + " [rsd PQ]" + condition;
 		case SAMPLE_NORMALIZED_PQ_MEAN:
 			return sample.getName() + " [mean normalized PQ]" + condition;
 		case SAMPLE_NORMALIZED_PQ_STD:
 			return sample.getName() + " [std normalized PQ]" + condition;
+		case SAMPLE_NORMALIZED_PQ_RSD:
+			return sample.getName() + " [rsd normalized PQ]" + condition;
 		case SAMPLE_MASS_MEAN:
 			return sample.getName() + " [mean mass]" + condition;
 		case SAMPLE_MASS_STD:
@@ -210,10 +219,14 @@ public class QuantificationTableModel extends DefaultTableModel {
 			return getValue(sample, protein, MEAN, ProteinQuantification::getValue);
 		case SAMPLE_PQ_STD:
 			return getValue(sample, protein, STD, ProteinQuantification::getValue);
+		case SAMPLE_PQ_RSD:
+			return getValue(sample, protein, RSD, ProteinQuantification::getValue);
 		case SAMPLE_NORMALIZED_PQ_MEAN:
 			return getValue(sample, protein, MEAN, ProteinQuantification::getNormalizedValue);
 		case SAMPLE_NORMALIZED_PQ_STD:
 			return getValue(sample, protein, STD, ProteinQuantification::getNormalizedValue);
+		case SAMPLE_NORMALIZED_PQ_RSD:
+			return getValue(sample, protein, RSD, ProteinQuantification::getNormalizedValue);
 		case SAMPLE_MASS_MEAN:
 			return getValue(sample, protein, MEAN, pQ -> PROTEIN_MASS.apply(sample, pQ));
 		case SAMPLE_MASS_STD:
