@@ -18,7 +18,9 @@ import es.uvigo.ei.sing.s2p.core.entities.quantification.MascotQuantificationMet
 import es.uvigo.ei.sing.s2p.core.entities.quantification.QuantificationDataset;
 import es.uvigo.ei.sing.s2p.core.entities.quantification.QuantificationReplicate;
 import es.uvigo.ei.sing.s2p.core.entities.quantification.QuantificationSample;
+import es.uvigo.ei.sing.s2p.core.operations.quantification.DefaultNormalizationFactor;
 import es.uvigo.ei.sing.s2p.core.operations.quantification.NoNormalizationStrategy;
+import es.uvigo.ei.sing.s2p.core.operations.quantification.NormalizationFactor;
 import es.uvigo.ei.sing.s2p.core.operations.quantification.NormalizationStrategy;
 
 public class QuantificationCsvDatasetLoader {
@@ -31,17 +33,17 @@ public class QuantificationCsvDatasetLoader {
 		MascotQuantificationMethod quantificationMethod 
 	) {
 		return load(quantificationDirectory, quantificationMethod, 
-			new NoNormalizationStrategy());
+			new NoNormalizationStrategy(), new DefaultNormalizationFactor());
 	}
 	public static QuantificationDataset load(File quantificationDirectory,
 		MascotQuantificationMethod quantificationMethod, 
-		NormalizationStrategy normalizationStrategy
+		NormalizationStrategy normalizationStrategy, NormalizationFactor factor
 	) {
 		return new QuantificationDataset(
 			normalizationStrategy.normalize(loadDirectory(
 			requireDirectory(quantificationDirectory),
 			quantificationMethod, false
-		)));
+		), factor));
 	}
 
 	private static File requireDirectory(File quantificationDirectory) {

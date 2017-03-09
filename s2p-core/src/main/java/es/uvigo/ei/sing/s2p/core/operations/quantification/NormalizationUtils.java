@@ -3,8 +3,10 @@ package es.uvigo.ei.sing.s2p.core.operations.quantification;
 import static java.util.stream.Collectors.toList;
 
 import java.util.List;
+import java.util.stream.DoubleStream;
 
 import es.uvigo.ei.sing.s2p.core.entities.quantification.DefaultProteinQuantification;
+import es.uvigo.ei.sing.s2p.core.entities.quantification.ProteinQuantification;
 import es.uvigo.ei.sing.s2p.core.entities.quantification.QuantificationReplicate;
 import es.uvigo.ei.sing.s2p.core.entities.quantification.QuantificationSample;
 
@@ -65,5 +67,20 @@ public class NormalizationUtils {
 				);
 			}).collect(toList())
 		);
+	}
+
+	public static DoubleStream getProteinValues(
+			List<QuantificationSample> samples) {
+		return samples.stream().flatMapToDouble(NormalizationUtils::getProteinValues);
+	}
+
+	public static DoubleStream getProteinValues(
+			QuantificationSample sample) {
+		return sample.getReplicates().stream().flatMapToDouble(NormalizationUtils::getProteinValues);
+	}
+	
+	public static DoubleStream getProteinValues(
+			QuantificationReplicate replicate) {
+		return replicate.getProteins().stream().mapToDouble(ProteinQuantification::getValue);
 	}
 }

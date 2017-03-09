@@ -8,7 +8,7 @@ public class NoNormalizationStrategy implements NormalizationStrategy {
 
 	@Override
 	public List<QuantificationSample> normalize(
-		List<QuantificationSample> samples) {
+		List<QuantificationSample> samples, NormalizationFactor factor) {
 		return samples;
 	}
 }

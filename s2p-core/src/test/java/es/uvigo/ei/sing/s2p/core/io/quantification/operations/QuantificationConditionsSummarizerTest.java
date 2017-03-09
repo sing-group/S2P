@@ -37,6 +37,7 @@ import es.uvigo.ei.sing.s2p.core.entities.quantification.QuantificationCondition
 import es.uvigo.ei.sing.s2p.core.entities.quantification.QuantificationDataset;
 import es.uvigo.ei.sing.s2p.core.operations.quantification.GlobalNormalizationStrategy;
 import es.uvigo.ei.sing.s2p.core.operations.quantification.QuantificationConditionsSummarizer;
+import es.uvigo.ei.sing.s2p.core.operations.quantification.SumNormalizationFactor;
 
 public class QuantificationConditionsSummarizerTest {
 	
@@ -66,7 +67,7 @@ public class QuantificationConditionsSummarizerTest {
 	@Test
 	public void testEqualRsdWithGlobalNormalization() {
 		QuantificationDataset dataset = new QuantificationDataset(
-			new GlobalNormalizationStrategy().normalize(DATASET_2));
+			new GlobalNormalizationStrategy().normalize(DATASET_2, new SumNormalizationFactor()));
 
 		QuantificationConditionsSummary summary =
 			QuantificationConditionsSummarizer.summary(dataset);

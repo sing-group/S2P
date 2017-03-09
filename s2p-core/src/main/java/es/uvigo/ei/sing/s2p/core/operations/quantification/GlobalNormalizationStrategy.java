@@ -10,9 +10,11 @@ public class GlobalNormalizationStrategy implements NormalizationStrategy {
 
 	@Override
 	public List<QuantificationSample> normalize(
-		List<QuantificationSample> samples
+		List<QuantificationSample> samples, NormalizationFactor factor
 	) {
-		double totalSamplesAmount = NormalizationUtils.getTotalProteinValue(samples);
+		double totalSamplesAmount = factor.getNormalizationFactor(
+			NormalizationUtils.getProteinValues(samples));
+
 		return samples.stream()
 				.map(s -> NormalizationUtils.normalizeSample(s, totalSamplesAmount))
 				.collect(toList());

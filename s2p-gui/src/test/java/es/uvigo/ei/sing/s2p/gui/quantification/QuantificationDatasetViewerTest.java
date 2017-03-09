@@ -11,13 +11,14 @@ import es.uvigo.ei.sing.s2p.core.entities.quantification.MascotQuantificationMet
 import es.uvigo.ei.sing.s2p.core.entities.quantification.QuantificationDataset;
 import es.uvigo.ei.sing.s2p.core.io.quantification.QuantificationCsvDatasetLoader;
 import es.uvigo.ei.sing.s2p.core.operations.quantification.ReplicateNormalizationStrategy;
+import es.uvigo.ei.sing.s2p.core.operations.quantification.SumNormalizationFactor;
 
 public class QuantificationDatasetViewerTest {
 	
 	public static void main(String[] args) throws IOException {
 		QuantificationDataset dataset = QuantificationCsvDatasetLoader.load(
 			QUANTIFICATION_EMPAI_DIRECTORY, MascotQuantificationMethod.EMPAI,
-			new ReplicateNormalizationStrategy()
+			new ReplicateNormalizationStrategy(), new SumNormalizationFactor()
 		);
 		setNimbusLookAndFeel();
 		showComponent(new QuantificationDatasetViewer(dataset), new Dimension(400, 400));
