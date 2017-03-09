@@ -37,6 +37,7 @@ public class QuantificationDatasetViewer extends JPanel {
 	private ExtendedJTabbedPane tabbedPane;
 	private QuantificationTable quantificationTable;
 	private QuantificationReplicatesTable quantificationReplicatesTable;
+	private QuantificationReplicatesByProteinTable quantificationReplicatesByProteinTable;
 
 	public QuantificationDatasetViewer(QuantificationDataset dataset) {
 		this.dataset = dataset;
@@ -61,6 +62,7 @@ public class QuantificationDatasetViewer extends JPanel {
 
 	private void addTabs() {
 		this.addQuantificationReplicatesTable();
+		this.addQuantificationReplicatesByProteinTable();
 		this.addQuantificationTable();
 	}
 
@@ -82,9 +84,21 @@ public class QuantificationDatasetViewer extends JPanel {
 		return toret;
 	}
 
+	private void addQuantificationReplicatesByProteinTable() {
+		this.tabbedPane.addTab("", getQuantificationReplicatesByProteinTable());
+		this.tabbedPane.setTabComponentAt(1, label("Replicates (by protein)", 
+			ICON_TABLE_24));
+	}
+	
+	private Component getQuantificationReplicatesByProteinTable() {
+		this.quantificationReplicatesByProteinTable = new QuantificationReplicatesByProteinTable(this.dataset);
+		return new JScrollPane(this.quantificationReplicatesByProteinTable);
+	}
+
 	private void addQuantificationTable() {
 		this.tabbedPane.addTab("", getQuantificationTable());
-		this.tabbedPane.setTabComponentAt(1, label("Proteins", ICON_TABLE_24));
+		this.tabbedPane.setTabComponentAt(2, label("Conditions", 
+			ICON_TABLE_24));
 	}
 	
 	private Component getQuantificationTable() {
