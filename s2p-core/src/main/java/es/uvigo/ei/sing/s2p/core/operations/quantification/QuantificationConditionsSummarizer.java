@@ -3,6 +3,7 @@ package es.uvigo.ei.sing.s2p.core.operations.quantification;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import es.uvigo.ei.sing.s2p.core.entities.quantification.ProteinQuantification;
@@ -36,7 +37,7 @@ public class QuantificationConditionsSummarizer {
 	 * @return a {@code QuantificationConditionsSummary}
 	 */
 	public static QuantificationConditionsSummary summary(
-		QuantificationDataset data, List<String> proteins
+		QuantificationDataset data, Set<String> proteins
 	) {
 		QuantificationConditionsSummary summary = new QuantificationConditionsSummary();
 		data.getConditions().forEach(c -> {
@@ -47,7 +48,7 @@ public class QuantificationConditionsSummarizer {
 	}
 
 	private static QuantificationConditionSummary conditionSummary(
-		List<String> proteins, QuantificationCondition c
+		Set<String> proteins, QuantificationCondition c
 	) {
 		QuantificationConditionSummary summary = new QuantificationConditionSummary();
 		proteins.forEach(protein -> {

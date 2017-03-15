@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.stat.inference.TestUtils;
@@ -70,7 +71,7 @@ public class QuantificationsConditionsTest {
 		Pair<QuantificationCondition, QuantificationCondition> cP, 
 		QuantificationConditionsSummary summary
 	) {
-		List<String> proteins = cP.getFirst().getProteins();
+		Set<String> proteins = cP.getFirst().getProteins();
 		proteins.addAll(cP.getSecond().getProteins());
 		QuantificationConditionSummary firstSummary = summary.get(cP.getFirst());
 		QuantificationConditionSummary secondSummary = summary.get(cP.getSecond());

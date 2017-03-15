@@ -31,7 +31,7 @@ public class QuantificationReplicatesByProteinTableModel extends DefaultTableMod
 	}
 
 	private void createData() {
-		this.proteins = this.dataset.getProteins();
+		this.proteins = new LinkedList<>(this.dataset.getProteins());
 		this.replicates = new LinkedList<>();
 		this.replicatesConditions = new HashMap<>();
 		this.replicatesNames = new HashMap<>();

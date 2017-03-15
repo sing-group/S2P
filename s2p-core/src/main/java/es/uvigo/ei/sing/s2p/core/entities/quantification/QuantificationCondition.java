@@ -2,6 +2,7 @@ package es.uvigo.ei.sing.s2p.core.entities.quantification;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class QuantificationCondition {
 
@@ -21,7 +22,7 @@ public class QuantificationCondition {
 		return samples;
 	}
 
-	public List<String> getProteins() {
+	public Set<String> getProteins() {
 		return QuantificationDataset.getProteins(this.samples.stream());
 	}
 

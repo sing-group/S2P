@@ -1,12 +1,12 @@
 package es.uvigo.ei.sing.s2p.core.entities.quantification;
 
-import static java.util.stream.Collectors.toList;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class QuantificationDataset extends LinkedList<QuantificationSample> {
@@ -44,11 +44,11 @@ public class QuantificationDataset extends LinkedList<QuantificationSample> {
 		return conditions;
 	}
 
-	public List<String> getProteins() {
+	public Set<String> getProteins() {
 		return getProteins(stream());
 	}
-	
-	public static final List<String> getProteins(
+
+	public static final Set<String> getProteins(
 		Stream<QuantificationSample> samples
 	) {
 		return samples
@@ -57,6 +57,6 @@ public class QuantificationDataset extends LinkedList<QuantificationSample> {
 				.map(QuantificationReplicate::getProteins)
 				.flatMap(Collection::stream)
 				.map(ProteinQuantification::getProtein)
-				.collect(toList());
+				.collect(Collectors.toSet());
 	}
 }
