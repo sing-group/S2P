@@ -45,6 +45,8 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.TableModelEvent;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import com.itextpdf.text.DocumentException;
 
@@ -108,6 +110,14 @@ public class MaldiPlateTable extends JPanel {
 		this.table.putClientProperty("terminateEditOnFocusLost", true);
 		this.table.getModel().addTableModelListener(this::tableChanged);
 		this.table.setFont(this.table.getFont().deriveFont(FONT_SIZE));
+		this.table.getTableHeader().setReorderingAllowed(false);
+		this.table
+			.setRowSorter(new TableRowSorter<TableModel>(table.getModel()) {
+			    @Override
+			    public boolean isSortable(int column) {
+			        return false;
+			    }
+			});
 
 		this.table.addAction(
 			new ExtendedAbstractAction("Export to CSV", this::exportToCsv)
