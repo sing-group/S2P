@@ -24,7 +24,7 @@ public class QuantificationConditionsResources {
 					new DefaultProteinQuantification("P4", EMPAI, 4d),
 					new DefaultProteinQuantification("P5", EMPAI, 5d)
 				))
-			), 1d),
+			), 2d),
 			new QuantificationSample("Sample 2", "ConditionB", asList(
 				new QuantificationReplicate(asList(
 					new DefaultProteinQuantification("P1", EMPAI, 1d),
@@ -38,7 +38,7 @@ public class QuantificationConditionsResources {
 					new DefaultProteinQuantification("P6", EMPAI, 6d),
 					new DefaultProteinQuantification("P7", EMPAI, 7d)
 				))
-			), 1d)
+			), 2d)
 		)
 	);
 	

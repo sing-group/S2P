@@ -1,7 +1,7 @@
 package es.uvigo.ei.sing.s2p.gui.quantification;
 
+import static es.uvigo.ei.sing.s2p.core.operations.quantification.comparison.QuantificationsConditionsTest.compare;
 import static java.lang.Double.NaN;
-import static es.uvigo.ei.sing.s2p.core.operations.quantification.QuantificationsConditionsTest.compare;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -24,6 +24,7 @@ import es.uvigo.ei.sing.s2p.core.entities.quantification.QuantificationCondition
 import es.uvigo.ei.sing.s2p.core.entities.quantification.QuantificationDataset;
 import es.uvigo.ei.sing.s2p.core.entities.quantification.QuantificationReplicate;
 import es.uvigo.ei.sing.s2p.core.entities.quantification.QuantificationSample;
+import es.uvigo.ei.sing.s2p.core.operations.quantification.comparison.ProteinSummaryTest;
 
 public class QuantificationTableModel extends DefaultTableModel {
 	private static final long serialVersionUID = 1L;
@@ -57,15 +58,19 @@ public class QuantificationTableModel extends DefaultTableModel {
 	private List<String> allProteins;
 	private QuantificationDataset dataset;
 	private QuantificationConditionsComparisons conditionsComparisons;
+	private ProteinSummaryTest proteinComparison;
 
-	public QuantificationTableModel(QuantificationDataset dataset) {
+	public QuantificationTableModel(QuantificationDataset dataset,
+		ProteinSummaryTest proteinComparison
+	) {
 		this.dataset = dataset;
+		this.proteinComparison = proteinComparison;
 		this.createData();
 	}
 
 	private void createData() {
 		this.allProteins = new LinkedList<>(getAllDatasetProteins());
-		this.conditionsComparisons = compare(dataset);
+		this.conditionsComparisons = compare(dataset, proteinComparison);
 	}
 
 	private Set<String> getAllDatasetProteins() {

@@ -62,25 +62,29 @@ public class QuantificationConditionsSummarizer {
 		QuantificationCondition c
 	) {
 		List<Double> proteinValues = new LinkedList<Double>();
+		List<Double> proteinMassValues = new LinkedList<Double>();
 		List<Double> proteinNormalizedValues = new LinkedList<Double>();
 		
 		AtomicInteger replicatesCount = new AtomicInteger(0);
 		c.getSamples().forEach(s -> {
+			double proteinMass = s.getProteinMass();
 			s.getReplicates().forEach(r -> {
 				replicatesCount.set(replicatesCount.get() + 1);
 				Optional<ProteinQuantification> pQ = r.findProtein(protein);
 				if (pQ.isPresent()) {
 					double normalizedValue = pQ.get().getNormalizedValue();
 					double value = pQ.get().getValue();
+					double massValue = pQ.get().getNormalizedValue() * proteinMass;
 					if (!Double.isNaN(normalizedValue) && !Double.isNaN(value)) {
 						proteinNormalizedValues.add(normalizedValue);
 						proteinValues.add(value);
+						proteinMassValues.add(massValue);
 					}
 				}
 			});
 		});
 
 		return new ProteinSummary(
-			replicatesCount.intValue(), proteinValues, proteinNormalizedValues);
+			replicatesCount.intValue(), proteinValues, proteinNormalizedValues, proteinMassValues);
 	}
 }

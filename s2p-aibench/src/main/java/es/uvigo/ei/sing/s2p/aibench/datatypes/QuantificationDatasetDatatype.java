@@ -6,6 +6,7 @@ import es.uvigo.ei.aibench.core.datatypes.annotation.Datatype;
 import es.uvigo.ei.aibench.core.datatypes.annotation.Property;
 import es.uvigo.ei.aibench.core.datatypes.annotation.Structure;
 import es.uvigo.ei.sing.s2p.core.entities.quantification.QuantificationDataset;
+import es.uvigo.ei.sing.s2p.core.operations.quantification.comparison.ComparisonMode;
 
 @Datatype(
 	structure = Structure.COMPLEX, 
@@ -17,12 +18,15 @@ import es.uvigo.ei.sing.s2p.core.entities.quantification.QuantificationDataset;
 public class QuantificationDatasetDatatype extends QuantificationDataset {
 	private static final long serialVersionUID = 1L;
 	private File directory;
+	private ComparisonMode proteinSummaryTest;
 
 	public QuantificationDatasetDatatype(QuantificationDataset load,
+		ComparisonMode proteinSummaryTest,
 		File directory
 	) {
 		super(load);
 		this.directory = directory;
+		this.proteinSummaryTest = proteinSummaryTest;
 	}
 	
 	public String getName() {
@@ -37,5 +41,14 @@ public class QuantificationDatasetDatatype extends QuantificationDataset {
 	@Property(name = "Samples")
 	public int getSamplesCount() {
 		return this.size();
+	}
+
+	public ComparisonMode getProteinComparison() {
+		return this.proteinSummaryTest;
+	}
+
+	@Property(name = "Comparison mode")
+	public String getComparisonMode() {
+		return this.proteinSummaryTest.getName();
 	}
 }

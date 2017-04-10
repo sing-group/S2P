@@ -5,6 +5,7 @@ import static es.uvigo.ei.sing.s2p.gui.UISettings.BG_COLOR;
 import static java.awt.BorderLayout.CENTER;
 import static java.awt.BorderLayout.EAST;
 import static java.awt.BorderLayout.SOUTH;
+import static java.lang.String.format;
 import static javax.swing.BorderFactory.createEmptyBorder;
 import static javax.swing.BorderFactory.createTitledBorder;
 
@@ -22,13 +23,14 @@ import javax.swing.JTextArea;
 
 import es.uvigo.ei.sing.hlfernandez.visualization.ColorLegend;
 import es.uvigo.ei.sing.s2p.core.entities.quantification.QuantificationDataset;
+import es.uvigo.ei.sing.s2p.core.operations.quantification.comparison.ComparisonMode;
 import es.uvigo.ei.sing.s2p.gui.components.ExtendedJTabbedPane;
 
 public class QuantificationDatasetViewer extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private static final String STATISTICAL_TESTS_MESSAGE = 
 		"Condition comparison columns show both p-value and corrected p-value "
-		+ "or q-value of the t-test between normalized protein quantification "
+		+ "(or q-value) of the t-test between %s "
 		+ "values in each condition. Correction of p-values is performed by "
 		+ "applying the Benjamini-Hochberg FDR procedure.";
 
@@ -38,9 +40,13 @@ public class QuantificationDatasetViewer extends JPanel {
 	private QuantificationTable quantificationTable;
 	private QuantificationReplicatesTable quantificationReplicatesTable;
 	private QuantificationReplicatesByProteinTable quantificationReplicatesByProteinTable;
+	private ComparisonMode comparisonMode;
 
-	public QuantificationDatasetViewer(QuantificationDataset dataset) {
+	public QuantificationDatasetViewer(QuantificationDataset dataset,
+		ComparisonMode comparisonMode
+	) {
 		this.dataset = dataset;
+		this.comparisonMode = comparisonMode;
 
 		this.initComponent();
 	}
@@ -102,7 +108,8 @@ public class QuantificationDatasetViewer extends JPanel {
 	}
 	
 	private Component getQuantificationTable() {
-		this.quantificationTable = new QuantificationTable(this.dataset);
+		this.quantificationTable =
+			new QuantificationTable(this.dataset, comparisonMode.getTest());
 		return new JScrollPane(this.quantificationTable);
 	}
 
@@ -125,8 +132,9 @@ public class QuantificationDatasetViewer extends JPanel {
 			createTitledBorder(createEmptyBorder(0, 2, 0, 2), "Note")
 		);
 		toret.setLineWrap(true);
+		toret.setWrapStyleWord(true);
 		toret.setRows(2);
-		toret.setText(STATISTICAL_TESTS_MESSAGE);
+		toret.setText(getStatisticalTestsMessage());
 		return toret;
 	}
 
@@ -146,5 +154,9 @@ public class QuantificationDatasetViewer extends JPanel {
 				conditionToColor.put(condition.getName(), color);
 			});
 		return conditionToColor;
+	}
+
+	private String getStatisticalTestsMessage() {
+		return format(STATISTICAL_TESTS_MESSAGE, comparisonMode.getLabel());
 	}
 }

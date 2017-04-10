@@ -33,7 +33,10 @@ import es.uvigo.ei.aibench.core.operation.annotation.Port;
 import es.uvigo.ei.sing.s2p.aibench.datatypes.QuantificationDatasetDatatype;
 import es.uvigo.ei.sing.s2p.core.entities.quantification.MascotQuantificationMethod;
 import es.uvigo.ei.sing.s2p.core.operations.quantification.Normalization;
+import es.uvigo.ei.sing.s2p.core.operations.quantification.NormalizationFactor;
+import es.uvigo.ei.sing.s2p.core.operations.quantification.NormalizationFactorEnum;
 import es.uvigo.ei.sing.s2p.core.operations.quantification.NormalizationStrategy;
+import es.uvigo.ei.sing.s2p.core.operations.quantification.comparison.ComparisonMode;
 
 @Operation(
 	name = "Import Mascot quantifications", 
@@ -43,7 +46,9 @@ public class ImportMascotQuantificationCsvFiles {
 	private File directory;
 	private MascotQuantificationMethod quantificationMethod;
 	private NormalizationStrategy normalizationStrategy;
-	
+	private NormalizationFactor normalizationFactor;
+	private ComparisonMode comparisonMode;
+
 	@Port(
 		direction = Direction.INPUT, 
 		name = "Quantifications CSV directory",
@@ -56,7 +61,7 @@ public class ImportMascotQuantificationCsvFiles {
 	public void setDirectory(File directory) {
 		this.directory = directory;
 	}
-	
+
 	@Port(
 		direction = Direction.INPUT,
 		name = "Mascot quantification method",
@@ -66,11 +71,11 @@ public class ImportMascotQuantificationCsvFiles {
 	public void setMascotQuantificationMethod(MascotQuantificationMethod quantificationMethod) {
 		this.quantificationMethod = quantificationMethod;
 	}
-	
+
 	@Port(
 		direction = Direction.INPUT, 
-		name = "Normalization", 
-		description = "The normalization method to apply.",
+		name = "Normalization level", 
+		description = "The normalization level at which it should be applied.",
 		order = 3
 	)
 	public void setNormalizationStrategy(Normalization normalization) {
@@ -78,13 +83,34 @@ public class ImportMascotQuantificationCsvFiles {
 	}	
 
 	@Port(
-		direction = Direction.OUTPUT, 
+		direction = Direction.INPUT, 
+		name = "Normalization factor", 
+		description = "The normalization factor to use.",
 		order = 4
+	)
+	public void setNormalizationFactor(NormalizationFactorEnum normalizationFactor) {
+		this.normalizationFactor = normalizationFactor.getNormalizationFactor();
+	}
+
+	@Port(
+		direction = Direction.INPUT, 
+		name = "Condition comparison", 
+		description = "The protein value to use.",
+		order = 5
+	)
+	public void setConditionComparisonMode(ComparisonMode comparisonMode) {
+		this.comparisonMode = comparisonMode;
+	}
+
+	@Port(
+		direction = Direction.OUTPUT, 
+		order = 6
 	)
 	public QuantificationDatasetDatatype loadData() throws IOException {
 		return new QuantificationDatasetDatatype(
-				load(directory, quantificationMethod, normalizationStrategy), 
-				directory
-			);
+			load(directory, quantificationMethod, normalizationStrategy, normalizationFactor),
+			comparisonMode,
+			directory
+		);
 	}
 }

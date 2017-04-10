@@ -1,6 +1,7 @@
 package es.uvigo.ei.sing.s2p.core.entities.quantification;
 
 import static es.uvigo.ei.sing.s2p.core.util.ArrayUtils.doubleArray;
+
 import java.util.List;
 
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
@@ -13,18 +14,23 @@ public class ProteinSummary {
 	private DescriptiveStatistics 	proteinValuesStatistics;
 	private List<Double> 			normalizedProteinValues;
 	private DescriptiveStatistics 	normalizedProteinValuesStatistics;
+	private List<Double> 			proteinMassValues;
+	private DescriptiveStatistics 	proteinMassValuesStatistics;
 
 	public ProteinSummary(int totalReplicates, List<Double> proteinValues,
-		List<Double> proteinNormalizedValues
+		List<Double> proteinNormalizedValues, List<Double> proteinMassValues
 	) {
 		this.totalReplicates = totalReplicates;
 		this.proteinValuesStatistics = 
-				new DescriptiveStatistics(doubleArray(proteinValues));
+			new DescriptiveStatistics(doubleArray(proteinValues));
 		this.normalizedProteinValuesStatistics = 
-				new DescriptiveStatistics(doubleArray(proteinNormalizedValues));
+			new DescriptiveStatistics(doubleArray(proteinNormalizedValues));
+		this.proteinMassValuesStatistics =
+			new DescriptiveStatistics(doubleArray(proteinMassValues));
 		this.numReplicates = (int) this.proteinValuesStatistics.getN();
 		this.proteinValues = proteinValues;
 		this.normalizedProteinValues = proteinNormalizedValues;
+		this.proteinMassValues = proteinMassValues;
 	}
 
 	public int getNumReplicates() {
@@ -50,7 +56,7 @@ public class ProteinSummary {
 	public double getNormalizedProteinValueMean() {
 		return this.normalizedProteinValuesStatistics.getMean();
 	}
-	
+
 	public double getNormalizedProteinValueStd() {
 		return this.normalizedProteinValuesStatistics.getStandardDeviation();
 	}
@@ -59,10 +65,22 @@ public class ProteinSummary {
 		return getNormalizedProteinValueStd() / getNormalizedProteinValueMean();
 	}
 
+	public double getProteinMassValueMean() {
+		return this.proteinMassValuesStatistics.getMean();
+	}
+
+	public double getProteinMassValueStd() {
+		return this.proteinMassValuesStatistics.getStandardDeviation();
+	}
+
+	public double getProteinMassValueRsd() {
+		return getProteinMassValueStd() / getProteinMassValueMean();
+	}
+
 	public double getPop() {
 		return 100d * (double) getNumReplicates() / (double) getTotalReplicates();
 	}
-	
+
 	public List<Double> getProteinValues() {
 		return this.proteinValues;
 	}
@@ -70,7 +88,11 @@ public class ProteinSummary {
 	public List<Double> getNormalizedProteinValues() {
 		return this.normalizedProteinValues;
 	}
-	
+
+	public List<Double> getProteinMassValues() {
+		return proteinMassValues;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

@@ -28,6 +28,7 @@ import com.itextpdf.text.Font;
 import es.uvigo.ei.sing.s2p.core.entities.quantification.QuantificationCondition;
 import es.uvigo.ei.sing.s2p.core.entities.quantification.QuantificationConditionsSummary;
 import es.uvigo.ei.sing.s2p.core.entities.quantification.QuantificationDataset;
+import es.uvigo.ei.sing.s2p.core.operations.quantification.comparison.ProteinSummaryTest;
 import es.uvigo.ei.sing.s2p.gui.charts.ChartDataSeriesDialog;
 import es.uvigo.ei.sing.s2p.gui.charts.DataSeries;
 import es.uvigo.ei.sing.s2p.gui.table.ExtendedCsvTable;
@@ -40,8 +41,10 @@ public class QuantificationTable extends ExtendedCsvTable {
 	private List<QuantificationCondition> conditions;
 	private HashMap<QuantificationCondition, Color> conditionsColors;
 
-	public QuantificationTable(QuantificationDataset dataset) {
-		super(new QuantificationTableModel(dataset));
+	public QuantificationTable(QuantificationDataset dataset,
+		ProteinSummaryTest proteinComparison
+	) {
+		super(new QuantificationTableModel(dataset, proteinComparison));
 
 		this.dataset = dataset;
 		this.init();

@@ -52,22 +52,27 @@ public class QuantificationConditionsSummarizerTest {
 		assertEquals(7, firstConditionSummary.keySet().size());
 
 		ProteinSummary p1Summary = firstConditionSummary.get("P1");
-		assertEquals(2, p1Summary.getTotalReplicates());
-		assertEquals(2, p1Summary.getNumReplicates());
-		assertEquals(1.5d, p1Summary.getProteinValueMean(), 0.0);
-		assertEquals(1.5d, p1Summary.getNormalizedProteinValueMean(), 0.0);
+		assertEquals(2, 	p1Summary.getTotalReplicates());
+		assertEquals(2, 	p1Summary.getNumReplicates());
+		assertEquals(1.5d, 	p1Summary.getProteinValueMean(), 0.0);
+		assertEquals(1.5d, 	p1Summary.getNormalizedProteinValueMean(), 0.0);
+		assertEquals(3d, 	p1Summary.getProteinMassValueMean(), 0.0);
 	
 		ProteinSummary p2Summary = firstConditionSummary.get("P2");
-		assertEquals(2, p2Summary.getTotalReplicates());
-		assertEquals(1, p2Summary.getNumReplicates());
+		assertEquals(2,  p2Summary.getTotalReplicates());
+		assertEquals(1,  p2Summary.getNumReplicates());
 		assertEquals(2d, p2Summary.getProteinValueMean(), 0.0);
 		assertEquals(2d, p2Summary.getNormalizedProteinValueMean(), 0.0);
+		assertEquals(4d, p2Summary.getProteinMassValueMean(), 0.0);
 	}
 	
 	@Test
 	public void testEqualRsdWithGlobalNormalization() {
 		QuantificationDataset dataset = new QuantificationDataset(
-			new GlobalNormalizationStrategy().normalize(DATASET_2, new SumNormalizationFactor()));
+			new GlobalNormalizationStrategy().normalize(
+				DATASET_2, new SumNormalizationFactor()
+			)
+		);
 
 		QuantificationConditionsSummary summary =
 			QuantificationConditionsSummarizer.summary(dataset);
@@ -76,8 +81,13 @@ public class QuantificationConditionsSummarizerTest {
 			e.getValue().entrySet().forEach(qS -> {
 				ProteinSummary proteinSummary = qS.getValue();
 				assertEquals(
-					proteinSummary.getNormalizedProteinValueRsd(), 
-					proteinSummary.getProteinValueRsd(), 
+					proteinSummary.getNormalizedProteinValueRsd(),
+					proteinSummary.getProteinValueRsd(),
+					0.0001d
+				);
+				assertEquals(
+					proteinSummary.getProteinMassValueRsd(),
+					proteinSummary.getProteinMassValueRsd(),
 					0.0001d
 				);
 			});
