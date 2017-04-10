@@ -26,13 +26,19 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.swing.table.AbstractTableModel;
 
+import es.uvigo.ei.sing.s2p.core.entities.MascotEntry;
 import es.uvigo.ei.sing.s2p.core.entities.SpotMascotIdentifications;
 
-public class SpotMascotIdentificationsTableModel extends AbstractTableModel {
+public class SpotMascotIdentificationsTableModel extends AbstractTableModel
+	implements Observer 
+{
 	private static final long serialVersionUID = 1L;
 
 	private static final Map<Integer, String> TABLE_FIELDS = 
@@ -40,48 +46,54 @@ public class SpotMascotIdentificationsTableModel extends AbstractTableModel {
 
 	static {
 		TABLE_FIELDS.put(0, "Spot");
-		TABLE_FIELDS.put(1, "Protein");
+		TABLE_FIELDS.put(1, "Title");
 		TABLE_FIELDS.put(2, "Plate position");
 		TABLE_FIELDS.put(3, "Score");
 		TABLE_FIELDS.put(4, "Difference");
 		TABLE_FIELDS.put(5, "MS Coverage");
-		TABLE_FIELDS.put(6, "Accession");
+		TABLE_FIELDS.put(6, "Protein MW");
 		TABLE_FIELDS.put(7, "Method");
-		TABLE_FIELDS.put(8, "Protein Mw");
-		TABLE_FIELDS.put(9, "pI value");
+		TABLE_FIELDS.put(8, "pI-Value");
+		TABLE_FIELDS.put(9, "Accession");
 		TABLE_FIELDS.put(10, "Source");
 	}
 
 	private Set<String> spots;
 	private SpotMascotIdentifications spotIdentifications;
-	private List<Object[]> rows = new LinkedList<Object[]>();
+	private List<Object[]> rows;
+	private Map<Integer, MascotEntry> rowToEntry;
 
 	public SpotMascotIdentificationsTableModel(Set<String> spots,
 		SpotMascotIdentifications spotIdentifications
 	) {
 		this.spots = spots;
 		this.spotIdentifications = spotIdentifications;
+		this.spotIdentifications.addObserver(this);
 		
 		this.initMatrixData();
 	}
 
 	private void initMatrixData() {
+		rows = new LinkedList<Object[]>();
+		rowToEntry = new HashMap<>();
+		final AtomicInteger rowCount = new AtomicInteger(0);
 		spots.forEach(s -> {
 			this.spotIdentifications.get(s)
 				.forEach(identification -> {
-				Object[] row = new Object[TABLE_FIELDS.size()];
-				row[0] = s;
-				row[1] = identification.getTitle(); 
-				row[2] = identification.getPlatePosition(); 
-				row[3] = new Integer(identification.getMascotScore()); 
-				row[4] = new Integer(identification.getDifference()); 
-				row[5] = new Integer(identification.getMsCoverage()); 
-				row[6] = identification.getAccession();
-				row[7] = identification.getMethod();
-				row[8] = new Double(identification.getProteinMW());
-				row[9] = new Double(identification.getpIValue());
-				row[10] = identification.getSource();
-				rows.add(row);
+					Object[] row = new Object[TABLE_FIELDS.size()];
+					row[0] = s;
+					row[1] = identification.getTitle();
+					row[2] = identification.getPlatePosition();
+					row[3] = new Integer(identification.getMascotScore());
+					row[4] = new Integer(identification.getDifference());
+					row[5] = new Integer(identification.getMsCoverage());
+					row[6] = new Double(identification.getProteinMW());
+					row[7] = identification.getMethod();
+					row[8] = new Double(identification.getpIValue());
+					row[9] = identification.getAccession();
+					row[10] = identification.getSource();
+					rows.add(row);
+					rowToEntry.put(rowCount.getAndIncrement(), identification);
 			});
 		});
 		this.fireTableDataChanged();
@@ -104,11 +116,24 @@ public class SpotMascotIdentificationsTableModel extends AbstractTableModel {
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
-		return getValueAt(0, columnIndex).getClass();
+		return getRowCount() > 0 ? getValueAt(0, columnIndex).getClass() : Object.class;
 	}
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		return rows.get(rowIndex)[columnIndex];
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		this.initMatrixData();
+	}
+
+	public String getSpotAtRow(int row) {
+		return this.getValueAt(row, 0).toString();
+	}
+
+	public MascotEntry getMascotEntryAtRow(int row) {
+		return rowToEntry.get(row);
 	}
 }

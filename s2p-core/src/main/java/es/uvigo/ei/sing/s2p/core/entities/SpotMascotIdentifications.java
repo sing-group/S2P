@@ -2,9 +2,10 @@ package es.uvigo.ei.sing.s2p.core.entities;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Observable;
 import java.util.Set;
 
-public class SpotMascotIdentifications {
+public class SpotMascotIdentifications extends Observable {
 
 	private Map<String, MascotIdentifications> spotToIdentifications;
 
@@ -32,6 +33,33 @@ public class SpotMascotIdentifications {
 
 	public boolean containsSpot(String spot) {
 		return this.spotToIdentifications.containsKey(spot);
+	}
+
+	public boolean removeIdentification(String spot,
+		MascotEntry identification
+	) {
+		if (this.spotToIdentifications.containsKey(spot)) {
+			MascotIdentifications identifications =
+				this.spotToIdentifications.get(spot);
+			if (identifications.remove(identification)) {
+				this.setChanged();
+				this.notifyObservers();
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+
+	public void merge(SpotMascotIdentifications spotIdentifications) {
+		spotIdentifications.spotToIdentifications.entrySet().forEach(entry -> {
+			this.spotToIdentifications.putIfAbsent(entry.getKey(), new MascotIdentifications());
+			this.spotToIdentifications.get(entry.getKey()).addAll(entry.getValue());
+		});
+		this.setChanged();
+		this.notifyObservers();
 	}
 
 	@Override

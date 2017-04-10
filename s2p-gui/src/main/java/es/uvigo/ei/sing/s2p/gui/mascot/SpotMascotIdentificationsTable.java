@@ -22,20 +22,43 @@
  */
 package es.uvigo.ei.sing.s2p.gui.mascot;
 
-import java.awt.Component;
-import java.io.File;
-import java.util.Set;
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
+import static javax.swing.JOptionPane.showMessageDialog;
 
+import java.awt.Component;
+import java.awt.Window;
+import java.io.File;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Set;
+import java.util.stream.IntStream;
+
+import javax.swing.Action;
 import javax.swing.JLabel;
+import javax.swing.JPopupMenu;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.table.TableModel;
 
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 
+import es.uvigo.ei.sing.hlfernandez.event.PopupMenuAdapter;
+import es.uvigo.ei.sing.hlfernandez.table.ColumnSummaryTabeCellRenderer;
+import es.uvigo.ei.sing.hlfernandez.utilities.ExtendedAbstractAction;
+import es.uvigo.ei.sing.s2p.core.entities.MascotEntry;
 import es.uvigo.ei.sing.s2p.core.entities.SpotMascotIdentifications;
+import es.uvigo.ei.sing.s2p.core.io.samespots.SameSpotsReportFileWriter;
+import es.uvigo.ei.sing.s2p.core.io.samespots.SameSpotsReportFileWriterConfiguration;
+import es.uvigo.ei.sing.s2p.gui.samespots.FillSameSpotsReportDialog;
 import es.uvigo.ei.sing.s2p.gui.table.ExtendedCsvTable;
 
 public class SpotMascotIdentificationsTable extends ExtendedCsvTable {
 	private static final long serialVersionUID = 1L;
+	private ExtendedAbstractAction fillSameSpotsReportAction;
+	private ExtendedAbstractAction removeSpotsAction;
+	private SpotMascotIdentifications spotIdentifications;
 
 	public SpotMascotIdentificationsTable(
 		SpotMascotIdentifications spotIdentifications
@@ -46,18 +69,130 @@ public class SpotMascotIdentificationsTable extends ExtendedCsvTable {
 	public SpotMascotIdentificationsTable(Set<String> spots,
 		SpotMascotIdentifications spotIdentifications
 	) {
-		super(new SpotMascotIdentificationsTableModel(spots, spotIdentifications));
+		super(createModel(spots, spotIdentifications));
 		
+		this.spotIdentifications = spotIdentifications;
 		this.initComponent();
 	}
 
+	private static TableModel createModel(Set<String> spots,
+		SpotMascotIdentifications identifications
+	) {
+		return new SpotMascotIdentificationsTableModel(spots, identifications);
+	}
+
 	private void initComponent() {
+		this.setColumVisibilityActionsEnabled(false);
 		this.setAutoCreateRowSorter(true);
 		this.setColumnControlVisible(true);
 		this.getRowSorter().toggleSortOrder(3);
 		this.getRowSorter().toggleSortOrder(3);
 		this.addExportToCsvAction();
+		this.addFillReportaction();
+		this.getTableHeader().setReorderingAllowed(false);
+		this.getTableHeader().setDefaultRenderer(
+			new ColumnSummaryTabeCellRenderer(
+				this.getTableHeader().getDefaultRenderer()
+			)
+		);
 		this.setDefaultRenderer(File.class, new FileCellRenderer());
+		this.setComponentPopupMenu(getTablePopupMenu());
+		this.updateUI();
+	}
+
+	private void addFillReportaction() {
+		this.addAction(getFillSameSpotsReportButton());
+	}
+
+	private Action getFillSameSpotsReportButton() {
+		if(this.fillSameSpotsReportAction == null) {
+			this.fillSameSpotsReportAction =
+				new ExtendedAbstractAction(
+					"Fill SameSpots report", 
+					this::fillSameSpotsReport
+				);
+		}
+		return this.fillSameSpotsReportAction;
+	}
+
+	private void fillSameSpotsReport() {
+		FillSameSpotsReportDialog dialog =
+			new FillSameSpotsReportDialog(getDialogParent());
+		dialog.setVisible(true);
+		if (!dialog.isCanceled()) {
+			fillSameSpotsReport(dialog.getSelectedFile(),
+				dialog.getSelectedConfiguration());
+		}
+	}
+
+	private Window getDialogParent() {
+		return SwingUtilities.getWindowAncestor(this);
+	}
+
+	private void fillSameSpotsReport(File reportDirectory,
+		SameSpotsReportFileWriterConfiguration configuration
+	) {
+		try {
+			SameSpotsReportFileWriter.writeReportDirectory(
+				this.spotIdentifications, reportDirectory, configuration);
+
+			showMessageDialog(this,
+				"Reports at " + reportDirectory
+				+ " has been successfully processed",
+				"Success", INFORMATION_MESSAGE);
+		} catch (IOException e) {
+			showMessageDialog(this, "An error ocurred writing report files",
+				"Error", ERROR_MESSAGE);
+		}
+	}
+
+	private JPopupMenu getTablePopupMenu() {
+		JPopupMenu menu = new JPopupMenu();
+		menu.add(getRemoveSelectedRowsAction());
+		menu.addPopupMenuListener(new PopupMenuAdapter() {
+
+			@Override
+			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+				removeSpotsAction.setEnabled(getSelectedRowCount() > 0);
+			}
+		});
+
+		return menu;
+	}
+
+	private Action getRemoveSelectedRowsAction() {
+		removeSpotsAction = new ExtendedAbstractAction(
+			"Remove selected spots", this::removeSelectedSpots);
+		removeSpotsAction.setEnabled(false);
+
+		return removeSpotsAction;
+	}
+
+	private void removeSelectedSpots() {
+		if (getSelectedRowCount() > 0) {
+			this.removeSelectedSpotsFromSamples();
+			getSpotsTableModel().fireTableDataChanged();
+		}
+	}
+
+	private SpotMascotIdentificationsTableModel getSpotsTableModel() {
+		return (SpotMascotIdentificationsTableModel) getModel();
+	}
+
+	private void removeSelectedSpotsFromSamples() {
+		IntStream.of(getSelectedRows()).boxed()
+			.map(this::convertRowIndexToModel)
+			.sorted(Collections.reverseOrder(Integer::compareTo))
+			.forEach(i -> {
+				removeSpotFromSamples(i);
+			});
+	}
+
+	private void removeSpotFromSamples(int row) {
+		SpotMascotIdentificationsTableModel model = getSpotsTableModel();
+		String spot = model.getSpotAtRow(row);
+		MascotEntry entry = model.getMascotEntryAtRow(row);
+		this.spotIdentifications.removeIdentification(spot, entry);
 	}
 
 	private class FileCellRenderer extends DefaultTableRenderer {
