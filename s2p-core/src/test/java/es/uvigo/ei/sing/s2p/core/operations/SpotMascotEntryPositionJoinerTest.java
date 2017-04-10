@@ -22,10 +22,12 @@
  */
 package es.uvigo.ei.sing.s2p.core.operations;
 
+import static es.uvigo.ei.sing.s2p.core.operations.SpotMascotEntryPositionJoiner.UNKNOWN_SPOT;
 import static es.uvigo.ei.sing.s2p.core.resources.TestResources.MALDI_PLATE_FORMAT;
 import static es.uvigo.ei.sing.s2p.core.resources.TestResources.MALDI_PLATE_FILE;
 import static es.uvigo.ei.sing.s2p.core.resources.TestResources.MASCOT_PROJECT;
 import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.Map;
@@ -47,7 +49,11 @@ public class SpotMascotEntryPositionJoinerTest {
 		
 		SpotMascotIdentifications join = 
 			SpotMascotEntryPositionJoiner.join(posToSpot, entries);
-		
+
+		assertEquals(2, join.getSpots().size());
+		assertTrue(join.getSpots().contains("45"));
+		assertTrue(join.getSpots().contains(UNKNOWN_SPOT));
 		assertEquals(1, join.get("45").size());
+		assertEquals(1, join.get(UNKNOWN_SPOT).size());
 	}
 }

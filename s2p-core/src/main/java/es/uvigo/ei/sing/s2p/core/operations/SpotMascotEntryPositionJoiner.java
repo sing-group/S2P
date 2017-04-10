@@ -29,6 +29,7 @@ import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.entities.SpotMascotIdentifications;
 
 public class SpotMascotEntryPositionJoiner {
+	public static final String UNKNOWN_SPOT = "UNKNOWN_SPOT";
 
 	public static SpotMascotIdentifications join(
 		Map<String, String> positionToSpot, MascotIdentifications entries
@@ -37,7 +38,8 @@ public class SpotMascotEntryPositionJoiner {
 			new HashMap<String, MascotIdentifications>();
 		
 		entries.forEach(e -> {
-			String spot = positionToSpot.get(e.getPlatePosition());
+			String spot = positionToSpot.getOrDefault(e.getPlatePosition(),
+				UNKNOWN_SPOT);
 			toret.putIfAbsent(spot, new MascotIdentifications());
 			toret.get(spot).add(e);
 		});

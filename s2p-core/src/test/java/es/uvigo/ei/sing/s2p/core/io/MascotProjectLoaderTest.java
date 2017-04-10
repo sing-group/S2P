@@ -67,7 +67,7 @@ public class MascotProjectLoaderTest {
 	public void mascotProjectLoaderTest() throws IOException {
 		MascotIdentifications entries = load(MASCOT_PROJECT);
 		
-		assertEquals(1, entries.size());
+		assertEquals(2, entries.size());
 		assertEquals(entries.get(0), FIRST);
 	}
 	
