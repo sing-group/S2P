@@ -52,10 +52,10 @@ import com.itextpdf.text.DocumentException;
 
 import es.uvigo.ei.sing.commons.csv.entities.CsvFormat;
 import es.uvigo.ei.sing.commons.csv.io.CsvWriter;
-import es.uvigo.ei.sing.hlfernandez.dialog.ExportCsvDialog;
 import es.uvigo.ei.sing.hlfernandez.table.RowHeaderExtendedJXTable;
 import es.uvigo.ei.sing.hlfernandez.utilities.ExtendedAbstractAction;
 import es.uvigo.ei.sing.s2p.core.entities.MaldiPlate;
+import es.uvigo.ei.sing.s2p.gui.components.dialog.ExportCsvDialog;
 import es.uvigo.ei.sing.s2p.gui.util.CommonFileChooser;
 import es.uvigo.ei.sing.s2p.gui.util.CsvUtils;
 
@@ -184,12 +184,12 @@ public class MaldiPlateTable extends JPanel {
 	protected void exportToCsv() {
 		 ExportCsvDialog dialog = new ExportCsvDialog(getDialogParent());
 		 dialog.setVisible(true);
-		 if(!dialog.isCanceled()) {
+		if (!dialog.isCanceled()) {
 		 	try {
-		 		this.exportToFile(
-				 		dialog.getSelectedFile(), 
-				 		CsvUtils.csvFormat(dialog.getSelectedCsvFormat())
-				 );
+				this.exportToFile(
+					dialog.getSelectedFile(),
+					CsvUtils.csvFormat(dialog.getSelectedCsvFormat())
+				);
 		 	} catch (IOException e) {
 		 		showMessageDialog(this, "There was an error writing to "
 				 	+ dialog.getSelectedFile(), "Input error",

@@ -53,9 +53,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import es.uvigo.ei.sing.commons.csv.entities.CsvFormat;
-import es.uvigo.ei.sing.hlfernandez.dialog.ExportCsvDialog;
 import es.uvigo.ei.sing.hlfernandez.utilities.ExtendedAbstractAction;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
+import es.uvigo.ei.sing.s2p.gui.components.dialog.ExportCsvDialog;
 import es.uvigo.ei.sing.s2p.gui.samples.SamplesComparisonTable;
 
 public class SameSpotsDatasetViewer extends JPanel {

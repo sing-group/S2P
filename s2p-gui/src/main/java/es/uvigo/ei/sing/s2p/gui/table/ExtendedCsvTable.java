@@ -44,7 +44,7 @@ import org.jdesktop.swingx.table.TableColumnExt;
 
 import es.uvigo.ei.sing.commons.csv.entities.CsvFormat;
 import es.uvigo.ei.sing.commons.csv.io.CsvWriter;
-import es.uvigo.ei.sing.hlfernandez.dialog.ExportCsvDialog;
+import es.uvigo.ei.sing.s2p.gui.components.dialog.ExportCsvDialog;
 import es.uvigo.ei.sing.s2p.gui.util.CsvUtils;
 
 public class ExtendedCsvTable extends CSVTable {
@@ -114,7 +114,7 @@ public class ExtendedCsvTable extends CSVTable {
     protected void exportToCsv() {
 		ExportCsvDialog dialog = new ExportCsvDialog(getDialogParent());
 		dialog.setVisible(true);
-		if(!dialog.isCanceled()) {
+		if (!dialog.isCanceled()) {
 			try {
 				this.exportToFile(
 					dialog.getSelectedFile(), 
