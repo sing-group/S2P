@@ -191,6 +191,18 @@
 			/>
 		</extension>
 
+		<extension
+			uid="aibench.core" name="aibench.core.operation-definition"
+			class="es.uvigo.ei.sing.s2p.aibench.operations.AssociateMascotIdentifications"
+		>
+			<operation-description
+				name="Associate Mascot identifications"
+				uid="operations.associatemascotidentifications"
+				path="4@Operations"
+				help="operations.associatemascotidentifications"
+			/>
+		</extension>
+
 		<extension uid="aibench.workbench" name="aibench.workbench.view">
 			<view
 				name="SameSpots analysis viewer"
@@ -264,6 +276,10 @@
 		    <gui-operation
 				operation="operations.fillmaldiplate"
 				class="es.uvigo.ei.sing.s2p.aibench.operations.dialogs.FillMaldiPlateDialog"
+		    />
+		    <gui-operation
+				operation="operations.associatemascotidentifications"
+				class="es.uvigo.ei.sing.s2p.aibench.operations.dialogs.AssociateMascotIdentificationsDialog"
 		    />
 		</extension>		
 
@@ -383,6 +399,15 @@
 			<big-icon-operation	
 				operation="operations.loadvenndiagramdesign"
 				icon="icons/loadvenn.png"
+			/>
+
+			<icon-operation
+				operation="operations.associatemascotidentifications"
+				icon="icons/associatemascotidentifications.png"
+			/>
+			<big-icon-operation
+				operation="operations.associatemascotidentifications"
+				icon="icons/associatemascotidentifications.png"
 			/>
 			
 			<icon-datatype

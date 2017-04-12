@@ -24,6 +24,7 @@ package es.uvigo.ei.sing.s2p.aibench.views.spots;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
@@ -33,21 +34,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import es.uvigo.ei.aibench.core.Core;
 import es.uvigo.ei.aibench.core.clipboard.ClipboardItem;
 import es.uvigo.ei.sing.hlfernandez.input.InputParameter;
 import es.uvigo.ei.sing.hlfernandez.input.InputParametersPanel;
 import es.uvigo.ei.sing.hlfernandez.text.JIntegerTextField;
+import es.uvigo.ei.sing.hlfernandez.ui.CenteredJPanel;
 import es.uvigo.ei.sing.s2p.aibench.datatypes.MaldiPlateDatatype;
 import es.uvigo.ei.sing.s2p.aibench.datatypes.MascotIdentificationsDatatype;
+import es.uvigo.ei.sing.s2p.aibench.datatypes.SpotMascotIdentificationsDatatype;
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
+import es.uvigo.ei.sing.s2p.core.entities.SpotMascotIdentifications;
 import es.uvigo.ei.sing.s2p.gui.mascot.LoadMascotIdentificationsDialog;
 
 public class AIBenchLoadMascotIdentificationsDialog extends
@@ -58,6 +62,7 @@ public class AIBenchLoadMascotIdentificationsDialog extends
 	private JPanel inputComponents;
 	private JTabbedPane source;
 
+	private JComboBox<Object> spotMascotCombo;
 	private JComboBox<Object> mascotCombo;
 	private JComboBox<Object> plateCombo;
 	private InputParameter[] sourceInputParameters;
@@ -74,11 +79,19 @@ public class AIBenchLoadMascotIdentificationsDialog extends
 		InputParametersPanel sourceInputPanel = 
 			new InputParametersPanel(sourceInputParameters);
 		initialiceSourceInputListeners();
-		
+
 		this.source = new JTabbedPane();
-		this.source.addTab("From clipboard", getSourceClipboardPanel());
+		this.source.addTab("From clipboard (I)", getSourceSpotIdentificationsFromClipboardPanel());
+		this.source.addTab("From clipboard (II)", getSourceClipboardPanel());
 		this.source.addTab("From file", sourceInputPanel);
-		
+		this.source.addChangeListener(new ChangeListener() {
+
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				checkOkButton();
+			}
+		});
+
 		this.inputComponents = new JPanel(new BorderLayout());
 		this.inputComponents.add(this.source);
 		return this.inputComponents;
@@ -91,12 +104,45 @@ public class AIBenchLoadMascotIdentificationsDialog extends
 			.addItemListener(this::onMascotRemoveDuplicates);
 	}
 
+	private Component getSourceSpotIdentificationsFromClipboardPanel() {
+		JPanel toret = new CenteredJPanel(
+			new InputParametersPanel(
+				getInputParametersForSpotIdentificationsFromClipboard()
+			)
+		);
+		return toret;
+	}
+
+	protected InputParameter[] getInputParametersForSpotIdentificationsFromClipboard() {
+		List<InputParameter> parameters = new LinkedList<InputParameter>();
+		parameters.add(getSpotMascotIdentificationsInput());
+		return parameters.toArray(new InputParameter[parameters.size()]);
+	}
+
+	private InputParameter getSpotMascotIdentificationsInput() {
+		this.spotMascotCombo = new JComboBox<>(getLoadedSpotMascotIdentifications());
+		setMinimumComboboxSize(this.spotMascotCombo);
+		this.spotMascotCombo.addItemListener(e -> {this.checkOkButton();});
+		return new InputParameter(
+			"Spot Mascot identifications", 
+			this.spotMascotCombo, 
+			"A previously loaded spot Mascot identifications."
+		);
+	}
+
+	private static void setMinimumComboboxSize(JComboBox<Object> combo) {
+		combo.setMinimumSize(new Dimension(100, 20));
+	}
+
+	private Object[] getLoadedSpotMascotIdentifications() {
+		return 	Core.getInstance().getClipboard()
+				.getItemsByClass(SpotMascotIdentificationsDatatype.class).toArray();
+	}
+
 	private Component getSourceClipboardPanel() {
-		JPanel toret = new JPanel();
-		toret.setLayout(new BoxLayout(toret, BoxLayout.Y_AXIS));
-		toret.add(Box.createVerticalGlue());
-		toret.add(new InputParametersPanel(getInputParameters()));
-		toret.add(Box.createVerticalGlue());
+		JPanel toret = new CenteredJPanel(
+			new InputParametersPanel(getInputParameters())
+		);
 		return toret;
 	}
 
@@ -121,7 +167,7 @@ public class AIBenchLoadMascotIdentificationsDialog extends
 		super.getMascotScoreThresholdTextField().setValue(e.getNewValue());
 		this.mascotScoreThreshold.setValue(e.getNewValue());
 	}
-	
+
 	private InputParameter getMascotRemoveDuplicatesComponent() {
 		InputParameter inputRemoveDuplicates = 
 			super.getMascotRemoveDuplicatesInput();
@@ -129,7 +175,7 @@ public class AIBenchLoadMascotIdentificationsDialog extends
 		mascotRemoveDuplicates.addItemListener(this::onMascotRemoveDuplicates);
 		return inputRemoveDuplicates;
 	}
-	
+
 	private void onMascotRemoveDuplicates(ItemEvent e) {
 		JCheckBox source = (JCheckBox) e.getSource();
 		boolean selected = source.isSelected();
@@ -139,9 +185,10 @@ public class AIBenchLoadMascotIdentificationsDialog extends
 			this.mascotRemoveDuplicates.setSelected(selected);
 		}
 	}
-	
+
 	private InputParameter getMaldiPlateInputComponent() {
 		this.plateCombo = new JComboBox<>(getLoadedMaldiPlateObjects());
+		setMinimumComboboxSize(this.plateCombo);
 		this.plateCombo.addItemListener(e -> {this.checkOkButton();});
 		return new InputParameter(
 			"Maldi plate",
@@ -149,30 +196,39 @@ public class AIBenchLoadMascotIdentificationsDialog extends
 			"A .CSV File containing the Maldi plate"
 		);
 	}
-	
+
 	private Object[] getLoadedMaldiPlateObjects() {
 		return 	Core.getInstance().getClipboard()
 				.getItemsByClass(MaldiPlateDatatype.class).toArray();
 	}
-	
+
 	@Override
 	protected void checkOkButton() {
 		if(isShowingFileSelectionTab()) {
 			super.checkOkButton();
 		} else {
-			boolean enabled = 	this.plateCombo.getSelectedIndex() 	!= -1 &&
-								this.mascotCombo.getSelectedIndex() != -1;
+			boolean enabled = false;
+			if(isShowingSpotDataFromClipboardTab()) {
+				enabled = this.spotMascotCombo.getSelectedIndex() != -1;
+			} else {
+				enabled = 	this.plateCombo.getSelectedIndex() 	!= -1 &&
+							this.mascotCombo.getSelectedIndex() != -1;
+			}
 			this.okButton.setEnabled(enabled);
 		}
 	}
 
+	private boolean isShowingSpotDataFromClipboardTab() {
+		return this.source.getSelectedIndex() == 0;
+	}
 
 	private boolean isShowingFileSelectionTab() {
-		return this.source.getSelectedIndex() == 1;
-	};
+		return this.source.getSelectedIndex() == 2;
+	}
 
 	private InputParameter getMascotFileInput() {
 		this.mascotCombo = new JComboBox<>(getLoadedMascotIdentifications());
+		setMinimumComboboxSize(this.mascotCombo);
 		this.mascotCombo.addItemListener(e -> {this.checkOkButton();});
 		return new InputParameter(
 			"Mascot identifications", 
@@ -180,10 +236,10 @@ public class AIBenchLoadMascotIdentificationsDialog extends
 			"A previously loaded Mascot identifications."
 		);
 	}
-	
+
 	private Object[] getLoadedMascotIdentifications() {
-		return 	Core.getInstance().getClipboard()
-				.getItemsByClass(MascotIdentificationsDatatype.class).toArray();
+		return Core.getInstance().getClipboard()
+			.getItemsByClass(MascotIdentificationsDatatype.class).toArray();
 	}
 
 	@Override
@@ -236,5 +292,20 @@ public class AIBenchLoadMascotIdentificationsDialog extends
 			canceled = false;
 			dispose();
 		}
+	}
+
+	@Override
+	public SpotMascotIdentifications getMascotIdentifications() {
+		if (isShowingSpotDataFromClipboardTab()) {
+			return getSelectedSpotMascotIdentifications();
+		} else {
+			return super.getMascotIdentifications();
+		}
+	}
+
+	public SpotMascotIdentifications getSelectedSpotMascotIdentifications() {
+		return 	(SpotMascotIdentifications) 
+					((ClipboardItem) this.spotMascotCombo.getSelectedItem())
+				.getUserData();
 	}
 }
