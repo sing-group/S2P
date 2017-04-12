@@ -25,11 +25,13 @@ package es.uvigo.ei.sing.s2p.gui.mascot;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
+import static org.sing_group.jsparklines_factory.JSparklinesBarChartTableCellRendererFactory.createMaxValueBarChartRenderer;
 
 import java.awt.Component;
 import java.awt.Window;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Set;
 import java.util.stream.IntStream;
@@ -40,6 +42,8 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
@@ -97,7 +101,23 @@ public class SpotMascotIdentificationsTable extends ExtendedCsvTable {
 		);
 		this.setDefaultRenderer(File.class, new FileCellRenderer());
 		this.setComponentPopupMenu(getTablePopupMenu());
+		this.updateSparklinesRenderers();
+		this.getSpotsTableModel().addTableModelListener(
+			new TableModelListener() {
+
+				@Override
+				public void tableChanged(TableModelEvent e) {
+					updateSparklinesRenderers();
+				}
+			}
+		);
 		this.updateUI();
+	}
+
+	private void updateSparklinesRenderers() {
+		for(int i : Arrays.asList(3, 4, 5, 6, 8)) {
+			createMaxValueBarChartRenderer(this, i).showNumberAndChart(true, 40);
+		}
 	}
 
 	private void addFillReportaction() {

@@ -22,6 +22,7 @@
  */
 package es.uvigo.ei.sing.s2p.gui.table;
 
+import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.IntStream.of;
 import static java.util.stream.IntStream.range;
@@ -50,6 +51,7 @@ import org.jdesktop.swingx.JXTable;
 import es.uvigo.ei.sing.s2p.gui.table.CSVTransferHandler.Converter;
 
 /**
+ * An extension of {@code JXTable} that represents a CSV table.
  * 
  * @author Miguel Reboiro-Jato
  * @author Hugo López-Fernández
@@ -59,7 +61,6 @@ public class CSVTable extends JXTable {
 	private static final long serialVersionUID = 1L;
 	private CSVTransferHandler transferHandler;
 	private Map<Integer, String> formats;
-	private Map<Integer, TableCellRenderer> columnRenderers;
 
 	public CSVTable() {
 		super();
@@ -95,24 +96,23 @@ public class CSVTable extends JXTable {
 		super(rowData, columnNames);
 		this.configure();
 	}
-	
+
 	public void setFormat(int modelColumn, String format) {
 		this.formats.put(modelColumn, format);
 	}
-	
+
 	public String getFormat(int modelColumn) {
 		return this.formats.get(modelColumn);
 	}
-	
+
 	public void removeFormat(int modelColumn) {
 		this.formats.remove(modelColumn);
 	}
-	
-	
+
 	public void setConverter(int modelColumn, Converter converter) {
 		this.transferHandler.setConverter(modelColumn, converter);
 	}
-	
+
 	public Converter getConverter(int modelColumn) {
 		return this.transferHandler.getConverter(modelColumn);
 	}
@@ -120,7 +120,7 @@ public class CSVTable extends JXTable {
 	public void removeConverter(int modelColumn) {
 		this.transferHandler.removeConverter(modelColumn);
 	}
-	
+
 	public void exportViewToFile(File file) throws FileNotFoundException {
 		this.selectAll();
 		BasicTransferable transferable = this.transferHandler.createTransferable(this);
@@ -148,64 +148,39 @@ public class CSVTable extends JXTable {
 			}
 		}
 	}
-	
-	public TableCellRenderer setColumnCellRenderer(int index, TableCellRenderer renderer) {
-		return this.columnRenderers.put(index, renderer);
-	}
-	
-	public TableCellRenderer getColumnCellRenderer(int index) {
-		return this.columnRenderers.get(index);
-	}
-	
-	@Override
-	public TableCellRenderer getCellRenderer(int row, int column) {
-		try {
-			if (this.columnRenderers.containsKey(column)) {
-				return this.columnRenderers.get(column);
-			} else if (this.getValueAt(row, column) instanceof Float) {
-				return this.getDefaultRenderer(Float.class);
-			} else if (this.getValueAt(row, column) instanceof Double) {
-				return this.getDefaultRenderer(Double.class);
-			} else {
-				return super.getCellRenderer(row, column);
-			}
-		} catch (Exception e) {
-			return super.getCellRenderer(row, column);
-		}
-	}
-	
+
 	public void configure() {
 		this.transferHandler = new CSVTransferHandler();
 		this.formats = new HashMap<Integer, String>();
-		this.columnRenderers = new HashMap<Integer, TableCellRenderer>();
-		for (int i=0; i<this.getColumnCount(); i++) {
+		for (int i = 0; i < this.getColumnCount(); i++) {
 			this.formats.put(i, "%.4f");
 		}
-		
+
 		this.setCellSelectionEnabled(true);
 		this.setColumnControlVisible(true);
 		this.setTransferHandler(this.transferHandler);
 		this.setEditable(false);
 		TableCellRenderer renderer = new DefaultTableCellRenderer() {
-			/**
-			 * 
-			 */
 			private static final long serialVersionUID = 1L;
 
 			public Component getTableCellRendererComponent(JTable table,
-					Object value, boolean isSelected, boolean hasFocus,
-					int row, int column) {
-				Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-				if ((value instanceof Float || value instanceof Double) && component instanceof JLabel) {
+				Object value, boolean isSelected, boolean hasFocus, int row,
+				int column
+			) {
+				Component component = super.getTableCellRendererComponent(table,
+					value, isSelected, hasFocus, row, column);
+				if ((value instanceof Float || value instanceof Double) && 
+					component instanceof JLabel
+				) {
 					JLabel label = (JLabel) component;
 					label.setHorizontalAlignment(SwingConstants.RIGHT);
 					int modelColumn = table.convertColumnIndexToModel(column);
-					label.setText(String.format(CSVTable.this.formats.get(modelColumn), value));///*String.format("%.4f", */BigDecimal.valueOf((Float) value).round(new MathContext(4, RoundingMode.HALF_UP)).toPlainString()/*.floatValue())*/);
+					label.setText(format(formats.get(modelColumn), value));
 				}
 				return component;
 			}
 		};
-		
+
 		this.setDefaultRenderer(Float.class, renderer);
 		this.setDefaultRenderer(Double.class, renderer);
 	}
@@ -245,13 +220,12 @@ public class CSVTable extends JXTable {
 			for (int column : columns) {
 				toret[dataRow][dataColumn++] = this.getModel().getValueAt(row, column);
 			}
-			
 			dataRow++;
 		}
 		
 		return toret;
 	}
-	
+
 	public List<String> getTableHeader(List<Integer> columns) {
 		return 	columns.stream().map(this.getModel()::getColumnName)
 				.collect(Collectors.toList());

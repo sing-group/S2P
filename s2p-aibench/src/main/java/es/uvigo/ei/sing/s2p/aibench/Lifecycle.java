@@ -48,6 +48,7 @@ import es.uvigo.ei.aibench.workbench.MainWindow;
 import es.uvigo.ei.aibench.workbench.Workbench;
 import es.uvigo.ei.aibench.workbench.utilities.ClearClipboardAction;
 import es.uvigo.ei.aibench.workbench.utilities.HelpButton;
+import es.uvigo.ei.sing.hlfernandez.demo.DemoUtils;
 import es.uvigo.ei.sing.s2p.aibench.gui.AboutFrame;
 import es.uvigo.ei.sing.s2p.gui.util.CommonFileChooser;
 
@@ -60,6 +61,7 @@ public class Lifecycle extends org.platonos.pluginengine.PluginLifecycle {
 		"operations.importmascotidentifications",
 		"operations.importmascotquantifications",
 		"operations.loadmascotidentifications",
+		"operations.loadspotmascotidentifications",
 		"operations.loadmaldiplate"
 	};
 
@@ -86,6 +88,8 @@ public class Lifecycle extends org.platonos.pluginengine.PluginLifecycle {
 	}
 
 	private void configureMainWindow() {
+		DemoUtils.setNimbusKeepAlternateRowColor();
+
 		MainWindow window = (MainWindow) Workbench.getInstance().getMainFrame();
 		window.getDocumentTabbedPane().getParent().setBackground(Color.WHITE);
 

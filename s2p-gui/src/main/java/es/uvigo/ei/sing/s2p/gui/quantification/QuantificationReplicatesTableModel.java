@@ -141,11 +141,11 @@ public class QuantificationReplicatesTableModel extends DefaultTableModel {
 			case 2:
 				return String.class;
 			case 3:
-				return double.class;
+				return Double.class;
 			case 4:
-				return double.class;
+				return Double.class;
 			case 5:
-				return double.class;
+				return Double.class;
 			}
 			throw new IllegalStateException();
 		}

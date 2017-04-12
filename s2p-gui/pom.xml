@@ -39,6 +39,10 @@
 			<artifactId>jfreechart</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.sing_group</groupId>
+			<artifactId>jsparklines-factory</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>

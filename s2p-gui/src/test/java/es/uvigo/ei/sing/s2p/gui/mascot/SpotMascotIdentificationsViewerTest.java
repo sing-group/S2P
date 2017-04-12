@@ -19,7 +19,7 @@ import es.uvigo.ei.sing.s2p.core.io.MascotProjectLoader;
 import es.uvigo.ei.sing.s2p.core.operations.SpotMascotEntryPositionJoiner;
 
 public class SpotMascotIdentificationsViewerTest {
-	
+
 	public static void main(String[] args) throws IOException {
 		setNimbusLookAndFeel();
 

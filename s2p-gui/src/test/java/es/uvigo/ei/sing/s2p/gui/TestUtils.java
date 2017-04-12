@@ -26,8 +26,8 @@ import java.awt.Dimension;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
+
+import es.uvigo.ei.sing.hlfernandez.demo.DemoUtils;
 
 public class TestUtils {
 	
@@ -62,15 +62,7 @@ public class TestUtils {
 	}
 	
 	public static final void setNimbusLookAndFeel() {
-		try {
-		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-		        if ("Nimbus".equals(info.getName())) {
-		            UIManager.setLookAndFeel(info.getClassName());
-		            break;
-		        }
-		    }
-		} catch (Exception e) {
-		    // If Nimbus is not available, you can set the GUI to another look and feel.
-		}
+		DemoUtils.setNimbusKeepAlternateRowColor();
+		DemoUtils.setNimbusLookAndFeel();
 	}
 }

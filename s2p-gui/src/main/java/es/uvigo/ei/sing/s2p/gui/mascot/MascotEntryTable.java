@@ -22,6 +22,9 @@
  */
 package es.uvigo.ei.sing.s2p.gui.mascot;
 
+import static org.sing_group.jsparklines_factory.JSparklinesBarChartTableCellRendererFactory.createMaxValueBarChartRenderer;
+
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.stream.IntStream;
 
@@ -32,6 +35,7 @@ import javax.swing.event.PopupMenuEvent;
 import org.jdesktop.swingx.decorator.HighlighterFactory;
 
 import es.uvigo.ei.sing.hlfernandez.event.PopupMenuAdapter;
+import es.uvigo.ei.sing.hlfernandez.table.ColumnSummaryTabeCellRenderer;
 import es.uvigo.ei.sing.hlfernandez.utilities.ExtendedAbstractAction;
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 import es.uvigo.ei.sing.s2p.gui.table.ExtendedCsvTable;
@@ -61,6 +65,18 @@ public class MascotEntryTable extends ExtendedCsvTable {
 		this.setComponentPopupMenu(getPopupMenu());
 		this.addExportToCsvAction();
 		this.getTableHeader().setReorderingAllowed(false);
+		this.getTableHeader().setDefaultRenderer(
+			new ColumnSummaryTabeCellRenderer(
+				this.getTableHeader().getDefaultRenderer()
+			)
+		);
+		this.updateSparklinesRenderers();
+	}
+
+	private void updateSparklinesRenderers() {
+		for(int i : Arrays.asList(2, 3, 4, 5, 7)) {
+			createMaxValueBarChartRenderer(this, i).showNumberAndChart(true, 40);
+		}
 	}
 
 	private JPopupMenu getPopupMenu() {
@@ -99,5 +115,6 @@ public class MascotEntryTable extends ExtendedCsvTable {
 			.forEach(i -> {
 				entries.remove((int) i);
 			});
+		this.updateSparklinesRenderers();
 	}
 }

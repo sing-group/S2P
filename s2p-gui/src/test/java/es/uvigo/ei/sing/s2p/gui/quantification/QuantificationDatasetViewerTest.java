@@ -4,23 +4,33 @@ import static es.uvigo.ei.sing.s2p.core.resources.TestResources.QUANTIFICATION_E
 import static es.uvigo.ei.sing.s2p.gui.TestUtils.setNimbusLookAndFeel;
 import static es.uvigo.ei.sing.s2p.gui.TestUtils.showComponent;
 
-import java.awt.Dimension;
 import java.io.IOException;
+
+import javax.swing.JComponent;
+import javax.swing.JFrame;
 
 import es.uvigo.ei.sing.s2p.core.entities.quantification.MascotQuantificationMethod;
 import es.uvigo.ei.sing.s2p.core.entities.quantification.QuantificationDataset;
 import es.uvigo.ei.sing.s2p.core.io.quantification.QuantificationCsvDatasetLoader;
 import es.uvigo.ei.sing.s2p.core.operations.quantification.ReplicateNormalizationStrategy;
 import es.uvigo.ei.sing.s2p.core.operations.quantification.SumNormalizationFactor;
+import es.uvigo.ei.sing.s2p.core.operations.quantification.comparison.ComparisonMode;
 
 public class QuantificationDatasetViewerTest {
-	
+
 	public static void main(String[] args) throws IOException {
-		QuantificationDataset dataset = QuantificationCsvDatasetLoader.load(
-			QUANTIFICATION_EMPAI_DIRECTORY, MascotQuantificationMethod.EMPAI,
-			new ReplicateNormalizationStrategy(), new SumNormalizationFactor()
-		);
 		setNimbusLookAndFeel();
-		showComponent(new QuantificationDatasetViewer(dataset), new Dimension(400, 400));
+		JComponent viewer = new QuantificationDatasetViewer(testDataset(),
+			ComparisonMode.PROTEIN_MASS);
+		showComponent(viewer, JFrame.MAXIMIZED_BOTH);
+	}
+
+	private static QuantificationDataset testDataset() {
+		return QuantificationCsvDatasetLoader.load(
+				QUANTIFICATION_EMPAI_DIRECTORY, 
+				MascotQuantificationMethod.EMPAI,
+				new ReplicateNormalizationStrategy(), 
+				new SumNormalizationFactor()
+			);
 	}
 }
