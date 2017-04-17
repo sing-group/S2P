@@ -57,42 +57,42 @@ import es.uvigo.ei.sing.s2p.gui.table.CSVTransferHandler.Converter;
  * @author Hugo López-Fernández
  *
  */
-public class CSVTable extends JXTable {
+public class CsvTable extends JXTable {
 	private static final long serialVersionUID = 1L;
 	private CSVTransferHandler transferHandler;
 	private Map<Integer, String> formats;
 
-	public CSVTable() {
+	public CsvTable() {
 		super();
 		this.configure();
 	}
 
-	public CSVTable(int numRows, int numColumns) {
+	public CsvTable(int numRows, int numColumns) {
 		super(numRows, numColumns);
 		this.configure();
 	}
 
-	public CSVTable(Object[][] rowData, Object[] columnNames) {
+	public CsvTable(Object[][] rowData, Object[] columnNames) {
 		super(rowData, columnNames);
 		this.configure();
 	}
 
-	public CSVTable(TableModel dm, TableColumnModel cm, ListSelectionModel sm) {
+	public CsvTable(TableModel dm, TableColumnModel cm, ListSelectionModel sm) {
 		super(dm, cm, sm);
 		this.configure();
 	}
 
-	public CSVTable(TableModel dm, TableColumnModel cm) {
+	public CsvTable(TableModel dm, TableColumnModel cm) {
 		super(dm, cm);
 		this.configure();
 	}
 
-	public CSVTable(TableModel dm) {
+	public CsvTable(TableModel dm) {
 		super(dm);
 		this.configure();
 	}
 
-	public CSVTable(Vector<?> rowData, Vector<?> columnNames) {
+	public CsvTable(Vector<?> rowData, Vector<?> columnNames) {
 		super(rowData, columnNames);
 		this.configure();
 	}

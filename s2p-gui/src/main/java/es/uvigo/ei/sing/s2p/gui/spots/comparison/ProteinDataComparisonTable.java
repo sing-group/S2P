@@ -50,7 +50,7 @@ import es.uvigo.ei.sing.s2p.core.entities.Sample;
 import es.uvigo.ei.sing.s2p.core.entities.SpotMascotIdentifications;
 import es.uvigo.ei.sing.s2p.gui.event.ProteinDataComparisonEvent;
 import es.uvigo.ei.sing.s2p.gui.event.ProteinDataComparisonListener;
-import es.uvigo.ei.sing.s2p.gui.table.CSVTable;
+import es.uvigo.ei.sing.s2p.gui.table.CsvTable;
 
 public class ProteinDataComparisonTable extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -73,7 +73,7 @@ public class ProteinDataComparisonTable extends JPanel {
 
 	private void initTable() {
 		this.tableModel = new ProteinDataComparisonTableModel(this.conditions.get(0), this.conditions.get(1));
-		this.table = new CSVTable(this.tableModel);
+		this.table = new CsvTable(this.tableModel);
 		this.table.setTableHeader(null);
 		this.table.setColumnControlVisible(false);
 		final ComparisonTableCellRenderer renderer = new ComparisonTableCellRenderer();

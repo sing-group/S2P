@@ -38,21 +38,21 @@ import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import es.uvigo.ei.sing.hlfernandez.dialog.AbstractInputJDialog;
 import es.uvigo.ei.sing.s2p.core.entities.SpotMascotIdentifications;
 import es.uvigo.ei.sing.s2p.gui.UISettings;
-import es.uvigo.ei.sing.s2p.gui.table.CSVTable;
+import es.uvigo.ei.sing.s2p.gui.table.CsvTable;
 
 public class MascotIdentificationsSummaryDialog extends AbstractInputJDialog {
 	private static final long serialVersionUID = 1L;
 	
 	private JPanel inputComponents;
 
-	private CSVTable table;
+	private CsvTable table;
 	
 	public MascotIdentificationsSummaryDialog(Window parent, Set<String> spots,
 		SpotMascotIdentifications spotIdentifications
 	) {
 		super(parent);
 		
-		this.table = new CSVTable(new MascotIdentificationsSummaryTableModel(spots, spotIdentifications));
+		this.table = new CsvTable(new MascotIdentificationsSummaryTableModel(spots, spotIdentifications));
 		this.configureDialog();
 	}
 	

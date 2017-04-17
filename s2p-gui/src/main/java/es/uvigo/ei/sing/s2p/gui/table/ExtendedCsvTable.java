@@ -47,7 +47,7 @@ import es.uvigo.ei.sing.commons.csv.io.CsvWriter;
 import es.uvigo.ei.sing.s2p.gui.components.dialog.ExportCsvDialog;
 import es.uvigo.ei.sing.s2p.gui.util.CsvUtils;
 
-public class ExtendedCsvTable extends CSVTable {
+public class ExtendedCsvTable extends CsvTable {
 	private static final long serialVersionUID = 1L;
 	private CustomColumnControlButton columnControlButton;
 	private boolean showVisibilityActions = true;
