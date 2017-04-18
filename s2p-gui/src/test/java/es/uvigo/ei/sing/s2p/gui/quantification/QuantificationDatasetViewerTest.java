@@ -2,7 +2,7 @@ package es.uvigo.ei.sing.s2p.gui.quantification;
 
 import static es.uvigo.ei.sing.s2p.core.resources.TestResources.QUANTIFICATION_EMPAI_DIRECTORY;
 import static es.uvigo.ei.sing.s2p.gui.TestUtils.setNimbusLookAndFeel;
-import static es.uvigo.ei.sing.s2p.gui.TestUtils.showComponent;
+import static es.uvigo.ei.sing.hlfernandez.demo.DemoUtils.showComponent;
 
 import java.io.IOException;
 

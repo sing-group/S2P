@@ -1,14 +1,13 @@
 package es.uvigo.ei.sing.s2p.gui.charts;
 
+import static es.uvigo.ei.sing.hlfernandez.demo.DemoUtils.showComponent;
 import static es.uvigo.ei.sing.s2p.gui.TestUtils.setNimbusLookAndFeel;
-import static es.uvigo.ei.sing.s2p.gui.TestUtils.showComponent;
 import static java.util.Arrays.asList;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.io.IOException;
 import java.util.List;
-
-import javax.swing.JFrame;
 
 public class ChartSeriesTest {
 
@@ -22,6 +21,6 @@ public class ChartSeriesTest {
 			new ChartDataSeriesPanel("Chart title", "x axis", "y axis", series);
 
 		setNimbusLookAndFeel();
-		showComponent(chart, JFrame.MAXIMIZED_BOTH);
+		showComponent(chart, new Dimension(500, 500));
 	}
 }

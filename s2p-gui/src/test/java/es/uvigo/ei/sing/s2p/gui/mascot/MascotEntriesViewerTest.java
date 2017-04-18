@@ -22,13 +22,12 @@
  */
 package es.uvigo.ei.sing.s2p.gui.mascot;
 
+import static es.uvigo.ei.sing.hlfernandez.demo.DemoUtils.showComponent;
 import static es.uvigo.ei.sing.s2p.core.resources.TestResources.MASCOT_PROJECT_FULL;
 import static es.uvigo.ei.sing.s2p.gui.TestUtils.setNimbusLookAndFeel;
-import static es.uvigo.ei.sing.s2p.gui.TestUtils.showComponent;
+import static java.awt.Frame.MAXIMIZED_BOTH;
 
 import java.io.IOException;
-
-import javax.swing.JFrame;
 
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.io.MascotProjectLoader;
@@ -40,6 +39,6 @@ public class MascotEntriesViewerTest {
 			MascotProjectLoader.load(MASCOT_PROJECT_FULL, 56, true);
 
 		setNimbusLookAndFeel();
-		showComponent(new MascotIdentificationsViewer(entries), JFrame.MAXIMIZED_BOTH);
+		showComponent(new MascotIdentificationsViewer(entries), MAXIMIZED_BOTH);
 	}
 }

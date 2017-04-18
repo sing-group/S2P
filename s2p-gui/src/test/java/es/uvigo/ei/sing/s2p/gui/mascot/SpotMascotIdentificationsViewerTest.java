@@ -4,7 +4,7 @@ import static es.uvigo.ei.sing.s2p.core.resources.TestResources.MALDI_PLATE_FILE
 import static es.uvigo.ei.sing.s2p.core.resources.TestResources.MALDI_PLATE_FORMAT;
 import static es.uvigo.ei.sing.s2p.core.resources.TestResources.MASCOT_PROJECT;
 import static es.uvigo.ei.sing.s2p.gui.TestUtils.setNimbusLookAndFeel;
-import static es.uvigo.ei.sing.s2p.gui.TestUtils.showComponent;
+import static es.uvigo.ei.sing.hlfernandez.demo.DemoUtils.showComponent;
 
 import java.io.IOException;
 import java.util.Map;
