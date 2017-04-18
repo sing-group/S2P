@@ -12,6 +12,8 @@ public enum ComparisonMode {
 		new MassProteinSummaryTest()
 	);
 
+	public static final String DEFAULT_COMPARISON = "Normalized quantification";
+
 	private String name;
 	private String label;
 	private ProteinSummaryTest test;

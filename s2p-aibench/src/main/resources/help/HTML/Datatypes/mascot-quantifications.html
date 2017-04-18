@@ -1,0 +1,86 @@
+<!--
+  #%L
+  S2P
+  %%
+  Copyright (C) 2016 José Luis Capelo Martínez, José Eduardo Araújo, Florentino Fdez-Riverola, Miguel
+  			Reboiro-Jato, Hugo López-Fernández, and Daniel Glez-Peña
+  %%
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as
+  published by the Free Software Foundation, either version 3 of the
+  License, or (at your option) any later version.
+  
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public
+  License along with this program.  If not, see
+  <http://www.gnu.org/licenses/gpl-3.0.html>.
+  #L%
+  -->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<title>Mascot quantifications</title>
+</head>
+<body style="font-size: 13px">
+	<h1>Mascot quantifications</h1>
+	<p><i>Mascot quantifications</i> can be explored and edited using the <i>Mascot quantifications viewer</i>.</p>
+	<p><strong>Mascot quantifications viewer</strong></p>
+	<p>The <i>Mascot quantifications viewer</i> shows you three tabs with three different tables:</p>
+	<ul>
+		<li><i>Replicates</i>.</li>
+		<li><i>Replicates by protein</i>.</li>
+		<li><i>Conditions</i>.</li>
+	</ul>
+	
+	<p>To export any table you must click the <img src="../Images/Views/button-table-options.png"/> button, which will show you the <b>Export to CSV</b> option that allows you to save the selected table into a CSV file.</p>
+
+	<p><strong><i>Replicates</i> table</strong></p>
+	<p>The <i>Replicates</i> table shows you all protein quantifications. Each row represents a protein quantification and as you can see in the image below, columns provide the following information for each one:</p>
+	<ul>
+		<li><i>Sample</i>: the sample where this protein quantification comes from.</li>
+		<li><i>Replicate</i>: the number of the sample replicate.</li>
+		<li><i>Protein</i>: the name of the protein.</li>
+		<li><i>Quantification</i>: the <b>emPAI</b> quantification value found in the report.</li>
+		<li><i>Normalized quantification</i>: the <b>emPAI</b> normalized quantification value, calculated using the specified parameters.</li>
+		<li><i>Protein mass</i>: the protein mass calculaded as the product of the <b>emPAI</b> normalized quantification by the protein mass specified for the corresponding sample in the <i>protein-masses.txt</i> file. Please, check the <a href="../Import/mascot-quantifications.html"><i>Import Masot quantification</i></a> operation documentation for a deeper explanation about this file.</li>
+	</ul>
+
+	<div align="center">
+  		<p><a href="../Images/html/Views/mascot-quantifications-viewer/replicates-table.html"><img src="../Images/Views/mascot-quantifications-viewer/replicates-table-small.png" border="0"/></a></p>
+  		<p><strong><i>Replicates</i> table</strong>
+  		<br/><font size="2">(click in the image to enlarge)</font></p>
+	</div>
+	
+	<p>The information on this table is used to construct the other two tables as it is explained below.</p>
+
+	<p><strong><i>Replicates by protein</i> table</strong></p>
+	<p>The <i>Replicates by protein</i> table allows you to compare replicates by displaying each protein in a row and protein quantification values for replicates in columns. Protein quantifications at the <i>Replicates</i> table are grouped by their protein names.</p>
+
+	<div align="center">
+  		<p><a href="../Images/html/Views/mascot-quantifications-viewer/replicates-proteins-table.html"><img src="../Images/Views/mascot-quantifications-viewer/replicates-proteins-table-small.png" border="0"/></a></p>
+  		<p><strong><i>Replicates by protein</i> table</strong>
+  		<br/><font size="2">(click in the image to enlarge)</font></p>
+	</div>
+	
+	<p><strong><i>Conditions</i> table</strong></p>
+	<p>Finally, the <i>Conditions</i> table allows you to compare conditions by displaying each protein in a row and conditions in columns. Protein quantifications at the <i>Replicates</i> table are grouped by their protein names. Moreover, the final columns of the table show both p-value and corrected p-value (or q-value) of the t-test between protein quantification or protein mass values in each condition. Note that the value used for the t-test is selected in the <a href="../Import/mascot-quantifications.html"><i>Import Masot quantification</i></a> operation. Correction of p-values is performed by applying the Benjamini-Hochberg FDR procedure.</p>
+	
+	<div align="center">
+  		<p><a href="../Images/html/Views/mascot-quantifications-viewer/conditions-table.html"><img src="../Images/Views/mascot-quantifications-viewer/conditions-table-small.png" border="0"/></a></p>
+  		<p><strong><i>Conditions</i> table</strong>
+  		<br/><font size="2">(click in the image to enlarge)</font></p>
+	</div>
+	
+	<p>For each condition, the following nine columns are created:</p>
+	<ul>
+		<li>Columns 1, 2 and 3 show the mean, standard deviation and relative standard deviation (RSD) of protein quantification values in all condition samples.</li>
+		<li>Columns 4, 5 and 6 show the mean, standard deviation and relative standard deviation (RSD) of normalized protein quantification values in all condition samples.</li>
+		<li>Columns 7 and 8 show the mean and standard deviation of protein mass values in all condition samples.</li>
+		<li>Column 9 shows the percentage of presence (POP) of the protein in the condition, calculated as the number of samples where the protein has been quantified divided by the total number of samples in the condition.</li>
+	</ul>
+</body>
+</html>

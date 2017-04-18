@@ -89,7 +89,7 @@
 				name="Import Mascot quantifications"
 				uid="operations.importmascotquantifications"
 				path="2@Import"
-				help="import.mascot"
+				help="import.mascot.quantifications"
 			/>
 		</extension>
 		

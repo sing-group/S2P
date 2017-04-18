@@ -6,6 +6,8 @@ public enum Normalization {
 	GLOBAL		("Global", 				new GlobalNormalizationStrategy()	),
 	NO			("No normalization",	new NoNormalizationStrategy()		);
 
+	public static final String DEFAULT_NORMALIZATION = "Replicate";
+
 	private String name;
 	private NormalizationStrategy strategy;
 

@@ -4,6 +4,8 @@ public enum NormalizationFactorEnum {
 	SUM			("Sum", 		new SumNormalizationFactor()),
 	MEDIAN		("Median",		new MedianNormalizationFactor()	);
 
+	public static final String DEFAULT_FACTOR = "Sum";
+
 	private String name;
 	private NormalizationFactor factor;
 

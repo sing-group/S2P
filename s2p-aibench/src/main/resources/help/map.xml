@@ -33,14 +33,17 @@
 	 <mapID target="datatype.maldiplate" url="HTML/Datatypes/maldi-plate.html"/>
 	 <mapID target="datatype.venndiagramdesign" url="HTML/Datatypes/venn-diagram-design.html"/>
 	 <mapID target="datatype.mascotidentifications" url="HTML/Datatypes/mascot-identifications.html"/>
+	 <mapID target="datatype.mascotquantifications" url="HTML/Datatypes/mascot-quantifications.html"/>
 	 <mapID target="datatype.samespotsanalysis" url="HTML/Datatypes/samespots-analysis.html"/>
 	 <mapID target="datatype.spotsdata" url="HTML/Datatypes/spots-data.html"/>
 
+	<mapID target="file.openrecent" url="HTML/File/openrecent.html"/>
 	<mapID target="file.newplate" url="HTML/File/newplate.html"/>
 	<mapID target="file.newvenndiagramdesign" url="HTML/File/newvenndiagramdesign.html"/>
 	<mapID target="file.clearclipboard" url="HTML/File/clearclipboard.html"/>
 
 	<mapID target="import.mascot" url="HTML/Import/mascot.html"/>
+	<mapID target="import.mascot.quantifications" url="HTML/Import/mascot-quantifications.html"/>
 	<mapID target="import.plate" url="HTML/Import/plate.html"/>
 	<mapID target="import.samespots.report" url="HTML/Import/samespots-report.html"/>
 	<mapID target="import.samespots.csv" url="HTML/Import/samespots-csv.html"/>

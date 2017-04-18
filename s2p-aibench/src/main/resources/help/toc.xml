@@ -30,105 +30,117 @@
 		<tocitem target="top" text="Welcome to the S2P Help!" />
 		
 		<tocitem text="S2P basics">
-			<tocitem 
-				text="Application workflow" 
+			<tocitem
+				text="Application workflow"
 				target="basics.workflow"
 			/>
-			<tocitem 
-				text="Main user interface" 
+			<tocitem
+				text="Main user interface"
 				target="basics.mainGUI"
 			/>
 		</tocitem>
 
 		<tocitem text="Operations">
 			<tocitem text="The File menu">
-				<tocitem 
-					text="New plate" 
+				<tocitem
+					text="Open recent"
+					target="file.openrecent"
+				/>
+				<tocitem
+					text="New plate"
 					target="file.newplate"
 				/>
-				<tocitem 
-					text="New Venn Diagram Design" 
+				<tocitem
+					text="New Venn Diagram Design"
 					target="file.newvenndiagramdesign"
 				/>
-				<tocitem 
-					text="Clear clipboard" 
+				<tocitem
+					text="Clear clipboard"
 					target="file.clearclipboard"
 				/>
 			</tocitem>
 
 			<tocitem text="The Import menu">
-				<tocitem 
-					text="Import Mascot identifications" 
+				<tocitem
+					text="Import Mascot identifications"
 					target="import.mascot"
 				/>
-				<tocitem 
-					text="Import plate" 
+				<tocitem
+					text="Import Mascot quantifications"
+					target="import.mascot.quantifications"
+				/>
+				<tocitem
+					text="Import plate"
 					target="import.plate"
 				/>
-				<tocitem 
+				<tocitem
 					text="SameSpots">
-					<tocitem 
-						text="Import Report" 
+					<tocitem
+						text="Import Report"
 						target="import.samespots.report"
 					/>
-					<tocitem 
-						text="Import CSV" 
+					<tocitem
+						text="Import CSV"
 						target="import.samespots.csv"
 					/>
 				</tocitem>				
 			</tocitem>
 
 			<tocitem text="The Load Menu">
-				<tocitem 
-					text="Load spots" 
+				<tocitem
+					text="Load spots"
 					target="load.spots"
 				/>
-				<tocitem 
-					text="Load identifications" 
+				<tocitem
+					text="Load identifications"
 					target="load.identifications"
 				/>
-				<tocitem 
-					text="Load plate" 
+				<tocitem
+					text="Load plate"
 					target="load.plate"/>
-				<tocitem 
-					text="Load Venn Diagram design" 
+				<tocitem
+					text="Load Venn Diagram design"
 					target="load.venndiagramdesign"
 				/>
 			</tocitem>
 
 			<tocitem text="The Operations menu">
-				<tocitem 
-					text="Fill plate" 
+				<tocitem
+					text="Fill plate"
 					target="operations.fillplate"
 				/>
 			</tocitem>
 		</tocitem>
 
 		<tocitem text="Datatypes">
-			<tocitem 
-				text="Maldi plate" 
+			<tocitem
+				text="Maldi plate"
 				target="datatype.maldiplate"
 			/>
-			<tocitem 
-				text="Venn Diagram design" 
+			<tocitem
+				text="Venn Diagram design"
 				target="datatype.venndiagramdesign"
 			/>
-			<tocitem 
-				text="Mascot identifications" 
+			<tocitem
+				text="Mascot identifications"
 				target="datatype.mascotidentifications"
 			/>
-			<tocitem 
-				text="SameSpots analysis" 
+			<tocitem
+				text="Mascot quantifications"
+				target="datatype.mascotquantifications"
+			/>
+			<tocitem
+				text="SameSpots analysis"
 				target="datatype.samespotsanalysis"
 			/>
-			<tocitem 
-				text="Spots data" 
+			<tocitem
+				text="Spots data"
 				target="datatype.spotsdata"
 			/>			
 		</tocitem>
 
-		<tocitem 
-			text="About" 
+		<tocitem
+			text="About"
 			target="about"
 		/>
 	</tocitem>
