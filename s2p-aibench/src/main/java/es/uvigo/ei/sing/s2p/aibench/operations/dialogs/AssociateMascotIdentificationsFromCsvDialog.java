@@ -23,6 +23,7 @@
 package es.uvigo.ei.sing.s2p.aibench.operations.dialogs;
 
 
-public class AssociateMascotIdentificationsDialog extends AbstractCsvInputDialog {
+public class AssociateMascotIdentificationsFromCsvDialog
+	extends AbstractCsvInputDialog {
 	private static final long serialVersionUID = 1L;
 }

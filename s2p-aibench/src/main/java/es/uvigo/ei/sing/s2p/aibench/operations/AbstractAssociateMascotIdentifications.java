@@ -1,10 +1,6 @@
 package es.uvigo.ei.sing.s2p.aibench.operations;
 
-import static es.uvigo.ei.sing.s2p.aibench.operations.dialogs.AbstractCsvInputDialog.CSV_FORMAT;
-import static es.uvigo.ei.sing.s2p.aibench.operations.dialogs.AbstractCsvInputDialog.CSV_FORMAT_DESCRIPTION;
-import static es.uvigo.ei.sing.s2p.aibench.util.PortConfiguration.EXTRAS_CSV_FILES;
 import static es.uvigo.ei.sing.s2p.aibench.util.PortConfiguration.EXTRAS_MPL_FILES;
-import static es.uvigo.ei.sing.s2p.core.io.MascotCsvLoader.load;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,10 +9,8 @@ import javax.swing.JOptionPane;
 
 import es.uvigo.ei.aibench.core.Core;
 import es.uvigo.ei.aibench.core.operation.annotation.Direction;
-import es.uvigo.ei.aibench.core.operation.annotation.Operation;
 import es.uvigo.ei.aibench.core.operation.annotation.Port;
 import es.uvigo.ei.aibench.workbench.Workbench;
-import es.uvigo.ei.sing.commons.csv.entities.CsvFormat;
 import es.uvigo.ei.sing.s2p.aibench.datatypes.SpotMascotIdentificationsDatatype;
 import es.uvigo.ei.sing.s2p.core.entities.MaldiPlate;
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
@@ -24,40 +18,12 @@ import es.uvigo.ei.sing.s2p.core.entities.SpotMascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.io.MaldiPlateLoader;
 import es.uvigo.ei.sing.s2p.core.operations.SpotMascotEntryPositionJoiner;
 
-@Operation(
-	name = "Associate Mascot identifications with a maldi plate", 
-	description = "Associates a Mascot identifications with a maldi plate."
-)
-public class AssociateMascotIdentifications {
+public abstract class AbstractAssociateMascotIdentifications {
 
-	private File file;
-	private CsvFormat csvFormat;
-	private int minimumMS;
-	private boolean removeDuplicates;
-	private File maldiPlateFile;
-	private SpotMascotIdentifications spotIdentifications;
-
-	@Port(
-		direction = Direction.INPUT, 
-		name = "Protein identifications", 
-		description = "A CSV file containing the Mascot identifications.",
-		allowNull = false,
-		order = 1,
-		extras = EXTRAS_CSV_FILES
-	)
-	public void setFile(File file) {
-		this.file = file;
-	}
-
-	@Port(
-		direction = Direction.INPUT, 
-		name = CSV_FORMAT,
-		description = CSV_FORMAT_DESCRIPTION,
-		order = 2
-	)
-	public void setCsvFormat(CsvFormat csvFormat) {
-		this.csvFormat = csvFormat;
-	}	
+	protected int minimumMS;
+	protected boolean removeDuplicates;
+	protected File maldiPlateFile;
+	protected SpotMascotIdentifications spotIdentifications;
 
 	@Port(
 		direction = Direction.INPUT, 
@@ -98,7 +64,7 @@ public class AssociateMascotIdentifications {
 	@Port(
 		direction = Direction.INPUT, 
 		name = "Spot identifications",
-		description = "A MPL file containing the Maldi plate.",
+		description = "Optionally, a previously loaded Spot identifications to add the new data.",
 		allowNull = true,
 		order = 6
 	)
@@ -114,9 +80,9 @@ public class AssociateMascotIdentifications {
 
 		MascotIdentifications mascotIdentifications = null;
 		try {
-			mascotIdentifications = load(file, csvFormat, minimumMS, removeDuplicates);
+			mascotIdentifications = getMascotIdentifications();
 		} catch (IOException e) {
-			showError("An error ocurred when loading Mascot identifications from " + file.getAbsolutePath(), e);
+			showError("An error ocurred when loading Mascot identifications.", e);
 			return;
 		}
 
@@ -140,7 +106,9 @@ public class AssociateMascotIdentifications {
 		}
 	}
 
-	private void showError(String errorMessage, Exception e) {
+	protected abstract MascotIdentifications getMascotIdentifications() throws IOException;
+
+	protected void showError(String errorMessage, Exception e) {
 		JOptionPane.showMessageDialog(
 			Workbench.getInstance().getMainFrame(),  
 			errorMessage + "\n " + e.getMessage(), 

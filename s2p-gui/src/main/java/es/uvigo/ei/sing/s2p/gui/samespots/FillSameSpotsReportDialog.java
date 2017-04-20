@@ -8,8 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 
 import es.uvigo.ei.sing.hlfernandez.filechooser.JFileChooserPanel;
-import es.uvigo.ei.sing.hlfernandez.filechooser.JFileChooserPanel.Mode;
 import es.uvigo.ei.sing.hlfernandez.filechooser.JFileChooserPanel.SelectionMode;
+import es.uvigo.ei.sing.hlfernandez.filechooser.JFileChooserPanelBuilder;
 import es.uvigo.ei.sing.hlfernandez.input.InputParameter;
 import es.uvigo.ei.sing.hlfernandez.input.InputParametersPanel;
 import es.uvigo.ei.sing.s2p.core.io.samespots.SameSpotsReportFileWriterConfiguration;
@@ -53,12 +53,19 @@ public class FillSameSpotsReportDialog extends AbstractFileInputJDialog {
 	}
 
 	private InputParameter createDirectorySelectionParameter() {
-		this.fileChooserPanel = new JFileChooserPanel(
-			Mode.OPEN, SelectionMode.DIRECTORIES, getFileChooser());
+		this.fileChooserPanel = JFileChooserPanelBuilder
+			.createOpenJFileChooserPanel()
+				.withFileChooserSelectionMode(SelectionMode.DIRECTORIES)
+				.withFileChooser(getFileChooser())
+				.withLabel("")
+			.build();
 		this.fileChooserPanel.addFileChooserListener(this::onFileChoosed);
 
-		return new InputParameter("SameSports report directory", 
-			fileChooserPanel, "Directory");
+		return new InputParameter(
+			"SameSports report directory", 
+			fileChooserPanel, 
+			"The directory containing the SameSpots HTM reports."
+		);
 	}
 
 	private void onFileChoosed(ChangeEvent event) {
@@ -73,7 +80,11 @@ public class FillSameSpotsReportDialog extends AbstractFileInputJDialog {
 			this::reportConfigurationChanged
 		);
 
-		return new InputParameter("Configuration", configurationPanel, "Configuration");
+		return new InputParameter(
+			"Configuration", 
+			configurationPanel, 
+			"Different options to configure the way that the report is processed."
+		);
 	}
 
 	private void reportConfigurationChanged(PropertyChangeEvent e) {

@@ -96,6 +96,10 @@
 					target="load.identifications"
 				/>
 				<tocitem
+					text="Load spot identifications"
+					target="load.spotidentifications"
+				/>
+				<tocitem
 					text="Load plate"
 					target="load.plate"/>
 				<tocitem
@@ -108,6 +112,14 @@
 				<tocitem
 					text="Fill plate"
 					target="operations.fillplate"
+				/>
+				<tocitem
+					text="Associate Mascot identifications from a CSV file"
+					target="operations.associatemascotidentifications.csv"
+				/>
+				<tocitem
+					text="Associate Mascot identifications from a HTM Mascot report file"
+					target="operations.associatemascotidentifications.report"
 				/>
 			</tocitem>
 		</tocitem>
@@ -126,6 +138,10 @@
 				target="datatype.mascotidentifications"
 			/>
 			<tocitem
+				text="Spot Mascot identifications"
+				target="datatype.spotmascotidentifications"
+			/>
+			<tocitem
 				text="Mascot quantifications"
 				target="datatype.mascotquantifications"
 			/>
@@ -137,6 +153,13 @@
 				text="Spots data"
 				target="datatype.spotsdata"
 			/>			
+		</tocitem>
+
+		<tocitem text="S2P Advanced">
+			<tocitem
+				text="Fill SameSpots report"
+				target="advanced.fillsamespotsreport"
+			/>
 		</tocitem>
 
 		<tocitem

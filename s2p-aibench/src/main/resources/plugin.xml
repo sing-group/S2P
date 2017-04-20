@@ -101,7 +101,7 @@
 				name="Load identifications"
 				uid="operations.loadmascotidentifications"
 				path="3@Load"
-				shortcut="2"
+				shortcut="3"
 				help="load.identifications"
 			/>
 		</extension>
@@ -111,10 +111,11 @@
 			class="es.uvigo.ei.sing.s2p.aibench.operations.LoadSpotMascotIdentificationsCsvFile"
 		>
 			<operation-description
-				name="Load spots identifications"
+				name="Load spot identifications"
 				uid="operations.loadspotmascotidentifications"
 				path="3@Load"
-				help="load.identifications"
+				help="load.spotidentifications"
+				shortcut="2"
 			/>
 		</extension>
 
@@ -150,7 +151,7 @@
 				name="Load plate"
 				uid="operations.loadmaldiplate"
 				path="3@Load"
-				shortcut="3"
+				shortcut="4"
 				help="load.plate"
 			/>
 		</extension>
@@ -193,13 +194,25 @@
 
 		<extension
 			uid="aibench.core" name="aibench.core.operation-definition"
-			class="es.uvigo.ei.sing.s2p.aibench.operations.AssociateMascotIdentifications"
+			class="es.uvigo.ei.sing.s2p.aibench.operations.AssociateMascotIdentificationsFromReport"
 		>
 			<operation-description
-				name="Associate Mascot identifications"
-				uid="operations.associatemascotidentifications"
+				name="Associate Mascot identifications from a HTM Mascot report file"
+				uid="operations.associatemascotidentificationsfromreport"
 				path="4@Operations"
-				help="operations.associatemascotidentifications"
+				help="operations.associatemascotidentifications.report"
+			/>
+		</extension>
+
+		<extension
+			uid="aibench.core" name="aibench.core.operation-definition"
+			class="es.uvigo.ei.sing.s2p.aibench.operations.AssociateMascotIdentificationsFromCsv"
+		>
+			<operation-description
+				name="Associate Mascot identifications from a CSV file"
+				uid="operations.associatemascotidentificationsfromcsv"
+				path="4@Operations"
+				help="operations.associatemascotidentifications.csv"
 			/>
 		</extension>
 
@@ -278,8 +291,8 @@
 				class="es.uvigo.ei.sing.s2p.aibench.operations.dialogs.FillMaldiPlateDialog"
 		    />
 		    <gui-operation
-				operation="operations.associatemascotidentifications"
-				class="es.uvigo.ei.sing.s2p.aibench.operations.dialogs.AssociateMascotIdentificationsDialog"
+				operation="operations.associatemascotidentificationsfromcsv"
+				class="es.uvigo.ei.sing.s2p.aibench.operations.dialogs.AssociateMascotIdentificationsFromCsvDialog"
 		    />
 		</extension>		
 
@@ -402,11 +415,20 @@
 			/>
 
 			<icon-operation
-				operation="operations.associatemascotidentifications"
+				operation="operations.associatemascotidentificationsfromcsv"
 				icon="icons/associatemascotidentifications.png"
 			/>
 			<big-icon-operation
-				operation="operations.associatemascotidentifications"
+				operation="operations.associatemascotidentificationsfromcsv"
+				icon="icons/associatemascotidentifications.png"
+			/>
+
+			<icon-operation
+				operation="operations.associatemascotidentificationsfromreport"
+				icon="icons/associatemascotidentifications.png"
+			/>
+			<big-icon-operation
+				operation="operations.associatemascotidentificationsfromreport"
 				icon="icons/associatemascotidentifications.png"
 			/>
 			

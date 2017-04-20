@@ -23,23 +23,26 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-	<title>Load spots data</title>
+	<title>Associate Mascot identifications from a CSV file</title>
 </head>
 <body style="font-size: 13px">
-	<h1>Load spots data <img src="../Images/Toolbar/load-spots-button.png"/></h1>
-	<p>This operation allows you to load spots data from a CSV file.</p>
-	<p><strong>Spots data CSV file</strong></p>
-	<p>This option allows you to load spots data from a CSV file. This CSV file must have the same format that the one used by the <i>SameSpots report editor</i> to store the spots data.</p>
+	<h1>Associate Mascot identifications from a CSV file</h1>
+	<p>This operation allows you to associate Mascot identifications from a CSV file with a Maldi plate.</p>
+	<p>This operation has been designed to effectively manage experiments involving several Maldi plates and different sets of Mascot identifications. This way, instead of loading them separately and associating them in the momment of analyzing <a href="../Datatypes/spots-data.html"><i>Spots data</i></a> in the <i>Integrated analysis view</i>, users can associate all Maldi plates and Mascot identifications once, save them as a CSV file and then reusing this associated set of <i>Spot Mascot identifications</i>.</p>
 	<p><strong>Usage</strong></p>
-	<p>You can execute this operation by clicking the menu option <i>Load/Load spots</i> or the toolbar <img src="../Images/Toolbar/load-spots-button.png"/> button.</p>
-	<p>A dialog will appear allowing you to choose the CSV file containing the spots data. As you can see in the following image, this dialog requires you to provide the following information:</p>
+	<p>You can execute this operation by clicking the menu option <i>Operations/Associate Mascot identifications from a CSV file</i>.</p>
+	<p>A dialog will appear allowing you to select the source CSV Mascot identifications file and MPL Maldi plate file. As you can see in the following image, this dialog requires you to provide the following information:</p>
 	<ul>
-		<li><b>Spots data</b>: a CSV containing the spots data to be loaded.</li>
+		<li><b>Protein identifications</b>: a CSV file containing the Mascot identifications.</li>
 		<li><b>CSV format</b>: the CSV format of the selected CSV file. <i>S2P</i> includes two preconfigured formats for Excel and Open/LibreOffice applications. In case you need to specify a custom CSV format you can select the Custom option, which allows you to configure the CSV format.</li>
+		<li><b>Minimum Mascot Score</b>: the minimum Mascot Score for identifications to be loaded. Entries within a lower Mascot Score are not loaded.</li>
+		<li><b>Remove duplicates</b>: whether duplicated identifications must be skipped. Check this option to remove duplicated identifications.</li>
+		<li><b>Maldi plate</b>: A MPL file containing the Maldi plate.</li>
+		<li><b>Spot identifications</b>: optionally, a previously loaded Spot identifications to add the new data.</li>
 	</ul>
 	<div align="center">
-  		<p><img src="../Images/Dialogs/load-spots-data.png" border="0"/></p>
-  		<p><strong><i>Load Spots Data</i> dialog</strong></p>
+  		<p><img src="../Images/Dialogs/Operations/associate-mascot-identifications-from-csv.png" border="0"/></p>
+  		<p><strong><i>Associate Mascot identifications</i> dialog</strong></p>
 	</div>
 	<p>As commented above, you can customize the CSV format by selecting the <i>Custom</i> format option. When you select this option, the following custom format panel will be shown in the dialog. The options included in this panel will allow you to customize the CSV format:</p>
 	<ul>
@@ -51,7 +54,7 @@
 	<div align="center">
   		<p><img src="../Images/Dialogs/csv-custom-format.png" border="0"/></p>
   		<p><strong><i>Custom CSV</i> panel</strong></p>
-	</div>
-	<p>After clicking the <i>Ok</i> button, the loaded spots data is automatically added as a <a href="../Datatypes/spots-data.html"><i>Spots data</i> datatype</a> to the clipboard and automatically opened it in the <i>Integrated analysis view</i>.</li>
+	</div>	
+	<p>After clicking the <i>Ok</i> button, the associated identifications are added as a <a href="../Datatypes/spot-mascot-identifications.html"><i>Spot Mascot identifications</i> datatype</a> to the clipboard and automatically opened in the <i>Spot Mascot identifications table</i>.</p>
 </body>
 </html>

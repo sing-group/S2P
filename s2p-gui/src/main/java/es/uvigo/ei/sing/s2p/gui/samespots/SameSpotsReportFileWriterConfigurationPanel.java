@@ -98,55 +98,64 @@ public class SameSpotsReportFileWriterConfigurationPanel extends JPanel {
 		}
 	}
 
+	private static final String includeDescription(String property) {
+		return "Whether " + property
+			+ " should be included in the report or not.";
+	}
+
 	private InputParameter[] getParameters() {
 		this.inputParameters = new InputParameter[14];
 		this.inputParameters[0] = new InputParameter(
 			"", this.includeMascotScoreCb, 
-			"Whether include Mascot score in the report or not."
+			includeDescription(LABEL_SCORE)
 		);
 		this.inputParameters[1] = new InputParameter(
 			"", this.includeMethodCb, 
-			"Whether include Method in the report or not."
+			includeDescription(LABEL_METHOD)
 		);
 		this.inputParameters[2] = new InputParameter(
 			"", this.includeMsCoverageCb, 
-			"Whether include MS coverage  in the report or not."
+			includeDescription(LABEL_MS_COVERAGE)
 		);
 		this.inputParameters[3] = new InputParameter(
 			"", this.includePlatePositionCb, 
-			"Whether include plate position in the report or not."
+			includeDescription(LABEL_PLATE_POSITION)
 		);
 		this.inputParameters[4] = new InputParameter(
 			"", this.includeSourceCb, 
-			"Whether include Source in the report or not."
+			includeDescription(LABEL_SOURCE)
 		);
 		this.inputParameters[5] = new InputParameter(
 			"", this.includeDifference, 
-			"Whether include difference in the report or not."
+			includeDescription(LABEL_DIFFERENCE)
 		);
 		this.inputParameters[6] = new InputParameter(
 			"", this.includeTitleCb, 
-			"Whether include Protein name in the reportor not."
+			includeDescription(LABEL_TITLE)
 		);
 		this.inputParameters[7] = new InputParameter(
 			"", this.includeAccession, 
-			"Whether include Accession in the report or not."
+			includeDescription(LABEL_ACCESSION)
 		);
 		this.inputParameters[8] = new InputParameter(
 			"", this.includePiValueCb, 
-			"Whether include pI-value in the report or not."
+			includeDescription(LABEL_PI_VALUE)
 		);
 		this.inputParameters[9] = new InputParameter(
 			"", this.includeProteinMwCb, 
-			"Whether include protein MW in the report or not."
+			includeDescription(LABEL_PROTEIN_MW)
 		);
 		this.inputParameters[10] = new InputParameter(
 			"", this.includeSpotsWithoutIdentifications, 
-			"Whether include spots without associated dentifications or not."
+			"Whether include spots without associated dentifications or not. "
+				+ "If this option is selected, then spots without associated "
+				+ "identifications will remain in the report."
 		);
 		this.inputParameters[11] = new InputParameter(
 			"", this.includeDuplicatedProteinNames,
-			"Whether include identifications with duplicated protein names or not."
+			"Whether include identifications with duplicated protein names or "
+			+ "not. If you select this option, then a row will be added for "
+			+ "each duplicated protein name of each spot identifier."
 		);
 		this.inputParameters[12] = new InputParameter(
 			"", getFileModePanel(),
@@ -154,7 +163,7 @@ public class SameSpotsReportFileWriterConfigurationPanel extends JPanel {
 		);
 		this.inputParameters[13] = new InputParameter(
 			"", getSuffixPanel(),
-			"Files suffix."
+			"The suffix for adding to the copies of the original report files."
 		);
 		this.addListeners();
 		return this.inputParameters;

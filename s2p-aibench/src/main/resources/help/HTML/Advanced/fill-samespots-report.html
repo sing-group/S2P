@@ -1,0 +1,87 @@
+<!--
+  #%L
+  S2P
+  %%
+  Copyright (C) 2016 José Luis Capelo Martínez, José Eduardo Araújo, Florentino Fdez-Riverola, Miguel
+  			Reboiro-Jato, Hugo López-Fernández, and Daniel Glez-Peña
+  %%
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as
+  published by the Free Software Foundation, either version 3 of the
+  License, or (at your option) any later version.
+  
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public
+  License along with this program.  If not, see
+  <http://www.gnu.org/licenses/gpl-3.0.html>.
+  #L%
+  -->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<title>Fill SameSpots report</title>
+</head>
+<body style="font-size: 13px">
+	<h1>Fill SameSpots report</h1>
+	<p>The <i>Fill SameSpots report</i> operation allows you to fill one or several SameSpots reports in HTM. Specifically, this operation will complete the spots table with the information about the protein identifications. See the end of this section for an example.</p>
+
+	<p>As you can see in the image below, the <i>Fill SameSpots report</i> dialog requires you to provide the following information:</p>
+	<ul>
+		<li><b>SameSpots report directory</b>: the directory containing the SameSpots HTM reports.</li>
+		<li><b>Configuration</b>: different options to configure the way that the report is processed. These options are:
+			<ul>
+				<li><b>Mascot score</b>: whether <i>Mascot score</i> should be included in the report or not.</li>
+				<li><b>Method</b>: whether <i>Method</i> should be included in the report or not.</li>
+				<li><b>MS Coverage</b>: whether <i>MS Coverage</i> should be included in the report or not.</li>
+				<li><b>Plate position</b>: whether <i>Plate position</i> should be included in the report or not.</li>
+				<li><b>Source</b>: whether <i>Source</i> should be included in the report or not.</li>
+				<li><b>Difference</b>: whether <i>Difference</i> should be included in the report or not.</li>
+				<li><b>Protein name</b>: whether <i>Protein</i> name should be included in the report or not.</li>
+				<li><b>Accession</b>: whether <i>Accession</i> should be included in the report or not.</li>
+				<li><b>pI-Value</b>: whether <i>pI-Value</i> should be included in the report or not.</li>
+				<li><b>Protein MW</b>: whether <i>Protein MW</i> should be included in the report or not.</li>
+				<li><b>Include spots without associated identifications</b>: whether include spots without associated dentifications or not. If this option is selected, then spots without associated identifications will remain in the report.</li>
+				<li><b>Include identifications with duplicated protein names</b>: whether include identifications with duplicated protein names or not. If you select this option, then a row will be added for each duplicated protein name of each spot identifier.</li>
+				<li><b>Mode</b>: you can choose between:
+					<ul>
+						<li><b>Copy</b>: to make a copy of the original HTML report files. In this case, you can write in <b>Files suffix</b> the suffix for the new files.</li>
+						<li><b>Overwrite</b>: to overwrite the original files.</li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+	</ul>	
+
+	<div align="center">
+		<p><img src="../Images/Advanced/fill-samespots-report/fill-samespots-report-dialog.png" border="0"/></p>
+		<p><strong><i>Fill SameSpots report</i> dialog</strong>
+	</div>
+
+	<p><strong>Example</strong></p>
+	<p>Let's imagine that you have a SameSpots HTM report that contains the following spots table:</p>
+
+	<div align="center">
+		<p><img src="../Images/Advanced/fill-samespots-report/example-1-spots-not-filled.png" border="0"/></p>
+		<p><strong><i>SameSpots HTM report</i> spots table</strong>
+	</div>
+	
+	<p>After loading a set of <i>Spot Mascot identifications</i> and using the <i>Fill SameSpots report</i> option, the following dialog is shown. In this example, we have selected all fields so that all the information will be in the filled report. Please, note that the selected <i>SameSpots report directory</i> must contain the individual HTM report files that you want to fill.</p>
+	
+	<div align="center">
+		<p><img src="../Images/Advanced/fill-samespots-report/example-2-dialog.png" border="0"/></p>
+		<p><strong><i>Fill SameSpots report</i> dialog</strong>
+	</div>
+	
+	<p>After clicking the <i>Ok</i> button, the report will be filled with the specified information as you can see in the following image:</p>
+	
+	<div align="center">
+		<p><a href="../Images/html/Advanced/fill-samespots-report/example-3-spots-filled.html"><img src="../Images/Advanced/fill-samespots-report/example-3-spots-filled-small.png" border="0"/></a></p>	
+		<p><strong><i>SameSpots HTM report</i> spots table</strong>
+		<br/><font size="2">(click in the image to enlarge)</font></p>
+	</div>	
+</body>
+</html>

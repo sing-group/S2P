@@ -60,6 +60,7 @@ import es.uvigo.ei.sing.s2p.gui.table.ExtendedCsvTable;
 
 public class SpotMascotIdentificationsTable extends ExtendedCsvTable {
 	private static final long serialVersionUID = 1L;
+
 	private ExtendedAbstractAction fillSameSpotsReportAction;
 	private ExtendedAbstractAction removeSpotsAction;
 	private SpotMascotIdentifications spotIdentifications;

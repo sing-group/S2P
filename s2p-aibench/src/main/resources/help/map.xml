@@ -30,12 +30,13 @@
 	<mapID target="basics.workflow" url="HTML/Basics/workflow.html"/>
 	<mapID target="basics.mainGUI" url="HTML/Basics/mainGUI.html"/>
 	 
-	 <mapID target="datatype.maldiplate" url="HTML/Datatypes/maldi-plate.html"/>
-	 <mapID target="datatype.venndiagramdesign" url="HTML/Datatypes/venn-diagram-design.html"/>
-	 <mapID target="datatype.mascotidentifications" url="HTML/Datatypes/mascot-identifications.html"/>
-	 <mapID target="datatype.mascotquantifications" url="HTML/Datatypes/mascot-quantifications.html"/>
-	 <mapID target="datatype.samespotsanalysis" url="HTML/Datatypes/samespots-analysis.html"/>
-	 <mapID target="datatype.spotsdata" url="HTML/Datatypes/spots-data.html"/>
+	<mapID target="datatype.maldiplate" url="HTML/Datatypes/maldi-plate.html"/>
+	<mapID target="datatype.venndiagramdesign" url="HTML/Datatypes/venn-diagram-design.html"/>
+	<mapID target="datatype.mascotidentifications" url="HTML/Datatypes/mascot-identifications.html"/>
+	<mapID target="datatype.spotmascotidentifications" url="HTML/Datatypes/spot-mascot-identifications.html"/>
+	<mapID target="datatype.mascotquantifications" url="HTML/Datatypes/mascot-quantifications.html"/>
+	<mapID target="datatype.samespotsanalysis" url="HTML/Datatypes/samespots-analysis.html"/>
+	<mapID target="datatype.spotsdata" url="HTML/Datatypes/spots-data.html"/>
 
 	<mapID target="file.openrecent" url="HTML/File/openrecent.html"/>
 	<mapID target="file.newplate" url="HTML/File/newplate.html"/>
@@ -50,10 +51,15 @@
 
 	<mapID target="load.spots" url="HTML/Load/spots.html"/>
 	<mapID target="load.identifications" url="HTML/Load/identifications.html"/>
+	<mapID target="load.spotidentifications" url="HTML/Load/spot-identifications.html"/>
 	<mapID target="load.plate" url="HTML/Load/plate.html"/>
 	<mapID target="load.venndiagramdesign" url="HTML/Load/venndiagramdesign.html"/>
 
 	<mapID target="operations.fillplate" url="HTML/Operations/fillplate.html"/>
+	<mapID target="operations.associatemascotidentifications.report" url="HTML/Operations/associate-mascot-identifications-from-report.html"/>
+	<mapID target="operations.associatemascotidentifications.csv" url="HTML/Operations/associate-mascot-identifications-from-csv.html"/>
+
+	<mapID target="advanced.fillsamespotsreport" url="HTML/Advanced/fill-samespots-report.html"/>
 
 	<mapID target="about" url="HTML/about.html"/>
 </map>
