@@ -23,9 +23,9 @@
 package es.uvigo.ei.sing.s2p.core.io;
 
 import static es.uvigo.ei.sing.commons.csv.io.CsvReader.CsvReaderBuilder.newCsvReaderBuilder;
+
 import java.io.File;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -69,8 +69,6 @@ public class SpotsDataLoader {
 	private static double[][] parseData(List<CsvEntry> data, int columns,
 		CsvFormat csvFormat
 	) {
-		DecimalFormat decimalFormatter = csvFormat.getDecimalFormatter();
-
 		double[][] matrixData = new double[data.size()][columns];
 		data.forEach(row -> {
 			int rowIndex = data.indexOf(row);
@@ -80,8 +78,8 @@ public class SpotsDataLoader {
 					matrixData[rowIndex][i-1] = Double.NaN;
 				} else {
 					try {
-						matrixData[rowIndex][i-1] = 
-							decimalFormatter.parse(currentValue).doubleValue();
+						matrixData[rowIndex][i - 1] =
+							csvFormat.asDouble(currentValue);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

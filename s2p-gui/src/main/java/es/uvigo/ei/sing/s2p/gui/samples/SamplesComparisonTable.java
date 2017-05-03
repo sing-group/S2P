@@ -140,13 +140,13 @@ public class SamplesComparisonTable extends JPanel {
 		private static final long serialVersionUID = 1L;
 
 		public Component getTableCellRendererComponent(JTable table,
-				Object value, boolean isSelected, boolean hasFocus, int row,
-				int column) {
+			Object value, boolean isSelected, boolean hasFocus, int row,
+			int column
+		) {
 			final int columnModel = table.convertColumnIndexToModel(column);
-			
-			final Component c = super.getTableCellRendererComponent(
-					table, value, isSelected, hasFocus, row, column
-				);
+
+			final Component c = super.getTableCellRendererComponent(table,
+				value, isSelected, hasFocus, row, column);
 			
 			c.setFont(c.getFont().deriveFont(Font.PLAIN, FONT_SIZE));
 

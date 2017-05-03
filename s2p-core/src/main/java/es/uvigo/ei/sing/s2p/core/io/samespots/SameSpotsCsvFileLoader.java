@@ -9,12 +9,12 @@
  * it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
@@ -28,7 +28,6 @@ import static java.util.stream.IntStream.range;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
@@ -47,9 +46,9 @@ import es.uvigo.ei.sing.s2p.core.entities.Sample;
 
 public class SameSpotsCsvFileLoader {
 
-	public static final SameSpotsThrehold DEFAULT_CSV_THRESHOLD = 
+	public static final SameSpotsThrehold DEFAULT_CSV_THRESHOLD =
 		new SameSpotsThrehold(1, 0);
-	
+
 	private static final int INDEX_SPOT 	= 0;
 	private static final int INDEX_P 		= 1;
 	private static final int INDEX_FOLD 	= 2;
@@ -67,10 +66,10 @@ public class SameSpotsCsvFileLoader {
 	private static Pair<Sample, Sample> parseSamples(CsvData data,
 		SameSpotsThrehold threshold
 	) throws IOException {
-		List<Integer> normalizedValuesColumns = 
+		List<Integer> normalizedValuesColumns =
 			extractNormalizedColumns(data.remove(0));
-		
-		Pair<Sample, Sample> samples = 
+
+		Pair<Sample, Sample> samples =
 			extractSamples(data, threshold, normalizedValuesColumns);
 
 		return samples;
@@ -78,42 +77,42 @@ public class SameSpotsCsvFileLoader {
 
 	private static List<Integer> extractNormalizedColumns(CsvEntry entry) {
 		return 	range(
-					entry.indexOf("Normalized Volume"), 
+					entry.indexOf("Normalized Volume"),
 					entry.indexOf("Volume")
 				).boxed().collect(toList());
 	}
-	
+
 	private static Pair<Sample, Sample> extractSamples(CsvData data,
 		SameSpotsThrehold threshold, List<Integer> normalizedValuesColumns
 	) throws IOException {
 		CsvEntry sampleNamesEntry = data.remove(0);
-		
-		Pair<String, String> sampleNames = 
+
+		Pair<String, String> sampleNames =
 			extractSampleNames(sampleNamesEntry, normalizedValuesColumns);
-		
+
 		Pair<Range, Range> sampleColumns =
 			sampleColumns(sampleNamesEntry, sampleNames, normalizedValuesColumns);
-		
-		Pair<Map<String, Double>, Map<String, Double>>	sampleValues = 
+
+		Pair<Map<String, Double>, Map<String, Double>>	sampleValues =
 			extractSampleValues(data, threshold, sampleColumns, normalizedValuesColumns);
 
 		return new Pair<Sample, Sample>(
-			new Sample(sampleNames.getFirst(), sampleValues.getFirst()), 
+			new Sample(sampleNames.getFirst(), sampleValues.getFirst()),
 			new Sample(sampleNames.getSecond(), sampleValues.getSecond())
 		);
 	}
-	
+
 	private static Pair<Range, Range> sampleColumns(
 		CsvEntry sampleNamesEntry, Pair<String, String> sampleNames,
 		List<Integer> normalizedValuesColumns
 	) {
 		int firstSampleStart = sampleNamesEntry.indexOf(sampleNames.getFirst());
 		int firstSampleEnd = sampleNamesEntry.indexOf(sampleNames.getSecond());
-		
+
 		int secondSampleStart = firstSampleEnd;
-		int secondSampleEnd = 
+		int secondSampleEnd =
 			normalizedValuesColumns.get(normalizedValuesColumns.size()-1);
-		
+
 		return new Pair<>(
 			new Range(firstSampleStart, firstSampleEnd),
 			new Range(secondSampleStart, secondSampleEnd)
@@ -131,7 +130,7 @@ public class SameSpotsCsvFileLoader {
 
 		return new Pair<String, String>(sampleNames.get(0), sampleNames.get(1));
 	}
-	
+
 
 	private static Pair<Map<String, Double>, Map<String, Double>> extractSampleValues(
 		CsvData data, SameSpotsThrehold threshold,
@@ -139,20 +138,20 @@ public class SameSpotsCsvFileLoader {
 		List<Integer> normalizedValuesColumns
 	) throws IOException {
 		data.remove(0);
-		
+
 		Map<String, Double> sample1 = new HashMap<String, Double>();
 		Map<String, Double> sample2 = new HashMap<String, Double>();
-		DecimalFormat formater = data.getFormat().getDecimalFormatter();
+		CsvFormat format = data.getFormat();
 		try {
 			for(CsvEntry e : data) {
 				String spot = e.get(INDEX_SPOT);
-				double p 	= formater.parse(e.get(INDEX_P)).doubleValue();
-				double fold = formater.parse(e.get(INDEX_FOLD)).doubleValue();
+				double p 	= format.asDouble(e.get(INDEX_P));
+				double fold = format.asDouble(e.get(INDEX_FOLD));
 				double s1 =
-					averageSampleValue(sampleColumns.getFirst(), formater, e);
+					averageSampleValue(sampleColumns.getFirst(), format, e);
 				double s2 =
-					averageSampleValue(sampleColumns.getSecond(), formater, e);
-				
+					averageSampleValue(sampleColumns.getSecond(), format, e);
+
 				if(p <= threshold.getP() && fold >= threshold.getFold()) {
 					sample1.put(spot, s1);
 					sample2.put(spot, s2);
@@ -161,23 +160,23 @@ public class SameSpotsCsvFileLoader {
 		} catch(ParseException e) {
 			throw new IOException(e);
 		}
-		
+
 		return new Pair<>(sample1, sample2);
 	}
 
 	private static double averageSampleValue(Range sampleColumns,
-		DecimalFormat formater, CsvEntry e) throws ParseException 
+		CsvFormat format, CsvEntry e) throws ParseException
 	{
-		List<String> sample1Fields = e.subList(
+		List<String> sampleFields = e.subList(
 			sampleColumns.getStart().intValue(),
 			sampleColumns.getEnd().intValue()
 		);
 
-		DescriptiveStatistics sample1Values = new DescriptiveStatistics();
-		for (String s : sample1Fields) {
-			sample1Values.addValue(formater.parse(s).doubleValue());
+		DescriptiveStatistics sampleValues = new DescriptiveStatistics();
+		for (String field : sampleFields) {
+			sampleValues.addValue(format.asDouble(field));
 		}
 
-		return sample1Values.getMean();
+		return sampleValues.getMean();
 	}
 }

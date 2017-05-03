@@ -65,7 +65,7 @@ public class SpotMascotIdentificationsCsvLoader {
 		throws IOException 
 	{
 		try {
-			return format.getDecimalFormatter().parse(string).doubleValue();
+			return format.asDouble(string);
 		} catch (ParseException e) {
 			throw new IOException("Can't parse number " + string, e);
 		}
