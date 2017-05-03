@@ -43,10 +43,10 @@ import javax.swing.event.ChangeListener;
 
 import es.uvigo.ei.aibench.core.Core;
 import es.uvigo.ei.aibench.core.clipboard.ClipboardItem;
-import es.uvigo.ei.sing.hlfernandez.input.InputParameter;
-import es.uvigo.ei.sing.hlfernandez.input.InputParametersPanel;
-import es.uvigo.ei.sing.hlfernandez.text.JIntegerTextField;
-import es.uvigo.ei.sing.hlfernandez.ui.CenteredJPanel;
+import org.sing_group.gc4s.input.InputParameter;
+import org.sing_group.gc4s.input.InputParametersPanel;
+import org.sing_group.gc4s.text.JIntegerTextField;
+import org.sing_group.gc4s.ui.CenteredJPanel;
 import es.uvigo.ei.sing.s2p.aibench.datatypes.MaldiPlateDatatype;
 import es.uvigo.ei.sing.s2p.aibench.datatypes.MascotIdentificationsDatatype;
 import es.uvigo.ei.sing.s2p.aibench.datatypes.SpotMascotIdentificationsDatatype;

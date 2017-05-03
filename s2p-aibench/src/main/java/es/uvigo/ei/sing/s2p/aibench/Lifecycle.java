@@ -48,7 +48,7 @@ import es.uvigo.ei.aibench.workbench.MainWindow;
 import es.uvigo.ei.aibench.workbench.Workbench;
 import es.uvigo.ei.aibench.workbench.utilities.ClearClipboardAction;
 import es.uvigo.ei.aibench.workbench.utilities.HelpButton;
-import es.uvigo.ei.sing.hlfernandez.demo.DemoUtils;
+import org.sing_group.gc4s.demo.DemoUtils;
 import es.uvigo.ei.sing.s2p.aibench.gui.AboutFrame;
 import es.uvigo.ei.sing.s2p.gui.util.CommonFileChooser;
 

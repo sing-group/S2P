@@ -48,9 +48,9 @@ import javax.swing.table.TableModel;
 
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 
-import es.uvigo.ei.sing.hlfernandez.event.PopupMenuAdapter;
-import es.uvigo.ei.sing.hlfernandez.table.ColumnSummaryTabeCellRenderer;
-import es.uvigo.ei.sing.hlfernandez.utilities.ExtendedAbstractAction;
+import org.sing_group.gc4s.event.PopupMenuAdapter;
+import org.sing_group.gc4s.table.ColumnSummaryTabeCellRenderer;
+import org.sing_group.gc4s.utilities.ExtendedAbstractAction;
 import es.uvigo.ei.sing.s2p.core.entities.MascotEntry;
 import es.uvigo.ei.sing.s2p.core.entities.SpotMascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.io.samespots.SameSpotsReportFileWriter;

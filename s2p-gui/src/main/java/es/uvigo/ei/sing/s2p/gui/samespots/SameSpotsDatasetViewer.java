@@ -22,11 +22,11 @@
  */
 package es.uvigo.ei.sing.s2p.gui.samespots;
 
-import static es.uvigo.ei.sing.hlfernandez.input.csv.CsvFormat.FileFormat.CUSTOM;
-import static es.uvigo.ei.sing.hlfernandez.ui.icons.Icons.ICON_EDIT_16;
-import static es.uvigo.ei.sing.hlfernandez.ui.icons.Icons.ICON_EXPORT_16;
-import static es.uvigo.ei.sing.hlfernandez.ui.icons.Icons.ICON_MERGE_16;
-import static es.uvigo.ei.sing.hlfernandez.utilities.builder.JButtonBuilder.newJButtonBuilder;
+import static org.sing_group.gc4s.input.csv.CsvFormat.FileFormat.CUSTOM;
+import static org.sing_group.gc4s.ui.icons.Icons.ICON_EDIT_16;
+import static org.sing_group.gc4s.ui.icons.Icons.ICON_EXPORT_16;
+import static org.sing_group.gc4s.ui.icons.Icons.ICON_MERGE_16;
+import static org.sing_group.gc4s.utilities.builder.JButtonBuilder.newJButtonBuilder;
 import static es.uvigo.ei.sing.s2p.core.io.samespots.SameSpotsCsvWriter.write;
 import static es.uvigo.ei.sing.s2p.gui.UISettings.BG_COLOR;
 import static es.uvigo.ei.sing.s2p.gui.util.CsvUtils.csvFormat;
@@ -53,7 +53,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import es.uvigo.ei.sing.commons.csv.entities.CsvFormat;
-import es.uvigo.ei.sing.hlfernandez.utilities.ExtendedAbstractAction;
+import org.sing_group.gc4s.utilities.ExtendedAbstractAction;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
 import es.uvigo.ei.sing.s2p.gui.components.dialog.ExportCsvDialog;
 import es.uvigo.ei.sing.s2p.gui.samples.SamplesComparisonTable;

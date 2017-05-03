@@ -27,7 +27,7 @@ import es.uvigo.ei.sing.commons.csv.entities.CsvFormat;
 public class CsvUtils {
 
 	public static CsvFormat csvFormat(
-		es.uvigo.ei.sing.hlfernandez.input.csv.CsvFormat source
+		org.sing_group.gc4s.input.csv.CsvFormat source
 	) {
 		return new CsvFormat(
 			source.getColumnSeparator(),

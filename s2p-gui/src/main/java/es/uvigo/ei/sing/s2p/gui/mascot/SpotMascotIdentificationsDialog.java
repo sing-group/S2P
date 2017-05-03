@@ -29,7 +29,7 @@ import java.util.Set;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import es.uvigo.ei.sing.hlfernandez.dialog.AbstractInputJDialog;
+import org.sing_group.gc4s.dialog.AbstractInputJDialog;
 import es.uvigo.ei.sing.s2p.core.entities.SpotMascotIdentifications;
 
 public class SpotMascotIdentificationsDialog extends AbstractInputJDialog {

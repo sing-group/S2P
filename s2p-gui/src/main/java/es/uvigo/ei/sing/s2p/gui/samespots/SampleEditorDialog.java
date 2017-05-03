@@ -37,7 +37,7 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import es.uvigo.ei.sing.hlfernandez.dialog.AbstractInputJDialog;
+import org.sing_group.gc4s.dialog.AbstractInputJDialog;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
 
 public class SampleEditorDialog extends AbstractInputJDialog {

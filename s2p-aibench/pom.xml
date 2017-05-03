@@ -263,6 +263,7 @@
 								<descriptor>src/main/resources/assembly/linux.xml</descriptor>
 								<descriptor>src/main/resources/assembly/linux-32b.xml</descriptor>
 								<descriptor>src/main/resources/assembly/windows-32b.xml</descriptor>
+								<descriptor>src/main/resources/assembly/mac.xml</descriptor>
 								<descriptor>src/main/resources/assembly/windows.xml</descriptor>
 								<descriptor>src/main/resources/assembly/mac.xml</descriptor>
 							</descriptors>

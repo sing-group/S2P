@@ -26,7 +26,7 @@ import java.awt.Window;
 
 import javax.swing.JFileChooser;
 
-import es.uvigo.ei.sing.hlfernandez.dialog.AbstractInputJDialog;
+import org.sing_group.gc4s.dialog.AbstractInputJDialog;
 import es.uvigo.ei.sing.s2p.gui.util.CommonFileChooser;
 
 public abstract class AbstractFileInputJDialog extends AbstractInputJDialog {

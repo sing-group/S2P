@@ -39,10 +39,10 @@ import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 
 import es.uvigo.ei.sing.commons.csv.entities.CsvFormat;
-import es.uvigo.ei.sing.hlfernandez.filechooser.JFileChooserPanel;
-import es.uvigo.ei.sing.hlfernandez.input.InputParameter;
-import es.uvigo.ei.sing.hlfernandez.input.InputParametersPanel;
-import es.uvigo.ei.sing.hlfernandez.text.JIntegerTextField;
+import org.sing_group.gc4s.filechooser.JFileChooserPanel;
+import org.sing_group.gc4s.input.InputParameter;
+import org.sing_group.gc4s.input.InputParametersPanel;
+import org.sing_group.gc4s.text.JIntegerTextField;
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.entities.SpotMascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.io.MaldiPlateLoader;

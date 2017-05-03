@@ -42,7 +42,7 @@ import javax.swing.Action;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import es.uvigo.ei.sing.hlfernandez.utilities.ExtendedAbstractAction;
+import org.sing_group.gc4s.utilities.ExtendedAbstractAction;
 import es.uvigo.ei.sing.s2p.core.entities.Condition;
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;

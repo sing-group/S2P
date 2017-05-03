@@ -22,8 +22,8 @@
  */
 package es.uvigo.ei.sing.s2p.gui.plate;
 
-import static es.uvigo.ei.sing.hlfernandez.utilities.MatrixUtils.asStringMatrix;
-import static es.uvigo.ei.sing.hlfernandez.utilities.MatrixUtils.removeColumn;
+import static org.sing_group.gc4s.utilities.MatrixUtils.asStringMatrix;
+import static org.sing_group.gc4s.utilities.MatrixUtils.removeColumn;
 import static es.uvigo.ei.sing.s2p.gui.UISettings.FONT_SIZE;
 import static java.awt.BorderLayout.CENTER;
 import static java.awt.BorderLayout.NORTH;
@@ -52,8 +52,8 @@ import com.itextpdf.text.DocumentException;
 
 import es.uvigo.ei.sing.commons.csv.entities.CsvFormat;
 import es.uvigo.ei.sing.commons.csv.io.CsvWriter;
-import es.uvigo.ei.sing.hlfernandez.table.RowHeaderExtendedJXTable;
-import es.uvigo.ei.sing.hlfernandez.utilities.ExtendedAbstractAction;
+import org.sing_group.gc4s.table.RowHeaderExtendedJXTable;
+import org.sing_group.gc4s.utilities.ExtendedAbstractAction;
 import es.uvigo.ei.sing.s2p.core.entities.MaldiPlate;
 import es.uvigo.ei.sing.s2p.gui.components.dialog.ExportCsvDialog;
 import es.uvigo.ei.sing.s2p.gui.util.CommonFileChooser;

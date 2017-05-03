@@ -22,8 +22,8 @@
  */
 package es.uvigo.ei.sing.s2p.gui.spots;
 
-import static es.uvigo.ei.sing.hlfernandez.ui.UIUtils.setOpaqueRecursive;
-import static es.uvigo.ei.sing.hlfernandez.utilities.builder.JButtonBuilder.newJButtonBuilder;
+import static org.sing_group.gc4s.ui.UIUtils.setOpaqueRecursive;
+import static org.sing_group.gc4s.utilities.builder.JButtonBuilder.newJButtonBuilder;
 import static es.uvigo.ei.sing.s2p.gui.UISettings.BG_COLOR;
 import static es.uvigo.ei.sing.s2p.gui.util.ColorUtils.getSoftColor;
 import static java.awt.BorderLayout.CENTER;
@@ -66,11 +66,11 @@ import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
 
-import es.uvigo.ei.sing.hlfernandez.input.RangeInputPanel;
-import es.uvigo.ei.sing.hlfernandez.menu.HamburgerMenu;
-import es.uvigo.ei.sing.hlfernandez.ui.icons.Icons;
-import es.uvigo.ei.sing.hlfernandez.utilities.ExtendedAbstractAction;
-import es.uvigo.ei.sing.hlfernandez.utilities.builder.JToggleButtonBuilder;
+import org.sing_group.gc4s.input.RangeInputPanel;
+import org.sing_group.gc4s.menu.HamburgerMenu;
+import org.sing_group.gc4s.ui.icons.Icons;
+import org.sing_group.gc4s.utilities.ExtendedAbstractAction;
+import org.sing_group.gc4s.utilities.builder.JToggleButtonBuilder;
 import es.uvigo.ei.sing.s2p.core.entities.Condition;
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.entities.Pair;

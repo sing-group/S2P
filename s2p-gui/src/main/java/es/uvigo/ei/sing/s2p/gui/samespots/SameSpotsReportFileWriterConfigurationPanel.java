@@ -33,10 +33,10 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 
-import es.uvigo.ei.sing.hlfernandez.demo.DemoUtils;
-import es.uvigo.ei.sing.hlfernandez.event.DocumentAdapter;
-import es.uvigo.ei.sing.hlfernandez.input.InputParameter;
-import es.uvigo.ei.sing.hlfernandez.input.InputParametersPanel;
+import org.sing_group.gc4s.demo.DemoUtils;
+import org.sing_group.gc4s.event.DocumentAdapter;
+import org.sing_group.gc4s.input.InputParameter;
+import org.sing_group.gc4s.input.InputParametersPanel;
 import es.uvigo.ei.sing.s2p.core.io.samespots.SameSpotsReportFileWriterConfiguration;
 
 public class SameSpotsReportFileWriterConfigurationPanel extends JPanel {

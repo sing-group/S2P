@@ -35,7 +35,7 @@ import javax.swing.JTable;
 
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 
-import es.uvigo.ei.sing.hlfernandez.dialog.AbstractInputJDialog;
+import org.sing_group.gc4s.dialog.AbstractInputJDialog;
 import es.uvigo.ei.sing.s2p.core.entities.SpotMascotIdentifications;
 import es.uvigo.ei.sing.s2p.gui.UISettings;
 import es.uvigo.ei.sing.s2p.gui.table.CsvTable;

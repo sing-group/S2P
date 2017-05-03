@@ -29,7 +29,7 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import es.uvigo.ei.sing.hlfernandez.dialog.AbstractInputJDialog;
+import org.sing_group.gc4s.dialog.AbstractInputJDialog;
 
 public class SpotsSummaryChartDialog extends AbstractInputJDialog {
 	private static final long serialVersionUID = 1L;

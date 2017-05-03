@@ -22,7 +22,7 @@
  */
 package es.uvigo.ei.sing.s2p.gui.spots;
 
-import static es.uvigo.ei.sing.hlfernandez.demo.DemoUtils.showComponent;
+import static org.sing_group.gc4s.demo.DemoUtils.showComponent;
 import static es.uvigo.ei.sing.s2p.core.resources.TestResources.CSV_FORMAT;
 import static es.uvigo.ei.sing.s2p.core.resources.TestResources.TEST_SPOT_DATA;
 import static es.uvigo.ei.sing.s2p.gui.TestUtils.setNimbusLookAndFeel;

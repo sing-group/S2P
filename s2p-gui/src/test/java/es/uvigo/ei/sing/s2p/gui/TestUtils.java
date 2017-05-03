@@ -22,7 +22,7 @@
  */
 package es.uvigo.ei.sing.s2p.gui;
 
-import es.uvigo.ei.sing.hlfernandez.demo.DemoUtils;
+import org.sing_group.gc4s.demo.DemoUtils;
 
 public class TestUtils {
 

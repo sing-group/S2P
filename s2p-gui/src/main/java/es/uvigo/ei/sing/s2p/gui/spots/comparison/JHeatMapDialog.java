@@ -32,10 +32,10 @@ import java.text.DecimalFormat;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
 
-import es.uvigo.ei.sing.hlfernandez.dialog.AbstractInputJDialog;
-import es.uvigo.ei.sing.hlfernandez.visualization.JHeatMap;
-import es.uvigo.ei.sing.hlfernandez.visualization.JHeatMapModel;
-import es.uvigo.ei.sing.hlfernandez.visualization.JHeatMapPanel;
+import org.sing_group.gc4s.dialog.AbstractInputJDialog;
+import org.sing_group.gc4s.visualization.JHeatMap;
+import org.sing_group.gc4s.visualization.JHeatMapModel;
+import org.sing_group.gc4s.visualization.JHeatMapPanel;
 
 public class JHeatMapDialog extends AbstractInputJDialog {
 	private static final long serialVersionUID = 1L;

@@ -40,7 +40,7 @@ import javax.swing.JPanel;
 
 import org.jdesktop.swingx.JXTextField;
 
-import es.uvigo.ei.sing.hlfernandez.text.BindJXTextField;
+import org.sing_group.gc4s.text.BindJXTextField;
 import es.uvigo.ei.sing.s2p.core.entities.MaldiPlateInformation;
 import es.uvigo.ei.sing.s2p.core.entities.MaldiPlateInformation.MaldiTarget;
 import es.uvigo.ei.sing.s2p.gui.UISettings;

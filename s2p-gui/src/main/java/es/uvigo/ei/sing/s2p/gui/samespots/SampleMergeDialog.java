@@ -25,7 +25,7 @@ package es.uvigo.ei.sing.s2p.gui.samespots;
 import java.awt.Window;
 import java.util.List;
 
-import es.uvigo.ei.sing.hlfernandez.input.ItemSelectionDialog;
+import org.sing_group.gc4s.input.ItemSelectionDialog;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
 
 public class SampleMergeDialog extends ItemSelectionDialog<Sample> {

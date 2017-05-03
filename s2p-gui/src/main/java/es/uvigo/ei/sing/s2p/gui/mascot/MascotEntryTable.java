@@ -34,9 +34,9 @@ import javax.swing.event.PopupMenuEvent;
 
 import org.jdesktop.swingx.decorator.HighlighterFactory;
 
-import es.uvigo.ei.sing.hlfernandez.event.PopupMenuAdapter;
-import es.uvigo.ei.sing.hlfernandez.table.ColumnSummaryTabeCellRenderer;
-import es.uvigo.ei.sing.hlfernandez.utilities.ExtendedAbstractAction;
+import org.sing_group.gc4s.event.PopupMenuAdapter;
+import org.sing_group.gc4s.table.ColumnSummaryTabeCellRenderer;
+import org.sing_group.gc4s.utilities.ExtendedAbstractAction;
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 import es.uvigo.ei.sing.s2p.gui.table.ExtendedCsvTable;
 

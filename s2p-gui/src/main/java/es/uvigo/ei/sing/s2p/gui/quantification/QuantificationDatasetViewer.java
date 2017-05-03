@@ -1,6 +1,6 @@
 package es.uvigo.ei.sing.s2p.gui.quantification;
 
-import static es.uvigo.ei.sing.hlfernandez.ui.icons.Icons.ICON_TABLE_24;
+import static org.sing_group.gc4s.ui.icons.Icons.ICON_TABLE_24;
 import static es.uvigo.ei.sing.s2p.gui.UISettings.BG_COLOR;
 import static java.awt.BorderLayout.CENTER;
 import static java.awt.BorderLayout.EAST;
@@ -21,7 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import es.uvigo.ei.sing.hlfernandez.visualization.ColorLegend;
+import org.sing_group.gc4s.visualization.ColorLegend;
 import es.uvigo.ei.sing.s2p.core.entities.quantification.QuantificationDataset;
 import es.uvigo.ei.sing.s2p.core.operations.quantification.comparison.ComparisonMode;
 import es.uvigo.ei.sing.s2p.gui.components.ExtendedJTabbedPane;

@@ -56,9 +56,9 @@ import javax.swing.table.TableCellRenderer;
 
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 
-import es.uvigo.ei.sing.hlfernandez.event.PopupMenuAdapter;
-import es.uvigo.ei.sing.hlfernandez.utilities.ExtendedAbstractAction;
-import es.uvigo.ei.sing.hlfernandez.visualization.JHeatMapModel;
+import org.sing_group.gc4s.event.PopupMenuAdapter;
+import org.sing_group.gc4s.utilities.ExtendedAbstractAction;
+import org.sing_group.gc4s.visualization.JHeatMapModel;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
 import es.uvigo.ei.sing.s2p.core.entities.SpotMascotIdentifications;
 import es.uvigo.ei.sing.s2p.gui.spots.heatmap.SpotRenderer;

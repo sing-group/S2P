@@ -14,7 +14,7 @@ import es.uvigo.ei.sing.s2p.gui.util.CommonFileChooser;
  *
  */
 public class ExportCsvDialog
-	extends es.uvigo.ei.sing.hlfernandez.dialog.ExportCsvDialog {
+	extends org.sing_group.gc4s.dialog.ExportCsvDialog {
 	private static final long serialVersionUID = 1L;
 
 	public ExportCsvDialog(Window parent) {

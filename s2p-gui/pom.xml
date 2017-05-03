@@ -31,8 +31,8 @@
 			<artifactId>venn-diagram-assistant</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>es.uvigo.ei.sing.hlfernandez</groupId>
-			<artifactId>GC4S</artifactId>
+			<groupId>org.sing_group</groupId>
+			<artifactId>gc4s</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.jfree</groupId>
