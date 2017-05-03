@@ -1,6 +1,6 @@
 ![Logo](s2p.png) S2P [![license](https://img.shields.io/badge/LICENSE-GPLv3-blue.svg)]() [![Build Status](https://travis-ci.org/sing-group/S2P.svg?branch=master)](https://travis-ci.org/sing-group/S2P)
 =================================
-S2P is an open source application for fast and easy processing of 2D-gel and MALDI-based mass spectrometry protein data. Please, visit the [official web page](http://sing.ei.uvigo.es/s2p) of the project for downloads and support.
+S2P is an open source application for fast and easy processing of 2D-gel and MALDI-based mass spectrometry protein data. Please, visit the [official web page](http://www.sing-group.org/s2p) of the project for downloads and support.
 
 Modules
 -------
@@ -24,9 +24,9 @@ NSIS-based Windows installers can be built using the `mvn install -PcreateInstal
 Team
 ----
 This project is an idea and is developed by:
-* Hugo López-Fernández [SING Group](http://sing.ei.uvigo.es)
+* Hugo López-Fernández [SING Group](http://www.sing-group.org)
 * José Eduardo Araújo [Bioscope Group](http://www.bioscopegroup.org/)
 * José Luis Capelo Martínez [Bioscope Group](http://www.bioscopegroup.org/)
-* Miguel Reboiro-Jato [SING Group](http://sing.ei.uvigo.es)
-* Daniel Glez-Peña [SING Group](http://sing.ei.uvigo.es)
-* Florentino Fdez-Riverola [SING Group](http://sing.ei.uvigo.es)
+* Miguel Reboiro-Jato [SING Group](http://www.sing-group.org)
+* Daniel Glez-Peña [SING Group](http://www.sing-group.org)
+* Florentino Fdez-Riverola [SING Group](http://www.sing-group.org)
