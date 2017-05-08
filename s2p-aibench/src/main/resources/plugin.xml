@@ -465,6 +465,9 @@
 		<extension uid="aibench.workbench" name="aibench.workbench.view" >
 			<welcomescreen class="es.uvigo.ei.sing.s2p.aibench.gui.Welcome" title="Welcome to S2P"/>
 		</extension>
+		
+		<extension uid="aibench.workbench" name="aibench.workbench.view" >
+			<menu-icon menu="Import/SameSpots" icon="conf/resources/menu/progenesis.png"/>
+		</extension>
 	</extensions>
-
 </plugin>
