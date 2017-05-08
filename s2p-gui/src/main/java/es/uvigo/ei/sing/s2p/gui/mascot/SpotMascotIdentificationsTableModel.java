@@ -9,12 +9,12 @@
  * it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
@@ -22,6 +22,7 @@
  */
 package es.uvigo.ei.sing.s2p.gui.mascot;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -37,12 +38,11 @@ import es.uvigo.ei.sing.s2p.core.entities.MascotEntry;
 import es.uvigo.ei.sing.s2p.core.entities.SpotMascotIdentifications;
 
 public class SpotMascotIdentificationsTableModel extends AbstractTableModel
-	implements Observer 
+	implements Observer
 {
 	private static final long serialVersionUID = 1L;
 
-	private static final Map<Integer, String> TABLE_FIELDS = 
-		new HashMap<Integer, String>();
+	private static final Map<Integer, String> TABLE_FIELDS = new HashMap<>();
 
 	static {
 		TABLE_FIELDS.put(0, "Spot");
@@ -58,6 +58,22 @@ public class SpotMascotIdentificationsTableModel extends AbstractTableModel
 		TABLE_FIELDS.put(10, "Source");
 	}
 
+	private static final Map<Integer, Class<?>> TABLE_CLASSES = new HashMap<>();
+
+	static {
+		TABLE_CLASSES.put(0, String.class);
+		TABLE_CLASSES.put(1, String.class);
+		TABLE_CLASSES.put(2, String.class);
+		TABLE_CLASSES.put(3, Integer.class);
+		TABLE_CLASSES.put(4, Integer.class);
+		TABLE_CLASSES.put(5, Integer.class);
+		TABLE_CLASSES.put(6, Double.class);
+		TABLE_CLASSES.put(7, String.class);
+		TABLE_CLASSES.put(8, Double.class);
+		TABLE_CLASSES.put(9, String.class);
+		TABLE_CLASSES.put(10, File.class);
+	}
+
 	private Set<String> spots;
 	private SpotMascotIdentifications spotIdentifications;
 	private List<Object[]> rows;
@@ -69,7 +85,7 @@ public class SpotMascotIdentificationsTableModel extends AbstractTableModel
 		this.spots = spots;
 		this.spotIdentifications = spotIdentifications;
 		this.spotIdentifications.addObserver(this);
-		
+
 		this.initMatrixData();
 	}
 
@@ -116,7 +132,7 @@ public class SpotMascotIdentificationsTableModel extends AbstractTableModel
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
-		return getRowCount() > 0 ? getValueAt(0, columnIndex).getClass() : Object.class;
+		return TABLE_CLASSES.get(columnIndex);
 	}
 
 	@Override
