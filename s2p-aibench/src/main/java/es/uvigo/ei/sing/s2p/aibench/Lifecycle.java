@@ -24,9 +24,9 @@ package es.uvigo.ei.sing.s2p.aibench;
 
 import static es.uvigo.ei.aibench.workbench.inputgui.Common.SINGLE_FILE_CHOOSER;
 import static es.uvigo.ei.aibench.workbench.utilities.ClearClipboardAction.ICON_24;
+import static es.uvigo.ei.sing.s2p.gui.util.S2pIcons.ICON_HELP;
 import static java.lang.System.getProperty;
 import static javax.swing.SwingUtilities.invokeLater;
-import static es.uvigo.ei.sing.s2p.gui.util.S2pIcons.ICON_HELP;
 
 import java.awt.Color;
 import java.io.File;
@@ -42,13 +42,14 @@ import javax.swing.JSeparator;
 import javax.swing.JToolBar;
 
 import org.sing_group.aibench.plugins.recentfiles.RecentFilesHistory;
+import org.sing_group.gc4s.demo.DemoUtils;
+import org.sing_group.gc4s.ui.icons.Icons;
 
 import es.uvigo.ei.aibench.core.Core;
 import es.uvigo.ei.aibench.workbench.MainWindow;
 import es.uvigo.ei.aibench.workbench.Workbench;
 import es.uvigo.ei.aibench.workbench.utilities.ClearClipboardAction;
 import es.uvigo.ei.aibench.workbench.utilities.HelpButton;
-import org.sing_group.gc4s.demo.DemoUtils;
 import es.uvigo.ei.sing.s2p.aibench.gui.AboutFrame;
 import es.uvigo.ei.sing.s2p.gui.util.CommonFileChooser;
 
@@ -125,7 +126,8 @@ public class Lifecycle extends org.platonos.pluginengine.PluginLifecycle {
 		RecentFilesHistory recentFilesHistory = new RecentFilesHistory(
 			RECENT_FILES_OPERATIONS, getPlugin().getUID(),
 			Workbench.getInstance().getMenuBar(), "File",
-			new File(System.getProperty("user.home"), ".s2p-history"), 20
+			new File(System.getProperty("user.home"), ".s2p-history"), 20,
+			Icons.ICON_RECENT_FILES_32
 		);
 
 		Core.getInstance().getHistory().addHistoryListener(recentFilesHistory);
