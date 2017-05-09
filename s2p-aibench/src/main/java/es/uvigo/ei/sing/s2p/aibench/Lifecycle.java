@@ -129,7 +129,8 @@ public class Lifecycle extends org.platonos.pluginengine.PluginLifecycle {
 			new File(System.getProperty("user.home"), ".s2p-history"), 20,
 			Icons.ICON_RECENT_FILES_32
 		);
-
+		recentFilesHistory.setClearHistoryIcon(Icons.ICON_TRASH_24);
+		recentFilesHistory.setRemoveFilesIcon(Icons.ICON_REFRESH_3_24);
 		Core.getInstance().getHistory().addHistoryListener(recentFilesHistory);
 	}
 }
