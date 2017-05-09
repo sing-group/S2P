@@ -38,11 +38,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
-import javax.swing.JSeparator;
 import javax.swing.JToolBar;
 
 import org.sing_group.aibench.plugins.recentfiles.RecentFilesHistory;
 import org.sing_group.gc4s.demo.DemoUtils;
+import org.sing_group.gc4s.menu.ExtendedJSeparator;
 import org.sing_group.gc4s.ui.icons.Icons;
 
 import es.uvigo.ei.aibench.core.Core;
@@ -113,7 +113,7 @@ public class Lifecycle extends org.platonos.pluginengine.PluginLifecycle {
 
 	private void configureAIBenchMenu() {
 		JMenuBar menuBar = Workbench.getInstance().getMenuBar();
-		menuBar.getMenu(0).add(new JSeparator());
+		menuBar.getMenu(0).add(new ExtendedJSeparator(5));
 		menuBar.getMenu(0).add(new ClearClipboardAction("Clear clipboard", ICON_24));
 	}
 
