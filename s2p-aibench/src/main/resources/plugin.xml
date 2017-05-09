@@ -221,43 +221,36 @@
 				name="SameSpots analysis viewer"
 				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.SameSpotsAnalysisDatatype"
 				class="es.uvigo.ei.sing.s2p.aibench.views.SameSpotsAnalysisView"
-				help="es.uvigo.ei.sing.s2p.aibench.datatypes.SameSpotsAnalysisDatatype"
 			/>
 			<view
 				name="Spots data viewer"
 				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.SpotsDataDatatype"
 				class="es.uvigo.ei.sing.s2p.aibench.views.SpotsDataDatatypeView"
-				help="es.uvigo.ei.sing.s2p.aibench.datatypes.SpotsDataDatatype"
 			/>		
 			<view
 				name="Mascot identifications viewer"
 				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.MascotIdentificationsDatatype"
 				class="es.uvigo.ei.sing.s2p.aibench.views.MascotIdentificationsDatatypeView"
-				help="es.uvigo.ei.sing.s2p.aibench.datatypes.MascotIdentificationsDatatype"
 			/>
 			<view
 				name="Spots Mascot identifications viewer"
 				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.SpotMascotIdentificationsDatatype"
 				class="es.uvigo.ei.sing.s2p.aibench.views.SpotMascotIdentificationsDatatypeView"
-				help="es.uvigo.ei.sing.s2p.aibench.datatypes.SpotMascotIdentificationsDatatype"
 			/>
 			<view
 				name="Mascot quantifications viewer"
 				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.QuantificationDatasetDatatype"
 				class="es.uvigo.ei.sing.s2p.aibench.views.QuantificationDatasetView"
-				help="es.uvigo.ei.sing.s2p.aibench.datatypes.QuantificationDatasetDatatype"
 			/>
 			<view
 				name="Maldi plate editor"
 				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.MaldiPlateDatatype"
 				class="es.uvigo.ei.sing.s2p.aibench.views.MaldiPlateDatatypeView"
-				help="es.uvigo.ei.sing.s2p.aibench.datatypes.MaldiPlateDatatype"
 			/>
 			<view
 				name="Venn diagram designer"
 				datatype="es.uvigo.ei.sing.s2p.aibench.datatypes.VennDiagramDesignDatatype"
 				class="es.uvigo.ei.sing.s2p.aibench.views.VennDiagramDesigner"
-				help="es.uvigo.ei.sing.s2p.aibench.datatypes.VennDiagramDesignDatatype"
 			/>		
 		</extension>
 		
