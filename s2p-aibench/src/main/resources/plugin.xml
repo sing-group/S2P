@@ -37,7 +37,7 @@
 			class="es.uvigo.ei.sing.s2p.aibench.operations.ImportSameSpotsReport"
 		>
 			<operation-description
-				name="Import report"
+				menuName="Report from HTM files"
 				uid="operations.importsamespotsreport"
 				path="2@Import/1@SameSpots"
 				help="import.samespots.report"
@@ -49,7 +49,7 @@
 			class="es.uvigo.ei.sing.s2p.aibench.operations.ImportSameSpotsCsvFiles"
 		>
 			<operation-description
-				name="Import CSV"
+				menuName="Spots from CSV files"
 				uid="operations.importsamespotscsvfiles"
 				path="2@Import/1@SameSpots"
 				help="import.samespots.csv"

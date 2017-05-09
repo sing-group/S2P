@@ -36,7 +36,7 @@ import es.uvigo.ei.sing.s2p.core.entities.SameSpotsThrehold;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
 
 @Operation(
-	name = "Import SameSpots report", 
+	name = "Import SameSpots report from HTM files", 
 	description = "Imports a Progenesis SameSpots report from the generated HTM files."
 )
 public class ImportSameSpotsReport {

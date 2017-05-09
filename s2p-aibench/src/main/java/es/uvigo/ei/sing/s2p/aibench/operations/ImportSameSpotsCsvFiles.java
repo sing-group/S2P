@@ -38,7 +38,7 @@ import es.uvigo.ei.sing.s2p.core.entities.SameSpotsThrehold;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
 
 @Operation(
-	name = "Import SameSpots CSV files", 
+	name = "Import SameSpots data from CSV files", 
 	description = "Imports a set of CSV files containing spots data obtained with Progenesis SameSpots."
 )
 public class ImportSameSpotsCsvFiles {

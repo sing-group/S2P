@@ -76,11 +76,11 @@
 				<tocitem
 					text="SameSpots">
 					<tocitem
-						text="Import Report"
+						text="Report from HTM files"
 						target="import.samespots.report"
 					/>
 					<tocitem
-						text="Import CSV"
+						text="Spots from CSV files"
 						target="import.samespots.csv"
 					/>
 				</tocitem>				
