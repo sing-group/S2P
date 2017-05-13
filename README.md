@@ -10,7 +10,7 @@ This maven project is comprised of the following modules:
 * aibench: contains a GUI application based on AIBench framework ([AIBench](http://www.aibench.org/)).
 
 Building S2P
-----
+------------
 The final application can be built using the `mvn install` command. This command builds the three modules and generates the AIBench based application at `s2p-aibench/targets`.
 
 In order to create the Windows/Linux portable versions and the Windows executable installers, two profiles can be specified: `createDistributables` and `createInstallers`, respectively. Both portable versions and installers are self-contained since they contain an embedded Java Runtime Environment to run the application.
@@ -30,3 +30,8 @@ This project is an idea and is developed by:
 * Miguel Reboiro-Jato [SING Group](http://www.sing-group.org)
 * Daniel Glez-Peña [SING Group](http://www.sing-group.org)
 * Florentino Fdez-Riverola [SING Group](http://www.sing-group.org)
+
+Citing
+------
+If you are using S2P, please, cite us:
+> H. López-Fernández; J.E. Araújo; D. Glez-Peña; M. Reboiro-Jato; F. Fdez-Riverola; J.L. Capelo-Martínez (2017) S2P: a desktop application for fast and easy processing of 2D-gel and MALDI-based mass spectrometry protein data. 11th International Conference on Practical Applications of Computational Biology & Bioinformatics. Porto, Portugal
