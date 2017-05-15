@@ -112,7 +112,7 @@
 		<sing.commons.csv.version>1.2.0-SNAPSHOT</sing.commons.csv.version>
 		<sing.commons.math.version>0.1.0</sing.commons.math.version>
 		<itextpdf.version>5.5.10</itextpdf.version>
-		<jsparklines-factory.version>0.1.0-SNAPSHOT</jsparklines-factory.version>
+		<jsparklines-factory.version>0.1.0</jsparklines-factory.version>
 		<aibench-plugin-recent-files-history.version>0.1.0-SNAPSHOT</aibench-plugin-recent-files-history.version>
 
 		<!-- Testing dependencies -->
