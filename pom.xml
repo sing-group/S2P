@@ -109,7 +109,7 @@
 		<gc4s.version>0.7.0-SNAPSHOT</gc4s.version>
 		<commons.math.version>3.6.1</commons.math.version>
 		<jfreechart.version>1.0.19</jfreechart.version>
-		<sing.commons.csv.version>1.2.0-SNAPSHOT</sing.commons.csv.version>
+		<sing.commons.csv.version>1.2.0</sing.commons.csv.version>
 		<sing.commons.math.version>0.1.0</sing.commons.math.version>
 		<itextpdf.version>5.5.10</itextpdf.version>
 		<jsparklines-factory.version>0.1.0</jsparklines-factory.version>
