@@ -23,10 +23,12 @@
 package es.uvigo.ei.sing.s2p.core.io.quantification;
 
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 import static java.util.Arrays.asList;
 import static es.uvigo.ei.sing.s2p.core.resources.TestResources.QUANTIFICATION_EMPAI_DIRECTORY;
 import static org.junit.Assert.assertEquals;
 
+import java.util.HashSet;
 import java.util.List;
 
 import org.junit.Test;
@@ -52,8 +54,8 @@ public class QuantificationCsvDatasetLoaderTest {
 			conditions.stream().map(QuantificationCondition::getName).collect(toList())
 		);
 		assertEquals(
-			asList(3d, 2d, 1d), 
-			dataset.stream().map(QuantificationSample::getProteinMass).collect(toList())
+			new HashSet<>(asList(3d, 2d, 1d)), 
+			dataset.stream().map(QuantificationSample::getProteinMass).collect(toSet())
 		);
 	}
 }
