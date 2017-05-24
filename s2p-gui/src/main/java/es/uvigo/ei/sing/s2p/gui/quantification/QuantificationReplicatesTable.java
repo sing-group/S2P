@@ -39,6 +39,7 @@ public class QuantificationReplicatesTable extends ExtendedCsvTable {
 	}
 
 	private void initComponent() {
+		this.setColumVisibilityActionsEnabled(false);
 		this.addExportToCsvAction();
 		this.updateSparklinesRenderers();
 	}

@@ -45,6 +45,7 @@ public class QuantificationReplicatesByProteinTable extends ExtendedCsvTable {
 	}
 
 	private void initComponent() {
+		this.setColumVisibilityActionsEnabled(false);		
 		this.addExportToCsvAction();
 		QuantificationReplicatesTableCellRenderer renderer = 
 			new QuantificationReplicatesTableCellRenderer();

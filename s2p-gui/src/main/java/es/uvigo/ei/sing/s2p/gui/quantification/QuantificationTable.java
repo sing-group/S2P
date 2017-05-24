@@ -76,6 +76,7 @@ public class QuantificationTable extends ExtendedCsvTable {
 		this.conditions = this.dataset.getConditions();
 		this.datasetSummary = summary(this.dataset);
 		this.initColors();
+		this.setColumVisibilityActionsEnabled(false);
 		this.addExportToCsvAction();
 		this.setHorizontalScrollEnabled(true);
 		this.packAll();
