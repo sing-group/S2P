@@ -2,7 +2,7 @@
  * #%L
  * S2P
  * %%
- * Copyright (C) 2016 José Luis Capelo Martínez, José Eduardo Araújo, Florentino Fdez-Riverola, Miguel
+ * Copyright (C) 2016 - 2017 José Luis Capelo Martínez, José Eduardo Araújo, Florentino Fdez-Riverola, Miguel
  * 			Reboiro-Jato, Hugo López-Fernández, and Daniel Glez-Peña
  * %%
  * This program is free software: you can redistribute it and/or modify
