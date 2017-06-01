@@ -28,7 +28,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import es.uvigo.ei.sing.s2p.core.entities.Pair;
 import es.uvigo.ei.sing.s2p.core.entities.SameSpotsThrehold;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
 
@@ -55,7 +54,7 @@ public class SameSpotsDirectoryLoader extends AbstractSameSpotsDirectoryLoader {
 	}
 
 	@Override
-	protected Pair<Sample, Sample> loadFile(File file,
+	protected List<Sample> loadFile(File file,
 		SameSpotsThrehold threshold) throws IOException 
 	{
 		return SameSpotsFileLoader.load(file, threshold);

@@ -22,10 +22,12 @@
  */
 package es.uvigo.ei.sing.s2p.core.io.samespots;
 
+import static java.util.Arrays.asList;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import es.uvigo.ei.sing.commons.csv.entities.CsvFormat;
@@ -59,9 +61,10 @@ public class SameSpotsCsvDirectoryLoader extends AbstractSameSpotsDirectoryLoade
 	}
 
 	@Override
-	protected Pair<Sample, Sample> loadFile(File file,
-		SameSpotsThrehold threshold) throws IOException {
-		return SameSpotsCsvFileLoader.load(file, threshold, format);
+	protected List<Sample> loadFile(File file, SameSpotsThrehold threshold)
+		throws IOException {
+		Pair<Sample, Sample> samples = 
+			SameSpotsCsvFileLoader.load(file, threshold, format);
+		return new LinkedList<>(asList(samples.getFirst(), samples.getSecond()));
 	}
 }
-

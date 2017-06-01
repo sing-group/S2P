@@ -9,12 +9,12 @@
  * it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
@@ -35,12 +35,16 @@ public class SamplesComparisonTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	private List<Sample> samples;
 	private List<String> proteins;
+	private boolean allowSpotEdition = false;
 
-	public SamplesComparisonTableModel(List<Sample> samples) {
+	public SamplesComparisonTableModel(List<Sample> samples,
+		boolean allowSpotEdition
+	) {
 		this.samples = samples;
 		this.proteins = calculateProteins();
+		this.allowSpotEdition = allowSpotEdition;
 	}
-	
+
 	private List<String> calculateProteins() {
 		return 	new LinkedList<String>(
 			this.samples.stream().map(Sample::getSpots)
@@ -57,7 +61,7 @@ public class SamplesComparisonTableModel extends AbstractTableModel {
 			return this.samples.get(column - 1).getName();
 		}
 	}
-	
+
 	@Override
 	public int getRowCount() {
 		return this.proteins.size();
@@ -77,6 +81,27 @@ public class SamplesComparisonTableModel extends AbstractTableModel {
 			Double proteinValue = this.samples.get(columnIndex - 1).getSpotValues().get(protein);
 			return proteinValue == null ? Double.NaN : proteinValue;
 		}
+	}
+
+	@Override
+	public boolean isCellEditable(int rowIndex, int columnIndex) {
+		return allowSpotEdition && columnIndex == 0;
+	}
+
+	@Override
+	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+		if(isCellEditable(rowIndex, columnIndex)) {
+			String oldSpotName = (String) getValueAt(rowIndex, columnIndex);
+			String newSpotName = (String) aValue;
+			renameSpot(oldSpotName, newSpotName);
+		}
+	}
+
+	private void renameSpot(String oldSpotName, String newSpotName) {
+		for(Sample sample : samples) {
+			sample.renameSpot(oldSpotName, newSpotName);
+		}
+		fireTableDataChanged();
 	}
 
 	@Override

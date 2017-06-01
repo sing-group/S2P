@@ -9,12 +9,12 @@
  * it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
@@ -22,12 +22,12 @@
  */
 package es.uvigo.ei.sing.s2p.gui.samples;
 
-import static java.awt.Font.BOLD;
 import static es.uvigo.ei.sing.s2p.gui.UISettings.FONT_SIZE;
 import static es.uvigo.ei.sing.s2p.gui.UISettings.FONT_SIZE_HEADER;
 import static es.uvigo.ei.sing.s2p.gui.spots.SpotUtils.spotTooltip;
 import static es.uvigo.ei.sing.s2p.gui.spots.SpotUtils.spotValue;
 import static es.uvigo.ei.sing.s2p.gui.spots.heatmap.HeatMapModelBuilder.createHeatMapModelBuilder;
+import static java.awt.Font.BOLD;
 import static java.util.Collections.emptyMap;
 import static java.util.Optional.ofNullable;
 
@@ -51,14 +51,16 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
-
 import org.sing_group.gc4s.event.PopupMenuAdapter;
 import org.sing_group.gc4s.utilities.ExtendedAbstractAction;
 import org.sing_group.gc4s.visualization.JHeatMapModel;
+
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
 import es.uvigo.ei.sing.s2p.core.entities.SpotMascotIdentifications;
 import es.uvigo.ei.sing.s2p.gui.spots.heatmap.SpotRenderer;
@@ -69,7 +71,7 @@ import es.uvigo.ei.sing.s2p.gui.table.spots.SpotsCsvTable;
 
 public class SamplesComparisonTable extends JPanel {
 	private static final long serialVersionUID = 1L;
-	
+
 	private ExtendedCsvTable table;
 	private SamplesComparisonTableModel tableModel;
 
@@ -77,48 +79,76 @@ public class SamplesComparisonTable extends JPanel {
 	private Map<Sample, Color> sampleColors;
 	private Map<Sample, String> sampleLabels;
 	private SpotPresenceTester spotPresenceTester;
-	
+
+	private boolean allowSpotEdition = false;
 	private boolean showProteinIdentifications = false;
-	private Optional<SpotMascotIdentifications> mascotIdentifications = 
+	private Optional<SpotMascotIdentifications> mascotIdentifications =
 		Optional.empty();
 
 	private ExtendedAbstractAction removeSpotsAction;
 
 	public SamplesComparisonTable(List<Sample> samples) {
-		this(samples, new HashMap<>(), new HashMap<>());
+		this(samples, false);
 	}
-	
+
+	public SamplesComparisonTable(List<Sample> samples,
+		boolean allowSpotEdition
+	) {
+		this(samples, new HashMap<>(), new HashMap<>(), allowSpotEdition);
+	}
+
 	public SamplesComparisonTable(List<Sample> samples,
 		Map<Sample, Color> sampleColors, Map<Sample, String> sampleLabels
+	) {
+		this(samples, sampleColors, sampleLabels, false);
+	}
+
+	public SamplesComparisonTable(List<Sample> samples,
+		Map<Sample, Color> sampleColors, Map<Sample, String> sampleLabels,
+		boolean allowSpotEdition
 	) {
 		this.samples = samples;
 		this.sampleColors = sampleColors;
 		this.sampleLabels = sampleLabels;
+		this.allowSpotEdition = allowSpotEdition;
 
 		this.initComponent();
 	}
 
 	private void initComponent() {
 		this.initTable();
-		
+
 		this.setLayout(new BorderLayout());
 		this.add(new JScrollPane(table), BorderLayout.CENTER);
 	}
 
 	private void initTable() {
-		this.tableModel = new SamplesComparisonTableModel(this.samples);
+		this.tableModel = new SamplesComparisonTableModel(
+			this.samples, this.allowSpotEdition);
+		this.tableModel.addTableModelListener(new TableModelListener() {
+
+			@Override
+			public void tableChanged(TableModelEvent e) {
+				updateSpotPresenceTester();
+			}
+		});
 		this.table = new SpotsCsvTable(this.tableModel, this::getSpotValue);
-		final SamplesComparisonTableCellRenderer renderer = 
+		this.table.setEditable(true);
+		final SamplesComparisonTableCellRenderer renderer =
 			new SamplesComparisonTableCellRenderer();
 		this.table.setDefaultRenderer(Double.class, renderer);
 		this.table.setDefaultRenderer(Object.class, renderer);
 		this.table.getTableHeader().setDefaultRenderer(
 			new SamplesComparisonTableHeaderCellRenderer(
 				this.table.getTableHeader().getDefaultRenderer()));
-		this.table.setColumnControlVisible(true);	
+		this.table.setColumnControlVisible(true);
 		this.table.getTableHeader().setReorderingAllowed(false);
 		this.table.addExportToCsvAction();
 
+		updateSpotPresenceTester();
+	}
+
+	private void updateSpotPresenceTester() {
 		spotPresenceTester = new SpotPresenceTester(getProteins(this.samples));
 		table.setRowFilter(new TestRowFilter<>(spotPresenceTester, 0));
 	}
@@ -147,14 +177,14 @@ public class SamplesComparisonTable extends JPanel {
 
 			final Component c = super.getTableCellRendererComponent(table,
 				value, isSelected, hasFocus, row, column);
-			
+
 			c.setFont(c.getFont().deriveFont(Font.PLAIN, FONT_SIZE));
 
-				
+
 			if(columnModel > 0) {
 				if(c instanceof JLabel) {
 					JLabel label = (JLabel) c;
-					String cellValue = Double.isNaN((double) value) ? 
+					String cellValue = Double.isNaN((double) value) ?
 							"" : String.format("%6.2e", value);
 					if(!Double.isNaN((double) value)) {
 						label.setToolTipText(cellValue);
@@ -173,7 +203,7 @@ public class SamplesComparisonTable extends JPanel {
 					spot, showProteinIdentifications, mascotIdentifications
 				));
 				spotLabel.setToolTipText(spotTooltip(spot, mascotIdentifications));
-				
+
 				if (mascotIdentifications.isPresent()) {
 					if (!mascotIdentifications.get().get(spot).isEmpty()) {
 						if (!showProteinIdentifications) {
@@ -184,16 +214,16 @@ public class SamplesComparisonTable extends JPanel {
 					}
 				}
 			}
-			
+
 			return c;
 		}
 	}
-	
+
 	private class SamplesComparisonTableHeaderCellRenderer
 	extends DefaultTableCellRenderer {
 		private static final long serialVersionUID = 1L;
 		private TableCellRenderer defaultRenderer;
-		
+
 		public SamplesComparisonTableHeaderCellRenderer(
 			TableCellRenderer defaultRenderer) {
 			this.defaultRenderer = defaultRenderer;
@@ -201,18 +231,18 @@ public class SamplesComparisonTable extends JPanel {
 
 		@Override
 		public Component getTableCellRendererComponent(
-			JTable table, Object value, boolean isSelected, boolean hasFocus, 
+			JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column
 		) {
 			final Component c = defaultRenderer.getTableCellRendererComponent(
 				table, value, isSelected, hasFocus, row, column);
-			
+
 			if (c instanceof JLabel) {
 				c.setFont(c.getFont().deriveFont(Font.BOLD, FONT_SIZE_HEADER));
 			}
-			
+
 			final int columnModel = table.convertColumnIndexToModel(column);
-			
+
 			if (columnModel > 0) {
 				if(c instanceof JLabel) {
 					((JLabel) c).setToolTipText(
@@ -220,7 +250,7 @@ public class SamplesComparisonTable extends JPanel {
 					);
 				}
 			}
-			
+
 			return c;
 		}
 	}
@@ -229,23 +259,22 @@ public class SamplesComparisonTable extends JPanel {
 		this.spotPresenceTester.setVisibleSpots(visibleSpots);
 		table.setRowFilter(new TestRowFilter<>(spotPresenceTester, 0));
 	}
-	
+
 	public void setShowProteinIdentifications(boolean show) {
 		this.showProteinIdentifications = show;
 		this.updateUI();
 	}
-	
+
 	public void setMascotIdentifications(
 		SpotMascotIdentifications mascotIdentifications
 	) {
 		this.mascotIdentifications = ofNullable(mascotIdentifications);
-		fireTableStructureChanged();
 	}
 
 	public void fireTableStructureChanged() {
 		this.tableModel.fireTableStructureChanged();
 	}
-	
+
 	public JHeatMapModel getHeatMapModel(SpotRenderer spotRenderer, boolean showSampleLabels) {
 		return 	createHeatMapModelBuilder(this.table, spotRenderer)
 			.withMascotIdentifications(this.mascotIdentifications)

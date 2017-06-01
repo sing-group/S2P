@@ -22,11 +22,6 @@
  */
 package es.uvigo.ei.sing.s2p.gui.samespots;
 
-import static org.sing_group.gc4s.input.csv.CsvFormat.FileFormat.CUSTOM;
-import static org.sing_group.gc4s.ui.icons.Icons.ICON_EDIT_16;
-import static org.sing_group.gc4s.ui.icons.Icons.ICON_EXPORT_16;
-import static org.sing_group.gc4s.ui.icons.Icons.ICON_MERGE_16;
-import static org.sing_group.gc4s.utilities.builder.JButtonBuilder.newJButtonBuilder;
 import static es.uvigo.ei.sing.s2p.core.io.samespots.SameSpotsCsvWriter.write;
 import static es.uvigo.ei.sing.s2p.gui.UISettings.BG_COLOR;
 import static es.uvigo.ei.sing.s2p.gui.util.CsvUtils.csvFormat;
@@ -35,6 +30,11 @@ import static java.util.stream.Collectors.joining;
 import static javax.swing.BorderFactory.createEmptyBorder;
 import static javax.swing.Box.createHorizontalGlue;
 import static javax.swing.BoxLayout.X_AXIS;
+import static org.sing_group.gc4s.input.csv.CsvFormat.FileFormat.CUSTOM;
+import static org.sing_group.gc4s.ui.icons.Icons.ICON_EDIT_16;
+import static org.sing_group.gc4s.ui.icons.Icons.ICON_EXPORT_16;
+import static org.sing_group.gc4s.ui.icons.Icons.ICON_MERGE_16;
+import static org.sing_group.gc4s.utilities.builder.JButtonBuilder.newJButtonBuilder;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -42,6 +42,7 @@ import java.awt.Window;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -52,8 +53,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import es.uvigo.ei.sing.commons.csv.entities.CsvFormat;
 import org.sing_group.gc4s.utilities.ExtendedAbstractAction;
+
+import es.uvigo.ei.sing.commons.csv.entities.CsvFormat;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
 import es.uvigo.ei.sing.s2p.gui.components.dialog.ExportCsvDialog;
 import es.uvigo.ei.sing.s2p.gui.samples.SamplesComparisonTable;
@@ -70,11 +72,19 @@ public class SameSpotsDatasetViewer extends JPanel {
 	private JButton editSamplesBtn;
 	private JButton mergeSamplesBtn;
 
-	private Map<Sample, String> sampleConditions = new HashMap<Sample, String>();
+	private Map<Sample, String> sampleConditions;
 
 	public SameSpotsDatasetViewer(List<Sample> samples) {
+		this(samples, new HashMap<>());
+	}
+
+	public SameSpotsDatasetViewer(List<Sample> samples,
+		Map<Sample, String> sampleConditions
+	) {
 		this.samples = samples;
-		
+		this.sampleConditions = sampleConditions;
+		this.conditionLabels = new LinkedList<>(this.sampleConditions.values());
+
 		this.initComponent();
 	}
 
@@ -118,10 +128,10 @@ public class SameSpotsDatasetViewer extends JPanel {
 	private JButton getEditSamplesButton() {
 		if(this.editSamplesBtn == null) {
 			this.editSamplesBtn = newJButtonBuilder()
-				.disabled()
 				.withTooltip("Edit experiment's samples.")
 				.thatDoes(getEditSamplesAction())
 				.build();
+			this.editSamplesBtn.setEnabled(!this.conditionLabels.isEmpty());
 		}
 		return this.editSamplesBtn;
 	}
@@ -160,7 +170,7 @@ public class SameSpotsDatasetViewer extends JPanel {
 
 	private Component getSamplesTable() {
 		if (this.samplesTable == null) {
-			this.samplesTable = new SamplesComparisonTable(this.samples);
+			this.samplesTable = new SamplesComparisonTable(this.samples, true);
 			this.samplesTable.setShowComponentPopupMenu(true);
 			this.samplesTable.setOpaque(false);
 			this.samplesTable.setBorder(createEmptyBorder(10, 10, 10, 10));

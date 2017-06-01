@@ -63,7 +63,8 @@ public class Lifecycle extends org.platonos.pluginengine.PluginLifecycle {
 		"operations.importmascotquantifications",
 		"operations.loadmascotidentifications",
 		"operations.loadspotmascotidentifications",
-		"operations.loadmaldiplate"
+		"operations.loadmaldiplate",
+		"operations.importsamespotssamplereport"
 	};
 
 	private static final ImageIcon ICON =

@@ -30,6 +30,7 @@ import javax.swing.JOptionPane;
 import es.uvigo.ei.aibench.core.Core;
 import es.uvigo.ei.sing.commons.csv.entities.CsvFormat;
 import es.uvigo.ei.sing.s2p.aibench.datatypes.SameSpotsAnalysisDatatype;
+import es.uvigo.ei.sing.s2p.aibench.datatypes.SameSpotsSampleRepeatedMeasuresDatatype;
 import es.uvigo.ei.sing.s2p.aibench.datatypes.SpotsDataDatatype;
 import es.uvigo.ei.sing.s2p.aibench.operations.LoadSpotsData;
 import es.uvigo.ei.sing.s2p.gui.samespots.SameSpotsDatasetViewer;
@@ -39,6 +40,12 @@ public class SameSpotsAnalysisView extends SameSpotsDatasetViewer {
 
 	public SameSpotsAnalysisView(SameSpotsAnalysisDatatype datatype) {
 		super(datatype.getSamples());
+	}
+
+	public SameSpotsAnalysisView(
+		SameSpotsSampleRepeatedMeasuresDatatype datatype
+	) {
+		super(datatype.getSamples(), datatype.getConditions());
 	}
 	
 	@Override

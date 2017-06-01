@@ -22,6 +22,7 @@
  */
 package es.uvigo.ei.sing.s2p.core.io.samespots;
 
+import static es.uvigo.ei.sing.s2p.core.resources.TestResources.SAMESPOTS_MULTIPLE_SAMPLES_FILE;
 import static es.uvigo.ei.sing.s2p.core.resources.TestResources.SAMESPOTS_DIRECTORY;
 import static es.uvigo.ei.sing.s2p.core.resources.TestResources.SAMESPOTS_FILE;
 import static org.junit.Assert.assertEquals;
@@ -32,7 +33,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import es.uvigo.ei.sing.s2p.core.entities.Pair;
 import es.uvigo.ei.sing.s2p.core.entities.SameSpotsThrehold;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
 
@@ -104,26 +104,76 @@ public class SameSpotsLoaderTest {
 		SECOND_SAMPLE.getSpotValues().put("209", 1.82E7);
 	}
 
+	private static final Sample MULTIPLE_REPORT_FIRST_SAMPLE =
+		new Sample("1st Month", new HashMap<>());
+	
+	static {
+		MULTIPLE_REPORT_FIRST_SAMPLE.getSpotValues().put("89", 9631000.0);
+		MULTIPLE_REPORT_FIRST_SAMPLE.getSpotValues().put("170", 2455000.0);
+		MULTIPLE_REPORT_FIRST_SAMPLE.getSpotValues().put("194", 167300.0);
+		MULTIPLE_REPORT_FIRST_SAMPLE.getSpotValues().put("393", 1598000.0);
+		MULTIPLE_REPORT_FIRST_SAMPLE.getSpotValues().put("372", 2.24E7);
+		MULTIPLE_REPORT_FIRST_SAMPLE.getSpotValues().put("691", 1.192E7);
+		MULTIPLE_REPORT_FIRST_SAMPLE.getSpotValues().put("175", 2722000.0);
+		MULTIPLE_REPORT_FIRST_SAMPLE.getSpotValues().put("176", 5125000.0);
+		MULTIPLE_REPORT_FIRST_SAMPLE.getSpotValues().put("177", 3742000.0);
+		MULTIPLE_REPORT_FIRST_SAMPLE.getSpotValues().put("232", 7839000.0);
+		MULTIPLE_REPORT_FIRST_SAMPLE.getSpotValues().put("299", 1.076E8);
+		MULTIPLE_REPORT_FIRST_SAMPLE.getSpotValues().put("178", 2006000.0);
+		MULTIPLE_REPORT_FIRST_SAMPLE.getSpotValues().put("355", 3.061E7);
+		MULTIPLE_REPORT_FIRST_SAMPLE.getSpotValues().put("234", 4576000.0);
+		MULTIPLE_REPORT_FIRST_SAMPLE.getSpotValues().put("157", 1.415E7);
+		MULTIPLE_REPORT_FIRST_SAMPLE.getSpotValues().put("356", 4.34E7);
+		MULTIPLE_REPORT_FIRST_SAMPLE.getSpotValues().put("456", 7130000.0);
+		MULTIPLE_REPORT_FIRST_SAMPLE.getSpotValues().put("137", 1.4E7);
+		MULTIPLE_REPORT_FIRST_SAMPLE.getSpotValues().put("96", 1.296E7);
+		MULTIPLE_REPORT_FIRST_SAMPLE.getSpotValues().put("57", 3462000.0);
+		MULTIPLE_REPORT_FIRST_SAMPLE.getSpotValues().put("361", 2.492E7);
+		MULTIPLE_REPORT_FIRST_SAMPLE.getSpotValues().put("384", 2016000.0);
+		MULTIPLE_REPORT_FIRST_SAMPLE.getSpotValues().put("101", 3686000.0);
+		MULTIPLE_REPORT_FIRST_SAMPLE.getSpotValues().put("366", 4.659E7);
+		MULTIPLE_REPORT_FIRST_SAMPLE.getSpotValues().put("224", 4497000.0);
+		MULTIPLE_REPORT_FIRST_SAMPLE.getSpotValues().put("389", 3397000.0);
+		MULTIPLE_REPORT_FIRST_SAMPLE.getSpotValues().put("467", 1.443E7);
+		MULTIPLE_REPORT_FIRST_SAMPLE.getSpotValues().put("820", 9.194E7);
+		MULTIPLE_REPORT_FIRST_SAMPLE.getSpotValues().put("469", 1.183E7);
+		MULTIPLE_REPORT_FIRST_SAMPLE.getSpotValues().put("404", 3213000.0);
+		MULTIPLE_REPORT_FIRST_SAMPLE.getSpotValues().put("307", 7576000.0);
+		MULTIPLE_REPORT_FIRST_SAMPLE.getSpotValues().put("805", 3472000.0);
+
+	}
+	
 	@Test
 	public void sameSpotsFileLoaderTest() throws IOException {
-		Pair<Sample, Sample> samples = SameSpotsFileLoader.load(
+		List<Sample> samples = SameSpotsFileLoader.load(
 			SAMESPOTS_FILE,
 			SameSpotsFileLoader.DEFAULT_THRESHOLD
 		);
 
-		assertEquals(FIRST_SAMPLE, 	samples.getFirst());
-		assertEquals(SECOND_SAMPLE, samples.getSecond());
+		assertEquals(FIRST_SAMPLE, 	samples.get(0));
+		assertEquals(SECOND_SAMPLE, samples.get(1));
 	}
 	
 	@Test
 	public void sameSpotsFileLoaderTest2() throws IOException {
-		Pair<Sample, Sample> samples = SameSpotsFileLoader.load(
+		List<Sample> samples = SameSpotsFileLoader.load(
 			SAMESPOTS_FILE,
 			new SameSpotsThrehold(0.01, 2.5)
 		);
 
-		assertEquals(2, samples.getFirst().getSpotValues().size());
-		assertEquals(2, samples.getSecond().getSpotValues().size());
+		assertEquals(2, samples.get(0).getSpotValues().size());
+		assertEquals(2, samples.get(1).getSpotValues().size());
+	}
+
+	@Test
+	public void sameSpotsFileLoaderMultipleSamplesTest() throws IOException {
+		List<Sample> samples = SameSpotsFileLoader.load(
+			SAMESPOTS_MULTIPLE_SAMPLES_FILE,
+			SameSpotsFileLoader.DEFAULT_THRESHOLD
+		);
+
+		assertEquals(4, samples.size());
+		assertEquals(MULTIPLE_REPORT_FIRST_SAMPLE, samples.get(0));
 	}
 
 	@Test
