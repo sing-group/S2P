@@ -30,11 +30,15 @@ import static es.uvigo.ei.sing.s2p.gui.spots.heatmap.HeatMapModelBuilder.createH
 import static java.awt.Font.BOLD;
 import static java.util.Collections.emptyMap;
 import static java.util.Optional.ofNullable;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -44,12 +48,15 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.IntStream;
 
+import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -63,11 +70,14 @@ import org.sing_group.gc4s.visualization.JHeatMapModel;
 
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
 import es.uvigo.ei.sing.s2p.core.entities.SpotMascotIdentifications;
+import es.uvigo.ei.sing.s2p.core.io.SpotsDataWriter;
+import es.uvigo.ei.sing.s2p.gui.components.dialog.ExportCsvDialog;
 import es.uvigo.ei.sing.s2p.gui.spots.heatmap.SpotRenderer;
 import es.uvigo.ei.sing.s2p.gui.table.ExtendedCsvTable;
 import es.uvigo.ei.sing.s2p.gui.table.TestRowFilter;
 import es.uvigo.ei.sing.s2p.gui.table.spots.SpotPresenceTester;
 import es.uvigo.ei.sing.s2p.gui.table.spots.SpotsCsvTable;
+import es.uvigo.ei.sing.s2p.gui.util.CsvUtils;
 
 public class SamplesComparisonTable extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -86,6 +96,7 @@ public class SamplesComparisonTable extends JPanel {
 		Optional.empty();
 
 	private ExtendedAbstractAction removeSpotsAction;
+	private AbstractAction exportToCsvWithIdentificationsAction;
 
 	public SamplesComparisonTable(List<Sample> samples) {
 		this(samples, false);
@@ -144,6 +155,7 @@ public class SamplesComparisonTable extends JPanel {
 		this.table.setColumnControlVisible(true);
 		this.table.getTableHeader().setReorderingAllowed(false);
 		this.table.addExportToCsvAction();
+		this.table.addAction(getExportToCsvWithIdentificationsAction());
 
 		updateSpotPresenceTester();
 	}
@@ -164,6 +176,44 @@ public class SamplesComparisonTable extends JPanel {
 			all.addAll(s.getSpots());
 		});
 		return all;
+	}
+
+	private Action getExportToCsvWithIdentificationsAction() {
+		this.exportToCsvWithIdentificationsAction = new AbstractAction(
+			"Export to CSV with identifications") {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				exportToCsvWithIdentifications();
+			}
+		};
+		this.exportToCsvWithIdentificationsAction.setEnabled(false);
+
+		return this.exportToCsvWithIdentificationsAction;
+	}
+
+	protected void exportToCsvWithIdentifications() {
+		ExportCsvDialog dialog = new ExportCsvDialog(getDialogParent());
+		dialog.setVisible(true);
+		if (!dialog.isCanceled()) {
+			try {
+				SpotsDataWriter.writeSamplesWithIdentifications(
+					samples,
+					this.mascotIdentifications.get(),
+					CsvUtils.csvFormat(dialog.getSelectedCsvFormat()),
+					dialog.getSelectedFile()
+				);
+			} catch (IOException e) {
+				showMessageDialog(this, "There was an error writing to "
+					+ dialog.getSelectedFile(), "Input error",
+					JOptionPane.ERROR_MESSAGE);
+			}
+		}
+	}
+
+	private Window getDialogParent() {
+		return SwingUtilities.getWindowAncestor(this);
 	}
 
 	private class SamplesComparisonTableCellRenderer extends DefaultTableRenderer {
@@ -269,6 +319,7 @@ public class SamplesComparisonTable extends JPanel {
 		SpotMascotIdentifications mascotIdentifications
 	) {
 		this.mascotIdentifications = ofNullable(mascotIdentifications);
+		this.exportToCsvWithIdentificationsAction.setEnabled(true);
 	}
 
 	public void fireTableStructureChanged() {

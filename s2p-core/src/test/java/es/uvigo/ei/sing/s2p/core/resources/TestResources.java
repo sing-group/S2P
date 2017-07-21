@@ -39,6 +39,9 @@ public class TestResources {
 	public static final File TEST_SPOT_DATA =
 		loadResource("/test/spotsdata.csv");
 
+	public static final File TEST_SPOT_DATA_WITH_IDENTIFICATIONS =
+		loadResource("/test/spotsdata-with-identifications.csv");
+
 	public static final File MALDI_PLATE_FILE =
 		loadResource("/test/maldiplate.csv");
 
