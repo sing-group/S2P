@@ -62,28 +62,34 @@ public class SpotsData {
 	}
 	
 	public List<Condition> getConditions() {
-		if(this.conditions == null) {
-			Map<String, List<Sample>> labelSamples = new HashMap<String, List<Sample>>();
-			for(int column = 0; column < getSampleNames().size(); column ++) {
-				Map<String, Double> sampleSpotsValues = new HashMap<String, Double>();
-				
-				for(int row = 0; row < getSpots().size(); row++) {
+		if (this.conditions == null) {
+			List<String> orderedConditionsNames = new LinkedList<>();
+			Map<String, List<Sample>> labelSamples = new HashMap<>();
+			for (int column = 0; column < getSampleNames().size(); column++) {
+				Map<String, Double> sampleSpotsValues = new HashMap<>();
+
+				for (int row = 0; row < getSpots().size(); row++) {
 					double value = getData()[row][column];
-					if(!Double.isNaN(value)) {
+					if (!Double.isNaN(value)) {
 						sampleSpotsValues.put(getSpots().get(row), value);
 					}
 				}
-				
-				labelSamples.putIfAbsent(getSampleLabels().get(column), new LinkedList<Sample>());
-				labelSamples.get(getSampleLabels().get(column)).add(
-					new Sample(getSampleNames().get(column), sampleSpotsValues)
-				);
+
+				String sampleLabel = getSampleLabels().get(column);
+				labelSamples.putIfAbsent(sampleLabel, new LinkedList<Sample>());
+				if (!orderedConditionsNames.contains(sampleLabel)) {
+					orderedConditionsNames.add(sampleLabel);
+				}
+				labelSamples.get(sampleLabel).add(
+					new Sample(
+						getSampleNames().get(column), sampleSpotsValues
+					));
 			}
 		
 			this.conditions = new LinkedList<Condition>();
-			for(String condition : labelSamples.keySet()) {
-				this.conditions.add(
-					new Condition(condition, labelSamples.get(condition)));
+			for (String condition : orderedConditionsNames) {
+				this.conditions
+					.add(new Condition(condition, labelSamples.get(condition)));
 			}
 		}
 		return this.conditions;
