@@ -34,4 +34,4 @@ This project is an idea and is developed by:
 Citing
 ------
 If you are using S2P, please, cite us:
-> H. López-Fernández; J.E. Araújo; D. Glez-Peña; M. Reboiro-Jato; F. Fdez-Riverola; J.L. Capelo-Martínez (2017) S2P: a desktop application for fast and easy processing of 2D-gel and MALDI-based mass spectrometry protein data. 11th International Conference on Practical Applications of Computational Biology & Bioinformatics. Porto, Portugal
+> H. López-Fernández; J.E. Araújo; D. Glez-Peña; M. Reboiro-Jato; F. Fdez-Riverola; J.L. Capelo-Martínez (2017) [S2P: a desktop application for fast and easy processing of 2D-gel and MALDI-based mass spectrometry protein data](http://dx.doi.org/10.1007/978-3-319-60816-7_1). 11th International Conference on Practical Applications of Computational Biology & Bioinformatics. PACBB 2017. Advances in Intelligent Systems and Computing, vol 616, pp 1-8. Springer, Cham
