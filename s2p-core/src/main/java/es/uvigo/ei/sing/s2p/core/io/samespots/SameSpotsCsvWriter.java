@@ -50,8 +50,8 @@ public class SameSpotsCsvWriter {
 	}
 	
 	public static void write(File file, List<Sample> samples,
-		CsvFormat csvFormat, Map<Sample,String> samplesConditions
-	) throws IOException {
+		CsvFormat csvFormat, Map<Sample, String> samplesConditions)
+		throws IOException {
 		
 		CsvWriter csvWriter = CsvWriter.of(csvFormat);
 		

@@ -47,6 +47,7 @@
 	<mapID target="import.mascot.quantifications" url="HTML/Import/mascot-quantifications.html"/>
 	<mapID target="import.plate" url="HTML/Import/plate.html"/>
 	<mapID target="import.samespots.report" url="HTML/Import/samespots-report.html"/>
+	<mapID target="import.samespots.singlereport" url="HTML/Import/samespots-single-report.html"/>
 	<mapID target="import.samespots.csv" url="HTML/Import/samespots-csv.html"/>
 
 	<mapID target="load.spots" url="HTML/Load/spots.html"/>

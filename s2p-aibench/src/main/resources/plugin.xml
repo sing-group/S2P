@@ -49,10 +49,10 @@
 			class="es.uvigo.ei.sing.s2p.aibench.operations.ImportSameSpotsSampleRepeatedMeasuresReport"
 		>
 			<operation-description
-				name="Import sample report"
+				menuName="Single HTM report"
 				uid="operations.importsamespotssamplereport"
 				path="2@Import/1@SameSpots"
-				help="import.samespots.samplereport"
+				help="import.samespots.singlereport"
 			/>
 		</extension>
 
@@ -310,29 +310,29 @@
 		<extension uid="aibench.workbench" name="aibench.workbench.view">
 			<icon-operation
 				operation="operations.importsamespotsreport"
-				icon="icons/progenesis.png"
+				icon="icons/file-htm.png"
 			/>
 			<big-icon-operation
 				operation="operations.importsamespotsreport"
-				icon="icons/progenesis.png"
+				icon="icons/file-htm.png"
 			/>
 
 			<icon-operation
 				operation="operations.importsamespotssamplereport"
-				icon="icons/progenesis.png"
+				icon="icons/file-htm.png"
 			/>
 			<big-icon-operation
 				operation="operations.importsamespotssamplereport"
-				icon="icons/progenesis.png"
+				icon="icons/file-htm.png"
 			/>
 
 			<icon-operation
 				operation="operations.importsamespotscsvfiles"
-				icon="icons/progenesis.png"
+				icon="icons/file-csv.png"
 			/>
 			<big-icon-operation
 				operation="operations.importsamespotscsvfiles"
-				icon="icons/progenesis.png"
+				icon="icons/file-csv.png"
 			/>
 
 			<icon-operation

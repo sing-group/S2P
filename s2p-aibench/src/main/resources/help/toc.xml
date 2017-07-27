@@ -80,6 +80,10 @@
 						target="import.samespots.report"
 					/>
 					<tocitem
+						text="Single HTM report"
+						target="import.samespots.singlereport"
+					/>
+					<tocitem
 						text="Spots from CSV files"
 						target="import.samespots.csv"
 					/>
