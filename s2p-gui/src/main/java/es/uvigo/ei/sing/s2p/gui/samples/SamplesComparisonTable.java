@@ -58,9 +58,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.TableColumnModelListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
@@ -158,6 +160,14 @@ public class SamplesComparisonTable extends JPanel {
 		this.table.addAction(getExportToCsvWithIdentificationsAction());
 
 		updateSpotPresenceTester();
+	}
+
+	public void addColumnModelListener(TableColumnModelListener listener) {
+		this.table.getColumnModel().addColumnModelListener(listener);
+	}
+
+	public JTableHeader getTableHeader() {
+		return this.table.getTableHeader();
 	}
 
 	private void updateSpotPresenceTester() {

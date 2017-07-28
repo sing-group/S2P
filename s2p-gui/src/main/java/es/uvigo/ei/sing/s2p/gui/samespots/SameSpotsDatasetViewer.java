@@ -9,12 +9,12 @@
  * it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
@@ -39,8 +39,12 @@ import static org.sing_group.gc4s.utilities.builder.JButtonBuilder.newJButtonBui
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Window;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.Comparator;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -52,6 +56,7 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.table.TableColumn;
 
 import org.sing_group.gc4s.utilities.ExtendedAbstractAction;
 
@@ -62,10 +67,10 @@ import es.uvigo.ei.sing.s2p.gui.samples.SamplesComparisonTable;
 
 public class SameSpotsDatasetViewer extends JPanel {
 	private static final long serialVersionUID = 1L;
-	
+
 	private List<Sample> samples;
 	private List<String> conditionLabels = emptyList();
-	
+
 	private SamplesComparisonTable samplesTable;
 	private JPanel northPanel;
 	private JButton editConditionsBtn;
@@ -115,13 +120,13 @@ public class SameSpotsDatasetViewer extends JPanel {
 			this.editConditionsBtn = newJButtonBuilder()
 				.withTooltip("Edit experiment's conditions.")
 				.thatDoes(getEditConditionsAction())
-				.build();			
+				.build();
 		}
 		return this.editConditionsBtn;
 	}
-	
+
 	private Action getEditConditionsAction() {
-		return new ExtendedAbstractAction("Conditions", ICON_EDIT_16, 
+		return new ExtendedAbstractAction("Conditions", ICON_EDIT_16,
 			this::editConditions);
 	}
 
@@ -135,9 +140,9 @@ public class SameSpotsDatasetViewer extends JPanel {
 		}
 		return this.editSamplesBtn;
 	}
-	
+
 	private Action getEditSamplesAction() {
-		return new ExtendedAbstractAction("Samples", ICON_EDIT_16, 
+		return new ExtendedAbstractAction("Samples", ICON_EDIT_16,
 			this::editSamples);
 	}
 
@@ -152,7 +157,7 @@ public class SameSpotsDatasetViewer extends JPanel {
 	}
 
 	private Action getMergeSamplesAction() {
-		return new ExtendedAbstractAction("Merge", ICON_MERGE_16, 
+		return new ExtendedAbstractAction("Merge", ICON_MERGE_16,
 				this::mergeSamples);
 	}
 
@@ -164,7 +169,7 @@ public class SameSpotsDatasetViewer extends JPanel {
 	}
 
 	private Action getExportToCsvAction() {
-		return new ExtendedAbstractAction("Export to CSV", ICON_EXPORT_16, 
+		return new ExtendedAbstractAction("Export to CSV", ICON_EXPORT_16,
 			this::exportToCsv);
 	}
 
@@ -173,14 +178,38 @@ public class SameSpotsDatasetViewer extends JPanel {
 			this.samplesTable = new SamplesComparisonTable(this.samples, true);
 			this.samplesTable.setShowComponentPopupMenu(true);
 			this.samplesTable.setOpaque(false);
+			this.samplesTable.getTableHeader().setReorderingAllowed(true);
+			this.samplesTable.getTableHeader().addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					checkColumnsOrder();
+				}
+
+			});
 			this.samplesTable.setBorder(createEmptyBorder(10, 10, 10, 10));
 		}
 		return this.samplesTable;
 	}
 
+	protected synchronized void checkColumnsOrder() {
+		Enumeration<TableColumn> columns = this.samplesTable.getTableHeader().getColumnModel().getColumns();
+		Map<String, Integer> sampleNameToIndex = new HashMap<>();
+		int i = 0;
+		while(columns.hasMoreElements()) {
+			sampleNameToIndex.put(columns.nextElement().getHeaderValue().toString(), i++);
+		}
+		this.samples.sort(new Comparator<Sample>() {
+
+			@Override
+			public int compare(Sample o1, Sample o2) {
+				return sampleNameToIndex.get(o1.getName()).compareTo(sampleNameToIndex.get(o2.getName()));
+			}
+		});
+	}
+
 	private void editConditions() {
 		ConditionLabelInputDialog inputDialog = new ConditionLabelInputDialog(
-			getDialogParent(), 
+			getDialogParent(),
 			this.conditionLabels
 		);
 		inputDialog.setVisible(true);
@@ -189,7 +218,7 @@ public class SameSpotsDatasetViewer extends JPanel {
 			getEditSamplesButton().setEnabled(!this.conditionLabels.isEmpty());
 		}
 	}
-	
+
 	private Window getDialogParent() {
 		return SwingUtilities.getWindowAncestor(this);
 	}
@@ -197,8 +226,8 @@ public class SameSpotsDatasetViewer extends JPanel {
 	private void editSamples() {
 		SampleEditorDialog editor = new SampleEditorDialog(
 			getDialogParent(),
-			this.samples, 
-			this.conditionLabels, 
+			this.samples,
+			this.conditionLabels,
 			this.sampleConditions
 		);
 		editor.setVisible(true);
@@ -224,7 +253,7 @@ public class SameSpotsDatasetViewer extends JPanel {
 			mergeSamples(merger.getSelectedItems());
 		}
 	}
-	
+
 	private void mergeSamples(List<Sample> toMerge) {
 		if (toMerge.isEmpty()) {
 			return;
@@ -259,7 +288,7 @@ public class SameSpotsDatasetViewer extends JPanel {
 		if (!exportCsv.isCanceled()) {
 			try {
 				exportToCsv(
-					exportCsv.getSelectedFile(), 
+					exportCsv.getSelectedFile(),
 					csvFormat(exportCsv.getSelectedCsvFormat())
 				);
 			} catch (IOException e) {
@@ -273,7 +302,7 @@ public class SameSpotsDatasetViewer extends JPanel {
 	}
 
 	protected void exportToCsv(File file, CsvFormat csvFormat)
-		throws IOException 
+		throws IOException
 	{
 		write(file, samples, csvFormat, sampleConditions);
 	}
