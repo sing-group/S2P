@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>es.uvigo.ei.sing</groupId>
 	<artifactId>s2p</artifactId>
-	<version>1.2.0</version>
+	<version>1.2.1</version>
 
 	<name>S2P</name>
 	<description>Spot to protein analysis tool.</description>
@@ -106,7 +106,7 @@
 		<swingx.version>1.6.5-1</swingx.version>
 		<charts4j.version>1.3</charts4j.version>
 		<jvenndiagram.version>1.1.0</jvenndiagram.version>
-		<gc4s.version>0.8.0</gc4s.version>
+		<gc4s.version>0.9.0</gc4s.version>
 		<commons.math.version>3.6.1</commons.math.version>
 		<jfreechart.version>1.0.19</jfreechart.version>
 		<sing.commons.csv.version>1.2.0</sing.commons.csv.version>
@@ -282,47 +282,56 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	
+
 	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>${maven-resources-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-dependency-plugin</artifactId>
+					<version>${maven-dependency-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<version>${maven-assembly-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-antrun-plugin</artifactId>
+					<version>${maven-antrun-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>com.googlecode.maven-download-plugin</groupId>
+					<artifactId>download-maven-plugin</artifactId>
+					<version>${download-maven-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>license-maven-plugin</artifactId>
+					<version>${license-maven-plugin.version}</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>${maven-resources-plugin.version}</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>${maven-dependency-plugin.version}</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>${maven-assembly-plugin.version}</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<version>${maven-antrun-plugin.version}</version>
-			</plugin>
-			<plugin>
-				<groupId>com.googlecode.maven-download-plugin</groupId>
-				<artifactId>download-maven-plugin</artifactId>
-				<version>${download-maven-plugin.version}</version>
-			</plugin>			
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>license-maven-plugin</artifactId>
-				<version>${license-maven-plugin.version}</version>
 				<configuration>
-					    <excludes>
+					<excludes>
 						<exclude>**/assembly/*.xml</exclude>
 						<exclude>**/*scripts/*.sh</exclude>
 						<exclude>**/dist-scripts/*.sh</exclude>
 						<exclude>**/*.htm</exclude>
 						<exclude>**/*.HTM</exclude>
 						<exclude>**/*.properties</exclude>
-					    </excludes>
+					</excludes>
 				</configuration>
 				<executions>
 					<execution>
@@ -332,7 +341,7 @@
 						</goals>
 						<phase>process-sources</phase>
 					</execution>
-				</executions>				
+				</executions>
 			</plugin>
 			<plugin>
 				<!-- Allows using test classes in other projects -->

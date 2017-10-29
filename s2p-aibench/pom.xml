@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>es.uvigo.ei.sing</groupId>
 		<artifactId>s2p</artifactId>
-		<version>1.2.0</version>
+		<version>1.2.1</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -379,7 +379,7 @@
 						</goals>
 						<configuration>
 							<skip>${should.skip.download}</skip>
-							<url>http://sing.ei.uvigo.es/maven2/resources/java-installer-resources-windows-1.8.0_111.zip</url>
+							<url>http://static.sing-group.org/software/dev-resources/java-installer-resources-windows-1.8.0_111.zip</url>
 							<unpack>true</unpack>
 							<outputDirectory>${project.build.directory}/java-installer-resources</outputDirectory>
 							<md5>a8107f6b2bbd63e6bbde362dfdb15976</md5>
@@ -393,7 +393,7 @@
 						</goals>
 						<configuration>
 							<skip>${should.skip.download}</skip>
-							<url>http://sing.ei.uvigo.es/maven2/resources/java-installer-resources-linux-1.8.0_111.zip</url>
+							<url>http://static.sing-group.org/software/dev-resources/java-installer-resources-linux-1.8.0_111.zip</url>
 							<unpack>true</unpack>
 							<outputDirectory>${project.build.directory}/java-installer-resources</outputDirectory>
 							<md5>0cdbd9f7813bba566b56db1380248d71</md5>
@@ -407,7 +407,7 @@
 						</goals>
 						<configuration>
 							<skip>${should.skip.download}</skip>
-							<url>http://sing.ei.uvigo.es/maven2/resources/java-installer-resources-mac-1.8.0_111.zip</url>
+							<url>http://static.sing-group.org/software/dev-resources/java-installer-resources-mac-1.8.0_111.zip</url>
 							<unpack>true</unpack>
 							<outputDirectory>${project.build.directory}/java-installer-resources</outputDirectory>
 							<md5>64a7f266903bb03af07b7c26e49e3caa</md5>
