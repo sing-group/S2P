@@ -38,11 +38,13 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 
-import es.uvigo.ei.sing.commons.csv.entities.CsvFormat;
 import org.sing_group.gc4s.filechooser.JFileChooserPanel;
+import org.sing_group.gc4s.filechooser.Mode;
 import org.sing_group.gc4s.input.InputParameter;
 import org.sing_group.gc4s.input.InputParametersPanel;
 import org.sing_group.gc4s.text.JIntegerTextField;
+
+import es.uvigo.ei.sing.commons.csv.entities.CsvFormat;
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.entities.SpotMascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.io.MaldiPlateLoader;
@@ -110,7 +112,7 @@ public class LoadMascotIdentificationsDialog extends AbstractFileInputJDialog {
 
 	private InputParameter getMascotFileInput() {
 		this.mascotFile = new JFileChooserPanel(
-			JFileChooserPanel.Mode.OPEN, 
+			Mode.OPEN, 
 			CommonFileChooser.getInstance().getFilechooser()
 		);
 		this.mascotFile.getComponentLabelFile().setVisible(false);
@@ -152,7 +154,7 @@ public class LoadMascotIdentificationsDialog extends AbstractFileInputJDialog {
 	
 	protected static InputParameter getMaldiPlateFileInput() {
 		JFileChooserPanel maldiPlateFile = new JFileChooserPanel(
-			JFileChooserPanel.Mode.OPEN, 
+			Mode.OPEN, 
 			CommonFileChooser.getInstance().getFilechooser()
 		);
 		maldiPlateFile.getComponentLabelFile().setVisible(false);

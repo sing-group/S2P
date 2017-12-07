@@ -30,10 +30,11 @@ import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 
 import org.sing_group.gc4s.filechooser.JFileChooserPanel;
-import org.sing_group.gc4s.filechooser.JFileChooserPanel.SelectionMode;
 import org.sing_group.gc4s.filechooser.JFileChooserPanelBuilder;
+import org.sing_group.gc4s.filechooser.SelectionMode;
 import org.sing_group.gc4s.input.InputParameter;
 import org.sing_group.gc4s.input.InputParametersPanel;
+
 import es.uvigo.ei.sing.s2p.core.io.samespots.SameSpotsReportFileWriterConfiguration;
 import es.uvigo.ei.sing.s2p.gui.components.dialog.AbstractFileInputJDialog;
 

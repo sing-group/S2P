@@ -1,4 +1,4 @@
-![Logo](s2p.png) S2P [![license](https://img.shields.io/badge/LICENSE-GPLv3-blue.svg)]() [![Build Status](https://travis-ci.org/sing-group/S2P.svg?branch=master)](https://travis-ci.org/sing-group/S2P)
+![Logo](s2p.png) S2P [![doi](https://img.shields.io/badge/DOI-10.1016%2Fj.cmpb.2017.11.024-blue.svg)](https://doi.org/10.1016/j.cmpb.2017.11.024) [![license](https://img.shields.io/badge/LICENSE-GPLv3-blue.svg)]() [![Build Status](https://travis-ci.org/sing-group/S2P.svg?branch=master)](https://travis-ci.org/sing-group/S2P)
 =================================
 S2P is an open source application for fast and easy processing of 2D-gel and MALDI-based mass spectrometry protein data. Please, visit the [official web page](http://www.sing-group.org/s2p) of the project for downloads and support.
 
@@ -34,4 +34,6 @@ This project is an idea and is developed by:
 Citing
 ------
 If you are using S2P, please, cite us:
+> H. López-Fernández; J.E. Araújo; S. Jorge; D. Glez-Peña; M. Reboiro-Jato; F. Fdez-Riverola; H.M. Santos; J.L. Capelo-Martínez (2018) [S2P: A Software Tool to Quickly Carry Out Reproducible Biomedical Research Projects Involving 2D-Gel and MALDI-TOF MS Protein Data](https://doi.org/10.1016/j.cmpb.2017.11.024). Computer Methods and Programs in Biomedicine. Volume 155, pp. 1-9. ISSN: 0169-2607
+>
 > H. López-Fernández; J.E. Araújo; D. Glez-Peña; M. Reboiro-Jato; F. Fdez-Riverola; J.L. Capelo-Martínez (2017) [S2P: a desktop application for fast and easy processing of 2D-gel and MALDI-based mass spectrometry protein data](http://dx.doi.org/10.1007/978-3-319-60816-7_1). 11th International Conference on Practical Applications of Computational Biology & Bioinformatics. PACBB 2017. Advances in Intelligent Systems and Computing, vol 616, pp 1-8. Springer, Cham
