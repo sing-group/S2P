@@ -48,7 +48,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
-import org.sing_group.gc4s.list.ExtendedDefaultListModel;
+import org.sing_group.gc4s.input.list.ExtendedDefaultListModel;
+
 import es.uvigo.ei.sing.s2p.core.entities.Condition;
 import es.uvigo.ei.sing.s2p.core.entities.SpotMascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.operations.StringSetComparison;

@@ -22,13 +22,13 @@
  */
 package es.uvigo.ei.sing.s2p.gui.plate;
 
-import static org.sing_group.gc4s.utilities.MatrixUtils.asStringMatrix;
-import static org.sing_group.gc4s.utilities.MatrixUtils.removeColumn;
 import static es.uvigo.ei.sing.s2p.gui.UISettings.FONT_SIZE;
 import static java.awt.BorderLayout.CENTER;
 import static java.awt.BorderLayout.NORTH;
 import static javax.swing.BorderFactory.createEmptyBorder;
 import static javax.swing.JOptionPane.showMessageDialog;
+import static org.sing_group.gc4s.utilities.MatrixUtils.asStringMatrix;
+import static org.sing_group.gc4s.utilities.MatrixUtils.removeColumn;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -48,12 +48,13 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import org.sing_group.gc4s.utilities.ExtendedAbstractAction;
+import org.sing_group.gc4s.visualization.table.RowHeaderExtendedJXTable;
+
 import com.itextpdf.text.DocumentException;
 
 import es.uvigo.ei.sing.commons.csv.entities.CsvFormat;
 import es.uvigo.ei.sing.commons.csv.io.CsvWriter;
-import org.sing_group.gc4s.table.RowHeaderExtendedJXTable;
-import org.sing_group.gc4s.utilities.ExtendedAbstractAction;
 import es.uvigo.ei.sing.s2p.core.entities.MaldiPlate;
 import es.uvigo.ei.sing.s2p.gui.components.dialog.ExportCsvDialog;
 import es.uvigo.ei.sing.s2p.gui.util.CommonFileChooser;

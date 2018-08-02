@@ -31,8 +31,8 @@ import javax.swing.JPanel;
 import javax.swing.event.ListDataEvent;
 
 import org.sing_group.gc4s.dialog.AbstractInputJDialog;
-import org.sing_group.gc4s.input.JInputList;
-import org.sing_group.gc4s.list.DefaultListDataListener;
+import org.sing_group.gc4s.input.list.JInputList;
+import org.sing_group.gc4s.input.list.event.DefaultListDataListener;
 
 public class ConditionLabelInputDialog extends AbstractInputJDialog {
 	private static final long serialVersionUID = 1L;

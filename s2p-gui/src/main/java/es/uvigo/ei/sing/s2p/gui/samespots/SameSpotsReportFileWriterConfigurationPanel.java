@@ -22,7 +22,16 @@
  */
 package es.uvigo.ei.sing.s2p.gui.samespots;
 
-import static es.uvigo.ei.sing.s2p.core.entities.MascotEntry.*;
+import static es.uvigo.ei.sing.s2p.core.entities.MascotEntry.LABEL_ACCESSION;
+import static es.uvigo.ei.sing.s2p.core.entities.MascotEntry.LABEL_DIFFERENCE;
+import static es.uvigo.ei.sing.s2p.core.entities.MascotEntry.LABEL_METHOD;
+import static es.uvigo.ei.sing.s2p.core.entities.MascotEntry.LABEL_MS_COVERAGE;
+import static es.uvigo.ei.sing.s2p.core.entities.MascotEntry.LABEL_PI_VALUE;
+import static es.uvigo.ei.sing.s2p.core.entities.MascotEntry.LABEL_PLATE_POSITION;
+import static es.uvigo.ei.sing.s2p.core.entities.MascotEntry.LABEL_PROTEIN_MW;
+import static es.uvigo.ei.sing.s2p.core.entities.MascotEntry.LABEL_SCORE;
+import static es.uvigo.ei.sing.s2p.core.entities.MascotEntry.LABEL_SOURCE;
+import static es.uvigo.ei.sing.s2p.core.entities.MascotEntry.LABEL_TITLE;
 import static es.uvigo.ei.sing.s2p.core.io.samespots.SameSpotsReportFileWriterConfiguration.DEFAULT_INCLUDE_ACCESSION;
 import static es.uvigo.ei.sing.s2p.core.io.samespots.SameSpotsReportFileWriterConfiguration.DEFAULT_INCLUDE_DIFFERENCE;
 import static es.uvigo.ei.sing.s2p.core.io.samespots.SameSpotsReportFileWriterConfiguration.DEFAULT_INCLUDE_MASCOT_SCORE;
@@ -55,10 +64,10 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 
-import org.sing_group.gc4s.demo.DemoUtils;
 import org.sing_group.gc4s.event.DocumentAdapter;
 import org.sing_group.gc4s.input.InputParameter;
 import org.sing_group.gc4s.input.InputParametersPanel;
+
 import es.uvigo.ei.sing.s2p.core.io.samespots.SameSpotsReportFileWriterConfiguration;
 
 public class SameSpotsReportFileWriterConfigurationPanel extends JPanel {
@@ -287,9 +296,5 @@ public class SameSpotsReportFileWriterConfigurationPanel extends JPanel {
 			this.overWriteRbtn.isSelected(),
 			this.fileSuffixTextField.getText()
 		);
-	}
-	
-	public static void main(String[] args) {
-		DemoUtils.showComponent(new SameSpotsReportFileWriterConfigurationPanel());
 	}
 }

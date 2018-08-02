@@ -22,7 +22,7 @@
  */
 package es.uvigo.ei.sing.s2p.gui.mascot;
 
-import static org.sing_group.jsparklines_factory.JSparklinesBarChartTableCellRendererFactory.createMaxValueBarChartRenderer;
+import static org.sing_group.gc4s.jsparklines.JSparklinesBarChartTableCellRendererFactory.createMaxValueBarChartRenderer;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -33,10 +33,10 @@ import javax.swing.JPopupMenu;
 import javax.swing.event.PopupMenuEvent;
 
 import org.jdesktop.swingx.decorator.HighlighterFactory;
-
 import org.sing_group.gc4s.event.PopupMenuAdapter;
-import org.sing_group.gc4s.table.ColumnSummaryTabeCellRenderer;
 import org.sing_group.gc4s.utilities.ExtendedAbstractAction;
+import org.sing_group.gc4s.visualization.table.ColumnSummaryTabeCellRenderer;
+
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 import es.uvigo.ei.sing.s2p.gui.table.ExtendedCsvTable;
 

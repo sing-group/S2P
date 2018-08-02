@@ -22,7 +22,7 @@
  */
 package es.uvigo.ei.sing.s2p.gui.quantification;
 
-import static org.sing_group.jsparklines_factory.JSparklinesBarChartTableCellRendererFactory.createMaxValueBarChartRenderer;
+import static org.sing_group.gc4s.jsparklines.JSparklinesBarChartTableCellRendererFactory.createMaxValueBarChartRenderer;
 
 import java.util.Arrays;
 

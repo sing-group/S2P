@@ -27,6 +27,7 @@ import static es.uvigo.ei.aibench.workbench.utilities.ClearClipboardAction.ICON_
 import static es.uvigo.ei.sing.s2p.gui.util.S2pIcons.ICON_HELP;
 import static java.lang.System.getProperty;
 import static javax.swing.SwingUtilities.invokeLater;
+import static org.sing_group.gc4s.visualization.VisualizationUtils.setNimbusKeepAlternateRowColor;
 
 import java.awt.Color;
 import java.io.File;
@@ -41,9 +42,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JToolBar;
 
 import org.sing_group.aibench.plugins.recentfiles.RecentFilesHistory;
-import org.sing_group.gc4s.demo.DemoUtils;
-import org.sing_group.gc4s.menu.ExtendedJSeparator;
 import org.sing_group.gc4s.ui.icons.Icons;
+import org.sing_group.gc4s.ui.menu.ExtendedJSeparator;
 
 import es.uvigo.ei.aibench.core.Core;
 import es.uvigo.ei.aibench.workbench.MainWindow;
@@ -90,7 +90,7 @@ public class Lifecycle extends org.platonos.pluginengine.PluginLifecycle {
 	}
 
 	private void configureMainWindow() {
-		DemoUtils.setNimbusKeepAlternateRowColor();
+		setNimbusKeepAlternateRowColor();
 
 		MainWindow window = (MainWindow) Workbench.getInstance().getMainFrame();
 		window.getDocumentTabbedPane().getParent().setBackground(Color.WHITE);

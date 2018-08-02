@@ -23,7 +23,7 @@
 package es.uvigo.ei.sing.s2p.gui.plate;
 
 import static es.uvigo.ei.sing.s2p.gui.TestUtils.setNimbusLookAndFeel;
-import static org.sing_group.gc4s.demo.DemoUtils.showComponent;
+import static org.sing_group.gc4s.visualization.VisualizationUtils.showComponent;
 
 import java.io.IOException;
 

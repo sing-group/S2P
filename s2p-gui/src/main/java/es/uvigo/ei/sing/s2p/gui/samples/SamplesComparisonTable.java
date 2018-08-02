@@ -68,7 +68,7 @@ import javax.swing.table.TableCellRenderer;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.sing_group.gc4s.event.PopupMenuAdapter;
 import org.sing_group.gc4s.utilities.ExtendedAbstractAction;
-import org.sing_group.gc4s.visualization.JHeatMapModel;
+import org.sing_group.gc4s.visualization.heatmap.JHeatMapModel;
 
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
 import es.uvigo.ei.sing.s2p.core.entities.SpotMascotIdentifications;

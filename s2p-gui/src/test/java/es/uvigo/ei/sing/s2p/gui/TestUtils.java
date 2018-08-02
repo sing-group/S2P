@@ -22,12 +22,12 @@
  */
 package es.uvigo.ei.sing.s2p.gui;
 
-import org.sing_group.gc4s.demo.DemoUtils;
+import org.sing_group.gc4s.visualization.VisualizationUtils;
 
 public class TestUtils {
 
 	public static final void setNimbusLookAndFeel() {
-		DemoUtils.setNimbusKeepAlternateRowColor();
-		DemoUtils.setNimbusLookAndFeel();
+	  VisualizationUtils.setNimbusKeepAlternateRowColor();
+	  VisualizationUtils.setNimbusLookAndFeel();
 	}
 }

@@ -25,7 +25,7 @@ package es.uvigo.ei.sing.s2p.gui.mascot;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
-import static org.sing_group.jsparklines_factory.JSparklinesBarChartTableCellRendererFactory.createMaxValueBarChartRenderer;
+import static org.sing_group.gc4s.jsparklines.JSparklinesBarChartTableCellRendererFactory.createMaxValueBarChartRenderer;
 
 import java.awt.Component;
 import java.awt.Window;
@@ -47,10 +47,10 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
-
 import org.sing_group.gc4s.event.PopupMenuAdapter;
-import org.sing_group.gc4s.table.ColumnSummaryTabeCellRenderer;
 import org.sing_group.gc4s.utilities.ExtendedAbstractAction;
+import org.sing_group.gc4s.visualization.table.ColumnSummaryTabeCellRenderer;
+
 import es.uvigo.ei.sing.s2p.core.entities.MascotEntry;
 import es.uvigo.ei.sing.s2p.core.entities.SpotMascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.io.samespots.SameSpotsReportFileWriter;

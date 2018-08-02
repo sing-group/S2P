@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>es.uvigo.ei.sing</groupId>
 		<artifactId>s2p</artifactId>
-		<version>1.2.2</version>
+		<version>1.2.3</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -40,7 +40,11 @@
 		</dependency>
 		<dependency>
 			<groupId>org.sing_group</groupId>
-			<artifactId>jsparklines-factory</artifactId>
+			<artifactId>gc4s-heatmap</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.sing_group</groupId>
+			<artifactId>gc4s-jsparklines-factory</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

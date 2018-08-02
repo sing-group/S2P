@@ -22,8 +22,6 @@
  */
 package es.uvigo.ei.sing.s2p.gui.spots;
 
-import static org.sing_group.gc4s.ui.UIUtils.setOpaqueRecursive;
-import static org.sing_group.gc4s.utilities.builder.JButtonBuilder.newJButtonBuilder;
 import static es.uvigo.ei.sing.s2p.gui.UISettings.BG_COLOR;
 import static es.uvigo.ei.sing.s2p.gui.util.ColorUtils.getSoftColor;
 import static java.awt.BorderLayout.CENTER;
@@ -39,6 +37,8 @@ import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
 import static javax.swing.SwingUtilities.invokeLater;
+import static org.sing_group.gc4s.ui.UIUtils.setOpaqueRecursive;
+import static org.sing_group.gc4s.utilities.builder.JButtonBuilder.newJButtonBuilder;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -67,10 +67,11 @@ import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
 
 import org.sing_group.gc4s.input.RangeInputPanel;
-import org.sing_group.gc4s.menu.HamburgerMenu;
 import org.sing_group.gc4s.ui.icons.Icons;
+import org.sing_group.gc4s.ui.menu.HamburgerMenu;
 import org.sing_group.gc4s.utilities.ExtendedAbstractAction;
 import org.sing_group.gc4s.utilities.builder.JToggleButtonBuilder;
+
 import es.uvigo.ei.sing.s2p.core.entities.Condition;
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.entities.Pair;
@@ -87,8 +88,8 @@ import es.uvigo.ei.sing.s2p.gui.components.dialog.ConditionSelectionDialog;
 import es.uvigo.ei.sing.s2p.gui.event.ProteinDataComparisonEvent;
 import es.uvigo.ei.sing.s2p.gui.event.ProteinDataComparisonListener;
 import es.uvigo.ei.sing.s2p.gui.mascot.LoadMascotIdentificationsDialog;
-import es.uvigo.ei.sing.s2p.gui.mascot.SpotMascotIdentificationsDialog;
 import es.uvigo.ei.sing.s2p.gui.mascot.MascotIdentificationsSummaryDialog;
+import es.uvigo.ei.sing.s2p.gui.mascot.SpotMascotIdentificationsDialog;
 import es.uvigo.ei.sing.s2p.gui.samespots.FillSameSpotsReportDialog;
 import es.uvigo.ei.sing.s2p.gui.samples.SampleComparisonView;
 import es.uvigo.ei.sing.s2p.gui.spots.comparison.ConditionVsConditionComparisonView;

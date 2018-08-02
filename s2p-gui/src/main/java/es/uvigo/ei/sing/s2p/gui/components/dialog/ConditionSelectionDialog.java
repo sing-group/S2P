@@ -31,10 +31,11 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
-import org.sing_group.gc4s.combobox.ComboBoxItem;
 import org.sing_group.gc4s.input.InputParameter;
 import org.sing_group.gc4s.input.InputParametersPanel;
-import org.sing_group.gc4s.text.DoubleTextField;
+import org.sing_group.gc4s.input.combobox.ComboBoxItem;
+import org.sing_group.gc4s.input.text.DoubleTextField;
+
 import es.uvigo.ei.sing.s2p.core.entities.Condition;
 import es.uvigo.ei.sing.s2p.core.entities.Pair;
 import es.uvigo.ei.sing.s2p.core.operations.SpotSummaryOperations.DifferentialSpotFunction;

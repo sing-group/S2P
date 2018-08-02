@@ -32,7 +32,8 @@ import java.util.Optional;
 import java.util.function.IntUnaryOperator;
 import java.util.stream.Collectors;
 
-import org.sing_group.gc4s.visualization.JHeatMapModel;
+import org.sing_group.gc4s.visualization.heatmap.JHeatMapModel;
+
 import es.uvigo.ei.sing.s2p.core.entities.MascotIdentifications;
 import es.uvigo.ei.sing.s2p.core.entities.Sample;
 import es.uvigo.ei.sing.s2p.core.entities.SpotMascotIdentifications;
